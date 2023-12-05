@@ -1,0 +1,17 @@
+model/*
+__pycache__/
+/__pycache__/
+*/__pycache__/
+*.pyc
+*.cpython-37.pyc
+*.*.pyc
+*/crawler-record/
+crawler-record/
+venv/
+.idea/
+*.log
+htmlSet/GUIDE_HTML_SET/*.html
+category_extend_list.json
+htmlSet/GUIDE_HTML_SET/*.json
+output/*
+*.yml

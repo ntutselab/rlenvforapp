@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+gym = "*"
+stable-baselines = "==2.10"
+tensorflow-gpu = "==1.14.0"
+dependency-injector = "*"
+importlib-metadata = "==2.1.1"
+lxml = "*"
+gensim = "==3.8.3"
+sentencepiece = "*"
+requests = "*"
+py4j = "*"
+beautifulsoup4 = "*"
+selenium = "*"
+bert = "*"
+bert-for-tf2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"

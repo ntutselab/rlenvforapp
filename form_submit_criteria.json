@@ -1,0 +1,214 @@
+{
+	"keystonejs_with_coverage": {
+		"http://localhost:3001/contact": {
+			"/html[1]/body[1]/div[2]/div[2]/div[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["error"]
+			}
+		},
+        "http://localhost:3001/keystone/signin": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Please enter an email address and password to sign in", "The email and password you entered are not valid"]
+			}
+		},
+        "http://localhost:3001/keystone/posts": {
+			"/html[1]/body[1]/div[2]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": ["Title is required"]
+			}
+		},
+        "http://localhost:3001/keystone/users": {
+			"/html[1]/body[1]/div[6]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["is required", "Passwords must match"]
+			}
+		}
+	},
+	"timeoff_management_with_coverage": {
+		"http://localhost:3001/": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/forgot-password/": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Email address is invalid"]
+			}
+		},
+        "http://localhost:3001/register/": {
+			"/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/users/add/": {
+			"/html[1]/body[1]/div[1]/div[5]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Failed to add new user"]
+			}
+		}
+	},
+    "django_blog_with_no_coverage": {
+		"http://localhost:3001/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/register/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/blog/post/4/comment/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		}
+	},
+    "nodebb_with_coverage": {
+		"http://localhost:3001/login": {
+			"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/register/": {
+			"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+		"http://localhost:3001/reset": {
+			"/html[1]/body[1]/main[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Invalid Email / Email does not exist!"]
+			}
+		}
+	},
+	"spring_petclinic_with_no_coverage": {
+		"http://localhost:3001/owners/find": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["has not been found"]
+			}
+		},
+        "http://localhost:3001/owners/new": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/owners/{}/edit": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+		"http://localhost:3001/owners/{}/pets/new": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+		"http://localhost:3001/owners/{}/pets/{}/edit": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		},
+        "http://localhost:3001/owners/{}/pets/{}/visits/new": {
+			"/html[1]/body[1]/div[1]/div[1]/form[1]": {
+				"verify": "page_compare",
+				"keyword": []
+			}
+		}
+	},
+	"astuto": {
+		"http://localhost:3001/users/sign_in": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Invalid Email or password"]
+			}
+		},
+        "http://localhost:3001/users/sign_up": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Password confirmation doesn", "Password is too short", "Email is already in use"]
+			}
+		},
+		"http://localhost:3001/users/password/new": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Email not found"]
+			}
+		},
+        "http://localhost:3001/users/confirmation/new": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Email not found"]
+			}
+		},
+		"http://localhost:3001/boards/1": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Title field is mandatory", "Title is too short"]
+			}
+		},
+		"http://localhost:3001/boards/2": {
+			"/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Title field is mandatory", "Title is too short"]
+			}
+		},
+		"http://localhost:3001/users": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Current password cannot be blank", "Full name cannot be blank", "Full name is too short", "Email cannot be blank", "Email is invalid", "Password confirmation doesn", "Password is too short", "Current password is invalid"]
+			}
+		}
+	},
+	"kimai": {
+		"http://localhost:3001/": {
+			"/html[1]/body[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Invalid credentials"]
+			}
+		},
+        "http://localhost:8001/en/resetting/request": {
+			"/html[1]/body[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": [""]
+			}
+		}
+	},
+	"oscar": {
+		"http://localhost:3001/en-gb/accounts/login/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Oops! We found some errors"]
+			},
+			"/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Oops! We found some errors"]
+			}
+		},
+        "http://localhost:3001/en-gb/password-reset/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[3]/div[1]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Oops! We found some errors"]
+			}
+		},
+        "http://localhost:3001/en-gb/catalogue/love_82/": {
+			"/html[1]/body[1]/div[1]/div[1]/div[2]/div[1]/article[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["Oops! We found some errors"]
+			}
+		}
+	}
+}
