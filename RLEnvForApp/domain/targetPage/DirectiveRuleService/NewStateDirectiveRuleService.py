@@ -26,19 +26,19 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
             Logger().info("afterActionDom is empty string")
             return False
 
-        formSubmitCriteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
+        form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
 
-        domSimilarity = self.getDomSimilarity(beforeActionDom, afterActionDom)
+        dom_similarity = self.getDomSimilarity(beforeActionDom, afterActionDom)
 
-        if domSimilarity == 100.0:
+        if dom_similarity == 100:
             return False
 
-        if not formSubmitCriteria or formSubmitCriteria["verify"] == "page_compare":
-            return not(domSimilarity == -1 or domSimilarity >= 95)
-        elif formSubmitCriteria["verify"] == "keyword":
-            return not self._isDomContainKeyword(afterActionDom, formSubmitCriteria["keyword"])
+        if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
+            return not (dom_similarity == -1 or dom_similarity >= 95)
+        elif form_submit_criteria["verify"] == "keyword":
+            return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
         else:
-            raise Exception(f"Error in isLegal function, formSubmitCriteria: {formSubmitCriteria}")
+            raise Exception(f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
 
         #
         # taskID = targetPageId
