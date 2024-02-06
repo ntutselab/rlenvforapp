@@ -68,11 +68,11 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
         executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
 
-        self._stepsInformation = "total_step:" + "{:4}".format(self._totalStep) + \
-                                 "\tStep:" + "{:2}".format(self._stepNumber) + \
+        self._stepsInformation = "total_step:" + f"{self._totalStep:4}" + \
+                                 "\tStep:" + f"{self._stepNumber:2}" + \
                                  "\tEpisode:" + str(self._episodeIndex) + \
-                                 "\tAction:" + "{:2}".format(int(action)) + \
-                                 "\tReward:" + "{: 4.3f}".format(executeActionOutput.getReward()) + \
+                                 "\tAction:" + f"{int(action):2}" + \
+                                 "\tReward:" + f"{executeActionOutput.getReward(): 4.3f}" + \
                                  "\tFocusElement: " + str(self._originalObservation).ljust(64) + \
                                  "\tXpath: " + focusElementXpath + \
                                  "\tCodeCoverage:" + str(executeActionOutput.getCodeCoverageDict())
@@ -90,7 +90,7 @@ class AIGuideHTMLLogEnvironment(gym.Env):
             "Reward": executeActionOutput.getReward()}
 
     def reset(self):
-        self._logger.info("Episode reward:" + "{:3}".format(self._episodeReward))
+        self._logger.info("Episode reward:" + f"{self._episodeReward:3}")
         self._stepsInformation = ""
         self._episodeReward = 0
 
@@ -103,7 +103,7 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
 
-        self._logger.info("Episode Handler Amount:" + "{:2}".format(len(self._episodeHandlerRepository.findAll())))
+        self._logger.info("Episode Handler Amount:" + f"{len(self._episodeHandlerRepository.findAll()):2}")
         self._logger.info("Target page url is: " + resetEnvUseOutput.getTargetPageUrl())
         self._logger.info("==========================================================\n\n")
 

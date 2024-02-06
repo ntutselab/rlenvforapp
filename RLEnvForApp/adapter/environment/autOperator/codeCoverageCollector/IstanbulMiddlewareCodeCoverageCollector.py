@@ -11,7 +11,7 @@ from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import Code
 class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self, serverIp, serverPort):
         super().__init__()
-        self._serverRootUrl = 'http://{ip}:{port}'.format(ip=serverIp, port=serverPort)
+        self._serverRootUrl = f'http://{ip}:{port}'
         self.session = self._requestsRetrySession()
 
     def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
@@ -24,7 +24,7 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
         try:
             # istanbul allows reset on GET as well
             # so here we simply use GET to reset the coverage
-            response = self.session.get("{}{}".format(self._serverRootUrl, "/coverage/reset"))
+            response = self.session.get(f"{self._serverRootUrl}/coverage/reset")
         except Exception as e:
             Logger().info(f"Failed at resetting coverage {e.__class__.__name__}")
         else:
@@ -43,7 +43,7 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
         try:
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
-            response = self.session.get("{}{}".format(self._serverRootUrl, "/coverage/object"))
+            response = self.session.get(f"{self._serverRootUrl}/coverage/object")
             codeCoverageValueVectorList = [list(v[coverageTypeIndicator].values()) for v in response.json().values()]
             codeCoverageValueVector = self._flatList(codeCoverageValueVectorList)
             codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(codeCoverageValueVector = codeCoverageValueVector)
