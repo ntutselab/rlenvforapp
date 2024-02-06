@@ -9,7 +9,7 @@ class ModelController:
         self._model = model
 
     def isModelSet(self):
-        return self._model != None
+        return self._model is not None
 
     def learn(self, totalTimeSteps: int):
         self._model.learn(total_timesteps=totalTimeSteps, log_interval=1)

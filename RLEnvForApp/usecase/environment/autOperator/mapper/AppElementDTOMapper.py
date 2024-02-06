@@ -3,7 +3,7 @@ from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppEle
 
 
 def mappingAppElementFrom(appElementDTO: AppElementDTO) -> AppElement.AppElement:
-    if appElementDTO == None:
+    if appElementDTO is None:
         return None
     return AppElement.AppElement(tagName=appElementDTO.getTagName(), name=appElementDTO.getName(),
                                  type=appElementDTO.getType(), xpath=appElementDTO.getXpath(),
@@ -11,7 +11,7 @@ def mappingAppElementFrom(appElementDTO: AppElementDTO) -> AppElement.AppElement
 
 
 def mappingAppElementDTOFrom(appElement: AppElement.AppElement) -> AppElementDTO:
-    if appElement == None:
+    if appElement is None:
         return None
     return AppElementDTO(tagName=appElement.getTagName(), name=appElement.getName(), type=appElement.getType(),
                          xpath=appElement.getXpath(), value=appElement.getValue())
