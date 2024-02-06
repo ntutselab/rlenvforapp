@@ -57,14 +57,14 @@ class AIGuideTargetPagePort(ITargetPagePort):
 
     def waitForTargetPage(self):
         Logger().info("Waiting for target page")
-        while (self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
+        while self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty():
             time.sleep(1)
         self.pullTargetPage()
 
     def pullTargetPage(self):
         isFirst = True
         while len(self._getAllTargetPageDTO()) == 0 or isFirst:
-            while not (self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
+            while not self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty():
                 javaObjectLearningTaskDTO = self._javaObjectPy4JLearningPool.deQueueLearningTaskDTO()
                 url = javaObjectLearningTaskDTO.getTargetURL()
                 stateID = javaObjectLearningTaskDTO.getStateID()

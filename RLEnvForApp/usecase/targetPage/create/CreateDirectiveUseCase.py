@@ -45,7 +45,7 @@ class CreateDirectiveUseCase:
             interactiveAppElement: AppElement = state.getInteractedElement()
             codeCoverages = state.getCodeCoverages()
 
-            if (interactiveAppElement is None):
+            if interactiveAppElement is None:
                 continue
 
             if actionType == "changeFocus":

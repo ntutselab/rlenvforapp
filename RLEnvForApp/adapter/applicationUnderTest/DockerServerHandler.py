@@ -97,7 +97,7 @@ class DockerServerHandler(ApplicationHandler):
 
         waitingTimes = 0
         tries = 0
-        while not (200 == self._getResposeStatusCode(url=url)):
+        while 200 != self._getResposeStatusCode(url=url):
             if tries > self._serverStartedTries:
                 raise RuntimeError("ERROR: Something went wrong when creating Server...")
             if waitingTimes > self._serverStartedTimeOut:

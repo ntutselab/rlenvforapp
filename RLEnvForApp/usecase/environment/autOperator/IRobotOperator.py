@@ -64,7 +64,7 @@ class IRobotOperator(IAUTOperator):
                 self._interactedElement = i
                 self._interactedElement.setValue(value)
         self._updateAllSelectedAppElements()
-        if not (self._activeUrl == self._crawler.getUrl()):
+        if not self._activeUrl == self._crawler.getUrl():
             self._activeUrl = self._crawler.getUrl()
             self._focusedAppElementIndex = 0
 

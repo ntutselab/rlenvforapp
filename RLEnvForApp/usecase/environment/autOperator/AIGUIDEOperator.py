@@ -65,7 +65,7 @@ class AIGUIDEOperator(IAUTOperator):
                 self._interactedElement = i
                 self._interactedElement.setValue(value)
         self._updateAllSelectedAppElements()
-        if not (self._activeUrl == self._crawler.getUrl()):
+        if not self._activeUrl == self._crawler.getUrl():
             self._activeUrl = self._crawler.getUrl()
             self._focusedAppElementIndex = 0
 
@@ -129,7 +129,7 @@ class AIGUIDEOperator(IAUTOperator):
         isRetry = True
         retryTimes = 0
 
-        while(isRetry):
+        while isRetry:
             try:
                 appElementDTOs = self._crawler.getAllSelectedAppElementsDTOs()
                 isRetry = False
