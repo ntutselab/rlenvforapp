@@ -70,13 +70,13 @@ class TargetPage:
         else:
             targetDirective: Directive = None
             for directive in self._directives:
-                if targetDirective == None:
+                if targetDirective is None:
                     targetDirective = directive
                     continue
                 targetCodeCoverage: CodeCoverage = targetDirective.getCodeCoverageByType(codeCoverageType=codeCoverageType)
                 directiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(codeCoverageType=codeCoverageType)
 
-                if targetDirective == None:
+                if targetDirective is None:
                     targetDirective = directive
                 if targetCodeCoverage.getCoveredAmount() < directiveCodeCoverage.getCoveredAmount():
                     targetDirective = directive

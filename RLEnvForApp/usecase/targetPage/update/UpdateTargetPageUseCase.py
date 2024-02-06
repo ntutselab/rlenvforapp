@@ -23,7 +23,7 @@ class UpdateTargetPageUseCase:
         targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
 
         targetPageUrl = input.getTargetPageUrl()
-        if targetPageUrl != None:
+        if targetPageUrl is not None:
             targetPage.setTargetUrl(targetUrl=targetPageUrl)
 
         rootUrl = input.getRootUrl()

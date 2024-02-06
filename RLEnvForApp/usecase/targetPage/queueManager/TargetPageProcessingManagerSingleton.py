@@ -6,12 +6,12 @@ class TargetPageProcessingManagerSingleton:
 
     @staticmethod
     def getInstance():
-        if TargetPageProcessingManagerSingleton._instance == None:
+        if TargetPageProcessingManagerSingleton._instance is None:
             TargetPageProcessingManagerSingleton._instance = TargetPageProcessingManagerSingleton()
         return TargetPageProcessingManagerSingleton._instance
 
     def __init__(self):
-        if TargetPageProcessingManagerSingleton._instance != None:
+        if TargetPageProcessingManagerSingleton._instance is not None:
             raise Exception('only one instance can exist')
         else:
             self._beProcessedTargetPage: TargetPage = None

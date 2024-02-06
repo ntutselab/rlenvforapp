@@ -45,7 +45,7 @@ class CreateTargetPageUseCase:
         return appEvents
 
     def _convertCodeCoverageDTOToCodeCoverage(self, codeCoverageDTO) -> CodeCoverage:
-        if codeCoverageDTO == None:
+        if codeCoverageDTO is None:
             codeCoverage: CodeCoverage = CodeCoverage(codeCoverageType="null", codeCoverageVector=[])
         else:
             codeCoverage: CodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(codeCoverageDTO)
