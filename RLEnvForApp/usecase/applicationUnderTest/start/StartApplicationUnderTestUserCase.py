@@ -22,5 +22,5 @@ class StartApplicationUnderTestUserCase:
         self._repository.add(ApplicationUnderTestMapper.mappingApplicationUnderTestEntityFrom(aut=aut))
         self._applicationHandler.start(applicationName=aut.getApplicationName(), ip=aut.getIP(), port=aut.getPort())
 
-        output.setUrl("http://{ip}:{port}".format(ip=aut.getIP(), port=str(aut.getPort())))
+        output.setUrl(f"http://{aut.getIP()}:{str(aut.getPort())}")
         output.setId(aut.getId())

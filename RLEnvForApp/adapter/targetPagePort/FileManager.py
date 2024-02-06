@@ -10,14 +10,14 @@ class FileManager:
     def createFolder(self, folderPath, folderName):
         path = os.path.join(folderPath, folderName)
         if os.path.isdir(path):
-            Logger().info("%s directory already exist" % path)
+            Logger().info(f"{path} directory already exist")
             return
         try:
             os.makedirs(path)
         except OSError:
-            Logger().info("Creation of the directory %s failed" % path)
+            Logger().info(f"Creation of the directory {path} failed")
         else:
-            Logger().info("Successfully created the directory %s " % path)
+            Logger().info(f"Successfully created the directory {path} ")
 
     def createFile(self, path: str, fileName: str, context: str):
         filePath = os.path.join(path, fileName)
