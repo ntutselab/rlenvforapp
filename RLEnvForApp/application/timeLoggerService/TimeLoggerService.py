@@ -37,7 +37,7 @@ class TimeLoggerService:
         diffSeconds = stopTimeSeconds - startTimeSeconds
         startTime = time.localtime(startTimeSeconds)
         stopTime = time.localtime(stopTimeSeconds)
-        
+    
         savePath = os.path.join(logDir, "timePeriod.log")
         savedContent = "Start Time: " + str(startTime) + "\nStop Time: " + str(stopTime) + "\nTime Period: "
         savedContent = savedContent + self._getFormatTime(diffSeconds)

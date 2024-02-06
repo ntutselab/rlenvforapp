@@ -33,7 +33,7 @@ class testTimeLogger(unittest.TestCase):
         startTimeSeconds = TimeLoggerService().logStart(logDir=self.logDir)
         time.sleep(timePassedSeconds)
         stopTimeSeconds = TimeLoggerService().logStop(logDir=self.logDir)
-        
+ 
         self.assertGreaterEqual(stopTimeSeconds - startTimeSeconds, timePassedSeconds)
         startTimeLogPath = os.path.join(self.logDir, self.startTimeFileName)
         stopTimeLogPath = os.path.join(self.logDir, self.stopTimeFileName)

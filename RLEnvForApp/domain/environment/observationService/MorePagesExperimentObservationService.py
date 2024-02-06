@@ -58,7 +58,7 @@ class MorePagesExperimentObservationService(IObservationService):
             if appElement.getValue() == "":
                 complete = False
         return complete
-    
+
     def _getElementLabelBySimilarity(self, state: State):
         elementName = state.getInteractedElement().getName().lower()
         elementLabel = state.getInteractedElementLabel().lower()
