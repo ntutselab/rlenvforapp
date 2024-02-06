@@ -38,7 +38,7 @@ class SeleniumCrawler(ICrawler):
                 isGoToRootPageSuccess = "http" in self.getUrl()
             except:
                 isGoToRootPageSuccess = False
-            isTimeOut = not (goToRootPageRetryCount < CRAWLER_GOTO_ROOT_PAGE_TIMEOUT)
+            isTimeOut = not goToRootPageRetryCount < CRAWLER_GOTO_ROOT_PAGE_TIMEOUT
             time.sleep(1)
         if not isGoToRootPageSuccess:
             Logger().info("SeleniumCrawler Warning: Crawler go to root page time out.")
@@ -120,7 +120,7 @@ class SeleniumCrawler(ICrawler):
         driver = None
         retry = 0
         isStartBrowser = False
-        while(not isStartBrowser):
+        while not isStartBrowser:
             try:
                 if browserName is "Chrome":
                     chrome_options = webdriver.chrome.options.Options()
@@ -162,6 +162,5 @@ class SeleniumCrawler(ICrawler):
     def _shouldHrefBeIgnored(self, href: str):
         isFileDownloading = re.match(".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")
-        isExternal = not (urlparse(href).netloc == "") and \
-                     not (urlparse(href).netloc == urlparse(self._rootPath).netloc)
+        isExternal = not urlparse(href).netloc == "" and not urlparse(href).netloc == urlparse(self._rootPath).netloc
         return isFileDownloading or isMailTo or isExternal
