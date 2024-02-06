@@ -30,7 +30,8 @@ class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
             inputValue = random.choices(self._inputData[actionNumber],
                                         weights=self._inputValueWeights[inputSpace.inputTypes[actionNumber]], k=1)[0]
             Logger().info(f"Input value: {inputValue}")
-            return IRobotInputValueCommand.IRobotInputValueCommand(inputValue=inputValue, actionNumber=actionNumber)
+            return IRobotInputValueCommand.IRobotInputValueCommand(
+                inputValue=inputValue, actionNumber=actionNumber)
 
     def getActionSpaceSize(self) -> int:
         return len(self._inputData)

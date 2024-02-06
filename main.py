@@ -89,7 +89,8 @@ if __name__ == '__main__':
 
     # These two parameters determine whether the agent will choose actions randomly.
     # For details, refer to chapter 3.3.1 of "Jiun-Kai Huang - Training a Reinforcement Learning Agent to Support Crawling of Different Web Applications".
-    # In my research, I don't care Code coverage, but focused on filling out the form successfully, so I set them to -1. by Chuang-chen chiu
+    # In my research, I don't care Code coverage, but focused on filling out
+    # the form successfully, so I set them to -1. by Chuang-chen chiu
     explorationEpisodeEsp = -1
     explorationStepEsp = -1
 
@@ -118,6 +119,7 @@ if __name__ == '__main__':
         # =======final verify phase=======
         # controller.verifyModelByTime(modelPath=os.path.join(modelDir, modelName),
         #                              timeLimit=int(verifyTime * 3600),
-        #                              explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
+        # explorationEpisodeEsp=explorationEpisodeEsp,
+        # explorationStepEsp=explorationStepEsp)
 
         Logger._instance = None

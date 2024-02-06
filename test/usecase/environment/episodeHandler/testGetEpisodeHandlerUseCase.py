@@ -21,17 +21,23 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         episodeHandler = self._createEpisodeHandler()
         episodeHandlerId = episodeHandler.getId()
         episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
         episodeHandler.appendState(self._createState(actionType="changeFocus",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
         episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(episodeHandlerEntity=EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+        self._episodeHandlerRepository.add(
+            episodeHandlerEntity=EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(
+                episodeHandler=episodeHandler))
 
-        usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(episodeHandlerRepository=self._episodeHandlerRepository)
+        usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(
+            episodeHandlerRepository=self._episodeHandlerRepository)
         input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(episodeHandlerId=episodeHandlerId)
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 
@@ -40,9 +46,11 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         self.assertEqual(episodeHandlerId, output.getEpisodeHandlerDTO().getId())
 
     def _createEpisodeHandler(self):
-        return MorePagesExperimentEpisodeHandler(id=str(uuid.uuid4()), episodeIndex=0, episodeStep=16)
+        return MorePagesExperimentEpisodeHandler(
+            id=str(uuid.uuid4()), episodeIndex=0, episodeStep=16)
 
-    def _createState(self, actionType: str, interactedElement: AppElement, codeCoverages: [CodeCoverage]) -> State:
+    def _createState(self, actionType: str, interactedElement: AppElement,
+                     codeCoverages: [CodeCoverage]) -> State:
         state = State(id="stateId")
         state.setActionType(actionType=actionType)
         state.setInteractedElement(interactedElement=interactedElement)
@@ -50,7 +58,8 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         return state
 
     def _createCodeCoverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
-        return CodeCoverage(codeCoverageType=self._codeCoverageType, codeCoverageVector=codeCoverageVector)
+        return CodeCoverage(codeCoverageType=self._codeCoverageType,
+                            codeCoverageVector=codeCoverageVector)
 
     def _createAppElement(self, value: str):
         return AppElement(tagName="", name="", type="", value=value, xpath="")

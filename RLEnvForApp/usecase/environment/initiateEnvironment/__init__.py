@@ -1,1 +1,1 @@
-__all__=["InitiateEnvironmentInput","InitiateEnvironmentUseCase","InitiateEnvironmentOutput"]
+__all__ = ["InitiateEnvironmentInput", "InitiateEnvironmentUseCase", "InitiateEnvironmentOutput"]

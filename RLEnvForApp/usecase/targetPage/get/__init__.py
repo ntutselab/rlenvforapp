@@ -1,1 +1,7 @@
-__all__=["GetTargetPageInput", "GetTargetPageOutput", "GetTargetPageUseCase", "GetAllTargetPageOutput", "GetAllTargetPageUseCase", "GetAllTargetPageInput"]
+__all__ = [
+    "GetTargetPageInput",
+    "GetTargetPageOutput",
+    "GetTargetPageUseCase",
+    "GetAllTargetPageOutput",
+    "GetAllTargetPageUseCase",
+    "GetAllTargetPageInput"]

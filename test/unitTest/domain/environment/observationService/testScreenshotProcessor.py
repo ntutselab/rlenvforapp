@@ -14,7 +14,8 @@ class testScreenshotProcessor(unittest.TestCase):
         pass
 
     def testHappyPath(self):
-        image_preprocessor = ScreenshotPreprocessor(self.imageArray, colorMode='grayscale', targetSize=(1024, 768))
+        image_preprocessor = ScreenshotPreprocessor(
+            self.imageArray, colorMode='grayscale', targetSize=(1024, 768))
         self.assertEqual(self._savePath, image_preprocessor._imagePath)
         self.assertEqual('grayscale', image_preprocessor._colorMode)
         self.assertEqual((1024, 768), image_preprocessor._targetSize)

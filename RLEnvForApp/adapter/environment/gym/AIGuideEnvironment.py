@@ -41,7 +41,8 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingle
 class AIGuideEnvironment(gym.Env):
     @inject
     def __init__(self,
-                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository],
+                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[
+                     EnvironmentDIContainers.episodeHandlerRepository],
                  directiveRuleService: IDirectiveRuleService = Provide[EnvironmentDIContainers.directiveRuleService]):
         self._logger = Logger()
         self._logger.info("Init environment.Env")
@@ -69,7 +70,9 @@ class AIGuideEnvironment(gym.Env):
         # self._codeCoverageCollector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
         #     serverIp=self._applicationIp, serverPort=self._applicationPort)
         self._codeCoverageCollector: ICodeCoverageCollector = NoCodeCoverageCollector()
-        self._autOperator = AIGUIDEOperator(crawler=self._crawler, codeCoverageCollector=self._codeCoverageCollector)
+        self._autOperator = AIGUIDEOperator(
+            crawler=self._crawler,
+            codeCoverageCollector=self._codeCoverageCollector)
 
         self._targetPagePort = TargetPagePortFactory().createAIGuideTargetPagePort(javaIp="127.0.0.1",
                                                                                    pythonIp="127.0.0.1",
@@ -148,8 +151,10 @@ class AIGuideEnvironment(gym.Env):
         else:
             focusElementXpath = self._autOperator.getFocusedAppElement().getXpath()
 
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(actionNumber=int(action), episodeHandlerId=self._episodeHandlerId)
+        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
+            autOperator=self._autOperator)
+        executeActionInput = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=int(action), episodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
 
         try:
@@ -187,17 +192,21 @@ class AIGuideEnvironment(gym.Env):
 
         isLegalDirective = False
         if not self._isFirstStep:
-            episodeHandlerEntity = self._episodeHandlerRepository.findById(id=self._episodeHandlerId)
-            episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episodeHandlerEntity)
+            episodeHandlerEntity = self._episodeHandlerRepository.findById(
+                id=self._episodeHandlerId)
+            episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+                episodeHandlerEntity)
             states = episodeHandler.getAllState()
             if states[-2].getActionType() == "click" and states[-2].getInteractedElement():
                 interactiveAppElement: AppElement = states[-2].getInteractedElement()
                 tagName = interactiveAppElement.getTagName()
                 tagType = interactiveAppElement.getType()
-                if tagName == "button" or tagName == "a" or (tagName == 'input' and (tagType == 'submit' or tagType == "button" or tagType == 'image')):
+                if tagName == "button" or tagName == "a" or (tagName == 'input' and (
+                        tagType == 'submit' or tagType == "button" or tagType == 'image')):
                     afterActionDom = states[-1].getDOM()
                     beforeActionDom = states[-2].getDOM()
-                    isLegalDirective = self._directiveRuleService.isLegal(targetPageId=self._targetPageId, beforeActionDom=beforeActionDom, afterActionDom=afterActionDom)
+                    isLegalDirective = self._directiveRuleService.isLegal(
+                        targetPageId=self._targetPageId, beforeActionDom=beforeActionDom, afterActionDom=afterActionDom)
 
         if isLegalDirective:
             try:
@@ -218,8 +227,10 @@ class AIGuideEnvironment(gym.Env):
         self._stepNumber = 1
 
         self._autController.resetAUTServer(isLegalDirective)
-        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=self._autOperator)
-        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=self._episodeIndex)
+        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
+            operator=self._autOperator)
+        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=self._episodeIndex)
         resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         try:
             resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
@@ -236,13 +247,17 @@ class AIGuideEnvironment(gym.Env):
         else:
             self._formCounts[self._targetPageId] = 1
 
-        self._logger.info("Episode Handler Amount:" + "{:2}".format(len(self._episodeHandlerRepository.findAll())))
+        self._logger.info("Episode Handler Amount:" +
+                          "{:2}".format(len(self._episodeHandlerRepository.findAll())))
         self._logger.info("Target page id is: " + self._targetPageId)
         self._logger.info("==========================================================\n\n")
 
         self._targetFormXPath = resetEnvUseOutput.getFormXPath()
 
-        FormSubmitCriteriaSingleton.getInstance().setFormSubmitCriteria(applicationName=self._serverName, url=resetEnvUseOutput.getTargetPageUrl(), xpath=self._targetFormXPath)
+        FormSubmitCriteriaSingleton.getInstance().setFormSubmitCriteria(
+            applicationName=self._serverName,
+            url=resetEnvUseOutput.getTargetPageUrl(),
+            xpath=self._targetFormXPath)
 
         observation = numpy.array(resetEnvUseOutput.getObservation())
         observation.resize(self._observation_shape)

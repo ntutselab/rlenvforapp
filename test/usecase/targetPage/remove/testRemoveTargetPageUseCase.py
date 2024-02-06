@@ -11,11 +11,17 @@ class testRemoveTargetPageUseCase(unittest.TestCase):
         self._targetPageHierarchy = TargetPageHierarchyInitial()
 
     def test_remove_target_page(self):
-        self._targetPageHierarchy.createTargetPage(targetPageRepository=self._targetPageRepository, targetPageUrl="./", rootUrl="", appEventDTOs=[])
+        self._targetPageHierarchy.createTargetPage(
+            targetPageRepository=self._targetPageRepository,
+            targetPageUrl="./",
+            rootUrl="",
+            appEventDTOs=[])
         targetPageId = self._targetPageRepository.findAll()[0].getId()
 
-        removeTargetPageUseCase = RemoveTargetPageUseCase.RemoveTargetPageUseCase(repository=self._targetPageRepository)
-        removeTargetPageInput = RemoveTargetPageInput.RemoveTargetPageInput(targetPageId=targetPageId)
+        removeTargetPageUseCase = RemoveTargetPageUseCase.RemoveTargetPageUseCase(
+            repository=self._targetPageRepository)
+        removeTargetPageInput = RemoveTargetPageInput.RemoveTargetPageInput(
+            targetPageId=targetPageId)
         removeTargetPageOutput = RemoveTargetPageOutput.RemoveTargetPageOutput()
 
         removeTargetPageUseCase.execute(input=removeTargetPageInput, output=removeTargetPageOutput)

@@ -73,7 +73,8 @@ class IRobotOperator(IAUTOperator):
             self._interactedElement = self._selectedAppElements[self._focusedAppElementIndex]
         numberOfSelectedAppElement = len(self._selectedAppElements)
         if numberOfSelectedAppElement != 0:
-            self._focusedAppElementIndex = (self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
+            self._focusedAppElementIndex = (
+                self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
         else:
             self._focusedAppElementIndex = 0
 

@@ -38,7 +38,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         elif form_submit_criteria["verify"] == "keyword":
             return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
         else:
-            raise Exception(f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
+            raise Exception(
+                f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
 
         #
         # taskID = targetPageId
@@ -86,18 +87,19 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         for el in doc.getroot().iter():
             tag = el.tag
             classes = el.get('class')
-            text = re.sub('\s', '', str(el.text))
+            text = re.sub('\\s', '', str(el.text))
             elements.append(f'{tag} {classes} {text}')
 
         return elements
 
     def _isDomContainKeyword(self, dom: str, keywords: list):
-        ## keywords = ['error', 'invalid', 'cannot', 'failed', 'not', 'taken', 'required', 'should', 'Must', 'at least']
+        # keywords = ['error', 'invalid', 'cannot', 'failed', 'not', 'taken', 'required', 'should', 'Must', 'at least']
 
         domTree = etree.parse(StringIO(dom), etree.HTMLParser())
 
         for word in keywords:
-            elements = domTree.xpath(f"//*[contains(text(),'{word}') and not(self::script or self::style)]")
+            elements = domTree.xpath(
+                f"//*[contains(text(),'{word}') and not(self::script or self::style)]")
             if elements:
                 Logger().info(f'Current state contain keyword: {word}')
                 return True

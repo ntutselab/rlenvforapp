@@ -9,7 +9,8 @@ def mappingApplicationUnderTestEntityFrom(aut: ApplicationUnderTest.ApplicationU
     return autEntity
 
 
-def mappingApplicationUnderTestFrom(autEntity: ApplicationUnderTestEntity.ApplicationUnderTestEntity):
+def mappingApplicationUnderTestFrom(
+        autEntity: ApplicationUnderTestEntity.ApplicationUnderTestEntity):
     aut: ApplicationUnderTest.ApplicationUnderTest = ApplicationUnderTest.ApplicationUnderTest(id=autEntity.getId(),
                                                                                                applicationName=autEntity.getapplicationName(),
                                                                                                ip=autEntity.getIP(), port=autEntity.getPort())

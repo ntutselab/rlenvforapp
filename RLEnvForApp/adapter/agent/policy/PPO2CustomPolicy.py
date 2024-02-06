@@ -1,5 +1,6 @@
-from stable_baselines.common.policies import FeedForwardPolicy # for PPO2
+from stable_baselines.common.policies import FeedForwardPolicy  # for PPO2
 from configuration.di.AgentDIContainers import AgentDIContainers
+
 
 class PPO2CustomPolicy(FeedForwardPolicy):
     """
@@ -17,4 +18,4 @@ class PPO2CustomPolicy(FeedForwardPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=False, **_kwargs):
         super(PPO2CustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
-                                              feature_extraction="cnn", **_kwargs)
+                                               feature_extraction="cnn", **_kwargs)

@@ -18,7 +18,9 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
         lastState = episodeHandler.getState(numberOfState - 1)
 
         if self._isInputAction(lastState=lastState):
-            reward = self._getInputValueReward(elementTagName=lastState.getInteractedElement().getName(), inputValue=lastState.getAppEventInputValue())
+            reward = self._getInputValueReward(
+                elementTagName=lastState.getInteractedElement().getName(),
+                inputValue=lastState.getAppEventInputValue())
 
         if self._isChangeFocusAction(lastState=lastState):
             reward = self._getChangeFocusReward()
@@ -31,7 +33,6 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
 
         return reward
 
-
     def _isInputAction(self, lastState: State):
         return lastState.getActionType() == "input"
 
@@ -40,7 +41,6 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
 
     def _isClickAction(self, lastState: State):
         return lastState.getActionType() == "click"
-
 
     def _getInputValueReward(self, elementTagName: str, inputValue: str):
         rewardRevise = 0
@@ -59,7 +59,8 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
                 rewardRevise = self._inputRewardCoefficient * 0
 
         if "password" in elementTagName:
-            if (inputValue == "2020/05/29") or (inputValue == "0984000000") or (inputValue == "Michael Chen"):
+            if (inputValue == "2020/05/29") or (inputValue ==
+                                                "0984000000") or (inputValue == "Michael Chen"):
                 rewardRevise = self._inputRewardCoefficient * 1
 
             if (inputValue == "sgfsdg") or (inputValue == "10"):

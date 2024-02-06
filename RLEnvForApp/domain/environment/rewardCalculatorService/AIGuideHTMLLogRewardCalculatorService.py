@@ -17,11 +17,11 @@ class AIGuideHTMLLogRewardCalculatorService(IRewardCalculatorService):
         self._actionIndicationService: IActionIndicationService = CheckHTMLLogActionIndicationService()
 
     def calculateReward(self, episodeHandler: IEpisodeHandler):
-        state: State = episodeHandler.getState(index=episodeHandler.getNumberOfState()-1)
+        state: State = episodeHandler.getState(index=episodeHandler.getNumberOfState() - 1)
         episodeStepFraction = self._getEpisodeStepFraction(episodeHandler=episodeHandler)
 
         if episodeHandler.isDone() and self._targetIndicationService.isConform(state=state):
-            return self._episodeRewardCoefficient * (1/episodeStepFraction)
+            return self._episodeRewardCoefficient * (1 / episodeStepFraction)
 
         if self._actionIndicationService.isConform(state=state):
             return 1
@@ -33,5 +33,5 @@ class AIGuideHTMLLogRewardCalculatorService(IRewardCalculatorService):
 
         numberOfState = episodeHandler.getNumberOfState()
         episodeStep = episodeHandler.getEpisodeStep()
-        episodeStepFraction = (numberOfState-1) / episodeStep
+        episodeStepFraction = (numberOfState - 1) / episodeStep
         return episodeStepFraction

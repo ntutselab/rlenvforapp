@@ -1,4 +1,5 @@
-import os, json
+import os
+import json
 import random
 
 from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
@@ -30,8 +31,10 @@ class HTMLLogCrawler(ICrawler):
                 continue
             element = htmlParser.xpath(xpath)[0]
             self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                      name=self._getHtmlTagAttribute(element=element, attribute="name"),
-                                                      type=self._getHtmlTagAttribute(element=element, attribute="type"),
+                                                      name=self._getHtmlTagAttribute(
+                                                          element=element, attribute="name"),
+                                                      type=self._getHtmlTagAttribute(
+                                                          element=element, attribute="type"),
                                                       xpath=htmlParser.getpath(element),
                                                       value=self._getHtmlTagAttribute(element=element,
                                                                                       attribute="value")))
@@ -75,6 +78,6 @@ class HTMLLogCrawler(ICrawler):
         attributeText = ""
         try:
             attributeText = element.attrib[attribute]
-        except:
+        except BaseException:
             attributeText = ""
         return attributeText

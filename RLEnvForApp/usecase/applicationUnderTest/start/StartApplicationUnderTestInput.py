@@ -1,5 +1,5 @@
 class StartApplicationUnderTestInput:
-    def __init__(self,applicationName, ip, port):
+    def __init__(self, applicationName, ip, port):
         self._applicationName = applicationName
         self._ip = ip
         self._port = port

@@ -14,7 +14,8 @@ import random
 
 
 class AIGUIDEOperator(IAUTOperator):
-    def __init__(self, crawler: ICrawler, codeCoverageCollector: ICodeCoverageCollector = ICodeCoverageCollector()):
+    def __init__(self, crawler: ICrawler,
+                 codeCoverageCollector: ICodeCoverageCollector = ICodeCoverageCollector()):
         super().__init__()
         self._crawler = crawler
         self._codeCoverageCollector = codeCoverageCollector
@@ -77,7 +78,8 @@ class AIGUIDEOperator(IAUTOperator):
             self._interactedElement = self._selectedAppElements[self._focusedAppElementIndex]
         numberOfSelectedAppElement = len(self._selectedAppElements)
         if numberOfSelectedAppElement != 0:
-            self._focusedAppElementIndex = (self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
+            self._focusedAppElementIndex = (
+                self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
         else:
             self._focusedAppElementIndex = 0
 
@@ -116,7 +118,6 @@ class AIGUIDEOperator(IAUTOperator):
         self._selectedAppElements.extend(otherAppElements)
         self._selectedAppElements.extend(buttonAppElements)
 
-
     def _mappingCodeCoverageForm(self, codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []
         for i in codeCoverageDTOs:
@@ -129,11 +130,11 @@ class AIGUIDEOperator(IAUTOperator):
         isRetry = True
         retryTimes = 0
 
-        while(isRetry):
+        while (isRetry):
             try:
                 appElementDTOs = self._crawler.getAllSelectedAppElementsDTOs()
                 isRetry = False
-            except:
+            except BaseException:
                 time.sleep(1)
                 retryTimes += 1
                 isRetry = retryTimes < retry

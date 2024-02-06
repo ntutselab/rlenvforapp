@@ -1,1 +1,1 @@
-__all__=["InMemoryTargetPageRepository"]
+__all__ = ["InMemoryTargetPageRepository"]

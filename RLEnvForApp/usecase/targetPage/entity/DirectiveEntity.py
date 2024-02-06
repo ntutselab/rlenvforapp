@@ -3,7 +3,8 @@ from RLEnvForApp.usecase.targetPage.entity.AppEventEntity import AppEventEntity
 
 
 class DirectiveEntity:
-    def __init__(self, url: str, dom: str, formXPath: str, appEventEntities: [AppEventEntity], codeCoverageEntities: [CodeCoverageEntity]):
+    def __init__(self, url: str, dom: str, formXPath: str, appEventEntities: [
+                 AppEventEntity], codeCoverageEntities: [CodeCoverageEntity]):
         self._url = url
         self._dom = dom
         self._formXPath = formXPath

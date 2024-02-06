@@ -40,7 +40,8 @@ class VerifyPhaseRewardCalculatorService(IRewardCalculatorService):
 
         inputCategory = self._inputTypeList[previousState.getActionNumber()]
 
-        categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[inputCategory]
+        categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[
+            inputCategory]
         categoryListTokens.append(inputCategory)
 
         # vectorization whole String

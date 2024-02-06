@@ -27,8 +27,10 @@ class AIGuideEpisodeHandler(IEpisodeHandler):
             return True
 
         for lastCoverage in lastCoverages:
-            initCoverage: CodeCoverage = self._getCodeCoverageByType(type=lastCoverage.getCodeCoverageType(), codeCoverages=initCoverages)
-            improvedCoverage: CodeCoverage = lastCoverage.getImprovedCodeCoverage(originalCodeCovreage=initCoverage)
+            initCoverage: CodeCoverage = self._getCodeCoverageByType(
+                type=lastCoverage.getCodeCoverageType(), codeCoverages=initCoverages)
+            improvedCoverage: CodeCoverage = lastCoverage.getImprovedCodeCoverage(
+                originalCodeCovreage=initCoverage)
             if improvedCoverage.getCoveredAmount() != 0:
                 return True
 

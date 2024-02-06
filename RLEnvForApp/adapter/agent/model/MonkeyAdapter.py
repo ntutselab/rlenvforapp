@@ -55,7 +55,7 @@ class MonkeyAdapter:
         elementType = focusedAppElement.getType()
         if tagName == "button" or tagName == "a" or \
                 (tagName == 'input' and (
-                        elementType == 'submit' or elementType == 'image' or elementType == 'checkbox' or elementType == 'radio')):
+                    elementType == 'submit' or elementType == 'image' or elementType == 'checkbox' or elementType == 'radio')):
             similarity = 1.0
             inputTypeIndex = 0
             for appElement in autOperator.getAllSelectedAppElements():
@@ -68,7 +68,8 @@ class MonkeyAdapter:
         for i in range(0, self._inputTypeListLength):
             category = self._inputTypeList[i]
 
-            categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[category]
+            categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[
+                category]
             categoryListTokens.append(category)
 
             # vectorization whole String

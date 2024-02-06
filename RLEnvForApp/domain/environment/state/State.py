@@ -80,10 +80,10 @@ class State:
 
     def getAllSelectedAppElements(self) -> [AppElement]:
         return self._selectedAppElements
-    
+
     def setActionNumber(self, actionNumber: int):
         self._actionNumber = actionNumber
-        
+
     def getActionNumber(self) -> int:
         return self._actionNumber
 

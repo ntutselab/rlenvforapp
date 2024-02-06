@@ -3,7 +3,18 @@ import os
 
 from RLEnvForApp.domain.environment.category import *
 
-inputTypes = [CLICK, EMAIL, NAME, PASSWORD, DATE, NUMBER, PHONE_NUMBER, STRING, CITY, ADDRESS, POSTAL_CODE]
+inputTypes = [
+    CLICK,
+    EMAIL,
+    NAME,
+    PASSWORD,
+    DATE,
+    NUMBER,
+    PHONE_NUMBER,
+    STRING,
+    CITY,
+    ADDRESS,
+    POSTAL_CODE]
 inputValues = [[""],
                ["vector@selab.com", "Katlyn_Reichel@example.com", "Willa.Paucek@example.com"],
                ["Gladyce", "Heathcote", "Pete Kessler"],
@@ -11,10 +22,12 @@ inputValues = [[""],
                ["Mon Sep 11 2023", "2023/05/03", "2023-06-11"],
                ["0.4954917863942683", "8877133361315840", "232.83"],
                ["+567-248-7625", "(566) 882-5462", "758-303-7821"],
-               ["dolorem", "Totam officiis consequuntur.", "Repudiandae nam asperiores aut molestiae perspiciatis quaerat quas."],
+               ["dolorem", "Totam officiis consequuntur.",
+                   "Repudiandae nam asperiores aut molestiae perspiciatis quaerat quas."],
                ["North Leolachester", "Smithammouth", "North Lestertown"],
                ["2217 Brekke Gateway", "7952 Francisco Via", "873 Alta Falls"],
                ["13700", "38273-9589", "70212"]]
+
 
 class CategoryListSingleton:
     _instance = None

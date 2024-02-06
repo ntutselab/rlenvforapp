@@ -1,6 +1,6 @@
 class ExecuteActionOutput:
     def __init__(self):
-        self._observation:[int] = []
+        self._observation: [int] = []
         self._originalObservation = {}
         self._codeCoverageDict = {}
         self._reward = 0

@@ -10,10 +10,18 @@ from RLEnvForApp.domain.environment.actionCommand import *
 # 6. 0984000000
 # 7. Michael Chen
 
-class DefaultForTestActionCommandFactoryService(IActionCommandFactoryService.IActionCommandFactoryService):
+
+class DefaultForTestActionCommandFactoryService(
+        IActionCommandFactoryService.IActionCommandFactoryService):
     def __init__(self):
         super().__init__()
-        self._inputData = ["abc@gmail.com", "10", "2020/05/29", "sgfsdg", "0984000000", "Michael Chen"]
+        self._inputData = [
+            "abc@gmail.com",
+            "10",
+            "2020/05/29",
+            "sgfsdg",
+            "0984000000",
+            "Michael Chen"]
         self._inputActionStartNumber = 2
 
     def createActionCommand(self, actionNumber: int) -> IActionCommand:
@@ -26,7 +34,8 @@ class DefaultForTestActionCommandFactoryService(IActionCommandFactoryService.IAc
 
         if actionNumber >= 0 and actionNumber < self.getActionSpaceSize():
             indexOfInputData = actionNumber - self._inputActionStartNumber
-            return InputValueCommand.InputValueCommand(inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
+            return InputValueCommand.InputValueCommand(
+                inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
 
     def getActionSpaceSize(self) -> int:
         return self._inputActionStartNumber + len(self._inputData)

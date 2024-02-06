@@ -1,4 +1,5 @@
-import io, numpy
+import io
+import numpy
 import re
 import time
 from io import StringIO
@@ -26,7 +27,6 @@ class SeleniumCrawler(ICrawler):
         self._appElementDTOs: [AppElementDTO] = []
         self._formXPath = "//form"
 
-
     def goToRootPage(self):
         goToRootPageRetryCount = 1
         isGoToRootPageSuccess = False
@@ -36,7 +36,7 @@ class SeleniumCrawler(ICrawler):
             try:
                 self._driver.get(self._rootPath)
                 isGoToRootPageSuccess = "http" in self.getUrl()
-            except:
+            except BaseException:
                 isGoToRootPageSuccess = False
             isTimeOut = not (goToRootPageRetryCount < CRAWLER_GOTO_ROOT_PAGE_TIMEOUT)
             time.sleep(1)
@@ -50,7 +50,9 @@ class SeleniumCrawler(ICrawler):
         if rootPath != "":
             self._rootPath = rootPath
         else:
-            Logger().info("SeleniumCrawler Warning: reset to '{path}', go to root page '{rootPath}'".format(rootPath=self._rootPath, path=rootPath))
+            Logger().info(
+                "SeleniumCrawler Warning: reset to '{path}', go to root page '{rootPath}'".format(
+                    rootPath=self._rootPath, path=rootPath))
         if formXPath != "":
             self._formXPath = formXPath
         else:
@@ -71,7 +73,7 @@ class SeleniumCrawler(ICrawler):
         if value == "":
             try:
                 element.click()
-                time.sleep(EVENT_WAITING_TIME/1000)
+                time.sleep(EVENT_WAITING_TIME / 1000)
             except Exception as e:
                 Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be clicked")
                 # raise e
@@ -93,14 +95,17 @@ class SeleniumCrawler(ICrawler):
         htmlParser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
         self._html = etree.tostring(htmlParser).decode("utf-8")
         self._appElementDTOs: [AppElementDTO] = []
-        for element in htmlParser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
+        for element in htmlParser.xpath(
+                f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
             elementXpath: str = htmlParser.getpath(element)
             elementHref: str = self._getHtmlTagAttribute(element, "href")
             webElement = self._driver.find_element_by_xpath(elementXpath)
             if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):
                 self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                          name=self._getHtmlTagAttribute(element=element, attribute="name"),
-                                                          type=self._getHtmlTagAttribute(element=element, attribute="type"),
+                                                          name=self._getHtmlTagAttribute(
+                                                              element=element, attribute="name"),
+                                                          type=self._getHtmlTagAttribute(
+                                                              element=element, attribute="type"),
                                                           xpath=elementXpath,
                                                           value=webElement.get_attribute("value")))
 
@@ -120,7 +125,7 @@ class SeleniumCrawler(ICrawler):
         driver = None
         retry = 0
         isStartBrowser = False
-        while(not isStartBrowser):
+        while (not isStartBrowser):
             try:
                 if browserName is "Chrome":
                     chrome_options = webdriver.chrome.options.Options()
@@ -135,7 +140,7 @@ class SeleniumCrawler(ICrawler):
                     # firefox_options.add_argument('--headless')  # no GUI display
                     driver = webdriver.Firefox(firefox_options=firefox_options)
                 isStartBrowser = True
-            except:
+            except BaseException:
                 retry += 1
                 if retry >= 10:
                     break
@@ -145,14 +150,15 @@ class SeleniumCrawler(ICrawler):
     def _getHtmlTagAttribute(self, element, attribute):
         try:
             attributeText = element.attrib[attribute]
-        except:
+        except BaseException:
             attributeText = ""
         return attributeText
 
     def _isInteractable(self, xpath):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
-            if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(element=element, attribute="type") == "hidden":
+            if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(
+                    element=element, attribute="type") == "hidden":
                 return False
             return element.is_displayed() and element.is_enabled()
         except Exception as e:
@@ -163,5 +169,5 @@ class SeleniumCrawler(ICrawler):
         isFileDownloading = re.match(".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")
         isExternal = not (urlparse(href).netloc == "") and \
-                     not (urlparse(href).netloc == urlparse(self._rootPath).netloc)
+            not (urlparse(href).netloc == urlparse(self._rootPath).netloc)
         return isFileDownloading or isMailTo or isExternal

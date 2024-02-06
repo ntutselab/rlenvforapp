@@ -2,8 +2,12 @@ import os
 import json
 
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
-from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageUseCase, CreateTargetPageOutput, CreateTargetPageInput)
+from RLEnvForApp.usecase.targetPage.create import (
+    CreateTargetPageUseCase,
+    CreateTargetPageOutput,
+    CreateTargetPageInput)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
+
 
 class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
     def __init__(self, folderPath: str):
@@ -25,9 +29,14 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
                 jsonData = open(os.path.join(folderPath, pageJsonFileName),)
                 pageLog = json.load(jsonData)
                 jsonData.close()
-                self._addTargetPage(targetPageUrl=path, rootUrl=path, formXPath=pageLog["formXPath"], appEventDTOs=[])
+                self._addTargetPage(
+                    targetPageUrl=path,
+                    rootUrl=path,
+                    formXPath=pageLog["formXPath"],
+                    appEventDTOs=[])
 
-    def _addTargetPage(self, targetPageUrl: str, rootUrl: str, formXPath: str, appEventDTOs: [AppEventDTO]):
+    def _addTargetPage(self, targetPageUrl: str, rootUrl: str,
+                       formXPath: str, appEventDTOs: [AppEventDTO]):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
                                                                             rootUrl=rootUrl,
