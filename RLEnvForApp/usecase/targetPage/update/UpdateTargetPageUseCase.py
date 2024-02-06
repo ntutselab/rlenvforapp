@@ -14,46 +14,51 @@ from ...environment.autOperator.mapper import CodeCoverageDTOMapper
 
 class UpdateTargetPageUseCase:
     @inject
-    def __init__(self, repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository]):
+    def __init__(
+            self, repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository]):
         self._repository = repository
 
     def execute(self, input: UpdateTargetPageInput.UpdateTargetPageInput,
                 output: UpdateTargetPageOutput.UpdateTargetPageOutput):
         targetPageEntity: TargetPageEntity = self._repository.findById(input.getTargetPageId())
-        targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
 
         targetPageUrl = input.getTargetPageUrl()
         if targetPageUrl is not None:
             targetPage.setTargetUrl(targetUrl=targetPageUrl)
 
         rootUrl = input.getRootUrl()
-        if rootUrl != None:
+        if rootUrl is not None:
             targetPage.setRootUrl(rootUrl=rootUrl)
 
         appEventDTOs = input.getAppEventDTOs()
-        if appEventDTOs != None:
+        if appEventDTOs is not None:
             appEvents: [AppEvent] = []
             for appEventDTO in appEventDTOs:
                 appEvents.append(AppEventDTOMapper.mappingAppEventFrom(appEventDTO=appEventDTO))
             targetPage.setAppEvents(appEvents=appEvents)
 
         taskID = input.getTaskID()
-        if taskID != None:
+        if taskID is not None:
             targetPage.setTaskID(taskID=taskID)
 
         basicCodeCoverageDTO = input.getBasicCodeCoverageDTO()
-        if basicCodeCoverageDTO != None:
-            newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(codeCoverageDTO=basicCodeCoverageDTO)
+        if basicCodeCoverageDTO is not None:
+            newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+                codeCoverageDTO=basicCodeCoverageDTO)
             basicCodeCoverage = targetPage.getBasicCodeCoverage()
             if newBasicCodeCoverage.getCodeCoverageType() == basicCodeCoverage.getCodeCoverageType():
                 newBasicCodeCoverage.merge(basicCodeCoverage)
             targetPage.setBasicCodeCoverage(basicCodeCoverage=newBasicCodeCoverage)
 
         directiveDTOs = input.getDirectiveDTOs()
-        if directiveDTOs != None:
+        if directiveDTOs is not None:
             directives: [Directive] = []
             for directiveDTO in directiveDTOs:
-                directives.append(DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO))
+                directives.append(
+                    DirectiveDTOMapper.mappingDirectiveFrom(
+                        directiveDTO=directiveDTO))
             targetPage.setDirectives(directives=directives)
 
         targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage)

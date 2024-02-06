@@ -3,14 +3,18 @@ import json
 
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
-from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageUseCase, CreateTargetPageOutput, CreateTargetPageInput)
+from RLEnvForApp.usecase.targetPage.create import (
+    CreateTargetPageUseCase,
+    CreateTargetPageOutput,
+    CreateTargetPageInput)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.dto.TargetPageDTO import TargetPageDTO
 from RLEnvForApp.usecase.targetPage.get import GetAllTargetPageUseCase, GetAllTargetPageInput, GetAllTargetPageOutput
 
 
 class AIGuideVerifyTargetPagePort(ITargetPagePort):
-    def __init__(self, javaIp: str, pythonIp, javaPort: int, pythonPort: int, serverName: str, rootUrl: str = "127.0.0.1", codeCoverageType: str = "coverage"):
+    def __init__(self, javaIp: str, pythonIp, javaPort: int, pythonPort: int,
+                 serverName: str, rootUrl: str = "127.0.0.1", codeCoverageType: str = "coverage"):
         super().__init__()
         self._folderPath = "htmlSet/LEARNING_TASK"
         self._javaIp = javaIp

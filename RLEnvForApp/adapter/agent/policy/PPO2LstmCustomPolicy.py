@@ -1,6 +1,7 @@
 from stable_baselines.common.policies import LstmPolicy
 from configuration.di.AgentDIContainers import AgentDIContainers
 
+
 class PPO2LstmCustomPolicy(LstmPolicy):
     """
     Policy object that implements actor critic, using LSTMs with a CNN feature extraction
@@ -16,6 +17,7 @@ class PPO2LstmCustomPolicy(LstmPolicy):
     :param kwargs: (dict) Extra keyword arguments for the nature CNN feature extraction
     """
 
-    def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm=256, reuse=False, **_kwargs):
+    def __init__(self, sess, ob_space, ac_space, n_env, n_steps,
+                 n_batch, n_lstm=256, reuse=False, **_kwargs):
         super(PPO2LstmCustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
-                                            layer_norm=False, feature_extraction="cnn", **_kwargs)
+                                                   layer_norm=False, feature_extraction="cnn", **_kwargs)

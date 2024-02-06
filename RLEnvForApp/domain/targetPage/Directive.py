@@ -1,8 +1,10 @@
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 
+
 class Directive:
-    def __init__(self, url: str, dom: str, formXPath: str, appEvents: [AppEvent], codeCoverages: [CodeCoverage]):
+    def __init__(self, url: str, dom: str, formXPath: str, appEvents: [
+                 AppEvent], codeCoverages: [CodeCoverage]):
         self._url = url
         self._dom = dom
         self._formXPath = formXPath

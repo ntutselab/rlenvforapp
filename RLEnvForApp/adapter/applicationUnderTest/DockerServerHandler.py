@@ -51,9 +51,12 @@ class DockerServerHandler(ApplicationHandler):
         compose_file.close()
 
     def _startServer(self, dockerComposePath, port):
-        create_process = Popen(DockerServerConfig.createDockerComposeCommand(dockerComposePath=dockerComposePath))
+        create_process = Popen(
+            DockerServerConfig.createDockerComposeCommand(
+                dockerComposePath=dockerComposePath))
         try:
-            comment, errs = create_process.communicate(timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
+            comment, errs = create_process.communicate(
+                timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
             Logger().info(f"\tServer Port: {port}, comment: {comment}")
             Logger().info(f"\tServer Port: {port}, error: {errs}")
         except SubprocessError:
@@ -76,7 +79,8 @@ class DockerServerHandler(ApplicationHandler):
             raise RuntimeError("Something went wrong while creating server_instance folder...")
 
     def _getDockerComposePath(self, serverFolder, applicationName, port):
-        return os.path.join(serverFolder, DockerServerConfig.dockerComposeFileName(applicationName=applicationName, port=str(port)))
+        return os.path.join(serverFolder, DockerServerConfig.dockerComposeFileName(
+            applicationName=applicationName, port=str(port)))
 
     def _killAllOfDockerCompose(self, dockerComposePath: str):
         dockerComposePathFiles = self._getAllFilePathInFolder(targetFolderPath=dockerComposePath)

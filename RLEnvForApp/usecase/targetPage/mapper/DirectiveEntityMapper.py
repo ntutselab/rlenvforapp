@@ -11,24 +11,32 @@ from RLEnvForApp.usecase.targetPage.mapper import AppEventEntityMapper
 def _mappingCodeCoverageEntitiesFrom(odeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
     codeCoverageEntities: [CodeCoverageEntity] = []
     for codeCoverage in odeCoverages:
-        codeCoverageEntities.append(CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage=codeCoverage))
+        codeCoverageEntities.append(
+            CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(
+                codeCoverage=codeCoverage))
     return codeCoverageEntities
 
 
 def _mappingCodeCoverageFrom(codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageEntity in codeCoverageEntities:
-        codeCoverages.append(CodeCoverageEntityMapper.mappingCodeCoverageFrom(codeCoverageEntity=codeCoverageEntity))
+        codeCoverages.append(
+            CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                codeCoverageEntity=codeCoverageEntity))
     return codeCoverages
+
 
 def mappingDirectiveEntityFrom(directive: Directive) -> DirectiveEntity:
     appEventEntities: [AppEventEntity] = []
     for appEvent in directive.getAppEvents():
         appEventEntities.append(AppEventEntityMapper.mappingAppEventEntityFrom(appEvent=appEvent))
-    return DirectiveEntity(url=directive.getUrl(), dom=directive.getDom(), formXPath=directive.getFormXPath(), appEventEntities=appEventEntities, codeCoverageEntities=_mappingCodeCoverageEntitiesFrom(directive.getCodeCoverages()))
+    return DirectiveEntity(url=directive.getUrl(), dom=directive.getDom(), formXPath=directive.getFormXPath(
+    ), appEventEntities=appEventEntities, codeCoverageEntities=_mappingCodeCoverageEntitiesFrom(directive.getCodeCoverages()))
+
 
 def mappingDirectiveFrom(directiveEntity: DirectiveEntity) -> Directive:
     appEvents: [AppEvent] = []
     for appEventEntity in directiveEntity.getAppEventEntities():
         appEvents.append(AppEventEntityMapper.mappingAppEventFrom(appEventEntity=appEventEntity))
-    return Directive(url=directiveEntity.getUrl(), dom=directiveEntity.getDom(), formXPath=directiveEntity.getFormXPath(), appEvents=appEvents, codeCoverages=_mappingCodeCoverageFrom(directiveEntity.getCodeCoverageEntities()))
+    return Directive(url=directiveEntity.getUrl(), dom=directiveEntity.getDom(), formXPath=directiveEntity.getFormXPath(
+    ), appEvents=appEvents, codeCoverages=_mappingCodeCoverageFrom(directiveEntity.getCodeCoverageEntities()))

@@ -48,7 +48,8 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
         previousState: State = episodeHandler.getAllState()[-2]
 
         if episodeHandler.isDone() and self._targetIndicationService.isConform(state=previousState):
-            reward = self._episodeRewardCoefficient * (1 / self._getEpisodeStepFraction(episodeHandler=episodeHandler))
+            reward = self._episodeRewardCoefficient * \
+                (1 / self._getEpisodeStepFraction(episodeHandler=episodeHandler))
             self._logger.info(f'Form submitted reward: {reward}')
             # self._updateCategoryList(previousState)
             return reward
@@ -93,13 +94,16 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
         categoryListTokens.append(inputCategory)
 
         # vectorization whole String
-        categoryListVector = list(map(FastTextSingleton.getInstance().getWordsVector, categoryListTokens))
+        categoryListVector = list(
+            map(FastTextSingleton.getInstance().getWordsVector, categoryListTokens))
         elementLabelVector = FastTextSingleton.getInstance().getWordVector(words=elementLabel)
 
         labelCosineSimilarity = -1
         if categoryListVector:
             for categoryVector in categoryListVector:
-                labelCosineSimilarity = max(CosineSimilarityService.getCosineSimilarity(categoryVector, elementLabelVector), labelCosineSimilarity)
+                labelCosineSimilarity = max(
+                    CosineSimilarityService.getCosineSimilarity(
+                        categoryVector, elementLabelVector), labelCosineSimilarity)
 
         if np.isnan(labelCosineSimilarity):
             reward = 0.0
@@ -137,7 +141,8 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
         categoryExtendList = CategoryListSingleton.getInstance().getCategoryExtendList()
 
         category = inputTypes[previousState.getActionNumber()]
-        if self._cosineSimilarityText != '' and self._cosineSimilarityText not in categoryExtendList[category]:
+        if self._cosineSimilarityText != '' and self._cosineSimilarityText not in categoryExtendList[
+                category]:
             categoryExtendList[category].append(self._cosineSimilarityText)
             self._logger.info(f"Append [{self._cosineSimilarityText}] to category: {category}")
 

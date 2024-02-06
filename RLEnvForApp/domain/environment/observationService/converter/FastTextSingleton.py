@@ -21,9 +21,12 @@ class FastTextSingleton:
         else:
             Logger().info("init FastTextSingleton ...")
             self._id = id(self)
-            self._model = gensim.models.wrappers.FastText.load_fasttext_format(model_file='model/fasttext/cc.en.300.bin')
+            self._model = gensim.models.wrappers.FastText.load_fasttext_format(
+                model_file='model/fasttext/cc.en.300.bin')
             # self._model = gensim.models.KeyedVectors.load_word2vec_format(fname='model/fasttext/wiki-news-300d-1M.vec')  # smaller model
-            # self._model = gensim.models.KeyedVectors.load_word2vec_format(fname='model/fasttext/crawl-300d-2M.vec')  # smaller model
+            # self._model =
+            # gensim.models.KeyedVectors.load_word2vec_format(fname='model/fasttext/crawl-300d-2M.vec')
+            # # smaller model
             FastTextSingleton._instance = self
             Logger().info("done")
 
@@ -48,5 +51,6 @@ class FastTextSingleton:
         return vector
 
     def removeSymbols(self, word: str):
-        symbolRemoved = word.translate(str.maketrans('', '', string.punctuation)).strip()  # remove symbols
+        symbolRemoved = word.translate(str.maketrans(
+            '', '', string.punctuation)).strip()  # remove symbols
         return symbolRemoved

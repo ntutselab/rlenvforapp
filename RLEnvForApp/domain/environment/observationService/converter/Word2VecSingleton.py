@@ -21,7 +21,8 @@ class Word2VecSingleton:
         else:
             Logger().info("init Word2VecSingleton ...")
             self._id = id(self)
-            self._model = gensim.models.KeyedVectors.load_word2vec_format('model/word2vector/GoogleNews-vectors-negative300.bin', binary=True)
+            self._model = gensim.models.KeyedVectors.load_word2vec_format(
+                'model/word2vector/GoogleNews-vectors-negative300.bin', binary=True)
             Word2VecSingleton._instance = self
             Logger().info("done")
 

@@ -1,5 +1,6 @@
-from stable_baselines.deepq.policies import FeedForwardPolicy # for DQN
+from stable_baselines.deepq.policies import FeedForwardPolicy  # for DQN
 from configuration.di.AgentDIContainers import AgentDIContainers
+
 
 class DQNCustomPolicy(FeedForwardPolicy):
     """
@@ -20,7 +21,7 @@ class DQNCustomPolicy(FeedForwardPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=False, **_kwargs):
         super(DQNCustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
-                                        feature_extraction="cnn", **_kwargs)
+                                              feature_extraction="cnn", **_kwargs)
 
         # super(DQNCustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
         #                                 feature_extraction="cnn", **_kwargs)

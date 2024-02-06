@@ -3,7 +3,8 @@ from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 
 class DirectiveDTO:
-    def __init__(self, url: str, dom: str, formXPath: str, appEventDTOs: [AppEventDTO], codeCoverageDTOs: [CodeCoverageDTO]):
+    def __init__(self, url: str, dom: str, formXPath: str, appEventDTOs: [
+                 AppEventDTO], codeCoverageDTOs: [CodeCoverageDTO]):
         self._url = url
         self._dom = dom
         self._formXPath = formXPath

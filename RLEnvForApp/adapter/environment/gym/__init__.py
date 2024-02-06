@@ -1,1 +1,1 @@
-__all__=["AIGuideEnvironment", "AIGuideHTMLLogEnvironment"]
+__all__ = ["AIGuideEnvironment", "AIGuideHTMLLogEnvironment"]

@@ -14,10 +14,13 @@ class GUIDEIndicationService(ITargetIndicationService):
         targetPage: TargetPage = TargetPageProcessingManagerSingleton.getInstance().getBeProcessedTargetPage()
         basicCodeCoverage: CodeCoverage = targetPage.getBasicCodeCoverage()
         targetCodeCoverage: CodeCoverage = targetPage.getTargetCodeCoverage()
-        stateCodeCoverage: CodeCoverage = self._getCodeCoverageByType(codeCoverages=state.getCodeCoverages(), type=targetCodeCoverage.getCodeCoverageType())
+        stateCodeCoverage: CodeCoverage = self._getCodeCoverageByType(
+            codeCoverages=state.getCodeCoverages(), type=targetCodeCoverage.getCodeCoverageType())
 
-        targetImprovedCodeCoverage = targetCodeCoverage.getImprovedCodeCoverage(originalCodeCovreage=basicCodeCoverage)
-        stateImprovedCodeCoverage = stateCodeCoverage.getImprovedCodeCoverage(originalCodeCovreage=basicCodeCoverage)
+        targetImprovedCodeCoverage = targetCodeCoverage.getImprovedCodeCoverage(
+            originalCodeCovreage=basicCodeCoverage)
+        stateImprovedCodeCoverage = stateCodeCoverage.getImprovedCodeCoverage(
+            originalCodeCovreage=basicCodeCoverage)
 
         if stateImprovedCodeCoverage.getCoveredAmount() == 0:
             return False

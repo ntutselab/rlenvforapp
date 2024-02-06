@@ -13,7 +13,8 @@ class GUIDETargetPageQueueManagerService(ITargetPageQueueManagerService):
         targetPage: TargetPage = None
         if not super().isEmpty():
             targetPageEntity = super().getRepository().findAll()[0]
-            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+                targetPageEntity=targetPageEntity)
             super().getRepository().deleteById(targetPage.getId())
             self.enqueueTargetPage(targetPage=targetPage)
         return targetPage

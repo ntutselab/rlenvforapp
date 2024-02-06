@@ -1,4 +1,5 @@
-import json, os
+import json
+import os
 
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State

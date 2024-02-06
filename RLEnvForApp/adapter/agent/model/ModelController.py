@@ -23,7 +23,8 @@ class ModelController:
         observation = environment.env_method(method_name="reset")
         while isContinue:
             action, state = self._model.predict(observation)
-            observation, reward, isDone, info = environment.env_method(method_name="step", action=action)[0]
+            observation, reward, isDone, info = environment.env_method(
+                method_name="step", action=action)[0]
             totalReward += reward
             isContinue = not isDone
         return totalReward
@@ -41,7 +42,8 @@ class ModelController:
             isContinue = not isDone
         return totalReward
 
-    def playByTotalStep(self, environment, totalStep, explorationEpisodeEsp=0, explorationStepEsp=0):
+    def playByTotalStep(self, environment, totalStep,
+                        explorationEpisodeEsp=0, explorationStepEsp=0):
         timeStep = 0
         observation = environment.env_method(method_name="reset")[0]
         isRandomEpisode = False

@@ -5,7 +5,8 @@ PORT = "3000"
 
 
 def dockerComposeFileName(applicationName: str, port: str):
-    fileName = "docker_compose_{applicationName}_{port}.yml".format(applicationName=applicationName, port=port)
+    fileName = "docker_compose_{applicationName}_{port}.yml".format(
+        applicationName=applicationName, port=port)
     return fileName
 
 
@@ -37,9 +38,6 @@ def dockerComposeFileContent(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, app
 
     if applicationName == "svelte_commerce":
         return getSvelteCommerceDockerComposeFile(port)
-
-
-
 
     # compose_file_content = '{applicationName}_{port}:\n' \
     #                        ' image: {dockerImageCreator}/{applicationName}\n' \
@@ -272,4 +270,3 @@ def getSvelteCommerceDockerComposeFile(port: str = PORT):
           - "{port}:3000"
     '''
     return config
-

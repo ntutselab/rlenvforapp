@@ -16,9 +16,11 @@ from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton, inpu
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.logger.logger import Logger
 
+
 class AIGuideHTMLLogEnvironment(gym.Env):
     @inject
-    def __init__(self, episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository]):
+    def __init__(
+            self, episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository]):
         self._logger = Logger()
         self._logger.info('Init environment.Env')
         self._applicationIp = "127.0.0.1"
@@ -29,7 +31,8 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         self._crawler = HTMLLogCrawler()
         self._autOperator = AIGUIDEOperator(crawler=self._crawler)
 
-        self._targetPagePort = TargetPagePortFactory().createAIGuideHTMLLogTargetPagePort(folderPath="htmlSet/GUIDE_HTML_SET")
+        self._targetPagePort = TargetPagePortFactory().createAIGuideHTMLLogTargetPagePort(
+            folderPath="htmlSet/GUIDE_HTML_SET")
 
         self._targetPageId = ""
         self._episodeHandlerId = ""
@@ -62,7 +65,8 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         else:
             focusElementXpath = self._autOperator.getFocusedAppElement().getXpath()
 
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator)
+        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
+            autOperator=self._autOperator)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(actionNumber=int(action),
                                                                    episodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
@@ -98,12 +102,15 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         self._episodeIndex += 1
         self._stepNumber = 1
 
-        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=self._autOperator)
-        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=self._episodeIndex)
+        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
+            operator=self._autOperator)
+        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=self._episodeIndex)
         resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
 
-        self._logger.info("Episode Handler Amount:" + "{:2}".format(len(self._episodeHandlerRepository.findAll())))
+        self._logger.info("Episode Handler Amount:" +
+                          "{:2}".format(len(self._episodeHandlerRepository.findAll())))
         self._logger.info("Target page url is: " + resetEnvUseOutput.getTargetPageUrl())
         self._logger.info("==========================================================\n\n")
 

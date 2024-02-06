@@ -12,7 +12,9 @@ class DefaultForTestObservationService(IObservationService):
 
     def getObservation(self, state: State):
         onehotConverter = OneHotConverter(coveredNumber=self._oneHotCoveredNumber)
-        listFocusOneHot = onehotConverter.convert(stateElement=state.getFocusVector(), length=self._oneHotLength)
+        listFocusOneHot = onehotConverter.convert(
+            stateElement=state.getFocusVector(),
+            length=self._oneHotLength)
         return listFocusOneHot
 
     def getObservationDictionary(self, observation: [int]):

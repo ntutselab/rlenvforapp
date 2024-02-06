@@ -1,1 +1,3 @@
-__all__ = ["StartApplicationUnderTestInput", "StartApplicationUnderTestOutput", "StartApplicationUnderTestUserCase"]
+__all__ = ["StartApplicationUnderTestInput",
+           "StartApplicationUnderTestOutput",
+           "StartApplicationUnderTestUserCase"]

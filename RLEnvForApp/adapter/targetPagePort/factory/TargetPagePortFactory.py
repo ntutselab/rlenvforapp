@@ -19,5 +19,5 @@ class TargetPagePortFactory:
                                           rootUrl: str = "127.0.0.1",
                                           codeCoverageType: str = "coverage") -> ITargetPagePort.ITargetPagePort:
         return AIGuideVerifyTargetPagePort.AIGuideVerifyTargetPagePort(javaIp=javaIp, pythonIp=pythonIp, javaPort=javaPort,
-                                                           pythonPort=pythonPort, serverName=serverName,
-                                                           rootUrl=rootUrl, codeCoverageType=codeCoverageType)
+                                                                       pythonPort=pythonPort, serverName=serverName,
+                                                                       rootUrl=rootUrl, codeCoverageType=codeCoverageType)

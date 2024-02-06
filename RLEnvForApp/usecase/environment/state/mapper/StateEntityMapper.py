@@ -13,31 +13,42 @@ def _mappingAppElementEntitiesFrom(appElements: [AppElement]):
         appElementEntities.append(AppElementEntityMapper.mappingAppElementEntityFrom(appElement))
     return appElementEntities
 
+
 def _mappingAppElementFrom(appElementEntities: [AppElementEntity]):
     appElements: [AppElement] = []
     for appElementEntity in appElementEntities:
         appElements.append(AppElementEntityMapper.mappingAppElementEntityFrom(appElementEntity))
     return appElements
 
+
 def _mappingCodeCoverageEntitiesFrom(codeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
     codeCoverageEntityList: [CodeCoverageEntity] = []
     for codeCoverage in codeCoverages:
-        codeCoverageEntityList.append(CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage))
+        codeCoverageEntityList.append(
+            CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage))
     return codeCoverageEntityList
+
 
 def _mappingCodeCoveragesFrom(codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageEntity in codeCoverageEntities:
-        codeCoverages.append(CodeCoverageEntityMapper.mappingCodeCoverageFrom(codeCoverageEntity=codeCoverageEntity))
+        codeCoverages.append(
+            CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                codeCoverageEntity=codeCoverageEntity))
     return codeCoverages
+
 
 def mappingStateEntiyFrom(state: State) -> StateEntity:
     stateEntity = StateEntity(id=state.getId())
     stateEntity.setDom(state.getDOM())
     stateEntity.setUrl(state.getUrl())
     stateEntity.setScreenShot(state.getScreenShot())
-    stateEntity.setInteractedElementEntity(AppElementEntityMapper.mappingAppElementEntityFrom(state.getInteractedElement()))
-    stateEntity.setSelectedAppElementEntities(_mappingAppElementEntitiesFrom(state.getAllSelectedAppElements()))
+    stateEntity.setInteractedElementEntity(
+        AppElementEntityMapper.mappingAppElementEntityFrom(
+            state.getInteractedElement()))
+    stateEntity.setSelectedAppElementEntities(
+        _mappingAppElementEntitiesFrom(
+            state.getAllSelectedAppElements()))
     stateEntity.setFocusVector(state.getFocusVector())
     stateEntity.setActionType(state.getActionType())
     stateEntity.setCodeCoverages(_mappingCodeCoverageEntitiesFrom(state.getCodeCoverages()))
@@ -46,6 +57,7 @@ def mappingStateEntiyFrom(state: State) -> StateEntity:
     stateEntity.setOriginalObservation(state.getOriginalObservation())
     return stateEntity
 
+
 def mappingStateFrom(stateEntity: StateEntity):
     state = State(id=stateEntity.getId())
     state.setDOM(stateEntity.getDom())
@@ -53,7 +65,8 @@ def mappingStateFrom(stateEntity: StateEntity):
     state.setScreenShot(stateEntity.getScreenShot())
     state.setInteractedElement(
         AppElementEntityMapper.mappingAppElementFrom(stateEntity.getInterActedElementEntity()))
-    state.setSelectedAppElements(_mappingAppElementFrom(stateEntity.getSelectedAppElementEntities()))
+    state.setSelectedAppElements(_mappingAppElementFrom(
+        stateEntity.getSelectedAppElementEntities()))
     state.setFocusVector(stateEntity.getFocusVector())
     state.setActionType(stateEntity.getActionType())
     state.setCodeCoverages(_mappingCodeCoveragesFrom(stateEntity.getCodeCoverages()))

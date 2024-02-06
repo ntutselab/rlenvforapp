@@ -33,7 +33,7 @@ class testTimeLogger(unittest.TestCase):
         startTimeSeconds = TimeLoggerService().logStart(logDir=self.logDir)
         time.sleep(timePassedSeconds)
         stopTimeSeconds = TimeLoggerService().logStop(logDir=self.logDir)
-        
+
         self.assertGreaterEqual(stopTimeSeconds - startTimeSeconds, timePassedSeconds)
         startTimeLogPath = os.path.join(self.logDir, self.startTimeFileName)
         stopTimeLogPath = os.path.join(self.logDir, self.stopTimeFileName)
@@ -41,7 +41,8 @@ class testTimeLogger(unittest.TestCase):
         self.assertTrue(os.path.exists(stopTimeLogPath))
 
         timePeriodLogPath = os.path.join(self.logDir, self.timePeriodFileName)
-        diffSeconds = TimeLoggerService().logSecondDiff(startTimeSeconds=startTimeSeconds, stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
+        diffSeconds = TimeLoggerService().logSecondDiff(startTimeSeconds=startTimeSeconds,
+                                                        stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
         self.assertTrue(os.path.exists(timePeriodLogPath))
 
     def testLogOnce(self):
@@ -52,5 +53,6 @@ class testTimeLogger(unittest.TestCase):
     def testLogSecondDiff(self):
         startTimeSeconds = 100
         stopTimeSeconds = 1000000
-        diffSeconds = TimeLoggerService().logSecondDiff(startTimeSeconds=startTimeSeconds, stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
+        diffSeconds = TimeLoggerService().logSecondDiff(startTimeSeconds=startTimeSeconds,
+                                                        stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
         self.assertEqual(stopTimeSeconds - startTimeSeconds, diffSeconds)
