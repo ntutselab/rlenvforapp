@@ -1,1 +1,1 @@
-__all__ = ["testRemoveTargetPageUseCase.py"]
+__all__ = ["testRemoveTargetPageUseCase"]

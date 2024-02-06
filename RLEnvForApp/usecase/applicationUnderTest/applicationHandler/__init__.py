@@ -1,1 +1,1 @@
-__all__= ["ApplicationHandler.py"]
+__all__= ["ApplicationHandler"]
