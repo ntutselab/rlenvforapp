@@ -82,9 +82,7 @@ class AIGuideEnvironment(gym.Env):
                                                                                    pythonIp="127.0.0.1",
                                                                                    javaPort=2700, pythonPort=2701,
                                                                                    serverName=self._serverName,
-                                                                                   rootUrl="http://{ip}:{port}/".format(
-                                                                                       ip=self._applicationIp,
-                                                                                       port=self._applicationPort),
+                                                                                   rootUrl=f"http://{self._applicationIp}:{self._applicationPort}/",
                                                                                    codeCoverageType=self._codeCoverageType)
 
         # self._targetPagePort = TargetPagePortFactory().createAIGuideVerifyTargetPagePort(javaIp="127.0.0.1",
@@ -174,11 +172,11 @@ class AIGuideEnvironment(gym.Env):
             traceback.print_exc()
             executeActionOutput.setIsDone(True)
 
-        self._stepsInformation = "total_step:" + "{:4}".format(self._totalStep) + \
-                                 "\tStep:" + "{:2}".format(self._stepNumber) + \
+        self._stepsInformation = "total_step:" + f"{self._totalStep:4}" + \
+                                 "\tStep:" + f"{self._stepNumber:2}" + \
                                  "\tEpisode:" + str(self._episodeIndex) + \
-                                 "\tAction:" + "{:2}".format(int(action)) + \
-                                 "\tReward:" + "{: 4.3f}".format(executeActionOutput.getReward()) + \
+                                 "\tAction:" + f"{int(action):2}" + \
+                                 "\tReward:" + f"{executeActionOutput.getReward(): 4.3f}" + \
                                  "\tFocusElement: " + str(self._originalObservation).ljust(64) + \
                                  "\tXpath: " + focusElementXpath + \
                                  "\tCodeCoverage:" + \
@@ -200,8 +198,7 @@ class AIGuideEnvironment(gym.Env):
     def reset(self):
         self._logger.info(
             "Episode reward:" +
-            "{:3}".format(
-                self._episodeReward))
+            f"{self._episodeReward:3}")
         self._stepsInformation = ""
         self._episodeReward = 0
 
@@ -271,7 +268,7 @@ class AIGuideEnvironment(gym.Env):
             self._formCounts[self._targetPageId] = 1
 
         self._logger.info("Episode Handler Amount:" +
-                          "{:2}".format(len(self._episodeHandlerRepository.findAll())))
+                          f"{len(self._episodeHandlerRepository.findAll()):2}")
         self._logger.info("Target page id is: " + self._targetPageId)
         self._logger.info(
             "==========================================================\n\n")

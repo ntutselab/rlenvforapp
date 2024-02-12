@@ -24,9 +24,7 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
             response = self.session.get(
-                "{}{}".format(
-                    self._serverRootUrl,
-                    "/coverage-app/object"))
+                f"{self._serverRootUrl}{'/coverage-app/object'}")
             codeCoverageVector = []
             for filePath in list(response.json().values())[1]:
                 coverageInfo = list(response.json().values())[1][filePath]

@@ -54,8 +54,7 @@ class SeleniumCrawler(ICrawler):
             self._rootPath = rootPath
         else:
             Logger().info(
-                "SeleniumCrawler Warning: reset to '{path}', go to root page '{rootPath}'".format(
-                    rootPath=self._rootPath, path=rootPath))
+                f"SeleniumCrawler Warning: reset to '{rootPath}', go to root page '{self._rootPath}'")
         if formXPath != "":
             self._formXPath = formXPath
         else:

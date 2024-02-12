@@ -37,5 +37,5 @@ class StartApplicationUnderTestUserCase:
             port=aut.getPort())
 
         output.setUrl(
-            "http://{ip}:{port}".format(ip=aut.getIP(), port=str(aut.getPort())))
+            f"http://{aut.getIP()}:{str(aut.getPort())}")
         output.setId(aut.getId())

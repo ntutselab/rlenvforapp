@@ -5,8 +5,7 @@ PORT = "3000"
 
 
 def dockerComposeFileName(applicationName: str, port: str):
-    fileName = "docker_compose_{applicationName}_{port}.yml".format(
-        applicationName=applicationName, port=port)
+    fileName = f"docker_compose_{applicationName}_{port}.yml"
     return fileName
 
 

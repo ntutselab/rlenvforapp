@@ -102,7 +102,7 @@ class DockerServerHandler(ApplicationHandler):
         return filePaths
 
     def _waitForServerStarted(self, ip, port, dockerComposePath):
-        url = "http://{ip}:{port}".format(ip=ip, port=port)
+        url = f"http://{ip}:{port}"
         # url = "http://{ip}:{port}/login".format(ip=ip, port=port)
 
         waitingTimes = 0
