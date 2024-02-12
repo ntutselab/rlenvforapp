@@ -10,7 +10,6 @@ from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawle
 from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.autOperator.mapper import AppElementDTOMapper
-import random
 
 
 class AIGUIDEOperator(IAUTOperator):

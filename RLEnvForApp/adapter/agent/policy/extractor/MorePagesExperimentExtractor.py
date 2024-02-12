@@ -1,5 +1,4 @@
 # MorePagesExperimentExtractor
-from RLEnvForApp.adapter.agent.layer.CustomLayerFactoryService import CustomLayerFactoryService
 from RLEnvForApp.adapter.agent.policy.extractor.IExtractor import IExtractor
 import tensorflow as tf
 

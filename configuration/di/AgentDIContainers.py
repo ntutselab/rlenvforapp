@@ -1,5 +1,4 @@
 from dependency_injector import containers, providers
-import RLEnvForApp
 
 from RLEnvForApp.adapter.agent.policy.extractor import *
 from RLEnvForApp.adapter.environment.gym import *

@@ -1,6 +1,5 @@
 from RLEnvForApp.domain.environment.observationService.converter.IConverter import IConverter
 from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
-from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import BERTTokenizerSingleton
 
 
 class FastTextConverter(IConverter):

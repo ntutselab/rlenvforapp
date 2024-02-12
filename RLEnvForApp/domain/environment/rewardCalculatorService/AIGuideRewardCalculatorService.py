@@ -3,7 +3,6 @@ from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorSer
 from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import IActionIndicationService
 from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
-from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.usecase.environment.executeAction.ActionIndicationService.CheckActionTypeIndicationService import \
     CheckActionTypeIndicationService
 from RLEnvForApp.usecase.targetPage.ITargetIndicationService.GUIDEIndicationService import GUIDEIndicationService

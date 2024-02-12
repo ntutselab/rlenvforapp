@@ -1,4 +1,3 @@
-import time
 import requests
 from unittest import TestCase
 

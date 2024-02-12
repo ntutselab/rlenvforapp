@@ -1,12 +1,11 @@
 import os
 import time
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import inject
 
 from RLEnvForApp.adapter.agent.model.ModelController import ModelController
 from RLEnvForApp.adapter.agent.model.ModelFactory import ModelFactory
 from RLEnvForApp.adapter.environment.factory.GymEnvironmentFactory import GymEnvironmentFactory
-from configuration.di.AgentDIContainers import AgentDIContainers
 from RLEnvForApp.logger.logger import Logger
 
 

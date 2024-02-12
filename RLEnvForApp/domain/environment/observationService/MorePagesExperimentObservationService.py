@@ -1,17 +1,12 @@
-from io import StringIO
 
 import numpy as np
-from lxml import etree
 
 from RLEnvForApp.domain.environment import inputSpace
 from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import CosineSimilarityService
 from RLEnvForApp.domain.environment.observationService.IObservationService import IObservationService
 from RLEnvForApp.domain.environment.observationService.converter.FastTextConverter import FastTextConverter
 from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
-from RLEnvForApp.domain.environment.observationService.converter.Word2VecConverter import Word2VecConverter
-from RLEnvForApp.domain.environment.observationService.htmlExtractor.HtmlExtractor import HtmlExtractor
 from RLEnvForApp.domain.environment.state import State
-from RLEnvForApp.logger.logger import Logger
 
 
 class MorePagesExperimentObservationService(IObservationService):

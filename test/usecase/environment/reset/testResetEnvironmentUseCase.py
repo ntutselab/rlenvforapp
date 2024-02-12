@@ -1,5 +1,4 @@
 import unittest
-import uuid
 
 from RLEnvForApp.adapter.environment.autOperator.crawler.HtmlFileCrawler import HtmlFileCrawler
 from RLEnvForApp.usecase.environment.autOperator.ExperimentalHtmlFileOperator import ExperimentalHtmlFileOperator

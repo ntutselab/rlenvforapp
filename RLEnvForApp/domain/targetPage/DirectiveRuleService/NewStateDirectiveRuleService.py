@@ -1,18 +1,10 @@
-from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
-from RLEnvForApp.domain.targetPage.Directive import Directive
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
-from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 
 import re
 from lxml import etree
 from io import StringIO
 import difflib
-import json
-import time
-import os
-from os import listdir
-from os.path import isfile, join
 
 from RLEnvForApp.logger.logger import Logger
 

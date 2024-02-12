@@ -1,14 +1,9 @@
-import json
-import os
-from io import StringIO
 
 import numpy as np
-from lxml import etree
 
 from RLEnvForApp.domain.environment import inputSpace
 from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.domain.environment.inputSpace import CategoryListSingleton, inputTypes, ValueWeightSingleton, \
-    inputValues
+from RLEnvForApp.domain.environment.inputSpace import CategoryListSingleton, inputTypes
 from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
 from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import IActionIndicationService

@@ -1,5 +1,3 @@
-import json
-import os
 import random
 
 import numpy as np
@@ -7,7 +5,6 @@ import numpy as np
 from RLEnvForApp.domain.environment import inputSpace
 from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import CosineSimilarityService
 from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
-from RLEnvForApp.domain.environment.observationService.htmlExtractor.HtmlExtractor import HtmlExtractor
 from RLEnvForApp.logger.logger import Logger
 
 
