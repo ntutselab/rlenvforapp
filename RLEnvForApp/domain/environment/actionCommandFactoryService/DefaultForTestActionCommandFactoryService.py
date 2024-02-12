@@ -1,5 +1,5 @@
 from RLEnvForApp.domain.environment.actionCommandFactoryService import IActionCommandFactoryService
-from RLEnvForApp.domain.environment.actionCommand import *
+from RLEnvForApp.domain.environment.actionCommand import IActionCommand, ClickCommand, ChangeFocusCommand, InputValueCommand
 
 # 0. submit
 # 1. change focus

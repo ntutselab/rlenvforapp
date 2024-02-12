@@ -5,9 +5,9 @@ from RLEnvForApp.adapter.repository.episodeHandler.InMemoryEpisodeHandlerReposit
     InMemoryEpisodeHandlerRepository
 from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
 from RLEnvForApp.usecase.environment.autOperator.ClickForAllElementOperator import ClickForAllElementOperator
-from RLEnvForApp.usecase.environment.executeAction import *
-from RLEnvForApp.usecase.environment.resetEnvironment import *
-from RLEnvForApp.usecase.targetPage.create import *
+from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
+from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
+from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 
 

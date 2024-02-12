@@ -8,7 +8,7 @@ from RLEnvForApp.adapter.repository.applicationUnderTest.InMemoryApplicationUnde
 from RLEnvForApp.domain.applicationUnderTest.ApplicationUnderTest import ApplicationUnderTest
 from RLEnvForApp.usecase.applicationUnderTest.entity.ApplicationUnderTestEntity import ApplicationUnderTestEntity
 from RLEnvForApp.usecase.applicationUnderTest.mapper import ApplicationUnderTestMapper
-from RLEnvForApp.usecase.applicationUnderTest.start import *
+from RLEnvForApp.usecase.applicationUnderTest.start import StartApplicationUnderTestUserCase, StartApplicationUnderTestInput, StartApplicationUnderTestOutput
 
 
 class testStartApplicationUnderTestUserCase(TestCase):
