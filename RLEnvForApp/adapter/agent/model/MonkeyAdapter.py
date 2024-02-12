@@ -37,6 +37,7 @@ class MonkeyAdapter:
     def save(self, save_path, cloudpickle=False):
         pass
 
+    @classmethod
     def load(cls, load_path, env=None, custom_objects=None, **kwargs):
         pass
 
