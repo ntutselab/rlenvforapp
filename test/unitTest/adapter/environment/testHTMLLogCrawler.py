@@ -11,12 +11,12 @@ class MyTestCase(unittest.TestCase):
         self._filePath = "htmlSet/GUIDE_HTML_SET/timeoff__login_.html"
 
     def test_crawler_reset(self):
-        self._crawler.reset(path=self._filePath)
+        self._crawler.reset(rootPath=self._filePath)
         self.assertEqual(self._filePath, self._crawler.getUrl())
         self.assertEqual(3, len(self._crawler.getAllSelectedAppElementsDTOs()))
 
     def test_crawler_execute_action(self):
-        self._crawler.reset(path=self._filePath)
+        self._crawler.reset(rootPath=self._filePath)
         self.assertEqual(self._filePath, self._crawler.getUrl())
         self.assertEqual(3, len(self._crawler.getAllSelectedAppElementsDTOs()))
         passwoardAppElementDTO: AppElementDTO = None
