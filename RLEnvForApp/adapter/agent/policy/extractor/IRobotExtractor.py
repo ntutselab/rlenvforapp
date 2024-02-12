@@ -1,7 +1,8 @@
 import tensorflow as tf
 
+from RLEnvForApp.adapter.agent.layer.CustomLayerFactoryService import \
+    CustomLayerFactoryService
 from RLEnvForApp.adapter.agent.policy.extractor.IExtractor import IExtractor
-from RLEnvForApp.adapter.agent.layer.CustomLayerFactoryService import CustomLayerFactoryService
 
 
 class IRobotExtractor(IExtractor):

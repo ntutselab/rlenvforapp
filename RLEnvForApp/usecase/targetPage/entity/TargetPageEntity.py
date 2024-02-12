@@ -1,6 +1,8 @@
-from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import CodeCoverageEntity
+from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
+    CodeCoverageEntity
 from RLEnvForApp.usecase.targetPage.entity.AppEventEntity import AppEventEntity
-from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import DirectiveEntity
+from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import \
+    DirectiveEntity
 
 
 class TargetPageEntity:

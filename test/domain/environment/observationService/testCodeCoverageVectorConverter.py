@@ -1,7 +1,8 @@
 import unittest
 
+from RLEnvForApp.domain.environment.observationService.converter.CodeCoverageVectorConverter import \
+    CodeCoverageVectorConverter
 from RLEnvForApp.domain.environment.state import CodeCoverage
-from RLEnvForApp.domain.environment.observationService.converter.CodeCoverageVectorConverter import CodeCoverageVectorConverter
 
 
 class testCodeCoverageVectorConverter(unittest.TestCase):

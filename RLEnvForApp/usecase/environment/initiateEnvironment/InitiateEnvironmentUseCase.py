@@ -1,9 +1,12 @@
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
-from . import (InitiateEnvironmentInput, InitiateEnvironmentOutput)
-from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import IActionCommandFactoryService
-from RLEnvForApp.domain.environment.observationService.IObservationService import IObservationService
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import \
+    IActionCommandFactoryService
+from RLEnvForApp.domain.environment.observationService.IObservationService import \
+    IObservationService
+
+from . import InitiateEnvironmentInput, InitiateEnvironmentOutput
 
 
 class InitiateEnvironmentUseCase:

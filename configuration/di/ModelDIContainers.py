@@ -1,5 +1,7 @@
 import os
+
 from dependency_injector import providers
+
 from configuration.di.DIConfiguration import DIConfiguration
 
 

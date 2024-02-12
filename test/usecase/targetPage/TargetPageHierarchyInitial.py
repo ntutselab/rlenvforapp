@@ -1,6 +1,8 @@
-from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
 from RLEnvForApp.usecase.repository import TargetPageRepository
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
+                                                   CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
+from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 
 class TargetPageHierarchyInitial:

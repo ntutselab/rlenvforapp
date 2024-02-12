@@ -1,5 +1,6 @@
 from RLEnvForApp.domain.environment.state import AppElement
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
 
 
 def mappingAppElementFrom(appElementDTO: AppElementDTO) -> AppElement.AppElement:

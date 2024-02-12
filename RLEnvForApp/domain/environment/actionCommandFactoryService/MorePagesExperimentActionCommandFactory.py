@@ -1,8 +1,9 @@
-from RLEnvForApp.domain.environment.actionCommand import IRobotClickCommand, IRobotInputValueCommand, ChangeFocusCommand
-from RLEnvForApp.domain.environment.actionCommand.IActionCommand import IActionCommand
+from RLEnvForApp.domain.environment.actionCommand import (
+    ChangeFocusCommand, IRobotClickCommand, IRobotInputValueCommand)
+from RLEnvForApp.domain.environment.actionCommand.IActionCommand import \
+    IActionCommand
 from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import \
     IActionCommandFactoryService
-
 
 # 0. submit
 # 1. change focus

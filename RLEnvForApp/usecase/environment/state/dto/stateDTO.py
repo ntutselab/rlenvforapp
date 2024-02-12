@@ -1,5 +1,7 @@
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
 
 
 class StateDTO:

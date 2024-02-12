@@ -1,15 +1,19 @@
+from dependency_injector.wiring import Provide, inject
+
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.domain.targetPage.Directive import Directive
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
-from . import (UpdateTargetPageOutput, UpdateTargetPageInput)
-from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.usecase.repository.TargetPageRepository import \
+    TargetPageRepository
 
-from ..entity.TargetPageEntity import TargetPageEntity
-from ..mapper import TargetPageEntityMapper, AppEventDTOMapper, DirectiveDTOMapper
-from ..queueManager.TargetPageProcessingManagerSingleton import TargetPageProcessingManagerSingleton
 from ...environment.autOperator.mapper import CodeCoverageDTOMapper
+from ..entity.TargetPageEntity import TargetPageEntity
+from ..mapper import (AppEventDTOMapper, DirectiveDTOMapper,
+                      TargetPageEntityMapper)
+from ..queueManager.TargetPageProcessingManagerSingleton import \
+    TargetPageProcessingManagerSingleton
+from . import UpdateTargetPageInput, UpdateTargetPageOutput
 
 
 class UpdateTargetPageUseCase:

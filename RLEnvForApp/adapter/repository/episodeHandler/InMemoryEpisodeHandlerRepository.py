@@ -1,5 +1,7 @@
-from RLEnvForApp.usecase.environment.episodeHandler.entity.EpisodeHandlerEntity import EpisodeHandlerEntity
-from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
+from RLEnvForApp.usecase.environment.episodeHandler.entity.EpisodeHandlerEntity import \
+    EpisodeHandlerEntity
+from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import \
+    EpisodeHandlerRepository
 
 
 class InMemoryEpisodeHandlerRepository(EpisodeHandlerRepository):

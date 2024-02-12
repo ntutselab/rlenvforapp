@@ -1,5 +1,7 @@
-from RLEnvForApp.domain.environment.observationService.converter import IConverter
-from RLEnvForApp.domain.environment.observationService.converter.ALBERTTokenizerSingleton import ALBERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter import \
+    IConverter
+from RLEnvForApp.domain.environment.observationService.converter.ALBERTTokenizerSingleton import \
+    ALBERTTokenizerSingleton
 
 
 class ALBERTConverter(IConverter):

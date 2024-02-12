@@ -1,10 +1,13 @@
-import os
 import json
+import os
 import random
 
-from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
 from lxml import etree
+
+from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import \
+    ICrawler
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
 
 
 class HTMLLogCrawler(ICrawler):

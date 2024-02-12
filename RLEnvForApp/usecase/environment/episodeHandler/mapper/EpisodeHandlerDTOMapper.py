@@ -1,6 +1,8 @@
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import EpisodeHandlerDTO
+from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import \
+    EpisodeHandlerDTO
 from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 from RLEnvForApp.usecase.environment.state.mapper import StateDTOMapper
 

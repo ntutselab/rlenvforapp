@@ -1,8 +1,10 @@
 import os
 import unittest
+
 import numpy as np
 
-from RLEnvForApp.domain.environment.observationService.converter.ScreenshotPreprocessor import ScreenshotPreprocessor
+from RLEnvForApp.domain.environment.observationService.converter.ScreenshotPreprocessor import \
+    ScreenshotPreprocessor
 
 
 class testScreenshotProcessor(unittest.TestCase):

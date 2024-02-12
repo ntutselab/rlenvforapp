@@ -1,12 +1,18 @@
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import EpisodeHandlerDTO
-from RLEnvForApp.usecase.environment.episodeHandler.entity.EpisodeHandlerEntity import EpisodeHandlerEntity
+from dependency_injector.wiring import Provide, inject
+
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
+from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import \
+    EpisodeHandlerDTO
+from RLEnvForApp.usecase.environment.episodeHandler.entity.EpisodeHandlerEntity import \
+    EpisodeHandlerEntity
 from RLEnvForApp.usecase.environment.episodeHandler.get import (
     GetEpisodeHandlerInput, GetEpisodeHandlerOutput)
-from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper, EpisodeHandlerDTOMapper
-from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.usecase.environment.episodeHandler.mapper import (
+    EpisodeHandlerDTOMapper, EpisodeHandlerEntityMapper)
+from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import \
+    EpisodeHandlerRepository
 
 
 class GetEpisodeHandlerUseCase:

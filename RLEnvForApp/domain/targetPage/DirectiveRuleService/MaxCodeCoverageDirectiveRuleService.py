@@ -1,6 +1,7 @@
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
+    IDirectiveRuleService
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 
 

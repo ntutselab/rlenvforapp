@@ -1,10 +1,11 @@
 import json
 import os
 
+from RLEnvForApp.domain.environment.inputSpace import inputTypes, inputValues
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
-from RLEnvForApp.domain.environment.inputSpace import inputTypes, inputValues
+from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import \
+    ITargetIndicationService
 from RLEnvForApp.logger.logger import Logger
 
 

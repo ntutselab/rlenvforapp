@@ -1,4 +1,5 @@
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
 
 
 class DOMCache:

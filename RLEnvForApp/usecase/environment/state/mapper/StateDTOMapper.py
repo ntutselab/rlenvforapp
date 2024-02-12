@@ -1,9 +1,12 @@
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
-from RLEnvForApp.usecase.environment.autOperator.mapper import AppElementDTOMapper, CodeCoverageDTOMapper
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.mapper import (
+    AppElementDTOMapper, CodeCoverageDTOMapper)
 from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 
 

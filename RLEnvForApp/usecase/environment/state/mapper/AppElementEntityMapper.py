@@ -1,5 +1,6 @@
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
-from RLEnvForApp.usecase.environment.state.entity.AppElementEntity import AppElementEntity
+from RLEnvForApp.usecase.environment.state.entity.AppElementEntity import \
+    AppElementEntity
 
 
 def mappingAppElementEntityFrom(appElement: AppElement):

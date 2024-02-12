@@ -1,4 +1,5 @@
-from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import EpisodeHandlerDTO
+from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import \
+    EpisodeHandlerDTO
 
 
 class GetEpisodeHandlerOutput:

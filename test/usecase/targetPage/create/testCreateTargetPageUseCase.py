@@ -1,12 +1,17 @@
 import unittest
 
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
 from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
+                                                   CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto import AppEventDTO
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
 from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
-from RLEnvForApp.usecase.targetPage.entity.TargetPageEntity import TargetPageEntity
+from RLEnvForApp.usecase.targetPage.entity.TargetPageEntity import \
+    TargetPageEntity
 from RLEnvForApp.usecase.targetPage.mapper import TargetPageEntityMapper
 
 

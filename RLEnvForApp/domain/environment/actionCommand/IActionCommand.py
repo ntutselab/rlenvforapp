@@ -1,4 +1,5 @@
-from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
+from RLEnvForApp.domain.environment.autOperator.IAUTOperator import \
+    IAUTOperator
 
 
 class IActionCommand:

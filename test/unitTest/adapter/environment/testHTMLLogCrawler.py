@@ -1,7 +1,9 @@
 import unittest
 
-from RLEnvForApp.adapter.environment.autOperator.crawler.HTMLLogCrawler import HTMLLogCrawler
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
+from RLEnvForApp.adapter.environment.autOperator.crawler.HTMLLogCrawler import \
+    HTMLLogCrawler
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
 
 
 class MyTestCase(unittest.TestCase):

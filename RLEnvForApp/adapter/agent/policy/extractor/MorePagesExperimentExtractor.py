@@ -1,7 +1,6 @@
 # MorePagesExperimentExtractor
-from RLEnvForApp.adapter.agent.policy.extractor.IExtractor import IExtractor
 import tensorflow as tf
-
+from RLEnvForApp.adapter.agent.policy.extractor.IExtractor import IExtractor
 from RLEnvForApp.logger.logger import Logger
 
 

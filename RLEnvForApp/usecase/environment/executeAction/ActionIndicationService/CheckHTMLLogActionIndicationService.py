@@ -2,9 +2,10 @@ import json
 import os
 
 from RLEnvForApp.domain.environment.inputSpace import inputTypes
+from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import \
+    IActionIndicationService
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import IActionIndicationService
 from RLEnvForApp.logger.logger import Logger
 
 

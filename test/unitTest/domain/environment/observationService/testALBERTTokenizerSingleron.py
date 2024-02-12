@@ -1,6 +1,7 @@
 import unittest
 
-from RLEnvForApp.domain.environment.observationService.converter.ALBERTTokenizerSingleton import ALBERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter.ALBERTTokenizerSingleton import \
+    ALBERTTokenizerSingleton
 
 
 class testBERTTokenizerSingleton(unittest.TestCase):

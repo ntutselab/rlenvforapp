@@ -1,6 +1,7 @@
 import unittest
 
-from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import BERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import \
+    BERTTokenizerSingleton
 
 
 class testBERTTokenizerSingleton(unittest.TestCase):

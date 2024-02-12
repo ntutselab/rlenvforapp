@@ -5,7 +5,8 @@ from urllib3.util import Retry
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCoverageCollector import \
     ICodeCoverageCollector
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
 
 
 class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):

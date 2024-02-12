@@ -1,9 +1,13 @@
-from RLEnvForApp.adapter.environment.autOperator.autCache.DOMCache import DOMCache
+from RLEnvForApp.adapter.environment.autOperator.autCache.DOMCache import \
+    DOMCache
 from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCoverageCollector import \
     ICodeCoverageCollector
-from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import \
+    ICrawler
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 

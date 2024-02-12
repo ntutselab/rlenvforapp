@@ -1,12 +1,18 @@
 import unittest
 
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
+                                                   CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 from RLEnvForApp.usecase.targetPage.dto.TargetPageDTO import TargetPageDTO
-from RLEnvForApp.usecase.targetPage.get import GetTargetPageUseCase, GetTargetPageInput, GetTargetPageOutput
+from RLEnvForApp.usecase.targetPage.get import (GetTargetPageInput,
+                                                GetTargetPageOutput,
+                                                GetTargetPageUseCase)
 
 
 class testGetTargetPageUsecase(unittest.TestCase):

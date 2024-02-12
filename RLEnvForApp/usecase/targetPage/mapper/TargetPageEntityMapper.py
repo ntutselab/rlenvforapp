@@ -1,10 +1,14 @@
 from RLEnvForApp.domain.targetPage import TargetPage
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.usecase.environment.state.mapper import CodeCoverageEntityMapper
-from RLEnvForApp.usecase.targetPage.entity import (AppEventEntity, TargetPageEntity)
-from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import DirectiveEntity
-from RLEnvForApp.usecase.targetPage.mapper import AppEventEntityMapper, DirectiveEntityMapper
+from RLEnvForApp.usecase.environment.state.mapper import \
+    CodeCoverageEntityMapper
+from RLEnvForApp.usecase.targetPage.entity import (AppEventEntity,
+                                                   TargetPageEntity)
+from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import \
+    DirectiveEntity
+from RLEnvForApp.usecase.targetPage.mapper import (AppEventEntityMapper,
+                                                   DirectiveEntityMapper)
 
 
 def mappingTargetPageEntityFrom(targetPage: TargetPage.TargetPage):

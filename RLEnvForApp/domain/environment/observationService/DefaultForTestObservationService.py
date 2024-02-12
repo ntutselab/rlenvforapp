@@ -1,5 +1,7 @@
-from RLEnvForApp.domain.environment.observationService.IObservationService import IObservationService
-from RLEnvForApp.domain.environment.observationService.converter.OneHotConverter import OneHotConverter
+from RLEnvForApp.domain.environment.observationService.converter.OneHotConverter import \
+    OneHotConverter
+from RLEnvForApp.domain.environment.observationService.IObservationService import \
+    IObservationService
 from RLEnvForApp.domain.environment.state import State
 
 

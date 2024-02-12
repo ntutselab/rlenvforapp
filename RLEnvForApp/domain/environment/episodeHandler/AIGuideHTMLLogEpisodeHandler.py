@@ -1,4 +1,5 @@
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
 from RLEnvForApp.domain.environment.state import State
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.logger.logger import Logger

@@ -1,6 +1,9 @@
-from RLEnvForApp.domain.environment.observationService.converter.IConverter import IConverter
-from RLEnvForApp.domain.environment.observationService.converter.Word2VecSingleton import Word2VecSingleton
-from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import BERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import \
+    BERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter.IConverter import \
+    IConverter
+from RLEnvForApp.domain.environment.observationService.converter.Word2VecSingleton import \
+    Word2VecSingleton
 
 
 class Word2VecConverter(IConverter):

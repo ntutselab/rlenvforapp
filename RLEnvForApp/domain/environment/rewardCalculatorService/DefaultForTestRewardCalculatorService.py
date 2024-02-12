@@ -1,6 +1,8 @@
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
-from RLEnvForApp.domain.environment.state import State, AppElement
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
+from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
+    IRewardCalculatorService
+from RLEnvForApp.domain.environment.state import AppElement, State
 
 
 class DefaultForTestRewardCalculatorService(IRewardCalculatorService):

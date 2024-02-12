@@ -1,31 +1,40 @@
 import time
+from test.usecase.HirerarchyInitial import HirerarchyInitial
 from unittest import TestCase
 
-from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import \
+    DockerServerHandler
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.IstanbulMiddlewareCodeCoverageCollector import \
     IstanbulMiddlewareCodeCoverageCollector
-from RLEnvForApp.adapter.environment.autOperator.crawler.IRobotCrawler import IRobotCrawler
+from RLEnvForApp.adapter.environment.autOperator.crawler.IRobotCrawler import \
+    IRobotCrawler
 from RLEnvForApp.adapter.repository.applicationUnderTest.InMemoryApplicationUnderTestRepository import \
     InMemoryApplicationUnderTestRepository
 from RLEnvForApp.adapter.repository.episodeHandler.InMemoryEpisodeHandlerRepository import \
     InMemoryEpisodeHandlerRepository
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
-
-from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
+from RLEnvForApp.domain.environment.autOperator.IAUTOperator import \
+    IAUTOperator
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
-
-from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import IRobotOperator
-from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.environment.state.mapper import CodeCoverageEntityMapper
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
-from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
+from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import \
+    IRobotOperator
+from RLEnvForApp.usecase.environment.episodeHandler.mapper import \
+    EpisodeHandlerEntityMapper
+from RLEnvForApp.usecase.environment.executeAction import (
+    ExecuteActionInput, ExecuteActionOutput, ExecuteActionUseCase)
+from RLEnvForApp.usecase.environment.resetEnvironment import (
+    ResetEnvironmentInput, ResetEnvironmentOutput, ResetEnvironmentUseCase)
+from RLEnvForApp.usecase.environment.state.mapper import \
+    CodeCoverageEntityMapper
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
+                                                   CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.queueManager.HtmlFileTargetPageQueueManagerService import \
     HtmlFileTargetPageQueueManagerService
-
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from test.usecase.HirerarchyInitial import HirerarchyInitial
 
 
 class testWebCrawlerGetCoverage(TestCase):

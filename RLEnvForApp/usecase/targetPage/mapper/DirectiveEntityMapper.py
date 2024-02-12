@@ -1,10 +1,13 @@
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import CodeCoverageEntity
-from RLEnvForApp.usecase.environment.state.mapper import CodeCoverageEntityMapper
+from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
+    CodeCoverageEntity
+from RLEnvForApp.usecase.environment.state.mapper import \
+    CodeCoverageEntityMapper
 from RLEnvForApp.usecase.targetPage.entity.AppEventEntity import AppEventEntity
-from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import DirectiveEntity
+from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import \
+    DirectiveEntity
 from RLEnvForApp.usecase.targetPage.mapper import AppEventEntityMapper
 
 

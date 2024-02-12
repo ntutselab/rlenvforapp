@@ -1,11 +1,12 @@
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
-
-import re
-from lxml import etree
-from io import StringIO
 import difflib
+import re
+from io import StringIO
 
+from lxml import etree
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import \
+    FormSubmitCriteriaSingleton
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
+    IDirectiveRuleService
 from RLEnvForApp.logger.logger import Logger
 
 

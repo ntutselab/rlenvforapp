@@ -1,7 +1,10 @@
 import json
 import os
 
-from RLEnvForApp.domain.environment.category import CLICK, EMAIL, NAME, PASSWORD, DATE, NUMBER, PHONE_NUMBER, STRING, CITY, ADDRESS, POSTAL_CODE
+from RLEnvForApp.domain.environment.category import (ADDRESS, CITY, CLICK,
+                                                     DATE, EMAIL, NAME, NUMBER,
+                                                     PASSWORD, PHONE_NUMBER,
+                                                     POSTAL_CODE, STRING)
 
 inputTypes = [
     CLICK,

@@ -1,10 +1,12 @@
-from . import (StopApplicationUnderTestInput, StopApplicationUnderTestOutput)
-from ..applicationHandler.ApplicationHandler import ApplicationHandler
-from ..mapper import ApplicationUnderTestMapper
-from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import ApplicationUnderTestRepository
+from dependency_injector.wiring import Provide, inject
 
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import \
+    ApplicationUnderTestRepository
+
+from ..applicationHandler.ApplicationHandler import ApplicationHandler
+from ..mapper import ApplicationUnderTestMapper
+from . import StopApplicationUnderTestInput, StopApplicationUnderTestOutput
 
 
 class StopApplicationUnderTestUseCase:

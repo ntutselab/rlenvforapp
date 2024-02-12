@@ -1,5 +1,6 @@
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
-from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
+from RLEnvForApp.usecase.repository.TargetPageRepository import \
+    TargetPageRepository
 
 
 class ITargetPageQueueManagerService:

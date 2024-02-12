@@ -2,10 +2,14 @@
 import numpy as np
 
 from RLEnvForApp.domain.environment import inputSpace
-from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import CosineSimilarityService
-from RLEnvForApp.domain.environment.observationService.IObservationService import IObservationService
-from RLEnvForApp.domain.environment.observationService.converter.FastTextConverter import FastTextConverter
-from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
+from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import \
+    CosineSimilarityService
+from RLEnvForApp.domain.environment.observationService.converter.FastTextConverter import \
+    FastTextConverter
+from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import \
+    FastTextSingleton
+from RLEnvForApp.domain.environment.observationService.IObservationService import \
+    IObservationService
 from RLEnvForApp.domain.environment.state import State
 
 

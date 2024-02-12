@@ -1,7 +1,10 @@
-from . import (RemoveTargetPageInput, RemoveTargetPageOutput)
-from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
+from dependency_injector.wiring import Provide, inject
+
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.usecase.repository.TargetPageRepository import \
+    TargetPageRepository
+
+from . import RemoveTargetPageInput, RemoveTargetPageOutput
 
 
 class RemoveTargetPageUseCase:

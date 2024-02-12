@@ -1,5 +1,6 @@
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
-from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import CodeCoverageEntity
+from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
+    CodeCoverageEntity
 
 
 def mappingCodeCoverageEntityFrom(codeCoverage: CodeCoverage) -> CodeCoverageEntity:

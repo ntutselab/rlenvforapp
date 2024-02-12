@@ -1,10 +1,14 @@
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.usecase.environment.state.entity.AppElementEntity import AppElementEntity
-from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import CodeCoverageEntity
-from RLEnvForApp.usecase.environment.state.entity.StateEntity import StateEntity
-from RLEnvForApp.usecase.environment.state.mapper import AppElementEntityMapper, CodeCoverageEntityMapper
+from RLEnvForApp.usecase.environment.state.entity.AppElementEntity import \
+    AppElementEntity
+from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
+    CodeCoverageEntity
+from RLEnvForApp.usecase.environment.state.entity.StateEntity import \
+    StateEntity
+from RLEnvForApp.usecase.environment.state.mapper import (
+    AppElementEntityMapper, CodeCoverageEntityMapper)
 
 
 def _mappingAppElementEntitiesFrom(appElements: [AppElement]):

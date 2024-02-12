@@ -1,9 +1,12 @@
 import uuid
 
-from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
-from RLEnvForApp.domain.environment.state import State, AppElement
-from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
-from RLEnvForApp.usecase.environment.autOperator.mapper import AppElementDTOMapper
+from RLEnvForApp.domain.environment.autOperator.IAUTOperator import \
+    IAUTOperator
+from RLEnvForApp.domain.environment.state import AppElement, State
+from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import \
+    ICrawler
+from RLEnvForApp.usecase.environment.autOperator.mapper import \
+    AppElementDTOMapper
 
 
 class DefaultHtmlFileOperator(IAUTOperator):

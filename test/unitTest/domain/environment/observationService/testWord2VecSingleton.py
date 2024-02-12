@@ -1,6 +1,7 @@
 import unittest
 
-from RLEnvForApp.domain.environment.observationService.converter.Word2VecSingleton import Word2VecSingleton
+from RLEnvForApp.domain.environment.observationService.converter.Word2VecSingleton import \
+    Word2VecSingleton
 
 
 class testWord2VecSingleton(unittest.TestCase):

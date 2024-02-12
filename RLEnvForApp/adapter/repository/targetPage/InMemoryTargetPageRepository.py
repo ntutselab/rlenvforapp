@@ -1,4 +1,5 @@
-from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
+from RLEnvForApp.usecase.repository.TargetPageRepository import \
+    TargetPageRepository
 from RLEnvForApp.usecase.targetPage.entity import TargetPageEntity
 
 

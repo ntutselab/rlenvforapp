@@ -1,6 +1,7 @@
 
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
 
 
 class EpisodeHandlerFactory:

@@ -2,18 +2,26 @@
 import numpy as np
 
 from RLEnvForApp.domain.environment import inputSpace
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.domain.environment.inputSpace import CategoryListSingleton, inputTypes
-from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
+from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import \
+    CosineSimilarityService
+from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import \
+    IEpisodeHandler
+from RLEnvForApp.domain.environment.inputSpace import (CategoryListSingleton,
+                                                       inputTypes)
+from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import \
+    FastTextSingleton
+from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import \
+    IActionIndicationService
+from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
+    IRewardCalculatorService
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import IActionIndicationService
-from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
+from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import \
+    ITargetIndicationService
+from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.executeAction.ActionIndicationService.CheckHTMLLogActionIndicationService import \
     CheckHTMLLogActionIndicationService
-from RLEnvForApp.usecase.targetPage.ITargetIndicationService.HTMLLogIndicationService import HTMLLogIndicationService
-from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import CosineSimilarityService
-from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
-from RLEnvForApp.logger.logger import Logger
+from RLEnvForApp.usecase.targetPage.ITargetIndicationService.HTMLLogIndicationService import \
+    HTMLLogIndicationService
 
 
 class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):

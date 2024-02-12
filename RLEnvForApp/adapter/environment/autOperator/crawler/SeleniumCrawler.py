@@ -1,17 +1,19 @@
 import io
-import numpy
 import re
 import time
 from io import StringIO
 from urllib.parse import urlparse
-from PIL import Image
 
+import numpy
 from lxml import etree
+from PIL import Image
 from selenium import webdriver
 
 from RLEnvForApp.logger.logger import Logger
-from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import \
+    ICrawler
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
 
 EVENT_WAITING_TIME = 1000
 PAGE_WAITING_TIME = 1000

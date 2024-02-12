@@ -1,6 +1,7 @@
 import unittest
 
-from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
+from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import \
+    FastTextSingleton
 
 
 class testFastTextSingleton(unittest.TestCase):

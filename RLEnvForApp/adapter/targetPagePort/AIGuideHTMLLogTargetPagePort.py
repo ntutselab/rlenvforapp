@@ -1,11 +1,10 @@
-import os
 import json
+import os
 
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
-from RLEnvForApp.usecase.targetPage.create import (
-    CreateTargetPageUseCase,
-    CreateTargetPageOutput,
-    CreateTargetPageInput)
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
+                                                   CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 

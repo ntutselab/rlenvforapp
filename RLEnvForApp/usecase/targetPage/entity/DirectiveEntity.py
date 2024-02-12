@@ -1,4 +1,5 @@
-from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import CodeCoverageEntity
+from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
+    CodeCoverageEntity
 from RLEnvForApp.usecase.targetPage.entity.AppEventEntity import AppEventEntity
 
 

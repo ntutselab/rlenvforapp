@@ -1,4 +1,5 @@
-from RLEnvForApp.usecase.environment.state.entity.StateEntity import StateEntity
+from RLEnvForApp.usecase.environment.state.entity.StateEntity import \
+    StateEntity
 
 
 class EpisodeHandlerEntity:

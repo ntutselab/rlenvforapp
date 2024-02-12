@@ -1,15 +1,20 @@
 import time
 import uuid
 
-from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
-from RLEnvForApp.domain.environment.state import State, AppElement
+from RLEnvForApp.domain.environment.autOperator.IAUTOperator import \
+    IAUTOperator
+from RLEnvForApp.domain.environment.state import AppElement, State
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCoverageCollector import \
     ICodeCoverageCollector
-from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
-from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
-from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
-from RLEnvForApp.usecase.environment.autOperator.mapper import AppElementDTOMapper
+from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import \
+    ICrawler
+from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
+    AppElementDTO
+from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
+    CodeCoverageDTO
+from RLEnvForApp.usecase.environment.autOperator.mapper import \
+    AppElementDTOMapper
 
 
 class AIGUIDEOperator(IAUTOperator):
