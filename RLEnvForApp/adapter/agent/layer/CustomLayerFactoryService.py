@@ -4,6 +4,7 @@ from stable_baselines.common.policies import nature_cnn
 
 
 class CustomLayerFactoryService:
+    @staticmethod
     def createIRobotCNNLayer(inputLayer, activation_fn=tf.nn.leaky_relu):
         layer_1 = tf.contrib.layers.conv2d(inputLayer, 32, [1, 7], [1, 4], activation_fn=activation_fn)
         layer_2 = tf.contrib.layers.conv2d(layer_1, 32, [1, 7], [1, 4], activation_fn=activation_fn)
@@ -18,21 +19,27 @@ class CustomLayerFactoryService:
         flattened = tf.contrib.layers.flatten(max_pool3)
         return flattened
 
+    @staticmethod
     def createFlattenLayer(inputLayer):
         return tf.contrib.layers.flatten(inputLayer)
 
+    @staticmethod
     def createReshapeLayer(inputLayer, shape):
         return tf.reshape(inputLayer, shape=shape)
 
+    @staticmethod
     def createSplitLayer(value, num_or_size_splits, axis=0):
         return tf.split(value, num_or_size_splits, axis)
 
+    @staticmethod
     def createConcatLayer(values, axis):
         return tf.concat(values, axis)
 
+    @staticmethod
     def createCNNLayer(inputLayer, extractor=nature_cnn):
         return extractor(inputLayer)
 
+    @staticmethod
     def createMLPLayer(inputLayer, layers: list = [64, 64], activation_fn=pf.activations.get_activation("gelu")):
         outputLayer = inputLayer
 
@@ -41,5 +48,6 @@ class CustomLayerFactoryService:
 
         return outputLayer
 
+    @staticmethod
     def createFullyConnectedLayer(inputLayer, layer_size, activation_fn):
         return tf.contrib.layers.fully_connected(inputLayer, layer_size, activation_fn)
