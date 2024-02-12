@@ -24,7 +24,8 @@ class AIGuideEpisodeHandler(IEpisodeHandler):
         if len(lastState.getFocusVector()) == 0:
             return True
 
-        if super().getEpisodeStep() != -1 and super().getEpisodeStep() <= len(super().getAllState()) - 1:
+        if super().getEpisodeStep() != - \
+                1 and super().getEpisodeStep() <= len(super().getAllState()) - 1:
             return True
 
         for lastCoverage in lastCoverages:

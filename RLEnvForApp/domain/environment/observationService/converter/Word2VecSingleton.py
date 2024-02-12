@@ -56,4 +56,5 @@ class Word2VecSingleton:
 
     def removeSymbols(self, word: str):
         # print("Original:", word, ", SymbolRemoved:", word.translate(str.maketrans('', '', string.punctuation)).strip())
-        return word.translate(str.maketrans('', '', string.punctuation)).strip()  # remove symbols
+        return word.translate(str.maketrans(
+            '', '', string.punctuation)).strip()  # remove symbols

@@ -12,7 +12,8 @@ from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
 class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self, serverIp, serverPort):
         super().__init__()
-        self._serverRootUrl = 'http://{ip}:{port}'.format(ip=serverIp, port=serverPort)
+        self._serverRootUrl = 'http://{ip}:{port}'.format(
+            ip=serverIp, port=serverPort)
         self.session = self._requestsRetrySession()
 
     def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
@@ -31,9 +32,13 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
         try:
             # istanbul allows reset on GET as well
             # so here we simply use GET to reset the coverage
-            response = self.session.get("{}{}".format(self._serverRootUrl, "/coverage/reset"))
+            response = self.session.get(
+                "{}{}".format(
+                    self._serverRootUrl,
+                    "/coverage/reset"))
         except Exception as e:
-            Logger().info(f"Failed at resetting coverage {e.__class__.__name__}")
+            Logger().info(
+                f"Failed at resetting coverage {e.__class__.__name__}")
         else:
             if response.status_code != requests.codes.ok:
                 raise Exception('Reset coverage error!')
@@ -56,10 +61,14 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
         try:
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
-            response = self.session.get("{}{}".format(self._serverRootUrl, "/coverage/object"))
+            response = self.session.get(
+                "{}{}".format(
+                    self._serverRootUrl,
+                    "/coverage/object"))
             codeCoverageValueVectorList = [list(v[coverageTypeIndicator].values())
                                            for v in response.json().values()]
-            codeCoverageValueVector = self._flatList(codeCoverageValueVectorList)
+            codeCoverageValueVector = self._flatList(
+                codeCoverageValueVectorList)
             codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(
                 codeCoverageValueVector=codeCoverageValueVector)
             return codeCoverageVector
@@ -75,7 +84,8 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
                 flattenedList.append(i)
         return flattenedList
 
-    def _convertCodeCoverageValueVectorToCodeCoverageVector(self, codeCoverageValueVector):
+    def _convertCodeCoverageValueVectorToCodeCoverageVector(
+            self, codeCoverageValueVector):
         codeCoverageVector = []
         for i in codeCoverageValueVector:
             codeCoverageVector.append(i != 0)

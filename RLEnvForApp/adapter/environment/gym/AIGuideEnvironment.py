@@ -94,7 +94,7 @@ class AIGuideEnvironment(gym.Env):
         #                                                                            rootUrl="http://{ip}:{port}/".format(
         #                                                                                ip=self._applicationIp,
         #                                                                                port=self._applicationPort),
-        #                                                                            codeCoverageType=self._codeCoverageType)
+        # codeCoverageType=self._codeCoverageType)
 
         self._targetPageId = ""
         self._episodeHandlerId = ""
@@ -104,19 +104,23 @@ class AIGuideEnvironment(gym.Env):
         self._episodeReward = 0
         self._stepsInformation = ""
         self._originalObservation = {}
-        # The _pauseInterval represents how many steps the agent will stop and let the crawler play
+        # The _pauseInterval represents how many steps the agent will stop and
+        # let the crawler play
         self._pauseInterval = 2000
         self._pauseTotalStep = self._pauseInterval
 
         initiateEnvUseCase = InitiateEnvironmentUseCase.InitiateEnvironmentUseCase()
         initiateEnvInput = InitiateEnvironmentInput.InitiateEnvironmentInput()
         initiateEnvOutput = InitiateEnvironmentOutput.InitiateEnvironmentOutput()
-        initiateEnvUseCase.execute(input=initiateEnvInput, output=initiateEnvOutput)
+        initiateEnvUseCase.execute(
+            input=initiateEnvInput,
+            output=initiateEnvOutput)
 
         self._logger.info(f"Action List: {initiateEnvOutput.getActionList()}")
         self._observation_shape = initiateEnvOutput.getObservationSize()
 
-        self.action_space = gym.spaces.Discrete(initiateEnvOutput.getActionSpaceSize())
+        self.action_space = gym.spaces.Discrete(
+            initiateEnvOutput.getActionSpaceSize())
         self.observation_space = gym.spaces.Box(low=-numpy.inf,
                                                 high=numpy.inf,
                                                 shape=self._observation_shape,
@@ -162,7 +166,9 @@ class AIGuideEnvironment(gym.Env):
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
 
         try:
-            executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+            executeActionUseCase.execute(
+                input=executeActionInput,
+                output=executeActionOutput)
         except Exception as e:
             self._logger.exception(f"Something wrong when execute action: {e}")
             traceback.print_exc()
@@ -175,7 +181,8 @@ class AIGuideEnvironment(gym.Env):
                                  "\tReward:" + "{: 4.3f}".format(executeActionOutput.getReward()) + \
                                  "\tFocusElement: " + str(self._originalObservation).ljust(64) + \
                                  "\tXpath: " + focusElementXpath + \
-                                 "\tCodeCoverage:" + str(executeActionOutput.getCodeCoverageDict())
+                                 "\tCodeCoverage:" + \
+            str(executeActionOutput.getCodeCoverageDict())
         self._logger.info(self._stepsInformation)
 
         observation = numpy.array(executeActionOutput.getObservation())
@@ -185,12 +192,16 @@ class AIGuideEnvironment(gym.Env):
         self._totalStep += 1
 
         self._originalObservation = executeActionOutput.getOriginalObservation()
-        self._originalObservation = self._stripDictionaryContents(self._originalObservation)
+        self._originalObservation = self._stripDictionaryContents(
+            self._originalObservation)
         return observation, executeActionOutput.getReward(), executeActionOutput.getIsDone(), {
             "Reward": executeActionOutput.getReward()}
 
     def reset(self):
-        self._logger.info("Episode reward:" + "{:3}".format(self._episodeReward))
+        self._logger.info(
+            "Episode reward:" +
+            "{:3}".format(
+                self._episodeReward))
         self._stepsInformation = ""
         self._episodeReward = 0
 
@@ -202,7 +213,8 @@ class AIGuideEnvironment(gym.Env):
                 episodeHandlerEntity)
             states = episodeHandler.getAllState()
             if states[-2].getActionType() == "click" and states[-2].getInteractedElement():
-                interactiveAppElement: AppElement = states[-2].getInteractedElement()
+                interactiveAppElement: AppElement = states[-2].getInteractedElement(
+                )
                 tagName = interactiveAppElement.getTagName()
                 tagType = interactiveAppElement.getType()
                 if tagName == "button" or tagName == "a" or (tagName == 'input' and (
@@ -214,8 +226,10 @@ class AIGuideEnvironment(gym.Env):
 
         if isLegalDirective:
             try:
-                self._logger.info(f"Find legal directive, target page id: {self._targetPageId}")
-                self._logger.info(f"Number of attempts: {self._formCounts[self._targetPageId]}")
+                self._logger.info(
+                    f"Find legal directive, target page id: {self._targetPageId}")
+                self._logger.info(
+                    f"Number of attempts: {self._formCounts[self._targetPageId]}")
                 self._targetPagePort.pushTargetPage(targetPageId=self._targetPageId,
                                                     episodeHandlerId=self._episodeHandlerId)
             except Exception as ex:
@@ -226,7 +240,8 @@ class AIGuideEnvironment(gym.Env):
 
         self._targetPagePort.pullTargetPage()
 
-        self._logger.info("\n\n=======================Reset environment.Env=======================")
+        self._logger.info(
+            "\n\n=======================Reset environment.Env=======================")
         self._episodeIndex += 1
         self._stepNumber = 1
 
@@ -237,10 +252,14 @@ class AIGuideEnvironment(gym.Env):
             episodeIndex=self._episodeIndex)
         resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         try:
-            resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
+            resetEnvUseCase.execute(
+                input=resetEnvUseInput,
+                output=resetEnvUseOutput)
         except RuntimeError:
             self._autController.resetAUTServer(True)
-            resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
+            resetEnvUseCase.execute(
+                input=resetEnvUseInput,
+                output=resetEnvUseOutput)
 
         self._episodeHandlerId = resetEnvUseOutput.getEpisodeHandlerId()
         self._targetPageId = resetEnvUseOutput.getTargetPageId()
@@ -254,7 +273,8 @@ class AIGuideEnvironment(gym.Env):
         self._logger.info("Episode Handler Amount:" +
                           "{:2}".format(len(self._episodeHandlerRepository.findAll())))
         self._logger.info("Target page id is: " + self._targetPageId)
-        self._logger.info("==========================================================\n\n")
+        self._logger.info(
+            "==========================================================\n\n")
 
         self._targetFormXPath = resetEnvUseOutput.getFormXPath()
 
@@ -266,7 +286,8 @@ class AIGuideEnvironment(gym.Env):
         observation = numpy.array(resetEnvUseOutput.getObservation())
         observation.resize(self._observation_shape)
 
-        self._originalObservation = self._stripDictionaryContents(self._originalObservation)
+        self._originalObservation = self._stripDictionaryContents(
+            self._originalObservation)
         self._updateTargetPage()
         self._isFirstStep = True
         return observation
@@ -294,9 +315,12 @@ class AIGuideEnvironment(gym.Env):
                                                                             basicCodeCoverageDTO=codeCoverageDTO)
         updateTargetPageOutput = UpdateTargetPageOutput.UpdateTargetPageOutput()
         updateTargetPageUseCase = UpdateTargetPageUseCase.UpdateTargetPageUseCase()
-        updateTargetPageUseCase.execute(input=updateTargetPageInput, output=updateTargetPageOutput)
+        updateTargetPageUseCase.execute(
+            input=updateTargetPageInput,
+            output=updateTargetPageOutput)
 
-    def _getCodeCoverageByType(self, codeCoverageDTOs: [CodeCoverageDTO], codeCoverageType: str):
+    def _getCodeCoverageByType(self, codeCoverageDTOs: [
+                               CodeCoverageDTO], codeCoverageType: str):
         for codeCoverageDTO in codeCoverageDTOs:
             if codeCoverageDTO.getCodeCoverageType() == codeCoverageType:
                 return codeCoverageDTO

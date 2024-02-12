@@ -64,7 +64,8 @@ class testAIGuideRewardCalculatorService(unittest.TestCase):
             directiveB)
 
     def createCodeCoverage(self, type: str, coverageVector: [bool]):
-        return CodeCoverage(codeCoverageType=type, codeCoverageVector=coverageVector)
+        return CodeCoverage(codeCoverageType=type,
+                            codeCoverageVector=coverageVector)
 
     def createAppEvent(self, xpath: str = "", value: str = ""):
         return AppEvent(xpath=xpath, value=value)

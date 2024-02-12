@@ -10,7 +10,8 @@ class DefaultForTestEpisodeHandler(IEpisodeHandler):
 
     def isDone(self) -> bool:
         lastState: State = self.getState(super().getNumberOfState() - 1)
-        if super().getEpisodeStep() != -1 and super().getEpisodeStep() <= len(super().getAllState()):
+        if super().getEpisodeStep() != - \
+                1 and super().getEpisodeStep() <= len(super().getAllState()):
             return True
         if lastState.getActionType() == "click":
             return True

@@ -31,7 +31,8 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
             reward = self._getClickReward()
 
         if episodeHandler.isDone():
-            reward = self._getEpisodeDoneReward(appElements=lastState.getAllSelectedAppElements())
+            reward = self._getEpisodeDoneReward(
+                appElements=lastState.getAllSelectedAppElements())
 
         return reward
 

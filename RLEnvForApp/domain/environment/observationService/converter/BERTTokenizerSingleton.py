@@ -22,7 +22,8 @@ class BERTTokenizerSingleton:
             self._id = id(self)
             self._model_dir = "model/bert/uncased_L-2_H-128_A-2"
             self._vocab_file = os.path.join(self._model_dir, "vocab.txt")
-            self._tokenizer = bert.bert_tokenization.FullTokenizer(self._vocab_file, True)
+            self._tokenizer = bert.bert_tokenization.FullTokenizer(
+                self._vocab_file, True)
             BERTTokenizerSingleton._instance = self
             Logger().info("done")
 

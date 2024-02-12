@@ -13,7 +13,9 @@ from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 def _mappingAppElementDTOsFrom(appElements: [AppElement]):
     appElementDTOs: [AppElementDTO] = []
     for appElement in appElements:
-        appElementDTOs.append(AppElementDTOMapper.mappingAppElementDTOFrom(appElement=appElement))
+        appElementDTOs.append(
+            AppElementDTOMapper.mappingAppElementDTOFrom(
+                appElement=appElement))
     return appElementDTOs
 
 
@@ -38,6 +40,8 @@ def mappingStateDTOFrom(state: State):
             state.getAllSelectedAppElements()))
     stateDTO.setFocusVector(state.getFocusVector())
     stateDTO.setActionType(state.getActionType())
-    stateDTO.setCodeCoverages(_mappingCodeCoverageDTOsFrom(state.getCodeCoverages()))
+    stateDTO.setCodeCoverages(
+        _mappingCodeCoverageDTOsFrom(
+            state.getCodeCoverages()))
     stateDTO.setAppEventValue(state.getAppEventInputValue())
     return stateDTO

@@ -25,7 +25,8 @@ class AIGuideNoCoverageEpisodeHandler(IEpisodeHandler):
             Logger().info("Episode is done because the state has no focus vector.")
             return True
 
-        if super().getEpisodeStep() != -1 and super().getEpisodeStep() + 1 <= len(self._states):
+        if super().getEpisodeStep() != - \
+                1 and super().getEpisodeStep() + 1 <= len(self._states):
             Logger().info("Episode is done because the episode step exceeded.")
             return True
 
@@ -38,7 +39,8 @@ class AIGuideNoCoverageEpisodeHandler(IEpisodeHandler):
 
     def _isAllInputTagHasValue(self, appElements: [AppElement]):
         for i in appElements:
-            if i.getTagName() == "input" and (i.getType() != "button" and i.getType() != "submit"):
+            if i.getTagName() == "input" and (
+                    i.getType() != "button" and i.getType() != "submit"):
                 if i.getValue() == "":
                     return False
         return True

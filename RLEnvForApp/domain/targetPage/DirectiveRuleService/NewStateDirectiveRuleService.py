@@ -14,7 +14,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def __init__(self):
         super().__init__()
 
-    def isLegal(self, targetPageId: str, beforeActionDom: str, afterActionDom="") -> bool:
+    def isLegal(self, targetPageId: str, beforeActionDom: str,
+                afterActionDom="") -> bool:
         if afterActionDom == "":
             Logger().info("afterActionDom is empty string")
             return False
@@ -29,7 +30,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
             return not (dom_similarity == -1 or dom_similarity >= 95)
         elif form_submit_criteria["verify"] == "keyword":
-            return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
+            return not self._isDomContainKeyword(
+                afterActionDom, form_submit_criteria["keyword"])
         else:
             raise Exception(
                 f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")

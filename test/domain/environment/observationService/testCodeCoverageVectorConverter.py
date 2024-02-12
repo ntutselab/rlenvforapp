@@ -17,7 +17,8 @@ class testCodeCoverageVectorConverter(unittest.TestCase):
             codeCoverageType="branch coverage", codeCoverageVector=[3, 2, 1, 0])
         codeCoverageVector = codeCoverage.getCodeCoverageVector()
 
-        listCodeCoverageFeature = CodeCoverageVectorConverter().convert(stateElement=codeCoverageVector)
+        listCodeCoverageFeature = CodeCoverageVectorConverter().convert(
+            stateElement=codeCoverageVector)
 
         self.assertNotEqual([3, 2, 1, 0], listCodeCoverageFeature)
         self.assertEqual([1, 1, 1, 0], listCodeCoverageFeature)

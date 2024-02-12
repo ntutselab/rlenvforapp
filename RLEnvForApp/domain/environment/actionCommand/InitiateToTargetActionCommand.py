@@ -25,8 +25,10 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
                 operator.resetCrawler(self._rootPath, self._formXPath)
                 Logger().info("=====start the initial action=====")
                 for appEvent in self._appEvents:
-                    Logger().info(f"Xpath: {appEvent.getXpath()}, value: {appEvent.getValue()}")
-                    operator.executeAppEvent(xpath=appEvent.getXpath(), value=appEvent.getValue())
+                    Logger().info(
+                        f"Xpath: {appEvent.getXpath()}, value: {appEvent.getValue()}")
+                    operator.executeAppEvent(
+                        xpath=appEvent.getXpath(), value=appEvent.getValue())
                 isSuccess = True
             except Exception as e:
                 Logger().info(f"InitiateToTargetActionCommand Exception, {e}")

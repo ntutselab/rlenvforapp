@@ -17,8 +17,12 @@ class testCodeCoverage(unittest.TestCase):
 
         improvedCodeCoverage = codeCoverage.getImprovedCodeCoverage(
             originalCodeCovreage=originCodeCoverage)
-        self.assertEqual(improvedCodeCoverage.getCodeCoverageType(), "Improved: statement")
-        self.assertEqual(improvedCodeCoverage.getCodeCoverageVector(), [0, 0, 1, 0])
+        self.assertEqual(
+            improvedCodeCoverage.getCodeCoverageType(),
+            "Improved: statement")
+        self.assertEqual(
+            improvedCodeCoverage.getCodeCoverageVector(), [
+                0, 0, 1, 0])
 
     def testTest(self):
         xpath = "/html/body/div/form/div[2]/div/input".upper()

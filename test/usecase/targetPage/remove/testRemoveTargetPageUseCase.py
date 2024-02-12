@@ -28,6 +28,10 @@ class testRemoveTargetPageUseCase(unittest.TestCase):
             targetPageId=targetPageId)
         removeTargetPageOutput = RemoveTargetPageOutput.RemoveTargetPageOutput()
 
-        removeTargetPageUseCase.execute(input=removeTargetPageInput, output=removeTargetPageOutput)
+        removeTargetPageUseCase.execute(
+            input=removeTargetPageInput,
+            output=removeTargetPageOutput)
 
-        self.assertIsNone(self._targetPageRepository.findById(removeTargetPageOutput.getId()))
+        self.assertIsNone(
+            self._targetPageRepository.findById(
+                removeTargetPageOutput.getId()))

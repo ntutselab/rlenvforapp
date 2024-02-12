@@ -25,7 +25,8 @@ class CreateTargetPageUseCase:
 
     def execute(self, input: CreateTargetPageInput.CreateTargetPageInput,
                 output: CreateTargetPageOutput.CreateTargetPageOutput):
-        appEvents: [AppEvent] = self._convertAppEventDTOsToAppEvents(input.getAppEventDTOs())
+        appEvents: [AppEvent] = self._convertAppEventDTOsToAppEvents(
+            input.getAppEventDTOs())
         codeCoverage: CodeCoverage = self._convertCodeCoverageDTOToCodeCoverage(
             input.getBasicCodeCoverage())
         directives: [Directive] = self._convertDirectiveDTOsToDirective(
@@ -38,7 +39,8 @@ class CreateTargetPageUseCase:
                                 formXPath=input.getFormXPath(),
                                 basicCodeCoverage=codeCoverage,
                                 directives=directives)
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage)
+        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+            targetPage=targetPage)
 
         self._repository.add(targetPageEntity=targetPageEntity)
         output.setId(targetPage.getId())
@@ -51,7 +53,8 @@ class CreateTargetPageUseCase:
 
         return appEvents
 
-    def _convertCodeCoverageDTOToCodeCoverage(self, codeCoverageDTO) -> CodeCoverage:
+    def _convertCodeCoverageDTOToCodeCoverage(
+            self, codeCoverageDTO) -> CodeCoverage:
         if codeCoverageDTO is None:
             codeCoverage: CodeCoverage = CodeCoverage(
                 codeCoverageType="null", codeCoverageVector=[])
@@ -63,5 +66,7 @@ class CreateTargetPageUseCase:
     def _convertDirectiveDTOsToDirective(self, directiveDTOs) -> [Directive]:
         directives: [Directive] = []
         for directiveDTO in directiveDTOs:
-            directives.append(DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO))
+            directives.append(
+                DirectiveDTOMapper.mappingDirectiveFrom(
+                    directiveDTO=directiveDTO))
         return directives

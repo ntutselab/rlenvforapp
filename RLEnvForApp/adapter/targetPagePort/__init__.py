@@ -1,5 +1,2 @@
-__all__ = [
-    "ITargetPagePort",
-    "AIGuideTargetPagePort",
-    "AIGuideHTMLLogTargetPagePort",
-    "AIGuideVerifyTargetPagePort"]
+__all__ = ["ITargetPagePort", "AIGuideTargetPagePort", "AIGuideHTMLLogTargetPagePort",
+           "AIGuideVerifyTargetPagePort"]

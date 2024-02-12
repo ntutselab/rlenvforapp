@@ -13,11 +13,14 @@ from RLEnvForApp.usecase.targetPage.mapper import (AppEventDTOMapper,
 def mappingTargetPageDTOFrom(targetPage: TargetPage):
     appEventDTOs: [AppEventDTO] = []
     for appEvent in targetPage.getAppEvents():
-        appEventDTOs.append(AppEventDTOMapper.mappingAppEventDTOFrom(appEvent=appEvent))
+        appEventDTOs.append(
+            AppEventDTOMapper.mappingAppEventDTOFrom(
+                appEvent=appEvent))
 
     directiveDTOs: [DirectiveDTO] = []
     for directive in targetPage.getDirectives():
-        directiveDTOs.append(DirectiveDTOMapper.mappingDirectiveDTOFrom(directive))
+        directiveDTOs.append(
+            DirectiveDTOMapper.mappingDirectiveDTOFrom(directive))
 
     return TargetPageDTO(id=targetPage.getId(),
                          targetUrl=targetPage.getTargetUrl(),
@@ -33,11 +36,15 @@ def mappingTargetPageDTOFrom(targetPage: TargetPage):
 def mappingTargetPageFrom(targetPageDTO: TargetPageDTO):
     appEvents: [AppEvent] = []
     for appEventDTO in targetPageDTO.getAppEventDTOs():
-        appEvents.append(AppEventDTOMapper.mappingAppEventFrom(appEventDTO=appEventDTO))
+        appEvents.append(
+            AppEventDTOMapper.mappingAppEventFrom(
+                appEventDTO=appEventDTO))
 
     directives: [Directive] = []
     for directiveDTO in targetPageDTO.getDirectiveDTOs():
-        directives.append(DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO))
+        directives.append(
+            DirectiveDTOMapper.mappingDirectiveFrom(
+                directiveDTO=directiveDTO))
     return TargetPage(id=targetPageDTO.getId(),
                       targetUrl=targetPageDTO.getTargetUrl(),
                       rootUrl=targetPageDTO.getRootUrl(),

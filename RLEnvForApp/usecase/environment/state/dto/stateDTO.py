@@ -68,7 +68,8 @@ class StateDTO:
     def getInterActedElementDTO(self) -> AppElementDTO:
         return self._interactedElement
 
-    def setSelectedAppElementDTOs(self, selectedAppElementEntities: [AppElementDTO]):
+    def setSelectedAppElementDTOs(
+            self, selectedAppElementEntities: [AppElementDTO]):
         self._selectedAppElementDTOs = selectedAppElementEntities
 
     def getSelectedAppElementDTOs(self) -> [AppElementDTO]:

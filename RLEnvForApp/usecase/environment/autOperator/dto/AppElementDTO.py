@@ -1,5 +1,6 @@
 class AppElementDTO:
-    def __init__(self, tagName: str, name: str, type: str, xpath: str, value: str):
+    def __init__(self, tagName: str, name: str,
+                 type: str, xpath: str, value: str):
         self._tagName = tagName
         self._name = name
         self._type = type

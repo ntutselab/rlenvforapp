@@ -14,18 +14,21 @@ from RLEnvForApp.usecase.environment.state.mapper import (
 def _mappingAppElementEntitiesFrom(appElements: [AppElement]):
     appElementEntities: [AppElementEntity] = []
     for appElement in appElements:
-        appElementEntities.append(AppElementEntityMapper.mappingAppElementEntityFrom(appElement))
+        appElementEntities.append(
+            AppElementEntityMapper.mappingAppElementEntityFrom(appElement))
     return appElementEntities
 
 
 def _mappingAppElementFrom(appElementEntities: [AppElementEntity]):
     appElements: [AppElement] = []
     for appElementEntity in appElementEntities:
-        appElements.append(AppElementEntityMapper.mappingAppElementEntityFrom(appElementEntity))
+        appElements.append(
+            AppElementEntityMapper.mappingAppElementEntityFrom(appElementEntity))
     return appElements
 
 
-def _mappingCodeCoverageEntitiesFrom(codeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
+def _mappingCodeCoverageEntitiesFrom(
+        codeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
     codeCoverageEntityList: [CodeCoverageEntity] = []
     for codeCoverage in codeCoverages:
         codeCoverageEntityList.append(
@@ -33,7 +36,8 @@ def _mappingCodeCoverageEntitiesFrom(codeCoverages: [CodeCoverage]) -> [CodeCove
     return codeCoverageEntityList
 
 
-def _mappingCodeCoveragesFrom(codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
+def _mappingCodeCoveragesFrom(
+        codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageEntity in codeCoverageEntities:
         codeCoverages.append(
@@ -55,7 +59,9 @@ def mappingStateEntiyFrom(state: State) -> StateEntity:
             state.getAllSelectedAppElements()))
     stateEntity.setFocusVector(state.getFocusVector())
     stateEntity.setActionType(state.getActionType())
-    stateEntity.setCodeCoverages(_mappingCodeCoverageEntitiesFrom(state.getCodeCoverages()))
+    stateEntity.setCodeCoverages(
+        _mappingCodeCoverageEntitiesFrom(
+            state.getCodeCoverages()))
     stateEntity.setInputValue(state.getAppEventInputValue())
     stateEntity.setActionNumber(state.getActionNumber())
     stateEntity.setOriginalObservation(state.getOriginalObservation())
@@ -73,7 +79,9 @@ def mappingStateFrom(stateEntity: StateEntity):
         stateEntity.getSelectedAppElementEntities()))
     state.setFocusVector(stateEntity.getFocusVector())
     state.setActionType(stateEntity.getActionType())
-    state.setCodeCoverages(_mappingCodeCoveragesFrom(stateEntity.getCodeCoverages()))
+    state.setCodeCoverages(
+        _mappingCodeCoveragesFrom(
+            stateEntity.getCodeCoverages()))
     state.setAppEventInputValue(stateEntity.getInputValue())
     state.setActionNumber(stateEntity.getActionNumber())
     state.setOriginalObservation(stateEntity.getOriginalObservation())

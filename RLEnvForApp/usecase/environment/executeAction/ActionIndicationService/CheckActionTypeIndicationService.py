@@ -17,12 +17,14 @@ class CheckActionTypeIndicationService(IActionIndicationService):
         if actionType == "click":
             return self._isValidClickAction(appElement=interactedAppElement)
         if actionType == "changeFocus":
-            return self._isValidChangeFocusAction(appElement=interactedAppElement)
+            return self._isValidChangeFocusAction(
+                appElement=interactedAppElement)
 
         return False
 
     def _isValidInputAction(self, appElement: AppElement):
-        if appElement and appElement.getTagName() and appElement.getTagName().lower() == "input":
+        if appElement and appElement.getTagName(
+        ) and appElement.getTagName().lower() == "input":
             return True
         else:
             return False

@@ -34,7 +34,8 @@ class DefaultForTestActionCommandFactoryService(
             return ClickCommand.ClickCommand(actionNumber=actionNumber)
 
         if actionNumber == 1:
-            return ChangeFocusCommand.ChangeFocusCommand(actionNumber=actionNumber)
+            return ChangeFocusCommand.ChangeFocusCommand(
+                actionNumber=actionNumber)
 
         if actionNumber >= 0 and actionNumber < self.getActionSpaceSize():
             indexOfInputData = actionNumber - self._inputActionStartNumber

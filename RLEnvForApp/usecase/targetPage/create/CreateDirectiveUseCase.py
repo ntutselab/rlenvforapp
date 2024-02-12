@@ -26,7 +26,8 @@ from RLEnvForApp.usecase.targetPage.mapper import (DirectiveDTOMapper,
 class CreateDirectiveUseCase:
     @inject
     def __init__(self,
-                 targetPageRepository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],
+                 targetPageRepository: TargetPageRepository = Provide[
+                     EnvironmentDIContainers.targetPageRepository],
                  episodeHandlerRepository: EpisodeHandlerRepository = Provide[
                      EnvironmentDIContainers.episodeHandlerRepository],
                  directiveRuleService: IDirectiveRuleService = Provide[EnvironmentDIContainers.directiveRuleService]):
@@ -36,8 +37,10 @@ class CreateDirectiveUseCase:
 
     def execute(self, input: CreateDirectiveInput.CreateDirectiveInput,
                 output: CreateDirectiveOutput.CreateDirectiveOutput):
-        targetPageEntity = self._targetPageRepository.findById(input.getTargetPageId())
-        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPageEntity = self._targetPageRepository.findById(
+            input.getTargetPageId())
+        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
         targetEpisodeHandlerEntity = self._episodeHandlerRepository.findById(
             input.getEpisodeHandlerId())
         episodeEpisodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
@@ -68,7 +71,8 @@ class CreateDirectiveUseCase:
                         value="",
                         category="click"))
             if actionType == "input":
-                if not interactiveAppElement.getTagName() == "input" and not interactiveAppElement.getTagName() == "textarea":
+                if not interactiveAppElement.getTagName(
+                ) == "input" and not interactiveAppElement.getTagName() == "textarea":
                     continue
                 value = state.getAppEventInputValue()
                 if state.getActionNumber():
@@ -93,4 +97,6 @@ class CreateDirectiveUseCase:
             TargetPageEntityMapper.mappingTargetPageEntityFrom(
                 targetPage=targetPage))
 
-        output.setDirectiveDTO(DirectiveDTOMapper.mappingDirectiveDTOFrom(directive=directive))
+        output.setDirectiveDTO(
+            DirectiveDTOMapper.mappingDirectiveDTOFrom(
+                directive=directive))

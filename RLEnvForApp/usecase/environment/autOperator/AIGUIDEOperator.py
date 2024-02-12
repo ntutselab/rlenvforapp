@@ -107,7 +107,8 @@ class AIGUIDEOperator(IAUTOperator):
         otherAppElements: [AppElement] = []
 
         for appElementDTO in self._getAppElementDTOs(retry=10):
-            appElement = AppElementDTOMapper.mappingAppElementFrom(appElementDTO=appElementDTO)
+            appElement = AppElementDTOMapper.mappingAppElementFrom(
+                appElementDTO=appElementDTO)
             if "/input" in appElement.getXpath().lower():
                 inputAppElements.append(appElement)
             elif "/button" in appElement.getXpath().lower():
@@ -122,7 +123,8 @@ class AIGUIDEOperator(IAUTOperator):
         self._selectedAppElements.extend(otherAppElements)
         self._selectedAppElements.extend(buttonAppElements)
 
-    def _mappingCodeCoverageForm(self, codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
+    def _mappingCodeCoverageForm(self, codeCoverageDTOs: [
+                                 CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []
         for i in codeCoverageDTOs:
             codeCoverages.append(

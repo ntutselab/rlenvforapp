@@ -14,12 +14,14 @@ class GetAllTargetPageUseCase:
             self, repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository]):
         self._repository = repository
 
-    def execute(self, input: GetAllTargetPageInput, output: GetAllTargetPageOutput):
+    def execute(self, input: GetAllTargetPageInput,
+                output: GetAllTargetPageOutput):
         targetPageDTOs: [TargetPageDTO] = []
         targetPageEntities = self._repository.findAll()
         for targetPageEntity in targetPageEntities:
             targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
                 targetPageEntity=targetPageEntity)
-            targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(targetPage=targetPage)
+            targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(
+                targetPage=targetPage)
             targetPageDTOs.append(targetPageDTO)
         output.setTargetPageDTOs(targetPageDTOs=targetPageDTOs)

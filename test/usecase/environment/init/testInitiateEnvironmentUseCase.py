@@ -23,5 +23,6 @@ class testInitiateEnvironmentUseCase(unittest.TestCase):
         initiateEnvironmentUseCase.execute(
             input=initiateEnvironmentInput,
             output=initiateEnvironmentOutput)
-        self.assertEqual((1, 150, 1), initiateEnvironmentOutput.getObservationSize())
+        self.assertEqual(
+            (1, 150, 1), initiateEnvironmentOutput.getObservationSize())
         self.assertEqual(8, initiateEnvironmentOutput.getActionSpaceSize())

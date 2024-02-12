@@ -7,7 +7,8 @@ class CosineSimilarityService:
     def getCosineSimilarity(vector1, vector2):
         if all(v == 0 for v in vector1) or all(v == 0 for v in vector2):
             return -1.0
-        return np.dot(vector1, vector2) / (np.linalg.norm(vector1) * np.linalg.norm(vector2))
+        return np.dot(vector1, vector2) / \
+            (np.linalg.norm(vector1) * np.linalg.norm(vector2))
 
     @staticmethod
     def getTokens(word: str):

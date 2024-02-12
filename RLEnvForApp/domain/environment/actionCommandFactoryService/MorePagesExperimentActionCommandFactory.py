@@ -33,12 +33,15 @@ class MorePagesExperimentActionCommandFactory(IActionCommandFactoryService):
         inputActionStartNumber = 2
 
         if actionNumber == 0:
-            return IRobotClickCommand.IRobotClickCommand(actionNumber=actionNumber)
+            return IRobotClickCommand.IRobotClickCommand(
+                actionNumber=actionNumber)
 
         if actionNumber == 1:
-            return ChangeFocusCommand.ChangeFocusCommand(actionNumber=actionNumber)
+            return ChangeFocusCommand.ChangeFocusCommand(
+                actionNumber=actionNumber)
 
-        if actionNumber >= 0 and actionNumber < len(self._inputData) + inputActionStartNumber:
+        if actionNumber >= 0 and actionNumber < len(
+                self._inputData) + inputActionStartNumber:
             indexOfInputData = actionNumber - inputActionStartNumber
             return IRobotInputValueCommand.IRobotInputValueCommand(
                 inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)

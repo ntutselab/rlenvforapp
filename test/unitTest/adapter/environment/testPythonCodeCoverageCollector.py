@@ -23,7 +23,10 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
         try:
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
-            response = self.session.get("{}{}".format(self._serverRootUrl, "/coverage-app/object"))
+            response = self.session.get(
+                "{}{}".format(
+                    self._serverRootUrl,
+                    "/coverage-app/object"))
             codeCoverageVector = []
             for filePath in list(response.json().values())[1]:
                 coverageInfo = list(response.json().values())[1][filePath]
@@ -33,9 +36,12 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
                 codeLineVector.extend(coverageInfo["excluded_lines"])
                 fileCoverageVector = []
                 for line in sorted(codeLineVector):
-                    fileCoverageVector.append(line in coverageInfo["executed_lines"])
+                    fileCoverageVector.append(
+                        line in coverageInfo["executed_lines"])
                 codeCoverageVector.extend(fileCoverageVector)
-            c = CodeCoverage(codeCoverageType="statement", codeCoverageVector=codeCoverageVector)
+            c = CodeCoverage(
+                codeCoverageType="statement",
+                codeCoverageVector=codeCoverageVector)
             print(c.getCoveredAmount())
             print(c.getCodeCoverageVectorLength())
             print(c.getRatio())

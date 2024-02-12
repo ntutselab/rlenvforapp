@@ -9,7 +9,9 @@ class testFastTextSingleton(unittest.TestCase):
         self.model = FastTextSingleton.getInstance()
 
     def testGetId(self):
-        self.assertEqual(self.model.getId(), FastTextSingleton.getInstance().getId())
+        self.assertEqual(
+            self.model.getId(),
+            FastTextSingleton.getInstance().getId())
 
     def testGetWordVector(self):
         word_token: str = "word"

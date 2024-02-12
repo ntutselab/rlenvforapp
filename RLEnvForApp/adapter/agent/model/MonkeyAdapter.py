@@ -31,7 +31,8 @@ class MonkeyAdapter:
         # return str(self._env.action_space.sample()), None  # random select
         return self.selectActionByCosineSimilarity(observation), None
 
-    def action_probability(self, observation, state=None, mask=None, actions=None, logp=False):
+    def action_probability(self, observation, state=None,
+                           mask=None, actions=None, logp=False):
         pass
 
     def save(self, save_path, cloudpickle=False):
@@ -95,10 +96,12 @@ class MonkeyAdapter:
         actionList = list(range(self._inputTypeListLength))
         probabilities = [1 / self._inputTypeListLength for _ in actionList]
         probabilities[inputTypeIndex] *= 30
-        probabilities = [float(weight) / sum(actionList) for weight in probabilities]
+        probabilities = [float(weight) / sum(actionList)
+                         for weight in probabilities]
         randomActionType = random.choices(actionList, probabilities)[0]
 
-        Logger().info(f"Similarity: {similarity}, Action: {self._inputTypeList[inputTypeIndex]}")
+        Logger().info(
+            f"Similarity: {similarity}, Action: {self._inputTypeList[inputTypeIndex]}")
         Logger().info(f"Final action: {self._inputTypeList[randomActionType]}")
 
         return str(randomActionType)

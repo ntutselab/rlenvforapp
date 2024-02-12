@@ -29,7 +29,8 @@ class ModelController:
             isContinue = not isDone
         return totalReward
 
-    def playWithExploration(self, environment, explorationEpisodeEsp=0, explorationStepEsp=0):
+    def playWithExploration(
+            self, environment, explorationEpisodeEsp=0, explorationStepEsp=0):
         isContinue = True
         isRandomEpisode = explorationEpisodeEsp > random.random()
         totalReward = 0
@@ -56,7 +57,8 @@ class ModelController:
                 isRandomEpisode = explorationEpisodeEsp > random.random()
                 observation = environment.env_method(method_name="reset")[0]
 
-    def _doOneStep(self, environment, observation, isRandomEpisode, explorationStepEsp=0):
+    def _doOneStep(self, environment, observation,
+                   isRandomEpisode, explorationStepEsp=0):
         isRandomStep = explorationStepEsp > random.random()
         action, state = self._model.predict(observation)
         if isRandomEpisode and isRandomStep:

@@ -17,8 +17,11 @@ modelConfigFilePath = "default_model_config.ini"
 
 
 class DIConfiguration:
-    model_config_path = os.path.join(modelConfigDirectoryPath, modelConfigFilePath)
-    default_config_path = os.path.join(configDirectoryPath, defaultConfigFilePath)
+    model_config_path = os.path.join(
+        modelConfigDirectoryPath,
+        modelConfigFilePath)
+    default_config_path = os.path.join(
+        configDirectoryPath, defaultConfigFilePath)
     config_path = os.path.join(configDirectoryPath, configFilePath)
     config = providers.Configuration()
 

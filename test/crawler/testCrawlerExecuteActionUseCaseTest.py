@@ -43,11 +43,13 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
         self._autRepository = InMemoryApplicationUnderTestRepository()
         self._targetPageRepository = InMemoryTargetPageRepository()
         self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._applicationHandler = DockerServerHandler("RLEnvForApp/application/serverInstance")
+        self._applicationHandler = DockerServerHandler(
+            "RLEnvForApp/application/serverInstance")
         self._hirerarchyInitial = HirerarchyInitial(
             autRepository=self._autRepository,
             applicationHandler=self._applicationHandler)
-        self._hirerarchyInitial.startAUTServer("timeoff_management_with_coverage")
+        self._hirerarchyInitial.startAUTServer(
+            "timeoff_management_with_coverage")
         # self._crawler = IRobotCrawler(javaPort=50000, pythonPort=50001, crawlerPath="RLEnvForApp/application/crawler/irobot-crawler_screen_shot_v2.jar")
         self._crawler = SeleniumCrawler(browserName="Chrome")
 
@@ -82,41 +84,47 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
             value="Company name")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(1, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            1, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/input[1]", value="Kai")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(2, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            2, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[3]/div[1]/input[1]",
             value="Huang")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(3, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            3, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[4]/div[1]/input[1]",
             value="test@ntut.edu.tw")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(4, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            4, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[5]/div[1]/input[1]",
             value="123456")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(5, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            5, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[6]/div[1]/input[1]",
             value="123456")
         self._autOperator.changeFocus()
         self._autOperator.getFocusedAppElement()
-        self.assertEqual(6, self._autOperator.getState().getFocusVector().index(True))
+        self.assertEqual(
+            6, self._autOperator.getState().getFocusVector().index(True))
 
         self._autOperator.executeAppEvent(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[9]/div[1]/button[1]", value="")
@@ -135,9 +143,11 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
 
         codeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
             serverIp="localhost", serverPort=3000)
-        codeCoverages: [CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
+        codeCoverages: [
+            CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
         for i in codeCoverages:
-            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(i)
+            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                i)
             if i.getCodeCoverageType() == "statement coverage":
                 statementCoverageLength = codeCoverage.getCodeCoverageVectorLength()
                 statementCoveragedAmount = codeCoverage.getCoveredAmount()
@@ -157,19 +167,27 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
         self._createTargetPage()
         self._resetEnv(autOperator=self._autOperator)
         state = self._autOperator.getState()
-        self.assertEqual(0, state.getAllSelectedAppElements().index(state.getInteractedElement()))
+        self.assertEqual(
+            0, state.getAllSelectedAppElements().index(
+                state.getInteractedElement()))
 
         self._executeAction(autOperator=self._autOperator, actionNumber=1)
         state = self._autOperator.getState()
-        self.assertEqual(0, state.getAllSelectedAppElements().index(state.getInteractedElement()))
+        self.assertEqual(
+            0, state.getAllSelectedAppElements().index(
+                state.getInteractedElement()))
 
         self._executeAction(autOperator=self._autOperator, actionNumber=1)
         state = self._autOperator.getState()
-        self.assertEqual(1, state.getAllSelectedAppElements().index(state.getInteractedElement()))
+        self.assertEqual(
+            1, state.getAllSelectedAppElements().index(
+                state.getInteractedElement()))
 
         self._executeAction(autOperator=self._autOperator, actionNumber=1)
         state = self._autOperator.getState()
-        self.assertEqual(2, state.getAllSelectedAppElements().index(state.getInteractedElement()))
+        self.assertEqual(
+            2, state.getAllSelectedAppElements().index(
+                state.getInteractedElement()))
 
     def _executeAction(self, autOperator: IAUTOperator, actionNumber: int):
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=autOperator,
@@ -180,7 +198,9 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=actionNumber, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
         return executeActionOutput
 
     def _createTargetPage(self):
@@ -189,7 +209,8 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
             targetPageUrl="http://localhost:3000", rootUrl="http://localhost:3000", appEventDTOs=[])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _resetEnv(self, autOperator: IAUTOperator):
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=autOperator,
@@ -197,7 +218,8 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
                                                                                   targetPageQueueManagerService=HtmlFileTargetPageQueueManagerService(
                                                                                       repository=self._targetPageRepository),
                                                                                   observationSerivce=DefaultForTestObservationService())
-        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=1)
+        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=1)
         resetEnvironmentUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvironmentUseCase.execute(
             input=resetEnvironmentUseInput,

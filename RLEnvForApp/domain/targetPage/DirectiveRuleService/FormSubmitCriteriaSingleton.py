@@ -32,8 +32,10 @@ class FormSubmitCriteriaSingleton:
     def getFormSubmitCriteria(self) -> dict:
         return self._formSubmitCriteria
 
-    def setFormSubmitCriteria(self, applicationName: str, url: str, xpath: str):
-        Logger().info(f"Find Form Submit Criteria: {applicationName}, {url}, {xpath}")
+    def setFormSubmitCriteria(
+            self, applicationName: str, url: str, xpath: str):
+        Logger().info(
+            f"Find Form Submit Criteria: {applicationName}, {url}, {xpath}")
         byApplicationName = self._OriginFormSubmitCriteria.get(applicationName)
         byUrl = {}
         for key in byApplicationName:
@@ -48,4 +50,5 @@ class FormSubmitCriteriaSingleton:
                     break
 
         self._formSubmitCriteria = byUrl.get(xpath, {})
-        Logger().info(f"Form Submit Criteria set to : {self._formSubmitCriteria}")
+        Logger().info(
+            f"Form Submit Criteria set to : {self._formSubmitCriteria}")

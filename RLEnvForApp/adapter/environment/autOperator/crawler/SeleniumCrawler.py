@@ -40,7 +40,8 @@ class SeleniumCrawler(ICrawler):
                 isGoToRootPageSuccess = "http" in self.getUrl()
             except BaseException:
                 isGoToRootPageSuccess = False
-            isTimeOut = not (goToRootPageRetryCount < CRAWLER_GOTO_ROOT_PAGE_TIMEOUT)
+            isTimeOut = not (goToRootPageRetryCount <
+                             CRAWLER_GOTO_ROOT_PAGE_TIMEOUT)
             time.sleep(1)
         if not isGoToRootPageSuccess:
             Logger().info("SeleniumCrawler Warning: Crawler go to root page time out.")
@@ -69,7 +70,8 @@ class SeleniumCrawler(ICrawler):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
         except Exception as e:
-            Logger().info(f"SeleniumCrawlerWarning: No such element in xpath {xpath}")
+            Logger().info(
+                f"SeleniumCrawlerWarning: No such element in xpath {xpath}")
             raise e
 
         if value == "":
@@ -77,14 +79,16 @@ class SeleniumCrawler(ICrawler):
                 element.click()
                 time.sleep(EVENT_WAITING_TIME / 1000)
             except Exception as e:
-                Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be clicked")
+                Logger().info(
+                    f"SeleniumCrawler Warning: xpath: {xpath} can't be clicked")
                 # raise e
         else:
             try:
                 element.clear()
                 element.send_keys(value)
             except Exception as e:
-                Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be input")
+                Logger().info(
+                    f"SeleniumCrawler Warning: xpath: {xpath} can't be input")
                 # raise e
 
     def getScreenShot(self):
@@ -102,7 +106,8 @@ class SeleniumCrawler(ICrawler):
             elementXpath: str = htmlParser.getpath(element)
             elementHref: str = self._getHtmlTagAttribute(element, "href")
             webElement = self._driver.find_element_by_xpath(elementXpath)
-            if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):
+            if self._isInteractable(
+                    elementXpath) and not self._shouldHrefBeIgnored(elementHref):
                 self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
                                                           name=self._getHtmlTagAttribute(
                                                               element=element, attribute="name"),
@@ -131,15 +136,19 @@ class SeleniumCrawler(ICrawler):
             try:
                 if browserName is "Chrome":
                     chrome_options = webdriver.chrome.options.Options()
-                    chrome_options.add_argument('--no-sandbox')  # root permission
+                    chrome_options.add_argument(
+                        '--no-sandbox')  # root permission
                     chrome_options.add_argument('--disable-dev-shm-usage')
-                    # chrome_options.add_argument('--headless')  # no GUI display
+                    # chrome_options.add_argument('--headless')  # no GUI
+                    # display
                     driver = webdriver.Chrome(chrome_options=chrome_options)
                 elif browserName is "Firefox":
                     firefox_options = webdriver.firefox.options.Options()
-                    firefox_options.add_argument('--no-sandbox')  # root permission
+                    firefox_options.add_argument(
+                        '--no-sandbox')  # root permission
                     firefox_options.add_argument('--disable-dev-shm-usage')
-                    # firefox_options.add_argument('--headless')  # no GUI display
+                    # firefox_options.add_argument('--headless')  # no GUI
+                    # display
                     driver = webdriver.Firefox(firefox_options=firefox_options)
                 isStartBrowser = True
             except BaseException:
@@ -168,7 +177,8 @@ class SeleniumCrawler(ICrawler):
             return False
 
     def _shouldHrefBeIgnored(self, href: str):
-        isFileDownloading = re.match(".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
+        isFileDownloading = re.match(
+            ".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")
         isExternal = not (urlparse(href).netloc == "") and \
             not (urlparse(href).netloc == urlparse(self._rootPath).netloc)

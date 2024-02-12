@@ -15,13 +15,15 @@ from RLEnvForApp.usecase.applicationUnderTest.stop import (
 class testStopApplicationUnderTestUseCase(unittest.TestCase):
     def setUp(self) -> None:
         self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._applicationHandler = DockerServerHandler("RLEnvForApp/application/serverInstance")
+        self._applicationHandler = DockerServerHandler(
+            "RLEnvForApp/application/serverInstance")
         self._hirerarchyInitial = HirerarchyInitial(
             autRepository=self._autRepository,
             applicationHandler=self._applicationHandler)
 
     def test_stop_application_under_testing(self):
-        self._hirerarchyInitial.startAUTServer(applicationName="timeoff_management_with_coverage")
+        self._hirerarchyInitial.startAUTServer(
+            applicationName="timeoff_management_with_coverage")
 
         autEntity = self._autRepository.findAll()[0]
         stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(

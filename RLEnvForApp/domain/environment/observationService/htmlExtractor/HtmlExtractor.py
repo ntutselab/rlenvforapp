@@ -28,7 +28,8 @@ class HtmlExtractor:
             if labelName == "":
                 labelName = self._findClosestLabelName(element=focusElement)
             if labelName == "":
-                labelName = self._getHtmlTagAttribute(element=focusElement, attribute="placeholder")
+                labelName = self._getHtmlTagAttribute(
+                    element=focusElement, attribute="placeholder")
 
         if labelName == "":
             Logger().info(
@@ -45,7 +46,8 @@ class HtmlExtractor:
 
         placeholder = ""
         if focusElement is not None:
-            placeholder = self._getHtmlTagAttribute(element=focusElement, attribute="placeholder")
+            placeholder = self._getHtmlTagAttribute(
+                element=focusElement, attribute="placeholder")
 
         return ' '.join(placeholder.split())
 
@@ -89,7 +91,8 @@ class HtmlExtractor:
                     labelName = etree.tostring(labelElements[0], method="text", encoding="UTF-8").decode(
                         'utf-8').strip()
         except Exception as e:
-            Logger().info(f"HTML Extractor Warning: find closest Label name fail {e}")
+            Logger().info(
+                f"HTML Extractor Warning: find closest Label name fail {e}")
 
         return labelName
 

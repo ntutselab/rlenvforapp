@@ -56,7 +56,8 @@ class VerifyPhaseRewardCalculatorService(IRewardCalculatorService):
         if categoryListVector:
             for categoryVector in categoryListVector:
                 labelCosineSimilarity = max(
-                    CosineSimilarityService.getCosineSimilarity(categoryVector, elementLabelVector),
+                    CosineSimilarityService.getCosineSimilarity(
+                        categoryVector, elementLabelVector),
                     labelCosineSimilarity)
 
         if np.isnan(labelCosineSimilarity):

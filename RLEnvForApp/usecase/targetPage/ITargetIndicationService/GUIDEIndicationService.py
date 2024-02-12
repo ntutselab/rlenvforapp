@@ -12,7 +12,8 @@ class GUIDEIndicationService(ITargetIndicationService):
         super().__init__()
 
     def isConform(self, state: State) -> bool:
-        targetPage: TargetPage = TargetPageProcessingManagerSingleton.getInstance().getBeProcessedTargetPage()
+        targetPage: TargetPage = TargetPageProcessingManagerSingleton.getInstance(
+        ).getBeProcessedTargetPage()
         basicCodeCoverage: CodeCoverage = targetPage.getBasicCodeCoverage()
         targetCodeCoverage: CodeCoverage = targetPage.getTargetCodeCoverage()
         stateCodeCoverage: CodeCoverage = self._getCodeCoverageByType(
@@ -26,7 +27,8 @@ class GUIDEIndicationService(ITargetIndicationService):
         if stateImprovedCodeCoverage.getCoveredAmount() == 0:
             return False
 
-        if stateImprovedCodeCoverage.getCoveredAmount() >= targetImprovedCodeCoverage.getCoveredAmount():
+        if stateImprovedCodeCoverage.getCoveredAmount(
+        ) >= targetImprovedCodeCoverage.getCoveredAmount():
             return True
         else:
             return False

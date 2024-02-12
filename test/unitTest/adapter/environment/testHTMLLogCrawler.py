@@ -26,7 +26,9 @@ class MyTestCase(unittest.TestCase):
             if appElementDTO.getName() == "password":
                 passwoardAppElementDTO = appElementDTO
         self.assertEqual("", passwoardAppElementDTO.getValue())
-        self._crawler.executeAppEvent(xpath=passwoardAppElementDTO.getXpath(), value="testPassword")
+        self._crawler.executeAppEvent(
+            xpath=passwoardAppElementDTO.getXpath(),
+            value="testPassword")
         for appElementDTO in self._crawler.getAllSelectedAppElementsDTOs():
             if appElementDTO.getName() == "password":
                 passwoardAppElementDTO = appElementDTO

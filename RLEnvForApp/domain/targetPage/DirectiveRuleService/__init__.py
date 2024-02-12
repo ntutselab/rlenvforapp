@@ -1,5 +1,2 @@
-__all__ = [
-    "IDirectiveRuleService",
-    "MaxCodeCoverageDirectiveRuleService",
-    "NewStateDirectiveRuleService",
-    "FormSubmitCriteriaSingleton"]
+__all__ = ["IDirectiveRuleService", "MaxCodeCoverageDirectiveRuleService",
+           "NewStateDirectiveRuleService", "FormSubmitCriteriaSingleton"]

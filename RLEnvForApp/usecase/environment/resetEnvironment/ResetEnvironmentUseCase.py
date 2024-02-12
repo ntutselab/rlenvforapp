@@ -54,7 +54,8 @@ class ResetEnvironmentUseCase:
         initiateToTargetActionCommand.execute(operator=self._operator)
 
         state: State = self._operator.getState()
-        observation, originalObservation = self._observationService.getObservation(state=state)
+        observation, originalObservation = self._observationService.getObservation(
+            state=state)
         state.setOriginalObservation(originalObservation)
 
         episodeHandler.appendState(state)

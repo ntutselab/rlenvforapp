@@ -2,7 +2,8 @@ from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 
 
 class EpisodeHandlerDTO:
-    def __init__(self, id: str, episodeIndex: int, episodeStep: int, stateDTOs: [StateDTO]):
+    def __init__(self, id: str, episodeIndex: int,
+                 episodeStep: int, stateDTOs: [StateDTO]):
         self._id = id
         self._episodeIndex = episodeIndex
         self._episodeStep = episodeStep

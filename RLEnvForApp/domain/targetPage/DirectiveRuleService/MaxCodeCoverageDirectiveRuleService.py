@@ -10,7 +10,8 @@ class MaxCodeCoverageDirectiveRuleService(IDirectiveRuleService):
         super().__init__()
         self._codeCoverageType = "statement coverage"
 
-    def isLegal(self, targetPage: TargetPage, directive: Directive, lastDom="") -> bool:
+    def isLegal(self, targetPage: TargetPage,
+                directive: Directive, lastDom="") -> bool:
         targetDirectiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(
             codeCoverageType=self._codeCoverageType)
 
@@ -29,10 +30,12 @@ class MaxCodeCoverageDirectiveRuleService(IDirectiveRuleService):
 
             isImproved = targetDirectiveImprovedCodeCoverage.getCoveredAmount(
             ) > previousImprovedCodeCoverage.getCoveredAmount()
-            isSameCoverdNumber = targetDirectiveCodeCoverage.getCoveredAmount() == previousCodeCoverage.getCoveredAmount()
+            isSameCoverdNumber = targetDirectiveCodeCoverage.getCoveredAmount(
+            ) == previousCodeCoverage.getCoveredAmount()
             isShorterAppEvents = len(
                 directive.getAppEvents()) < len(
                 previousDirective.getAppEvents())
-            if not isImproved and not (isSameCoverdNumber and isShorterAppEvents):
+            if not isImproved and not (
+                    isSameCoverdNumber and isShorterAppEvents):
                 return False
         return True

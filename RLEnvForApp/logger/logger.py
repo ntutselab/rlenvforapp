@@ -14,10 +14,12 @@ class Logger:
 
             console = logging.StreamHandler()
             console.setLevel(logging.INFO)
-            console.setFormatter(logging.Formatter('%(levelname)-8s %(message)s'))
+            console.setFormatter(
+                logging.Formatter('%(levelname)-8s %(message)s'))
 
             fileHandler = logging.FileHandler(mode='w', filename=fileName)
-            fileHandler.setFormatter(logging.Formatter('%(asctime)s %(message)s'))
+            fileHandler.setFormatter(
+                logging.Formatter('%(asctime)s %(message)s'))
             fileHandler.setLevel(logging.INFO)
 
             aiGuideLogger.addHandler(console)

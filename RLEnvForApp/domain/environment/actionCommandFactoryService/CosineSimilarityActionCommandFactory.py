@@ -27,7 +27,8 @@ class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
 
     def createActionCommand(self, actionNumber: int) -> IActionCommand:
         if actionNumber == 0:
-            return IRobotClickCommand.IRobotClickCommand(actionNumber=actionNumber)
+            return IRobotClickCommand.IRobotClickCommand(
+                actionNumber=actionNumber)
         else:
             inputValue = random.choices(self._inputData[actionNumber],
                                         weights=self._inputValueWeights[inputSpace.inputTypes[actionNumber]], k=1)[0]

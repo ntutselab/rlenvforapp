@@ -21,7 +21,11 @@ class HTMLLogCrawler(ICrawler):
         folderPath, pageHTMLFileName = os.path.split(self._targetPath)
         pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
 
-        htmlParser = etree.parse(os.path.join(folderPath, pageHTMLFileName), etree.HTMLParser())
+        htmlParser = etree.parse(
+            os.path.join(
+                folderPath,
+                pageHTMLFileName),
+            etree.HTMLParser())
         self._html = etree.tostring(htmlParser).decode("utf-8")
         self._appElementDTOs: [AppElementDTO] = []
 
@@ -38,7 +42,8 @@ class HTMLLogCrawler(ICrawler):
                                                           element=element, attribute="name"),
                                                       type=self._getHtmlTagAttribute(
                                                           element=element, attribute="type"),
-                                                      xpath=htmlParser.getpath(element),
+                                                      xpath=htmlParser.getpath(
+                                                          element),
                                                       value=self._getHtmlTagAttribute(element=element,
                                                                                       attribute="value")))
         random.shuffle(self._appElementDTOs)

@@ -13,7 +13,8 @@ class DefaultForTestObservationService(IObservationService):
         self._oneHotCoveredNumber = 300
 
     def getObservation(self, state: State):
-        onehotConverter = OneHotConverter(coveredNumber=self._oneHotCoveredNumber)
+        onehotConverter = OneHotConverter(
+            coveredNumber=self._oneHotCoveredNumber)
         listFocusOneHot = onehotConverter.convert(
             stateElement=state.getFocusVector(),
             length=self._oneHotLength)

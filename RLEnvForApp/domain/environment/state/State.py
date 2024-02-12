@@ -74,7 +74,8 @@ class State:
         return HtmlExtractor().getLabelName(self._DOM, self._interactedElement.getXpath())
 
     def getInteractedElementPlaceholder(self) -> str:
-        return HtmlExtractor().getPlaceholder(self._DOM, self._interactedElement.getXpath())
+        return HtmlExtractor().getPlaceholder(
+            self._DOM, self._interactedElement.getXpath())
 
     def setSelectedAppElements(self, appElements: [AppElement]):
         self._selectedAppElements = appElements

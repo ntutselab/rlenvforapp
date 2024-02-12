@@ -44,8 +44,13 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
             for path in targetPagePaths:
                 if ".json" in path:
                     folderPath, pageHTMLFileName = os.path.split(path)
-                    pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
-                    jsonData = open(os.path.join(folderPath, pageJsonFileName), )
+                    pageJsonFileName = os.path.splitext(
+                        pageHTMLFileName)[0] + ".json"
+                    jsonData = open(
+                        os.path.join(
+                            folderPath,
+                            pageJsonFileName),
+                    )
                     pageLog = json.load(jsonData)
                     jsonData.close()
                     pageLog = pageLog[0]
@@ -66,7 +71,9 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
         getAllTargetPageInput = GetAllTargetPageInput.GetAllTargetPageInput()
         getAllTargetPageOutput = GetAllTargetPageOutput.GetAllTargetPageOutput()
 
-        getAllTargetPageUseCase.execute(input=getAllTargetPageInput, output=getAllTargetPageOutput)
+        getAllTargetPageUseCase.execute(
+            input=getAllTargetPageInput,
+            output=getAllTargetPageOutput)
         return getAllTargetPageOutput.getTargetPageDTOs()
 
     def _addTargetPage(self, targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO], stateID: str = "",
@@ -79,7 +86,8 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
                                                                             formXPath=formXPath,
                                                                             basicCodeCoverage=codeCoverageVector)
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _getAllFilePathInFolder(self, targetFolderPath: str):
         filesPath = []

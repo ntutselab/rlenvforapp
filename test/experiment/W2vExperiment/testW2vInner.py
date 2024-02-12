@@ -16,9 +16,11 @@ class testW2vInner(unittest.TestCase):
         print("====================================================")
         print("W2V")
         print("====================================================")
-        password = self._w2vConverter.convert(stateElement="password", length=300)
+        password = self._w2vConverter.convert(
+            stateElement="password", length=300)
         name = self._w2vConverter.convert(stateElement="name", length=300)
-        username = self._w2vConverter.convert(stateElement="username", length=300)
+        username = self._w2vConverter.convert(
+            stateElement="username", length=300)
         user = self._w2vConverter.convert(stateElement="user", length=300)
         last = self._w2vConverter.convert(stateElement="last", length=300)
         first = self._w2vConverter.convert(stateElement="first", length=300)
@@ -38,9 +40,11 @@ class testW2vInner(unittest.TestCase):
         print("====================================================")
         print("fastText")
         print("====================================================")
-        password = self._fastConverter.convert(stateElement="password", length=300)
+        password = self._fastConverter.convert(
+            stateElement="password", length=300)
         name = self._fastConverter.convert(stateElement="name", length=300)
-        username = self._fastConverter.convert(stateElement="username", length=300)
+        username = self._fastConverter.convert(
+            stateElement="username", length=300)
         user = self._fastConverter.convert(stateElement="user", length=300)
         last = self._fastConverter.convert(stateElement="last", length=300)
         first = self._fastConverter.convert(stateElement="first", length=300)

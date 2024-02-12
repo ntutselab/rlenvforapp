@@ -12,7 +12,8 @@ from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 
 class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
-    def __init__(self, crawler: ICrawler, codeCoverageCollector: ICodeCoverageCollector):
+    def __init__(self, crawler: ICrawler,
+                 codeCoverageCollector: ICodeCoverageCollector):
         super().__init__()
         self._crawler = crawler
         self._codeCoverageCollector = codeCoverageCollector
@@ -38,7 +39,11 @@ class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
         return self._crawler.close()
 
     def executeAppEvent(self, xpath: str, value: str):
-        self._appEventSequence.append(AppEventDTO(xpath=xpath, value=value, category=""))
+        self._appEventSequence.append(
+            AppEventDTO(
+                xpath=xpath,
+                value=value,
+                category=""))
         self._crawler.executeAppEvent(xpath=xpath, value=value)
         domCache = DOMCache
         domCache.dom = self._crawler.getDOM()

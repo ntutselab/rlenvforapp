@@ -32,5 +32,6 @@ class ALBERTTokenizerSingleton:
         return self._id
 
     def getTokenIds(self, sentence) -> []:
-        processed_word = bert.albert_tokenization.preprocess_text(sentence.lower(), lower=True)
+        processed_word = bert.albert_tokenization.preprocess_text(
+            sentence.lower(), lower=True)
         return bert.albert_tokenization.encode_ids(self._sp, processed_word)

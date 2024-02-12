@@ -46,7 +46,8 @@ class testUpdateTargetPageUseCase(unittest.TestCase):
         targetPageEntity = self._targetPageRepository.findById(output.getId())
         targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
             targetPageEntity=targetPageEntity)
-        self.assertEqual(5, targetPage.getBasicCodeCoverage().getCoveredAmount())
+        self.assertEqual(
+            5, targetPage.getBasicCodeCoverage().getCoveredAmount())
 
         input = UpdateTargetPageInput.UpdateTargetPageInput(targetPageId=targetPageId,
                                                             basicCodeCoverageDTO=CodeCoverageDTO(codeCoverageType="test codecoverage",
@@ -58,5 +59,7 @@ class testUpdateTargetPageUseCase(unittest.TestCase):
         targetPageEntity = self._targetPageRepository.findById(output.getId())
         targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
             targetPageEntity=targetPageEntity)
-        self.assertEqual(6, targetPage.getBasicCodeCoverage().getCoveredAmount())
-        self.assertEqual(10, targetPage.getBasicCodeCoverage().getCodeCoverageVectorLength())
+        self.assertEqual(
+            6, targetPage.getBasicCodeCoverage().getCoveredAmount())
+        self.assertEqual(
+            10, targetPage.getBasicCodeCoverage().getCodeCoverageVectorLength())

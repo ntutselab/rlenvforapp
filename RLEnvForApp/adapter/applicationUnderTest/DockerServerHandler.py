@@ -11,7 +11,8 @@ from RLEnvForApp.usecase.applicationUnderTest.applicationHandler.ApplicationHand
 
 
 class DockerServerHandler(ApplicationHandler):
-    def __init__(self, serverFolder: str, serverStartedTimeOut=120, serverStartedTries=5):
+    def __init__(self, serverFolder: str, serverStartedTimeOut=120,
+                 serverStartedTries=5):
         super().__init__()
         self._serverFolder = serverFolder
         self._isFirstStartServer = True
@@ -30,8 +31,10 @@ class DockerServerHandler(ApplicationHandler):
         start_time = time.time()
         Logger().info(f"\nServer Port: {port} server is starting...")
         self._startServer(dockerComposePath, port)
-        tries = self._waitForServerStarted(ip=ip, port=port, dockerComposePath=dockerComposePath)
-        Logger().info(f"Server Port: {port}, waiting time: {time.time() - start_time}")
+        tries = self._waitForServerStarted(
+            ip=ip, port=port, dockerComposePath=dockerComposePath)
+        Logger().info(
+            f"Server Port: {port}, waiting time: {time.time() - start_time}")
         Logger().info(f"Server Port: {port}, retry times: {tries}")
 
     def reset(self, applicationName, ip, port):
@@ -68,7 +71,8 @@ class DockerServerHandler(ApplicationHandler):
     def _removeServer(self, dockerComposePath):
         close_process = Popen(DockerServerConfig.removeDockerComposeCommand(dockerComposePath=dockerComposePath),
                               stdout=PIPE)
-        close_process.communicate(timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
+        close_process.communicate(
+            timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
 
     def _checkAndCreateServerFolder(self, serverFolder):
         try:
@@ -76,14 +80,16 @@ class DockerServerHandler(ApplicationHandler):
         except FileExistsError:
             Logger().info("Folder existed, not going to re-create it...")
         except OSError:
-            raise RuntimeError("Something went wrong while creating server_instance folder...")
+            raise RuntimeError(
+                "Something went wrong while creating server_instance folder...")
 
     def _getDockerComposePath(self, serverFolder, applicationName, port):
         return os.path.join(serverFolder, DockerServerConfig.dockerComposeFileName(
             applicationName=applicationName, port=str(port)))
 
     def _killAllOfDockerCompose(self, dockerComposePath: str):
-        dockerComposePathFiles = self._getAllFilePathInFolder(targetFolderPath=dockerComposePath)
+        dockerComposePathFiles = self._getAllFilePathInFolder(
+            targetFolderPath=dockerComposePath)
         for dockerComposeFilePath in dockerComposePathFiles:
             if ".yml" in dockerComposeFilePath:
                 self._removeServer(dockerComposeFilePath)
@@ -103,9 +109,11 @@ class DockerServerHandler(ApplicationHandler):
         tries = 0
         while not (200 == self._getResposeStatusCode(url=url)):
             if tries > self._serverStartedTries:
-                raise RuntimeError("ERROR: Something went wrong when creating Server...")
+                raise RuntimeError(
+                    "ERROR: Something went wrong when creating Server...")
             if waitingTimes > self._serverStartedTimeOut:
-                Logger().info(f"Warning: Server started timeout. {tries} times.")
+                Logger().info(
+                    f"Warning: Server started timeout. {tries} times.")
                 Logger().info("Warning: Server restart.")
                 self._killAllOfDockerCompose(self._serverFolder)
                 self._startServer(dockerComposePath, port)

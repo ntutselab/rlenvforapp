@@ -15,7 +15,8 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
 
     def test_no_improved_code_coverage_with_baseline(self):
         basicCodeCoverage = self._createCodeCoverage([1, 1, 1, 1, 1])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
@@ -27,7 +28,8 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
 
     def test_improved_code_coverage_with_baseline(self):
         basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([1, 1, 1, 1, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
@@ -39,7 +41,8 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
 
     def test_improved_code_coverage_with_older_directive(self):
         basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
@@ -54,7 +57,8 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
 
     def test_no_improved_code_coverage_with_older_directive(self):
         basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([0, 0, 0, 1, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
@@ -67,9 +71,11 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
                 targetPage=targetPage,
                 directive=directive))
 
-    def test_no_improved_code_coverage_with_older_directive_but_shorter_appEvents(self):
+    def test_no_improved_code_coverage_with_older_directive_but_shorter_appEvents(
+            self):
         basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
         directive = Directive(
@@ -87,9 +93,11 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
                 targetPage=targetPage,
                 directive=directive))
 
-    def test_no_improved_code_coverage_with_older_directive_but_no_shorter_appEvents(self):
+    def test_no_improved_code_coverage_with_older_directive_but_no_shorter_appEvents(
+            self):
         basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(basicCodeCoverage=basicCodeCoverage)
+        targetPage = self._createTargetPage(
+            basicCodeCoverage=basicCodeCoverage)
 
         codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])

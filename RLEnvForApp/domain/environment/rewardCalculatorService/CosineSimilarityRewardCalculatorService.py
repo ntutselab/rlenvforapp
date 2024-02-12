@@ -50,7 +50,8 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
     def calculateReward(self, episodeHandler: IEpisodeHandler):
         previousState: State = episodeHandler.getAllState()[-2]
 
-        if episodeHandler.isDone() and self._targetIndicationService.isConform(state=previousState):
+        if episodeHandler.isDone() and self._targetIndicationService.isConform(
+                state=previousState):
             reward = self._episodeRewardCoefficient * \
                 (1 / self._getEpisodeStepFraction(episodeHandler=episodeHandler))
             self._logger.info(f'Form submitted reward: {reward}')
@@ -137,7 +138,8 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
             rewardRevise = self._clickRewardCoefficient * -0.3
 
         self._logger.info(f'Click tag: {tag}, type: {elementType}')
-        self._logger.info(f'Click reward: {self._inputRewardBaseLine + rewardRevise}')
+        self._logger.info(
+            f'Click reward: {self._inputRewardBaseLine + rewardRevise}')
         return self._inputRewardBaseLine + rewardRevise
 
     def _updateCategoryList(self, previousState: State):
@@ -147,7 +149,8 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
         if self._cosineSimilarityText != '' and self._cosineSimilarityText not in categoryExtendList[
                 category]:
             categoryExtendList[category].append(self._cosineSimilarityText)
-            self._logger.info(f"Append [{self._cosineSimilarityText}] to category: {category}")
+            self._logger.info(
+                f"Append [{self._cosineSimilarityText}] to category: {category}")
 
         CategoryListSingleton.getInstance().setCategoryExtendList(categoryExtendList)
 

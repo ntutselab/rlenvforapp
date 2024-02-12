@@ -42,11 +42,13 @@ class testWebCrawlerGetCoverage(TestCase):
         self._autRepository = InMemoryApplicationUnderTestRepository()
         self._targetPageRepository = InMemoryTargetPageRepository()
         self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._applicationHandler = DockerServerHandler("RLEnvForApp/application/serverInstance")
+        self._applicationHandler = DockerServerHandler(
+            "RLEnvForApp/application/serverInstance")
         self._hirerarchyInitial = HirerarchyInitial(
             autRepository=self._autRepository,
             applicationHandler=self._applicationHandler)
-        self._hirerarchyInitial.startAUTServer("timeoff_management_with_coverage")
+        self._hirerarchyInitial.startAUTServer(
+            "timeoff_management_with_coverage")
         self._crawler = IRobotCrawler(
             javaPort=50000,
             pythonPort=50001,
@@ -65,13 +67,15 @@ class testWebCrawlerGetCoverage(TestCase):
 
         codeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
             serverIp="localhost", serverPort=3000)
-        codeCoverages: [CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
+        codeCoverages: [
+            CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
         statementCoverageLength = 0
         branchCoverageLength = 0
         statementCoveragedAmount = 0
         branchCoveragedAmount = 0
         for i in codeCoverages:
-            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(i)
+            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                i)
             if i.getCodeCoverageType() == "statement coverage":
                 statementCoverageLength = codeCoverage.getCodeCoverageVectorLength()
                 statementCoveragedAmount = codeCoverage.getCoveredAmount()
@@ -99,9 +103,11 @@ class testWebCrawlerGetCoverage(TestCase):
         time.sleep(5)
         codeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
             serverIp="localhost", serverPort=3000)
-        codeCoverages: [CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
+        codeCoverages: [
+            CodeCoverage] = codeCoverageCollector.getCodeCoverageDTOs()
         for i in codeCoverages:
-            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(i)
+            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                i)
             if i.getCodeCoverageType() == "statement coverage":
                 statementCoverageLength = codeCoverage.getCodeCoverageVectorLength()
                 statementCoveragedAmount = codeCoverage.getCoveredAmount()
@@ -109,7 +115,9 @@ class testWebCrawlerGetCoverage(TestCase):
                 branchCoverageLength = codeCoverage.getCodeCoverageVectorLength()
                 branchCoveragedAmount = codeCoverage.getCoveredAmount()
 
-        self.assertEqual("http://localhost:3000/register/", self._crawler.getUrl())
+        self.assertEqual(
+            "http://localhost:3000/register/",
+            self._crawler.getUrl())
         self.assertEqual(1036, branchCoverageLength)
         self.assertEqual(2698, statementCoverageLength)
 
@@ -138,7 +146,9 @@ class testWebCrawlerGetCoverage(TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
         episodeHandlerEntities = self._episodeHandlerRepository.findAll()
         lastEpisodeHandler: IEpisodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
@@ -168,7 +178,9 @@ class testWebCrawlerGetCoverage(TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=actionNumber, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
     def _createTargetPage(self):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
@@ -176,13 +188,15 @@ class testWebCrawlerGetCoverage(TestCase):
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
             targetPageUrl="http://localhost:3000", rootUrl="http://localhost:3000", appEventDTOs=[])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _resetEnv(self, autOperator: IAUTOperator):
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=autOperator,
                                                                                   episodeHandlerRepository=self._episodeHandlerRepository,
                                                                                   targetPageQueueManagerService=HtmlFileTargetPageQueueManagerService(repository=self._targetPageRepository))
-        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=1)
+        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=1)
         resetEnvironmentUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvironmentUseCase.execute(
             input=resetEnvironmentUseInput,

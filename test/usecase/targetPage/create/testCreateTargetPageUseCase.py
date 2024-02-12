@@ -27,11 +27,13 @@ class testCreateTargetPageUseCase(unittest.TestCase):
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
             targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
         targetPageEntity: TargetPageEntity = self._repository.findById(
             createTargetPageOutput.getId())
-        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
 
         self.assertEqual(targetPage.getId(), createTargetPageOutput.getId())
 
@@ -47,11 +49,13 @@ class testCreateTargetPageUseCase(unittest.TestCase):
             targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[appEventDTO])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
 
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
         targetPageEntity: TargetPageEntity = self._repository.findById(
             createTargetPageOutput.getId())
-        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
         self.assertEqual(
             targetPage.getAppEvents()[0].getXpath(),
             "/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]")
@@ -68,7 +72,9 @@ class testCreateTargetPageUseCase(unittest.TestCase):
         codeCoverageDTO = CodeCoverageDTO(
             codeCoverageType="statement", codeCoverageVector=[
                 1, 1, 1, 1, 1, 0, 0, 0, 0, 0])
-        directiveDTO = DirectiveDTO(appEventDTOs=[appEventDTO], codeCoverageDTOs=[codeCoverageDTO])
+        directiveDTO = DirectiveDTO(
+            appEventDTOs=[appEventDTO],
+            codeCoverageDTOs=[codeCoverageDTO])
 
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=self._repository)
@@ -80,13 +86,15 @@ class testCreateTargetPageUseCase(unittest.TestCase):
                                                                             basicCodeCoverage=originalCodeCoverageDTO,
                                                                             directiveDTOs=[directiveDTO])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
         targetPageEntity: TargetPageEntity = self._repository.findById(
             createTargetPageOutput.getId())
         self.assertEqual(len(targetPageEntity.getDirectiveEntities()), 1)
 
-        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
         self.assertEqual(
             targetPage.getAppEvents()[0].getXpath(),
             "/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]")
@@ -104,5 +112,9 @@ class testCreateTargetPageUseCase(unittest.TestCase):
         self.assertEqual(
             directive.getCodeCoverages()[0].getCodeCoverageVector(),
             directiveDTO.getCodeCoverageDTOs()[0].getCodeCoverageVector())
-        self.assertEqual(directive.getAppEvents()[0].getXpath(), appEventDTO.getXpath())
-        self.assertEqual(directive.getAppEvents()[0].getValue(), appEventDTO.getValue())
+        self.assertEqual(
+            directive.getAppEvents()[0].getXpath(),
+            appEventDTO.getXpath())
+        self.assertEqual(
+            directive.getAppEvents()[0].getValue(),
+            appEventDTO.getValue())

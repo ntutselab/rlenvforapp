@@ -82,4 +82,5 @@ class TargetPage:
                     targetDirective = directive
                 if targetCodeCoverage.getCoveredAmount() < directiveCodeCoverage.getCoveredAmount():
                     targetDirective = directive
-            return targetDirective.getCodeCoverageByType(codeCoverageType=codeCoverageType)
+            return targetDirective.getCodeCoverageByType(
+                codeCoverageType=codeCoverageType)

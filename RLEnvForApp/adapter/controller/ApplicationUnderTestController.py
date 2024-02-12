@@ -25,7 +25,8 @@ class ApplicationUnderTestController:
 
     def stopAUTServer(self):
         stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase()
-        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(id=self._autID)
+        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
+            id=self._autID)
         stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
         stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)
 

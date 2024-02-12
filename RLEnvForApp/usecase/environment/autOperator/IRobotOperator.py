@@ -15,7 +15,8 @@ from RLEnvForApp.usecase.environment.autOperator.mapper import \
 
 
 class IRobotOperator(IAUTOperator):
-    def __init__(self, crawler: ICrawler, codeCoverageCollector: ICodeCoverageCollector):
+    def __init__(self, crawler: ICrawler,
+                 codeCoverageCollector: ICodeCoverageCollector):
         super().__init__()
         self._crawler = crawler
         self._codeCoverageCollector = codeCoverageCollector
@@ -102,7 +103,8 @@ class IRobotOperator(IAUTOperator):
         otherAppElements: [AppElement] = []
 
         for appElementDTO in self._crawler.getAllSelectedAppElementsDTOs():
-            appElement = AppElementDTOMapper.mappingAppElementFrom(appElementDTO=appElementDTO)
+            appElement = AppElementDTOMapper.mappingAppElementFrom(
+                appElementDTO=appElementDTO)
             if "/input" in appElement.getXpath().lower():
                 inputAppElements.append(appElement)
             elif "/button" in appElement.getXpath().lower():
@@ -117,7 +119,8 @@ class IRobotOperator(IAUTOperator):
         self._selectedAppElements.extend(hyperlinkAppElements)
         self._selectedAppElements.extend(otherAppElements)
 
-    def _mappingCodeCoverageForm(self, codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
+    def _mappingCodeCoverageForm(self, codeCoverageDTOs: [
+                                 CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []
         for i in codeCoverageDTOs:
             codeCoverages.append(

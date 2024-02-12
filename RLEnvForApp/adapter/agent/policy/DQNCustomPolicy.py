@@ -20,7 +20,8 @@ class DQNCustomPolicy(FeedForwardPolicy):
     :param _kwargs: (dict) Extra keyword arguments for the nature CNN feature extraction
     """
 
-    def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=False, **_kwargs):
+    def __init__(self, sess, ob_space, ac_space, n_env,
+                 n_steps, n_batch, reuse=False, **_kwargs):
         super(DQNCustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
                                               feature_extraction="cnn", **_kwargs)
 

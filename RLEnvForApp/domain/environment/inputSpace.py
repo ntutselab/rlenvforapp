@@ -19,7 +19,9 @@ inputTypes = [
     ADDRESS,
     POSTAL_CODE]
 inputValues = [[""],
-               ["vector@selab.com", "Katlyn_Reichel@example.com", "Willa.Paucek@example.com"],
+               ["vector@selab.com",
+                "Katlyn_Reichel@example.com",
+                "Willa.Paucek@example.com"],
                ["Gladyce", "Heathcote", "Pete Kessler"],
                ["password", "BeH_CD67ijJI1OI", "uIhubzQPMWPHasx"],
                ["Mon Sep 11 2023", "2023/05/03", "2023-06-11"],
@@ -62,7 +64,8 @@ class CategoryListSingleton:
     def setCategoryExtendList(self, newList):
         self._categoryList = newList
         with open('category_extend_list.json', 'w', encoding='utf-8') as f:
-            json.dump({'category_extend_list': newList}, f, ensure_ascii=False, indent=4)
+            json.dump({'category_extend_list': newList},
+                      f, ensure_ascii=False, indent=4)
 
 
 class ValueWeightSingleton:
@@ -85,7 +88,8 @@ class ValueWeightSingleton:
             else:
                 self._valueWeights = {}
                 for i, category in enumerate(inputTypes):
-                    self._valueWeights[category] = [1 / len(inputValues[i]) for _ in inputValues[i]]
+                    self._valueWeights[category] = [
+                        1 / len(inputValues[i]) for _ in inputValues[i]]
 
             ValueWeightSingleton._instance = self
 

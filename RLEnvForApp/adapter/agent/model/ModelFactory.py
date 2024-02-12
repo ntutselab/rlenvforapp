@@ -35,7 +35,8 @@ class ModelFactory:
         if algorithm == "Monkey":
             return MonkeyAdapter(policy=None, env=environment)
 
-    def loadModel(self, algorithm, modelPath, environment=None, tensorboardPath=None):
+    def loadModel(self, algorithm, modelPath,
+                  environment=None, tensorboardPath=None):
         self._checkAlgorithm(algorithm=algorithm)
 
         model = None
@@ -52,4 +53,5 @@ class ModelFactory:
 
     def _checkAlgorithm(self, algorithm):
         if algorithm not in ["DQN", "PPO2", "Monkey"]:
-            raise RuntimeError("AlgorithmError: No such algorithm as " + algorithm)
+            raise RuntimeError(
+                "AlgorithmError: No such algorithm as " + algorithm)

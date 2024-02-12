@@ -14,7 +14,8 @@ from RLEnvForApp.usecase.targetPage.mapper import (AppEventEntityMapper,
 def mappingTargetPageEntityFrom(targetPage: TargetPage.TargetPage):
     appEventEntities: [AppEventEntity.AppEventEntity] = []
     for appEvent in targetPage.getAppEvents():
-        appEventEntities.append(AppEventEntityMapper.mappingAppEventEntityFrom(appEvent))
+        appEventEntities.append(
+            AppEventEntityMapper.mappingAppEventEntityFrom(appEvent))
 
     directiveEntities: [DirectiveEntity] = []
     for directive in targetPage.getDirectives():
@@ -35,7 +36,9 @@ def mappingTargetPageEntityFrom(targetPage: TargetPage.TargetPage):
 def mappingTargetPageFrom(targetPageEntity: TargetPageEntity):
     appEvents: [AppEvent] = []
     for appEventEntity in targetPageEntity.getAppEventEntities():
-        appEvents.append(AppEventEntityMapper.mappingAppEventFrom(appEventEntity=appEventEntity))
+        appEvents.append(
+            AppEventEntityMapper.mappingAppEventFrom(
+                appEventEntity=appEventEntity))
 
     directives: [Directive] = []
     for directiveEntity in targetPageEntity.getDirectiveEntities():

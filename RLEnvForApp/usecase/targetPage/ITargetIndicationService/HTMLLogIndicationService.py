@@ -32,7 +32,8 @@ class HTMLLogIndicationService(ITargetIndicationService):
             return False
 
         for logAppEvent in logAppEvents:
-            appElement = self._findAppElementByXpath(appElements=appElements, xpath=logAppEvent)
+            appElement = self._findAppElementByXpath(
+                appElements=appElements, xpath=logAppEvent)
             if appElement is None:
                 Logger().info(f"xpath in record not found: {logAppEvent}")
                 return False

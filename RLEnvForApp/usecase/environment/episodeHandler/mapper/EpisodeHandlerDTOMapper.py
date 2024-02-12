@@ -14,7 +14,8 @@ def _mappingStateDTOsFrom(states: [State]) -> [StateDTO]:
     return stateDTOs
 
 
-def mappingEpisodeHanlderDTOFrom(episodeHandler: IEpisodeHandler) -> EpisodeHandlerDTO:
+def mappingEpisodeHanlderDTOFrom(
+        episodeHandler: IEpisodeHandler) -> EpisodeHandlerDTO:
     return EpisodeHandlerDTO(id=episodeHandler.getId(),
                              episodeIndex=episodeHandler.getEpisodeIndex(),
                              episodeStep=episodeHandler.getEpisodeStep(),

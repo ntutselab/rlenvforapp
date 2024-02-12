@@ -17,6 +17,8 @@ class GetTargetPageUseCase:
     def execute(self, input: GetTargetPageInput, output: GetTargetPageOutput):
         targetPageId = input.getTargetPageId()
         targetPageEntity = self._repository.findById(targetPageId)
-        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
-        targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(targetPage=targetPage)
+        targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
+        targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(
+            targetPage=targetPage)
         output.setTargetPageDTO(targetPageDTO=targetPageDTO)

@@ -57,7 +57,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
         self._isTraining = True
 
     def connect(self):
-        gateway_parameters = GatewayParameters(address=self._javaIp, port=self._javaPort)
+        gateway_parameters = GatewayParameters(
+            address=self._javaIp, port=self._javaPort)
         callback_server_parameters = CallbackServerParameters(
             address=self._pythonIp, port=self._pythonPort)
         self._javaObjectPy4JLearningPool = JavaGateway(gateway_parameters=gateway_parameters,
@@ -76,7 +77,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
     def pullTargetPage(self):
         isFirst = True
         while len(self._getAllTargetPageDTO()) == 0 or isFirst:
-            while not (self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
+            while not (
+                    self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
                 javaObjectLearningTaskDTO = self._javaObjectPy4JLearningPool.deQueueLearningTaskDTO()
                 url = javaObjectLearningTaskDTO.getTargetURL()
                 stateID = javaObjectLearningTaskDTO.getStateID()
@@ -109,20 +111,25 @@ class AIGuideTargetPagePort(ITargetPagePort):
                             codeCoverageVector=codeCoverageDTO)
                     # support for filling in single form
                     # self._addTargetPage(targetPageUrl=url, rootUrl=self._rootUrl, appEventDTOs=appEventDTOs,
-                    # stateID=stateID, formXPath="//form", codeCoverageVector=codeCoverageDTO)
-                    self._javaObjectLearningTaskDTOs.append(javaObjectLearningTaskDTO)
+                    # stateID=stateID, formXPath="//form",
+                    # codeCoverageVector=codeCoverageDTO)
+                    self._javaObjectLearningTaskDTOs.append(
+                        javaObjectLearningTaskDTO)
             isFirst = False
 
     def pushTargetPage(self, targetPageId: str, episodeHandlerId: str):
         directiveDTO = self._createDirective(
             targetPageId=targetPageId,
             episodeHandlerId=episodeHandlerId)
-        targetPageDTO: TargetPageDTO = self._getTargetPage(targetPageId=targetPageId)
+        targetPageDTO: TargetPageDTO = self._getTargetPage(
+            targetPageId=targetPageId)
 
         self._javaObjectPy4JLearningPool.enQueueLearningResultDTO(
             self._createJavaObjectLearningResultDTO(
                 taskId=targetPageDTO.getTaskID(), directiveDTO=directiveDTO))
-        self._saveTargetPageToHtmlSet(episodeHandlerId=episodeHandlerId, directiveDTO=directiveDTO)
+        self._saveTargetPageToHtmlSet(
+            episodeHandlerId=episodeHandlerId,
+            directiveDTO=directiveDTO)
         if not self._isTraining:
             self._removeTargetPage(targetPageId=targetPageId)
 
@@ -142,14 +149,17 @@ class AIGuideTargetPagePort(ITargetPagePort):
                                                                             formXPath=formXPath,
                                                                             basicCodeCoverage=codeCoverageVector)
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _getAllTargetPageDTO(self) -> [TargetPageDTO]:
         getAllTargetPageUseCase = GetAllTargetPageUseCase.GetAllTargetPageUseCase()
         getAllTargetPageInput = GetAllTargetPageInput.GetAllTargetPageInput()
         getAllTargetPageOutput = GetAllTargetPageOutput.GetAllTargetPageOutput()
 
-        getAllTargetPageUseCase.execute(input=getAllTargetPageInput, output=getAllTargetPageOutput)
+        getAllTargetPageUseCase.execute(
+            input=getAllTargetPageInput,
+            output=getAllTargetPageOutput)
         return getAllTargetPageOutput.getTargetPageDTOs()
 
     def _removeTargetPage(self, targetPageId: str):
@@ -158,18 +168,24 @@ class AIGuideTargetPagePort(ITargetPagePort):
             targetPageId=targetPageId)
         removeTargetPageOutput = RemoveTargetPageOutput.RemoveTargetPageOutput()
 
-        removeTargetPageUseCase.execute(input=removeTargetPageInput, output=removeTargetPageOutput)
+        removeTargetPageUseCase.execute(
+            input=removeTargetPageInput,
+            output=removeTargetPageOutput)
 
-    def _createCodeCoverageDTO(self, codeCoverageType: str, codeCoverageVector: [bool]):
+    def _createCodeCoverageDTO(
+            self, codeCoverageType: str, codeCoverageVector: [bool]):
         return CodeCoverageDTO(codeCoverageType=codeCoverageType,
                                codeCoverageVector=codeCoverageVector)
 
     def _getTargetPage(self, targetPageId: str):
         getTargetPageUseCase = GetTargetPageUseCase.GetTargetPageUseCase()
-        getTargetPageInput = GetTargetPageInput.GetTargetPageInput(targetPageId=targetPageId)
+        getTargetPageInput = GetTargetPageInput.GetTargetPageInput(
+            targetPageId=targetPageId)
         getTargetPageOutput = GetTargetPageOutput.GetTargetPageOutput()
 
-        getTargetPageUseCase.execute(input=getTargetPageInput, output=getTargetPageOutput)
+        getTargetPageUseCase.execute(
+            input=getTargetPageInput,
+            output=getTargetPageOutput)
         return getTargetPageOutput.getTargetPageDTO()
 
     def _createDirective(self, targetPageId: str, episodeHandlerId: str):
@@ -177,13 +193,16 @@ class AIGuideTargetPagePort(ITargetPagePort):
         createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
             targetPageId=targetPageId, episodeHandlerId=episodeHandlerId)
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         return createDirectiveOutput.getDirectiveDTO()
 
-    def _getEpisodeHandlerDTO(self, episodeHandlerId: str) -> EpisodeHandlerDTO:
+    def _getEpisodeHandlerDTO(
+            self, episodeHandlerId: str) -> EpisodeHandlerDTO:
         usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase()
-        input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(episodeHandlerId=episodeHandlerId)
+        input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(
+            episodeHandlerId=episodeHandlerId)
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 
         usecase.execute(input=input, output=output)
@@ -202,7 +221,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
                 highLevelActionDTOs.append([appEvent])
                 highLevelActionDTOs.append([])
             else:
-                highLevelActionDTOs[len(highLevelActionDTOs) - 1].append(appEvent)
+                highLevelActionDTOs[len(
+                    highLevelActionDTOs) - 1].append(appEvent)
 
         javaObjectHighLevelActionDTOs = []
         for highLevelActionDTO in highLevelActionDTOs:
@@ -212,7 +232,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
             for appEvent in highLevelActionDTO:
                 javaObjectHighLevelActionDTOBuilder.appendActionDTO(self._getCrawljaxXpath(xpath=appEvent.getXpath()),
                                                                     appEvent.getValue())
-            javaObjectHighLevelActionDTOs.append(javaObjectHighLevelActionDTOBuilder.build())
+            javaObjectHighLevelActionDTOs.append(
+                javaObjectHighLevelActionDTOBuilder.build())
 
         return javaObjectHighLevelActionDTOs
 
@@ -221,7 +242,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
         javaObjectHighLevelActionDTOBuilder.setActionDTOList()
         return javaObjectHighLevelActionDTOBuilder
 
-    def _getCodeCoverageDTOByType(self, codeCoverageDTOs: [CodeCoverageDTO], type: str):
+    def _getCodeCoverageDTOByType(self, codeCoverageDTOs: [
+                                  CodeCoverageDTO], type: str):
         for codeCoverageDTO in codeCoverageDTOs:
             if codeCoverageDTO.getCodeCoverageType() == type:
                 return codeCoverageDTO
@@ -237,8 +259,10 @@ class AIGuideTargetPagePort(ITargetPagePort):
             crawljaxXpath += i
         return crawljaxXpath[:len(crawljaxXpath) - 1]
 
-    def _createJavaObjectLearningResultDTO(self, taskId: str, directiveDTO: DirectiveDTO):
-        javaObjectLearningTaskDTO = self._findJavaObjectLearningTaskDTOByTaskID(taskId)
+    def _createJavaObjectLearningResultDTO(
+            self, taskId: str, directiveDTO: DirectiveDTO):
+        javaObjectLearningTaskDTO = self._findJavaObjectLearningTaskDTOByTaskID(
+            taskId)
         javaObjectHighLevelActionDTOs = self._createJavaObjectHighLevelActions(
             appEventDTOs=directiveDTO.getAppEventDTOs())
 
@@ -250,8 +274,10 @@ class AIGuideTargetPagePort(ITargetPagePort):
             javaObjectLearningResultDTOBuilder.appendHighLevelActionDTOList(
                 javaObjectHighLevelActionDTO)
         # set task id
-        javaObjectLearningResultDTOBuilder.setTaskID(javaObjectLearningTaskDTO.getStateID())
-        javaObjectLearningResultDTOBuilder.setFormXPath(directiveDTO.getFormXPath())
+        javaObjectLearningResultDTOBuilder.setTaskID(
+            javaObjectLearningTaskDTO.getStateID())
+        javaObjectLearningResultDTOBuilder.setFormXPath(
+            directiveDTO.getFormXPath())
         # set code coverage
         codeCoverageDTO = self._getCodeCoverageDTOByType(codeCoverageDTOs=directiveDTO.getCodeCoverageDTOs(),
                                                          type="statement coverage")
@@ -261,14 +287,16 @@ class AIGuideTargetPagePort(ITargetPagePort):
             self._javaObjectPy4JLearningPool.jvm.boolean, codeCoverageVectorSize)
         for i in range(0, codeCoverageVectorSize):
             javaObjectArray[i] = codeCoverageVector[i]
-        javaObjectLearningResultDTOBuilder.setCodeCoverageVector(javaObjectArray)
+        javaObjectLearningResultDTOBuilder.setCodeCoverageVector(
+            javaObjectArray)
         # set original code coverage
         javaObjectLearningResultDTOBuilder.setOriginalCodeCoverageVector(
             javaObjectLearningTaskDTO.getCodeCoverageVector())
         javaObjectLearningResultDTOBuilder.setDone(False)
         return javaObjectLearningResultDTOBuilder.build()
 
-    def _saveTargetPageToHtmlSet(self, episodeHandlerId: str, directiveDTO: DirectiveDTO):
+    def _saveTargetPageToHtmlSet(
+            self, episodeHandlerId: str, directiveDTO: DirectiveDTO):
         fileName = "{serverName}_{url}_{formXPath}".format(
             serverName=self._serverName,
             url=urlparse(
@@ -297,7 +325,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
 
         self._updateInputValueWeights(directiveDictionary)
 
-        Logger().info(f"Save html set:\n{fileName}\n{formXPath}\n{directiveDictionary}")
+        Logger().info(
+            f"Save html set:\n{fileName}\n{formXPath}\n{directiveDictionary}")
 
         fileManager = FileManager()
         fileManager.createFolder("htmlSet", "GUIDE_HTML_SET")

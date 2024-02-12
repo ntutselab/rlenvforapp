@@ -24,7 +24,8 @@ class UpdateTargetPageUseCase:
 
     def execute(self, input: UpdateTargetPageInput.UpdateTargetPageInput,
                 output: UpdateTargetPageOutput.UpdateTargetPageOutput):
-        targetPageEntity: TargetPageEntity = self._repository.findById(input.getTargetPageId())
+        targetPageEntity: TargetPageEntity = self._repository.findById(
+            input.getTargetPageId())
         targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
             targetPageEntity=targetPageEntity)
 
@@ -40,7 +41,9 @@ class UpdateTargetPageUseCase:
         if appEventDTOs is not None:
             appEvents: [AppEvent] = []
             for appEventDTO in appEventDTOs:
-                appEvents.append(AppEventDTOMapper.mappingAppEventFrom(appEventDTO=appEventDTO))
+                appEvents.append(
+                    AppEventDTOMapper.mappingAppEventFrom(
+                        appEventDTO=appEventDTO))
             targetPage.setAppEvents(appEvents=appEvents)
 
         taskID = input.getTaskID()
@@ -52,9 +55,11 @@ class UpdateTargetPageUseCase:
             newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
                 codeCoverageDTO=basicCodeCoverageDTO)
             basicCodeCoverage = targetPage.getBasicCodeCoverage()
-            if newBasicCodeCoverage.getCodeCoverageType() == basicCodeCoverage.getCodeCoverageType():
+            if newBasicCodeCoverage.getCodeCoverageType(
+            ) == basicCodeCoverage.getCodeCoverageType():
                 newBasicCodeCoverage.merge(basicCodeCoverage)
-            targetPage.setBasicCodeCoverage(basicCodeCoverage=newBasicCodeCoverage)
+            targetPage.setBasicCodeCoverage(
+                basicCodeCoverage=newBasicCodeCoverage)
 
         directiveDTOs = input.getDirectiveDTOs()
         if directiveDTOs is not None:
@@ -65,8 +70,10 @@ class UpdateTargetPageUseCase:
                         directiveDTO=directiveDTO))
             targetPage.setDirectives(directives=directives)
 
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage)
+        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+            targetPage=targetPage)
         self._repository.update(targetPageEntity=targetPageEntity)
 
-        TargetPageProcessingManagerSingleton.getInstance().setBeProcessedTargetPage(targetPage=targetPage)
+        TargetPageProcessingManagerSingleton.getInstance(
+        ).setBeProcessedTargetPage(targetPage=targetPage)
         output.setId(targetPage.getId())

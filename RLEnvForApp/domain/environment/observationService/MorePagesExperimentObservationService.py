@@ -21,9 +21,12 @@ class MorePagesExperimentObservationService(IObservationService):
     def getObservation(self, state: State):
         observationDict = self.getOriginalObservation(state=state)
 
-        listLabelName = self._textConverter.convert(stateElement=observationDict["labelName"])
-        listTagName = self._textConverter.convert(stateElement=observationDict["tagName"])
-        listType = self._textConverter.convert(stateElement=observationDict["type"])
+        listLabelName = self._textConverter.convert(
+            stateElement=observationDict["labelName"])
+        listTagName = self._textConverter.convert(
+            stateElement=observationDict["tagName"])
+        listType = self._textConverter.convert(
+            stateElement=observationDict["type"])
 
         wordsObservation = [*listLabelName, *listTagName, *listType]
         return wordsObservation, observationDict
@@ -87,7 +90,8 @@ class MorePagesExperimentObservationService(IObservationService):
             labelVectorSimilarities[index] = labelVectorSimilarity
 
         totalSum = sum(labelVectorSimilarities)
-        labelVectorSimilarities = [x / totalSum for x in labelVectorSimilarities]
+        labelVectorSimilarities = [
+            x / totalSum for x in labelVectorSimilarities]
         elementLabelToken = np.random.choice(
             elementLabelTokens, size=1, p=labelVectorSimilarities)[0]
 

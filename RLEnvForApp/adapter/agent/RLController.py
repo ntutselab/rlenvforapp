@@ -53,7 +53,8 @@ class RLController:
                                        tensorboardPath="model/log"))
         for i in range(iterationTimes):
             modelController.learn(totalTimeSteps=timestepsPerIteration)
-            modelName = modelSeriesName + "_" + str(timestepsPerIteration * (i + 1)) + "step"
+            modelName = modelSeriesName + "_" + \
+                str(timestepsPerIteration * (i + 1)) + "step"
 
             modelController.save(os.path.join(modelDir, modelName))
 

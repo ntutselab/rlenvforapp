@@ -37,7 +37,8 @@ class ExecuteActionUseCase:
 
     def execute(self, input: ExecuteActionInput.ExecuteActionInput,
                 output: ExecuteActionOutput.ExecuteActionOutput):
-        episodeHandlerEntity = self._episodeHandlerRepository.findById(input.getEpisodeHandlerId())
+        episodeHandlerEntity = self._episodeHandlerRepository.findById(
+            input.getEpisodeHandlerId())
         episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
             episodeHandlerEntity=episodeHandlerEntity)
 
@@ -55,7 +56,8 @@ class ExecuteActionUseCase:
             previousState.setAppEventInputValue(actionCommand.getInputValue())
 
         state: State = self._autOperator.getState()
-        observation, originalObservation = self._observationService.getObservation(state=state)
+        observation, originalObservation = self._observationService.getObservation(
+            state=state)
         state.setOriginalObservation(originalObservation)
 
         episodeHandler.appendState(state=state)
@@ -73,7 +75,8 @@ class ExecuteActionUseCase:
         output.setReward(
             self._rewardCalculatorService.calculateReward(
                 episodeHandler=episodeHandler))
-        output.setCosineSimilarityText(self._rewardCalculatorService.getCosineSimilarityText())
+        output.setCosineSimilarityText(
+            self._rewardCalculatorService.getCosineSimilarityText())
         output.setIsDone(episodeHandler.isDone())
 
     def _getPercent(self, ratio):

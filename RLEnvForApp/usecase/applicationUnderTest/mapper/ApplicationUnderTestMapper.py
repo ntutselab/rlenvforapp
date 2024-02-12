@@ -3,7 +3,8 @@ from RLEnvForApp.domain.applicationUnderTest import ApplicationUnderTest
 from ..entity import ApplicationUnderTestEntity
 
 
-def mappingApplicationUnderTestEntityFrom(aut: ApplicationUnderTest.ApplicationUnderTest):
+def mappingApplicationUnderTestEntityFrom(
+        aut: ApplicationUnderTest.ApplicationUnderTest):
     autEntity = ApplicationUnderTestEntity.ApplicationUnderTestEntity(id=aut.getId(),
                                                                       applicationName=aut.getApplicationName(),
                                                                       ip=aut.getIP(), port=aut.getPort())

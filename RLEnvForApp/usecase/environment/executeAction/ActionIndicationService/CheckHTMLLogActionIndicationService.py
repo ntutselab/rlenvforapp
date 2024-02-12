@@ -15,7 +15,8 @@ class CheckHTMLLogActionIndicationService(IActionIndicationService):
 
     def isConform(self, state: State):
         interactedAppElement: AppElement = state.getInteractedElement()
-        interactedAppElementXpath = interactedAppElement.getXpath().replace("[1]", "")
+        interactedAppElementXpath = interactedAppElement.getXpath().replace(
+            "[1]", "")
 
         path = state.getUrl()
         folderPath, pageHTMLFileName = os.path.split(path)
@@ -27,10 +28,12 @@ class CheckHTMLLogActionIndicationService(IActionIndicationService):
 
         logAppEvents = {}
         for logAppEvent in pageLogAppEvents:
-            logAppEvents[logAppEvent.replace("[1]", "")] = pageLogAppEvents[logAppEvent]
+            logAppEvents[logAppEvent.replace(
+                "[1]", "")] = pageLogAppEvents[logAppEvent]
 
         if interactedAppElementXpath not in logAppEvents:
-            Logger().info(f"Xpath not found in record: {interactedAppElementXpath}")
+            Logger().info(
+                f"Xpath not found in record: {interactedAppElementXpath}")
             return False
 
         actionCategory = inputTypes[state.getActionNumber()]

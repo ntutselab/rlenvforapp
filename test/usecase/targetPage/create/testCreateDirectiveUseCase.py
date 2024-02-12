@@ -30,7 +30,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         self._codeCoverageType = "statement coverage"
         self._targetPageRepository = InMemoryTargetPageRepository()
         self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._targetPageId = self._createTargetPage(repository=self._targetPageRepository)
+        self._targetPageId = self._createTargetPage(
+            repository=self._targetPageRepository)
 
     def test_no_improved_code_coverage_with_baseline(self):
         episodeHandler = self._createEpisodeHandler()
@@ -49,7 +50,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
@@ -78,10 +80,12 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         directiveDTO = createDirectiveOutput.getDirectiveDTO()
-        directive = DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO)
+        directive = DirectiveDTOMapper.mappingDirectiveFrom(
+            directiveDTO=directiveDTO)
         self.assertTrue(createDirectiveOutput.getIsLegalDirective())
         self.assertEqual(len(directive.getAppEvents()), 3)
 
@@ -102,11 +106,13 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
-    def test_no_improved_code_coverage_with_baseline_and_more_previous_state(self):
+    def test_no_improved_code_coverage_with_baseline_and_more_previous_state(
+            self):
         episodeHandler = self._createEpisodeHandler()
         episodeHandler.appendState(self._createState(actionType="click",
                                                      interactedElement=self._createAppElement(
@@ -132,7 +138,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
         episodeHandler = self._createEpisodeHandler()
@@ -150,7 +157,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
     def test_smaller_code_coverage_than_baseline_and_previous_state(self):
@@ -181,11 +189,13 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
-    def test_improved_code_coverage_with_baseline_and_with_previous_state(self):
+    def test_improved_code_coverage_with_baseline_and_with_previous_state(
+            self):
         episodeHandler = self._createEpisodeHandler()
         episodeHandler.appendState(self._createState(actionType="click",
                                                      interactedElement=self._createAppElement(
@@ -212,10 +222,12 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
-    def test_same_code_coverage_with_previous_state_but_appEvent_is_smaller(self):
+    def test_same_code_coverage_with_previous_state_but_appEvent_is_smaller(
+            self):
         episodeHandler = self._createEpisodeHandler()
         episodeHandler.appendState(self._createState(actionType="click",
                                                      interactedElement=self._createAppElement(
@@ -246,14 +258,17 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         directiveDTO = createDirectiveOutput.getDirectiveDTO()
-        directive = DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO)
+        directive = DirectiveDTOMapper.mappingDirectiveFrom(
+            directiveDTO=directiveDTO)
         self.assertTrue(createDirectiveOutput.getIsLegalDirective())
         self.assertEqual(directive.getAppEvents()[0].getValue(), "")
 
-    def test_same_code_coverage_with_previous_state_but_appEvent_is_bigger(self):
+    def test_same_code_coverage_with_previous_state_but_appEvent_is_bigger(
+            self):
         episodeHandler = self._createEpisodeHandler()
         episodeHandler.appendState(self._createState(actionType="click",
                                                      interactedElement=self._createAppElement(
@@ -284,10 +299,12 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
-    def test_smaller_code_coverage_than_previous_state_but_appEvent_is_bigger(self):
+    def test_smaller_code_coverage_than_previous_state_but_appEvent_is_bigger(
+            self):
         episodeHandler = self._createEpisodeHandler()
         episodeHandler.appendState(self._createState(actionType="click",
                                                      interactedElement=self._createAppElement(
@@ -318,7 +335,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
 
     def test_no_improved_code_coverage_with_previous_state(self):
@@ -348,10 +366,12 @@ class testCreateDirectiveUseCase(unittest.TestCase):
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.getId())
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)
 
         directiveDTO = createDirectiveOutput.getDirectiveDTO()
-        directive = DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO)
+        directive = DirectiveDTOMapper.mappingDirectiveFrom(
+            directiveDTO=directiveDTO)
         self.assertFalse(createDirectiveOutput.getIsLegalDirective())
         self.assertEqual(directive.getAppEvents()[0].getValue(), "")
 
@@ -372,10 +392,12 @@ class testCreateDirectiveUseCase(unittest.TestCase):
                                                                             taskID=taskID,
                                                                             basicCodeCoverage=originalCodeCoverageDTO)
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
         return createTargetPageOutput.getId()
 
-    def _createCodeCoverageDTO(self, codeCoverageVector: [bool]) -> CodeCoverageDTO:
+    def _createCodeCoverageDTO(self, codeCoverageVector: [
+                               bool]) -> CodeCoverageDTO:
         return CodeCoverageDTO(codeCoverageType=self._codeCoverageType,
                                codeCoverageVector=codeCoverageVector)
 
@@ -396,7 +418,8 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         return state
 
     def _createAppElement(self, tagName: str, value: str):
-        return AppElement(tagName=tagName, name="", type="", value=value, xpath="")
+        return AppElement(tagName=tagName, name="",
+                          type="", value=value, xpath="")
 
     def _createDirective(self, episodeHandlerId: str):
         createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
@@ -405,4 +428,5 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
             targetPageId=self._targetPageId, episodeHandlerId=episodeHandlerId)
         createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(createDirectiveInput, createDirectiveOutput)
+        createDirectiveUseCase.execute(
+            createDirectiveInput, createDirectiveOutput)

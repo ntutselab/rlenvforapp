@@ -38,7 +38,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
         self.assertEqual(150, len(executeActionOutput.getObservation()))
         self.assertEqual(True, executeActionOutput.getIsDone())
@@ -51,7 +53,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=7, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
         self.assertEqual(
             2, len(
@@ -72,7 +76,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=3, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
         self.assertEqual(150, len(executeActionOutput.getObservation()))
         self.assertEqual(300, executeActionOutput.getObservation()[3])
         self.assertEqual(False, executeActionOutput.getIsDone())
@@ -100,7 +106,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
         self.assertEqual(150, len(executeActionOutput.getObservation()))
         self.assertEqual(50, executeActionOutput.getReward())
@@ -128,7 +136,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
         self.assertEqual(
             13, len(
@@ -144,7 +154,9 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
             actionNumber=actionNumber, epsisodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
+        executeActionUseCase.execute(
+            input=executeActionInput,
+            output=executeActionOutput)
 
     def _create_target_page(self):
         targetPageUrl = "./register.html"
@@ -154,12 +166,14 @@ class testExecuteActionUseCaseTest(unittest.TestCase):
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
             targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _resetEnv(self):
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
             operator=self._autOperator, episodeHandlerRepository=self._episodeHandlerRepository)
-        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=1)
+        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=1)
         resetEnvironmentUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvironmentUseCase.execute(
             input=resetEnvironmentUseInput,

@@ -9,7 +9,9 @@ class testWord2VecSingleton(unittest.TestCase):
         self.model = Word2VecSingleton.getInstance()
 
     def testGetId(self):
-        self.assertEqual(self.model.getId(), Word2VecSingleton.getInstance().getId())
+        self.assertEqual(
+            self.model.getId(),
+            Word2VecSingleton.getInstance().getId())
 
     def testIsInVocab(self):
         word_token: str = "word"
@@ -26,5 +28,8 @@ class testWord2VecSingleton(unittest.TestCase):
 
     def testRemoveSymbols(self):
         word_token: str = "I_do_not_exist"
-        self.assertEqual("Idonotexist", self.model.getInstance().removeSymbols(word_token))
-        self.assertEqual("name", self.model.getInstance().removeSymbols("##name"))
+        self.assertEqual(
+            "Idonotexist",
+            self.model.getInstance().removeSymbols(word_token))
+        self.assertEqual(
+            "name", self.model.getInstance().removeSymbols("##name"))

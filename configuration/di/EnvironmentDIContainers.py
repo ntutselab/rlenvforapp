@@ -8,37 +8,45 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
 
     # repository
     targetPageRepository = providers.Singleton(
-        DIConfiguration.get_class_name(config.Environment.target_page_repository())
+        DIConfiguration.get_class_name(
+            config.Environment.target_page_repository())
     )
 
     episodeHandlerRepository = providers.Singleton(
-        DIConfiguration.get_class_name(config.Environment.episode_handler_repository()),
+        DIConfiguration.get_class_name(
+            config.Environment.episode_handler_repository()),
         sizeLimit=2
     )
 
     applicationUnderTestRepository = providers.Singleton(
-        DIConfiguration.get_class_name(config.Environment.application_under_test_repository())
+        DIConfiguration.get_class_name(
+            config.Environment.application_under_test_repository())
     )
 
     # service
     observationService = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.observation_service())
+        DIConfiguration.get_class_name(
+            config.Environment.observation_service())
     )
 
     actionCommandFactory = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.action_command_factory())
+        DIConfiguration.get_class_name(
+            config.Environment.action_command_factory())
     )
 
     rewardCalculatorService = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.reward_calculator_service())
+        DIConfiguration.get_class_name(
+            config.Environment.reward_calculator_service())
     )
 
     directiveRuleService = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.directive_rule_service())
+        DIConfiguration.get_class_name(
+            config.Environment.directive_rule_service())
     )
 
     targetPageQueueManagerService = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.target_page_queue_manager()),
+        DIConfiguration.get_class_name(
+            config.Environment.target_page_queue_manager()),
         repository=targetPageRepository
     )
 
@@ -49,6 +57,7 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
     )
 
     applicationHandler = providers.Factory(
-        DIConfiguration.get_class_name(config.Environment.application_handler()),
+        DIConfiguration.get_class_name(
+            config.Environment.application_handler()),
         serverFolder="RLEnvForApp/application/serverInstance"
     )

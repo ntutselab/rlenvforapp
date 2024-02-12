@@ -27,6 +27,7 @@ class HirerarchyInitial:
     def stopAUTServer(self, id):
         stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
             repository=self._autRepository, applicationHandler=self._applicationHandler)
-        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(id=id)
+        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
+            id=id)
         stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
         stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)

@@ -24,7 +24,8 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
         for path in targetPagePaths:
             if ".html" in path:
                 folderPath, pageHTMLFileName = os.path.split(path)
-                pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
+                pageJsonFileName = os.path.splitext(
+                    pageHTMLFileName)[0] + ".json"
                 jsonData = open(os.path.join(folderPath, pageJsonFileName),)
                 pageLog = json.load(jsonData)
                 jsonData.close()
@@ -42,7 +43,8 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
                                                                             formXPath=formXPath,
                                                                             appEventDTOs=[])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
     def _getAllFilePathInFolder(self, targetFolderPath: str):
         filesPath = []

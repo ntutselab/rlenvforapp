@@ -69,7 +69,8 @@ class StateEntity:
     def getInterActedElementEntity(self) -> AppElementEntity:
         return self._interactedElement
 
-    def setSelectedAppElementEntities(self, selectedAppElementEntities: [AppElementEntity]):
+    def setSelectedAppElementEntities(
+            self, selectedAppElementEntities: [AppElementEntity]):
         self._selectedAppElementEntities = selectedAppElementEntities
 
     def getSelectedAppElementEntities(self) -> [AppElementEntity]:

@@ -21,7 +21,8 @@ from RLEnvForApp.usecase.applicationUnderTest.start import (
 class testStartApplicationUnderTestUserCase(TestCase):
     def setUp(self) -> None:
         self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._applicationHandler = DockerServerHandler("RLEnvForApp/application/serverInstance")
+        self._applicationHandler = DockerServerHandler(
+            "RLEnvForApp/application/serverInstance")
         self._hirerarchyInitial = HirerarchyInitial(
             autRepository=self._autRepository,
             applicationHandler=self._applicationHandler)
@@ -31,7 +32,8 @@ class testStartApplicationUnderTestUserCase(TestCase):
     #         self._hirerarchyInitial.stopAUTServer(autEntity.getId())
 
     def test_start_timeoff_management_application_under_test(self):
-        self._executeUseCaseAndWait(applicationName="timeoff_management_with_coverage")
+        self._executeUseCaseAndWait(
+            applicationName="timeoff_management_with_coverage")
 
     def test_start_nodebb_application_under_test(self):
         self._executeUseCaseAndWait(applicationName="nodebb_with_coverage")
@@ -51,7 +53,8 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(startAUTOutput.getId())
+        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
+            startAUTOutput.getId())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
             autEntity)
         self.assertEqual(aut.getId(), startAUTOutput.getId())
@@ -66,7 +69,8 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(startAUTOutput.getId())
+        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
+            startAUTOutput.getId())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
             autEntity)
         self.assertEqual(aut.getId(), startAUTOutput.getId())
@@ -81,7 +85,8 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(startAUTOutput.getId())
+        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
+            startAUTOutput.getId())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
             autEntity)
         self.assertEqual(aut.getId(), startAUTOutput.getId())
@@ -97,7 +102,8 @@ class testStartApplicationUnderTestUserCase(TestCase):
 
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(startAUTOutput.getId())
+        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
+            startAUTOutput.getId())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
             autEntity)
         self.assertEqual(aut.getId(), startAUTOutput.getId())

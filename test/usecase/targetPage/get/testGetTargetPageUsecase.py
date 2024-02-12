@@ -44,16 +44,20 @@ class testGetTargetPageUsecase(unittest.TestCase):
                                                                             basicCodeCoverage=self._originalCodeCoverageDTO,
                                                                             directiveDTOs=[self._directiveDTO])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
         self._targetPageId = createTargetPageOutput.getId()
 
     def test_get_target_page(self):
         getTargetPageUseCase = GetTargetPageUseCase.GetTargetPageUseCase(
             repository=self._repository)
-        getTargetPageInput = GetTargetPageInput.GetTargetPageInput(targetPageId=self._targetPageId)
+        getTargetPageInput = GetTargetPageInput.GetTargetPageInput(
+            targetPageId=self._targetPageId)
         getTargetPageOutput = GetTargetPageOutput.GetTargetPageOutput()
 
-        getTargetPageUseCase.execute(input=getTargetPageInput, output=getTargetPageOutput)
+        getTargetPageUseCase.execute(
+            input=getTargetPageInput,
+            output=getTargetPageOutput)
         targetPageDTO: TargetPageDTO = getTargetPageOutput.getTargetPageDTO()
         self.assertEqual(targetPageDTO.getId(), self._targetPageId)
         self.assertEqual(
@@ -72,5 +76,9 @@ class testGetTargetPageUsecase(unittest.TestCase):
                          self._directiveDTO.getCodeCoverageDTO().getCodeCoverageType())
         self.assertEqual(directiveDTO.getCodeCoverageDTO().getCodeCoverageVector(),
                          self._directiveDTO.getCodeCoverageDTO().getCodeCoverageVector())
-        self.assertEqual(directiveDTO.getAppEventDTOs()[0].getXpath(), self._appEventDTO.getXpath())
-        self.assertEqual(directiveDTO.getAppEventDTOs()[0].getValue(), self._appEventDTO.getValue())
+        self.assertEqual(
+            directiveDTO.getAppEventDTOs()[0].getXpath(),
+            self._appEventDTO.getXpath())
+        self.assertEqual(
+            directiveDTO.getAppEventDTOs()[0].getValue(),
+            self._appEventDTO.getValue())

@@ -35,7 +35,10 @@ class testTimeLogger(unittest.TestCase):
         time.sleep(timePassedSeconds)
         stopTimeSeconds = TimeLoggerService().logStop(logDir=self.logDir)
 
-        self.assertGreaterEqual(stopTimeSeconds - startTimeSeconds, timePassedSeconds)
+        self.assertGreaterEqual(
+            stopTimeSeconds -
+            startTimeSeconds,
+            timePassedSeconds)
         startTimeLogPath = os.path.join(self.logDir, self.startTimeFileName)
         stopTimeLogPath = os.path.join(self.logDir, self.stopTimeFileName)
         self.assertTrue(os.path.exists(startTimeLogPath))

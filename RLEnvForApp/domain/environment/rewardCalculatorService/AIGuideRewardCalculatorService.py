@@ -22,8 +22,10 @@ class AIGuideRewardCalculatorService(IRewardCalculatorService):
         self._actionIndicationService: IActionIndicationService = CheckActionTypeIndicationService()
 
     def calculateReward(self, episodeHandler: IEpisodeHandler):
-        state: State = episodeHandler.getState(index=episodeHandler.getNumberOfState() - 1)
-        episodeStepFraction = self._getEpisodeStepFraction(episodeHandler=episodeHandler)
+        state: State = episodeHandler.getState(
+            index=episodeHandler.getNumberOfState() - 1)
+        episodeStepFraction = self._getEpisodeStepFraction(
+            episodeHandler=episodeHandler)
         if episodeHandler.isDone() and self._targetIndicationService.isConform(state=state):
             return self._episodeRewardCoefficient * (1 / episodeStepFraction)
 

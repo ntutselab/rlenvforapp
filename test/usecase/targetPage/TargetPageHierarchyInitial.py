@@ -17,6 +17,7 @@ class TargetPageHierarchyInitial:
                                                                             rootUrl=rootUrl,
                                                                             appEventDTOs=appEventDTOs)
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
 
         return createTargetPageOutput.getId()

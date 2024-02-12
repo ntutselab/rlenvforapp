@@ -29,7 +29,8 @@ class DefaultHtmlFileOperator(IAUTOperator):
         state.setSelectedAppElements(self._selectedAppElements)
         state.setActionType(super().getActionType())
         state.setAppEventInputValue(value=self._appEventValue)
-        state.setInteractedElement(self._selectedAppElements[self._interactedElementIndex])
+        state.setInteractedElement(
+            self._selectedAppElements[self._interactedElementIndex])
         state.setFocusVector(focusedVector)
         return state
 
@@ -48,7 +49,9 @@ class DefaultHtmlFileOperator(IAUTOperator):
         if xpath == "" and value == "":
             self._clickSubmitButton()
         elif xpath == "" and value != "":
-            self._inputValue(xpath=self.getFocusedAppElement().getXpath(), value=value)
+            self._inputValue(
+                xpath=self.getFocusedAppElement().getXpath(),
+                value=value)
         else:
             self._inputValue(xpath=xpath, value=value)
 
@@ -67,7 +70,8 @@ class DefaultHtmlFileOperator(IAUTOperator):
         self._selectedAppElements: [AppElement] = []
 
         for appElementDTO in self._crawler.getAllSelectedAppElementsDTOs():
-            appElement = AppElementDTOMapper.mappingAppElementFrom(appElementDTO=appElementDTO)
+            appElement = AppElementDTOMapper.mappingAppElementFrom(
+                appElementDTO=appElementDTO)
             if appElement.getTagName() == "input":
                 self._selectedAppElements.append(appElement)
             elif appElement.getType() == "submit":

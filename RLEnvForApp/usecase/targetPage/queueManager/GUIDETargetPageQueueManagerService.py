@@ -21,5 +21,6 @@ class GUIDETargetPageQueueManagerService(ITargetPageQueueManagerService):
         return targetPage
 
     def enqueueTargetPage(self, targetPage: TargetPage):
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage)
+        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+            targetPage=targetPage)
         super().getRepository().add(targetPageEntity=targetPageEntity)

@@ -43,7 +43,8 @@ class MyTestCase(unittest.TestCase):
                                                                             basicCodeCoverage=self._originalCodeCoverageDTO,
                                                                             directiveDTOs=[self._directiveDTO])
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(createTargetPageInput, createTargetPageOutput)
+        createTargetPageUseCase.execute(
+            createTargetPageInput, createTargetPageOutput)
         self._targetPageId = createTargetPageOutput.getId()
 
     def test_get_all_target_page(self):
@@ -52,6 +53,8 @@ class MyTestCase(unittest.TestCase):
         getAllTargetPageInput = GetAllTargetPageInput.GetAllTargetPageInput()
         getAllTargetPageOutput = GetAllTargetPageOutput.GetAllTargetPageOutput()
 
-        getAllTargetPageUseCase.execute(input=getAllTargetPageInput, output=getAllTargetPageOutput)
+        getAllTargetPageUseCase.execute(
+            input=getAllTargetPageInput,
+            output=getAllTargetPageOutput)
 
         self.assertEqual(1, len(getAllTargetPageOutput.getTargetPageDTOs()))

@@ -40,12 +40,15 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
 
         usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(
             episodeHandlerRepository=self._episodeHandlerRepository)
-        input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(episodeHandlerId=episodeHandlerId)
+        input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(
+            episodeHandlerId=episodeHandlerId)
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 
         usecase.execute(input=input, output=output)
         self.assertEqual(3, len(output.getEpisodeHandlerDTO().getStateDTOs()))
-        self.assertEqual(episodeHandlerId, output.getEpisodeHandlerDTO().getId())
+        self.assertEqual(
+            episodeHandlerId,
+            output.getEpisodeHandlerDTO().getId())
 
     def _createEpisodeHandler(self):
         return MorePagesExperimentEpisodeHandler(
