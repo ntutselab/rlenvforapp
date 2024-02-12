@@ -18,10 +18,10 @@ from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCove
     ICodeCoverageCollector
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.environment.executeAction import *
-from RLEnvForApp.usecase.environment.initiateEnvironment import *
-from RLEnvForApp.usecase.environment.resetEnvironment import *
-from RLEnvForApp.usecase.targetPage.update import *
+from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
+from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase, InitiateEnvironmentInput, InitiateEnvironmentOutput
+from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
+from RLEnvForApp.usecase.targetPage.update import UpdateTargetPageUseCase, UpdateTargetPageInput, UpdateTargetPageOutput
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.logger.logger import Logger

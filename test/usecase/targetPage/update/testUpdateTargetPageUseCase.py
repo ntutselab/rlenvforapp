@@ -4,9 +4,8 @@ from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository impo
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.targetPage.mapper import TargetPageEntityMapper
-from RLEnvForApp.usecase.targetPage.update import *
+from RLEnvForApp.usecase.targetPage.update import UpdateTargetPageUseCase, UpdateTargetPageInput, UpdateTargetPageOutput
 from test.usecase.targetPage.TargetPageHierarchyInitial import TargetPageHierarchyInitial
-from RLEnvForApp.usecase.targetPage.create import *
 
 
 class testUpdateTargetPageUseCase(unittest.TestCase):

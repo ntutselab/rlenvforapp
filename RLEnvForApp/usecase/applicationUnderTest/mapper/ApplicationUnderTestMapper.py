@@ -1,4 +1,4 @@
-from RLEnvForApp.domain.applicationUnderTest import *
+from RLEnvForApp.domain.applicationUnderTest import ApplicationUnderTest
 from ..entity import ApplicationUnderTestEntity
 
 

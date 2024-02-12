@@ -12,7 +12,7 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.MaxCodeCoverageDirective
     MaxCodeCoverageDirectiveRuleService
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.targetPage.create import *
+from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateDirectiveInput, CreateDirectiveOutput, CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper
 
