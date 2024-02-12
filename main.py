@@ -2,18 +2,17 @@ import os
 import sys
 
 from RLEnvForApp.adapter.agent.RLController import RLController
-from RLEnvForApp.adapter.environment.gym import *
-from RLEnvForApp.adapter.environment.gym import AIGuideEnvironment
+from RLEnvForApp.adapter.environment.gym import AIGuideEnvironment, AIGuideHTMLLogEnvironment
 from RLEnvForApp.usecase.applicationUnderTest.start.StartApplicationUnderTestUserCase import \
     StartApplicationUnderTestUserCase
 from RLEnvForApp.usecase.applicationUnderTest.stop.StopApplicationUnderTestUseCase import \
     StopApplicationUnderTestUseCase
 from RLEnvForApp.usecase.environment.episodeHandler.get.GetEpisodeHandlerUseCase import GetEpisodeHandlerUseCase
 from RLEnvForApp.usecase.targetPage.ITargetIndicationService.GUIDEIndicationService import GUIDEIndicationService
-from RLEnvForApp.usecase.targetPage.create import *
-from RLEnvForApp.usecase.environment.executeAction import *
-from RLEnvForApp.usecase.environment.initiateEnvironment import *
-from RLEnvForApp.usecase.environment.resetEnvironment import *
+from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateTargetPageUseCase
+from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase
+from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase
+from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase
 from RLEnvForApp.usecase.targetPage.get.GetAllTargetPageUseCase import GetAllTargetPageUseCase
 from RLEnvForApp.usecase.targetPage.get.GetTargetPageUseCase import GetTargetPageUseCase
 from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageUseCase import RemoveTargetPageUseCase
@@ -21,6 +20,8 @@ from RLEnvForApp.usecase.targetPage.update.UpdateTargetPageUseCase import Update
 from configuration.di.AgentDIContainers import AgentDIContainers
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.logger.logger import Logger
+
+controller: RLController = None
 
 
 def setDIContainer():

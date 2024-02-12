@@ -2,7 +2,7 @@ import unittest
 
 from RLEnvForApp.domain.environment.observationService.DefaultForTestObservationService import \
     DefaultForTestObservationService
-from RLEnvForApp.usecase.environment.initiateEnvironment import *
+from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase, InitiateEnvironmentInput, InitiateEnvironmentOutput
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 
 

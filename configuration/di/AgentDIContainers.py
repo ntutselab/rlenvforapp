@@ -1,8 +1,5 @@
 from dependency_injector import containers, providers
-
-from RLEnvForApp.adapter.agent.policy.extractor import *
-from RLEnvForApp.adapter.environment.gym import *
-from configuration.di.DIConfiguration import DIConfiguration
+from .DIConfiguration import DIConfiguration
 
 
 class AgentDIContainers(containers.DeclarativeContainer):

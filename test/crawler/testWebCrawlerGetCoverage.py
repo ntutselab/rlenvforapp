@@ -18,9 +18,9 @@ from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import IRobotOperator
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from RLEnvForApp.usecase.environment.state.mapper import CodeCoverageEntityMapper
-from RLEnvForApp.usecase.environment.executeAction import *
-from RLEnvForApp.usecase.environment.resetEnvironment import *
-from RLEnvForApp.usecase.targetPage.create import *
+from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
+from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
+from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
 from RLEnvForApp.usecase.targetPage.queueManager.HtmlFileTargetPageQueueManagerService import \
     HtmlFileTargetPageQueueManagerService
 

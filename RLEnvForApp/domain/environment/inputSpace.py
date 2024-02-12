@@ -1,7 +1,7 @@
 import json
 import os
 
-from RLEnvForApp.domain.environment.category import *
+from RLEnvForApp.domain.environment.category import CLICK, EMAIL, NAME, PASSWORD, DATE, NUMBER, PHONE_NUMBER, STRING, CITY, ADDRESS, POSTAL_CODE
 
 inputTypes = [CLICK, EMAIL, NAME, PASSWORD, DATE, NUMBER, PHONE_NUMBER, STRING, CITY, ADDRESS, POSTAL_CODE]
 inputValues = [[""],
