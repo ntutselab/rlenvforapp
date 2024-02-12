@@ -10,7 +10,7 @@ class ALBERTTokenizerSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if ALBERTTokenizerSingleton._instance is None:
             ALBERTTokenizerSingleton()
         return ALBERTTokenizerSingleton._instance
@@ -28,10 +28,10 @@ class ALBERTTokenizerSingleton:
             ALBERTTokenizerSingleton._instance = self
             Logger().info("done")
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getTokenIds(self, sentence) -> []:
+    def get_token_ids(self, sentence) -> []:
         processed_word = bert.albert_tokenization.preprocess_text(
             sentence.lower(), lower=True)
         return bert.albert_tokenization.encode_ids(self._sp, processed_word)

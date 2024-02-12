@@ -11,46 +11,46 @@ from RLEnvForApp.usecase.targetPage.mapper import (AppEventEntityMapper,
                                                    DirectiveEntityMapper)
 
 
-def mappingTargetPageEntityFrom(targetPage: TargetPage.TargetPage):
+def mapping_target_page_entity_from(targetPage: TargetPage.TargetPage):
     appEventEntities: [AppEventEntity.AppEventEntity] = []
-    for appEvent in targetPage.getAppEvents():
+    for appEvent in targetPage.get_app_events():
         appEventEntities.append(
-            AppEventEntityMapper.mappingAppEventEntityFrom(appEvent))
+            AppEventEntityMapper.mapping_app_event_entity_from(appEvent))
 
     directiveEntities: [DirectiveEntity] = []
-    for directive in targetPage.getDirectives():
+    for directive in targetPage.get_directives():
         directiveEntities.append(
-            DirectiveEntityMapper.mappingDirectiveEntityFrom(
+            DirectiveEntityMapper.mapping_directive_entity_from(
                 directive=directive))
-    return TargetPageEntity.TargetPageEntity(id=targetPage.getId(),
-                                             targetUrl=targetPage.getTargetUrl(),
-                                             rootUrl=targetPage.getRootUrl(),
+    return TargetPageEntity.TargetPageEntity(id=targetPage.get_id(),
+                                             targetUrl=targetPage.get_target_url(),
+                                             rootUrl=targetPage.get_root_url(),
                                              appEventEntities=appEventEntities,
-                                             taskID=targetPage.getTaskID(),
-                                             formXPath=targetPage.getFormXPath(),
-                                             basicCodeCoverageEntity=CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(
-                                                 targetPage.getBasicCodeCoverage()),
+                                             taskID=targetPage.get_task_id(),
+                                             formXPath=targetPage.get_form_x_path(),
+                                             basicCodeCoverageEntity=CodeCoverageEntityMapper.mapping_code_coverage_entity_from(
+                                                 targetPage.get_basic_code_coverage()),
                                              directiveEntities=directiveEntities)
 
 
-def mappingTargetPageFrom(targetPageEntity: TargetPageEntity):
+def mapping_target_page_from(targetPageEntity: TargetPageEntity):
     appEvents: [AppEvent] = []
-    for appEventEntity in targetPageEntity.getAppEventEntities():
+    for appEventEntity in targetPageEntity.get_app_event_entities():
         appEvents.append(
-            AppEventEntityMapper.mappingAppEventFrom(
+            AppEventEntityMapper.mapping_app_event_from(
                 appEventEntity=appEventEntity))
 
     directives: [Directive] = []
-    for directiveEntity in targetPageEntity.getDirectiveEntities():
+    for directiveEntity in targetPageEntity.get_directive_entities():
         directives.append(
-            DirectiveEntityMapper.mappingDirectiveFrom(
+            DirectiveEntityMapper.mapping_directive_from(
                 directiveEntity=directiveEntity))
-    return TargetPage.TargetPage(id=targetPageEntity.getId(),
-                                 targetUrl=targetPageEntity.getTargetUrl(),
+    return TargetPage.TargetPage(id=targetPageEntity.get_id(),
+                                 targetUrl=targetPageEntity.get_target_url(),
                                  rootUrl=targetPageEntity._rootUrl,
                                  appEvents=appEvents,
-                                 taskID=targetPageEntity.getTaskID(),
-                                 formXPath=targetPageEntity.getFormXPath(),
-                                 basicCodeCoverage=CodeCoverageEntityMapper.mappingCodeCoverageFrom(
-                                     targetPageEntity.getBasicCodeCoverageEntity()),
+                                 taskID=targetPageEntity.get_task_id(),
+                                 formXPath=targetPageEntity.get_form_x_path(),
+                                 basicCodeCoverage=CodeCoverageEntityMapper.mapping_code_coverage_from(
+                                     targetPageEntity.get_basic_code_coverage_entity()),
                                  directives=directives)

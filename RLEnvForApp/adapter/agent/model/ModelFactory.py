@@ -9,8 +9,8 @@ class ModelFactory:
         self._configPath = ""
         self._config = None
 
-    def createModel(self, algorithm, policy, environment, tensorboardPath):
-        self._checkAlgorithm(algorithm=algorithm)
+    def create_model(self, algorithm, policy, environment, tensorboardPath):
+        self._check_algorithm(algorithm=algorithm)
 
         if algorithm == "DQN":
             return DQN(policy, environment,
@@ -35,9 +35,9 @@ class ModelFactory:
         if algorithm == "Monkey":
             return MonkeyAdapter(policy=None, env=environment)
 
-    def loadModel(self, algorithm, modelPath,
+    def load_model(self, algorithm, modelPath,
                   environment=None, tensorboardPath=None):
-        self._checkAlgorithm(algorithm=algorithm)
+        self._check_algorithm(algorithm=algorithm)
 
         model = None
         if algorithm == "DQN":
@@ -51,7 +51,7 @@ class ModelFactory:
         model.tensorboard_log = tensorboardPath
         return model
 
-    def _checkAlgorithm(self, algorithm):
+    def _check_algorithm(self, algorithm):
         if algorithm not in ["DQN", "PPO2", "Monkey"]:
             raise RuntimeError(
                 "AlgorithmError: No such algorithm as " + algorithm)

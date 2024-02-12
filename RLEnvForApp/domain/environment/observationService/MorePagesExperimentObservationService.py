@@ -18,8 +18,8 @@ class MorePagesExperimentObservationService(IObservationService):
         super().__init__()
         self._textConverter = FastTextConverter()
 
-    def getObservation(self, state: State):
-        observationDict = self.getOriginalObservation(state=state)
+    def get_observation(self, state: State):
+        observationDict = self.get_original_observation(state=state)
 
         listLabelName = self._textConverter.convert(
             stateElement=observationDict["labelName"])
@@ -31,40 +31,40 @@ class MorePagesExperimentObservationService(IObservationService):
         wordsObservation = [*listLabelName, *listTagName, *listType]
         return wordsObservation, observationDict
 
-    def getOriginalObservation(self, state: State):
+    def get_original_observation(self, state: State):
         observationDict = {}
         labelName = ""
         tagName = ""
         elementType = ""
 
-        if True in state.getFocusVector():
-            focusedIndex = state.getFocusVector().index(True)
-            focusedElement = state.getAllSelectedAppElements()[focusedIndex]
-            labelName = self._getElementLabelBySimilarity(state)
-            tagName = focusedElement.getTagName().lower()
-            elementType = focusedElement.getType().lower()
+        if True in state.get_focus_vector():
+            focusedIndex = state.get_focus_vector().index(True)
+            focusedElement = state.get_all_selected_app_elements()[focusedIndex]
+            labelName = self._get_element_label_by_similarity(state)
+            tagName = focusedElement.get_tag_name().lower()
+            elementType = focusedElement.get_type().lower()
         observationDict["labelName"] = labelName
         observationDict["tagName"] = tagName
         observationDict["type"] = elementType
         return observationDict
 
-    def getObservationDictionary(self, observation: [int]):
+    def get_observation_dictionary(self, observation: [int]):
         pass
 
-    def getObservationSize(self):
+    def get_observation_size(self):
         return (1, 300 * 3, 1)
 
-    def _isFormComplete(self, state: State):
+    def _is_form_complete(self, state: State):
         complete = True
-        for appElement in state.getAllSelectedAppElements():
-            if appElement.getValue() == "":
+        for appElement in state.get_all_selected_app_elements():
+            if appElement.get_value() == "":
                 complete = False
         return complete
 
-    def _getElementLabelBySimilarity(self, state: State):
-        elementName = state.getInteractedElement().getName().lower()
-        elementLabel = state.getInteractedElementLabel().lower()
-        elementPlaceholder = state.getInteractedElementPlaceholder().lower()
+    def _get_element_label_by_similarity(self, state: State):
+        elementName = state.get_interacted_element().get_name().lower()
+        elementLabel = state.get_interacted_element_label().lower()
+        elementPlaceholder = state.get_interacted_element_placeholder().lower()
         if not elementLabel:
             if elementPlaceholder:
                 elementLabel = elementPlaceholder
@@ -74,18 +74,18 @@ class MorePagesExperimentObservationService(IObservationService):
         if not elementLabel:
             return ""
 
-        elementLabelTokens = CosineSimilarityService.getTokens(elementLabel)
+        elementLabelTokens = CosineSimilarityService.get_tokens(elementLabel)
         elementLabelVectors = list(
-            map(FastTextSingleton.getInstance().getWordVector, elementLabelTokens))
+            map(FastTextSingleton.get_instance().getWordVector, elementLabelTokens))
         categoryVectors = list(
-            map(FastTextSingleton.getInstance().getWordVector, inputSpace.inputTypes))
+            map(FastTextSingleton.get_instance().getWordVector, inputSpace.inputTypes))
 
         labelVectorSimilarities = [0] * len(elementLabelTokens)
         for index, elementLabelVector in enumerate(elementLabelVectors):
             labelVectorSimilarity = 0
             for categoryVector in categoryVectors:
                 labelVectorSimilarity = max(
-                    CosineSimilarityService.getCosineSimilarity(
+                    CosineSimilarityService.get_cosine_similarity(
                         categoryVector, elementLabelVector), labelVectorSimilarity)
             labelVectorSimilarities[index] = labelVectorSimilarity
 

@@ -7,5 +7,5 @@ class GymEnvironmentFactory:
     def __init__(self):
         pass
 
-    def createEnvironment(self) -> DummyVecEnv:
+    def create_environment(self) -> DummyVecEnv:
         return DummyVecEnv([lambda: AgentDIContainers.environment()])

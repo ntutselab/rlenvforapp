@@ -5,5 +5,5 @@ class IActionIndicationService:
     def __init__(self):
         pass
 
-    def isConform(self, state: State):
+    def is_conform(self, state: State):
         pass

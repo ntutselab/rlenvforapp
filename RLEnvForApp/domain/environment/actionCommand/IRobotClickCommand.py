@@ -9,7 +9,7 @@ class IRobotClickCommand(IActionCommand.IActionCommand):
         super().__init__(actionNumber=actionNumber, actionType="click")
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
-        operator.setActionNumber(super().getActionNumber())
-        operator.executeAppEvent(xpath="", value="")
-        operator.changeFocus()
+        operator.set_action_type(super().get_action_type())
+        operator.set_action_number(super().get_action_number())
+        operator.execute_app_event(xpath="", value="")
+        operator.change_focus()

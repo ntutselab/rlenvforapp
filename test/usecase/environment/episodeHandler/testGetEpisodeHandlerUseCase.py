@@ -15,27 +15,27 @@ from RLEnvForApp.usecase.environment.episodeHandler.mapper import \
 
 
 class testGetEpisodeHandlerUseCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
         self._codeCoverageType = "statement coverage"
 
-    def test_get_episodeHandlerDTO(self):
-        episodeHandler = self._createEpisodeHandler()
-        episodeHandlerId = episodeHandler.getId()
-        episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(
+    def test_get_episode_handler_dto(self):
+        episodeHandler = self._create_episode_handler()
+        episodeHandlerId = episodeHandler.get_id()
+        episodeHandler.append_state(self._create_state(actionType="click",
+                                                     interactedElement=self._create_app_element(
                                                          value=""),
-                                                     codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.appendState(self._createState(actionType="changeFocus",
-                                                     interactedElement=self._createAppElement(
+                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episodeHandler.append_state(self._create_state(actionType="changeFocus",
+                                                     interactedElement=self._create_app_element(
                                                          value=""),
-                                                     codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(
+                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episodeHandler.append_state(self._create_state(actionType="click",
+                                                     interactedElement=self._create_app_element(
                                                          value=""),
-                                                     codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
         self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(
+            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
                 episodeHandler=episodeHandler))
 
         usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(
@@ -45,26 +45,26 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 
         usecase.execute(input=input, output=output)
-        self.assertEqual(3, len(output.getEpisodeHandlerDTO().getStateDTOs()))
+        self.assertEqual(3, len(output.get_episode_handler_dto().get_state_dt_os()))
         self.assertEqual(
             episodeHandlerId,
-            output.getEpisodeHandlerDTO().getId())
+            output.get_episode_handler_dto().get_id())
 
-    def _createEpisodeHandler(self):
+    def _create_episode_handler(self):
         return MorePagesExperimentEpisodeHandler(
             id=str(uuid.uuid4()), episodeIndex=0, episodeStep=16)
 
-    def _createState(self, actionType: str, interactedElement: AppElement,
+    def _create_state(self, actionType: str, interactedElement: AppElement,
                      codeCoverages: [CodeCoverage]) -> State:
         state = State(id="stateId")
-        state.setActionType(actionType=actionType)
-        state.setInteractedElement(interactedElement=interactedElement)
-        state.setCodeCoverages(codeCoverages=codeCoverages)
+        state.set_action_type(actionType=actionType)
+        state.set_interacted_element(interactedElement=interactedElement)
+        state.set_code_coverages(codeCoverages=codeCoverages)
         return state
 
-    def _createCodeCoverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
+    def _create_code_coverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
         return CodeCoverage(codeCoverageType=self._codeCoverageType,
                             codeCoverageVector=codeCoverageVector)
 
-    def _createAppElement(self, value: str):
+    def _create_app_element(self, value: str):
         return AppElement(tagName="", name="", type="", value=value, xpath="")

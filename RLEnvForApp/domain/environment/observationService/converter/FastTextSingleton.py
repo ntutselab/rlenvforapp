@@ -10,7 +10,7 @@ class FastTextSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if FastTextSingleton._instance is None:
             FastTextSingleton()
         return FastTextSingleton._instance
@@ -30,27 +30,27 @@ class FastTextSingleton:
             FastTextSingleton._instance = self
             Logger().info("done")
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getWordsVector(self, words: list):
+    def get_words_vector(self, words: list):
         vectors = []
         for word in words:
-            word = self.removeSymbols(word)
+            word = self.remove_symbols(word)
             if word.strip() == '':
                 continue
-            vectors.append(self.getWordVector(word))
+            vectors.append(self.get_word_vector(word))
         return vectors
 
-    def getWordVector(self, word: str):
-        word = self.removeSymbols(word)
+    def get_word_vector(self, word: str):
+        word = self.remove_symbols(word)
         if word != "":
             vector = self._model[word]
         else:
             vector = np.zeros(300)
         return vector
 
-    def removeSymbols(self, word: str):
+    def remove_symbols(self, word: str):
         symbolRemoved = word.translate(str.maketrans(
             '', '', string.punctuation)).strip()  # remove symbols
         return symbolRemoved

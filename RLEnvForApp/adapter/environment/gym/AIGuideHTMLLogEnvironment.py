@@ -35,7 +35,7 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         self._crawler = HTMLLogCrawler()
         self._autOperator = AIGUIDEOperator(crawler=self._crawler)
 
-        self._targetPagePort = TargetPagePortFactory().createAIGuideHTMLLogTargetPagePort(
+        self._targetPagePort = TargetPagePortFactory().create_ai_guide_html_log_target_page_port(
             folderPath="htmlSet/GUIDE_HTML_SET")
 
         self._targetPageId = ""
@@ -54,23 +54,23 @@ class AIGuideHTMLLogEnvironment(gym.Env):
             input=initiateEnvInput,
             output=initiateEnvOutput)
 
-        self._observation_shape = initiateEnvOutput.getObservationSize()
+        self._observation_shape = initiateEnvOutput.get_observation_size()
 
         self.action_space = gym.spaces.Discrete(
-            initiateEnvOutput.getActionSpaceSize())
+            initiateEnvOutput.get_action_space_size())
         self.observation_space = gym.spaces.Box(low=-numpy.inf,
                                                 high=numpy.inf,
                                                 shape=self._observation_shape,
                                                 dtype=numpy.float32)
 
         self._targetPagePort.connect()
-        self._targetPagePort.waitForTargetPage()
+        self._targetPagePort.wait_for_target_page()
 
     def step(self, action):
-        if self._autOperator.getFocusedAppElement() is None:
+        if self._autOperator.get_focused_app_element() is None:
             focusElementXpath = ""
         else:
-            focusElementXpath = self._autOperator.getFocusedAppElement().getXpath()
+            focusElementXpath = self._autOperator.get_focused_app_element().get_xpath()
 
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
             autOperator=self._autOperator)
@@ -89,20 +89,20 @@ class AIGuideHTMLLogEnvironment(gym.Env):
                                  "\tFocusElement: " + str(self._originalObservation).ljust(64) + \
                                  "\tXpath: " + focusElementXpath + \
                                  "\tCodeCoverage:" + \
-            str(executeActionOutput.getCodeCoverageDict())
-        observation = numpy.array(executeActionOutput.getObservation())
+            str(executeActionOutput.get_code_coverage_dict())
+        observation = numpy.array(executeActionOutput.get_observation())
         observation.resize(self._observation_shape)
-        self._episodeReward += executeActionOutput.getReward()
+        self._episodeReward += executeActionOutput.get_reward()
         self._stepNumber += 1
         self._totalStep += 1
 
         self._logger.info(self._stepsInformation)
 
-        self._originalObservation = executeActionOutput.getOriginalObservation()
-        self._originalObservation = self._stripDictionaryContents(
+        self._originalObservation = executeActionOutput.get_original_observation()
+        self._originalObservation = self._strip_dictionary_contents(
             self._originalObservation)
-        return observation, executeActionOutput.getReward(), executeActionOutput.getIsDone(), {
-            "Reward": executeActionOutput.getReward()}
+        return observation, executeActionOutput.get_reward(), executeActionOutput.get_is_done(), {
+            "Reward": executeActionOutput.get_reward()}
 
     def reset(self):
         self._logger.info(
@@ -129,17 +129,17 @@ class AIGuideHTMLLogEnvironment(gym.Env):
                           f"{len(self._episodeHandlerRepository.findAll()):2}")
         self._logger.info(
             "Target page url is: " +
-            resetEnvUseOutput.getTargetPageUrl())
+            resetEnvUseOutput.get_target_page_url())
         self._logger.info(
             "==========================================================\n\n")
 
-        self._episodeHandlerId = resetEnvUseOutput.getEpisodeHandlerId()
-        self._targetPageId = resetEnvUseOutput.getTargetPageId()
-        observation = numpy.array(resetEnvUseOutput.getObservation())
+        self._episodeHandlerId = resetEnvUseOutput.get_episode_handler_id()
+        self._targetPageId = resetEnvUseOutput.get_target_page_id()
+        observation = numpy.array(resetEnvUseOutput.get_observation())
         observation.resize(self._observation_shape)
 
-        self._originalObservation = resetEnvUseOutput.getOriginalObservation()
-        self._originalObservation = self._stripDictionaryContents(
+        self._originalObservation = resetEnvUseOutput.get_original_observation()
+        self._originalObservation = self._strip_dictionary_contents(
             self._originalObservation)
         return observation
 
@@ -150,7 +150,7 @@ class AIGuideHTMLLogEnvironment(gym.Env):
     def render(self):
         pass
 
-    def _stripDictionaryContents(self, dictionary: dict):
+    def _strip_dictionary_contents(self, dictionary: dict):
         for key in dictionary:
             dictionary[key] = str(dictionary[key]).strip()
 

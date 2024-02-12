@@ -10,31 +10,31 @@ class MaxCodeCoverageDirectiveRuleService(IDirectiveRuleService):
         super().__init__()
         self._codeCoverageType = "statement coverage"
 
-    def isLegal(self, targetPage: TargetPage,
+    def is_legal(self, targetPage: TargetPage,
                 directive: Directive, lastDom="") -> bool:
-        targetDirectiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(
+        targetDirectiveCodeCoverage: CodeCoverage = directive.get_code_coverage_by_type(
             codeCoverageType=self._codeCoverageType)
 
-        basicCodeCoverage = targetPage.getBasicCodeCoverage()
-        targetDirectiveImprovedCodeCoverage = targetDirectiveCodeCoverage.getImprovedCodeCoverage(
+        basicCodeCoverage = targetPage.get_basic_code_coverage()
+        targetDirectiveImprovedCodeCoverage = targetDirectiveCodeCoverage.get_improved_code_coverage(
             originalCodeCovreage=basicCodeCoverage)
-        if targetDirectiveImprovedCodeCoverage.getCoveredAmount() == 0:
+        if targetDirectiveImprovedCodeCoverage.get_covered_amount() == 0:
             return False
 
-        for previousDirective in targetPage.getDirectives():
-            previousCodeCoverage: CodeCoverage = previousDirective.getCodeCoverageByType(
+        for previousDirective in targetPage.get_directives():
+            previousCodeCoverage: CodeCoverage = previousDirective.get_code_coverage_by_type(
                 codeCoverageType=self._codeCoverageType)
 
-            previousImprovedCodeCoverage = previousCodeCoverage.getImprovedCodeCoverage(
+            previousImprovedCodeCoverage = previousCodeCoverage.get_improved_code_coverage(
                 originalCodeCovreage=basicCodeCoverage)
 
-            isImproved = targetDirectiveImprovedCodeCoverage.getCoveredAmount(
-            ) > previousImprovedCodeCoverage.getCoveredAmount()
-            isSameCoverdNumber = targetDirectiveCodeCoverage.getCoveredAmount(
-            ) == previousCodeCoverage.getCoveredAmount()
+            isImproved = targetDirectiveImprovedCodeCoverage.get_covered_amount(
+            ) > previousImprovedCodeCoverage.get_covered_amount()
+            isSameCoverdNumber = targetDirectiveCodeCoverage.get_covered_amount(
+            ) == previousCodeCoverage.get_covered_amount()
             isShorterAppEvents = len(
-                directive.getAppEvents()) < len(
-                previousDirective.getAppEvents())
+                directive.get_app_events()) < len(
+                previousDirective.get_app_events())
             if not isImproved and not (
                     isSameCoverdNumber and isShorterAppEvents):
                 return False

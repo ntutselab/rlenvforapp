@@ -7,17 +7,17 @@ class AppElementEntity:
         self._xpath = xpath
         self._value = value
 
-    def getTagName(self):
+    def get_tag_name(self):
         return self._tagName
 
-    def getName(self):
+    def get_name(self):
         return self._name
 
-    def getType(self):
+    def get_type(self):
         return self._type
 
-    def getXpath(self):
+    def get_xpath(self):
         return self._xpath
 
-    def getValue(self):
+    def get_value(self):
         return self._value

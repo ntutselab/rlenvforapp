@@ -16,7 +16,7 @@ class HirerarchyInitial:
         self._autRepository = autRepository
         self._applicationHandler = applicationHandler
 
-    def startAUTServer(self, applicationName):
+    def start_aut_server(self, applicationName):
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
             repository=self._autRepository, applicationHandler=self._applicationHandler)
         startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
@@ -24,7 +24,7 @@ class HirerarchyInitial:
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-    def stopAUTServer(self, id):
+    def stop_aut_server(self, id):
         stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
             repository=self._autRepository, applicationHandler=self._applicationHandler)
         stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(

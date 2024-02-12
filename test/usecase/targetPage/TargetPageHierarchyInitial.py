@@ -9,7 +9,7 @@ class TargetPageHierarchyInitial:
     def __init__(self):
         pass
 
-    def createTargetPage(self, targetPageRepository: TargetPageRepository.TargetPageRepository,
+    def create_target_page(self, targetPageRepository: TargetPageRepository.TargetPageRepository,
                          targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO]):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=targetPageRepository)
@@ -20,4 +20,4 @@ class TargetPageHierarchyInitial:
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
 
-        return createTargetPageOutput.getId()
+        return createTargetPageOutput.get_id()

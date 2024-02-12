@@ -8,7 +8,7 @@ from RLEnvForApp.usecase.environment.observationService.converter.Word2VecConver
 
 
 class testW2vInner(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._w2vConverter = Word2VecConverter()
         self._fastConverter = FastTextConverter()
 
@@ -61,7 +61,7 @@ class testW2vInner(unittest.TestCase):
         print("username and last name: ", self._inner(username,
                                                       self._sum(last, name)))
 
-    def _toUnit(self, vec1) -> []:
+    def _to_unit(self, vec1) -> []:
         value = 0
         vec = []
         for i in vec1:
@@ -73,8 +73,8 @@ class testW2vInner(unittest.TestCase):
 
     def _inner(self, vec1, vec2) -> float:
         value = 0
-        unitVec1 = self._toUnit(vec1)
-        unitVec2 = self._toUnit(vec2)
+        unitVec1 = self._to_unit(vec1)
+        unitVec2 = self._to_unit(vec2)
         for a, b in zip(unitVec1, unitVec2):
             value += a * b
         return value

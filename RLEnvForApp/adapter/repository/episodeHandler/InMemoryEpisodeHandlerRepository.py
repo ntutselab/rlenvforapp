@@ -11,30 +11,30 @@ class InMemoryEpisodeHandlerRepository(EpisodeHandlerRepository):
 
     def add(self, episodeHandlerEntity: EpisodeHandlerEntity):
         self._episodeHandlerEntities.append(episodeHandlerEntity)
-        if self._isOverTheSizeLimit():
+        if self._is_over_the_size_limit():
             firstEpisodeHandlerEntity: EpisodeHandlerEntity = self._episodeHandlerEntities[0]
-            self.deleteById(firstEpisodeHandlerEntity.getId())
+            self.delete_by_id(firstEpisodeHandlerEntity.get_id())
 
-    def deleteById(self, id):
-        self._episodeHandlerEntities.remove(self.findById(id=id))
+    def delete_by_id(self, id):
+        self._episodeHandlerEntities.remove(self.find_by_id(id=id))
 
-    def findById(self, id):
+    def find_by_id(self, id):
         targetEpisodeHandlerEntity: EpisodeHandlerEntity = None
         for episodeHandlerEntity in self._episodeHandlerEntities:
-            if episodeHandlerEntity.getId() == id:
+            if episodeHandlerEntity.get_id() == id:
                 targetEpisodeHandlerEntity = episodeHandlerEntity
         return targetEpisodeHandlerEntity
 
-    def findAll(self) -> [EpisodeHandlerEntity]:
+    def find_all(self) -> [EpisodeHandlerEntity]:
         return self._episodeHandlerEntities
 
     def update(self, episodeHandlerEntity: EpisodeHandlerEntity):
         for each in self._episodeHandlerEntities.copy():
-            if episodeHandlerEntity.getId() == each.getId():
+            if episodeHandlerEntity.get_id() == each.get_id():
                 index = self._episodeHandlerEntities.index(each)
                 self._episodeHandlerEntities[index] = episodeHandlerEntity
 
-    def _isOverTheSizeLimit(self):
-        if super().getSizeLimit() <= 0:
+    def _is_over_the_size_limit(self):
+        if super().get_size_limit() <= 0:
             return False
-        return super().getSizeLimit() < len(self._episodeHandlerEntities)
+        return super().get_size_limit() < len(self._episodeHandlerEntities)

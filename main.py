@@ -34,7 +34,7 @@ from RLEnvForApp.usecase.targetPage.update.UpdateTargetPageUseCase import \
 controller: RLController = None
 
 
-def setDIContainer():
+def set_di_container():
     envContainer = EnvironmentDIContainers()
     agentContainer = AgentDIContainers()
     envContainer.wire(
@@ -58,7 +58,7 @@ def setDIContainer():
         modules=[sys.modules[__name__], RLController])
 
 
-def getAllFilePathInFolder(targetFolderPath: str):
+def get_all_file_path_in_folder(targetFolderPath: str):
     filePaths = []
     for dirPath, dirNames, fileNames in os.walk(targetFolderPath):
         for file in fileNames:
@@ -66,8 +66,8 @@ def getAllFilePathInFolder(targetFolderPath: str):
     return filePaths
 
 
-def verifyModel(modelPath: str, verifyTimes):
-    episodeRewardList = controller.verifyModel(modelPath, verifyTimes)
+def verify_model(modelPath: str, verifyTimes):
+    episodeRewardList = controller.verify_model(modelPath, verifyTimes)
     successTimes = 0
     for i in episodeRewardList:
         if i > 100:
@@ -77,10 +77,10 @@ def verifyModel(modelPath: str, verifyTimes):
     return modelResult
 
 
-def verifyAllModel(modelDir: str):
+def verify_all_model(modelDir: str):
     modelResults = []
-    for modelPath in getAllFilePathInFolder(modelDir):
-        episodeRewardList = controller.verifyModel(modelPath, 10)
+    for modelPath in get_all_file_path_in_folder(modelDir):
+        episodeRewardList = controller.verify_model(modelPath, 10)
         successTimes = 0
         for i in episodeRewardList:
             if i > 100:
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         logger = Logger(f"{comment}_{modelName}.log")
         Logger().info(f"{comment}_{modelName}")
 
-        setDIContainer()
+        set_di_container()
         # controller = RLController(algorithm="DQN", policy=DQNCustomPolicy)
         controller = RLController(algorithm="Monkey", policy=None)
 
@@ -123,7 +123,7 @@ if __name__ == '__main__':
         # verifyModel(modelPath=os.path.join(modelDir, modelName + "_" + str(toTalTimeStep) + "step.zip"), verifyTimes=74)
 
         # =======verify phase=======
-        controller.verifyModelByTotalStep(modelPath=os.path.join(modelDir, modelName),
+        controller.verify_model_by_total_step(modelPath=os.path.join(modelDir, modelName),
                                           totalStep=toTalTimeStep, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
 
         # =======final verify phase=======

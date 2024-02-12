@@ -6,19 +6,19 @@ class EpisodeHandlerRepository:
     def __init__(self, sizeLimit: int):
         self._sizeLimit = sizeLimit
 
-    def getSizeLimit(self):
+    def get_size_limit(self):
         return self._sizeLimit
 
     def add(self, episodeHandlerEntity: EpisodeHandlerEntity):
         pass
 
-    def deleteById(self, id: str):
+    def delete_by_id(self, id: str):
         pass
 
-    def findById(self, id: str):
+    def find_by_id(self, id: str):
         pass
 
-    def findAll(self) -> [EpisodeHandlerEntity]:
+    def find_all(self) -> [EpisodeHandlerEntity]:
         pass
 
     def update(self, episodeHandlerEntity: EpisodeHandlerEntity):

@@ -15,7 +15,7 @@ from RLEnvForApp.usecase.targetPage.get import (GetAllTargetPageInput,
 
 
 class MyTestCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._repository = InMemoryTargetPageRepository()
         self._targetPageUrl = "./register.html"
         self._rootUrl = "./"
@@ -45,7 +45,7 @@ class MyTestCase(unittest.TestCase):
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
-        self._targetPageId = createTargetPageOutput.getId()
+        self._targetPageId = createTargetPageOutput.get_id()
 
     def test_get_all_target_page(self):
         getAllTargetPageUseCase = GetAllTargetPageUseCase.GetAllTargetPageUseCase(
@@ -57,4 +57,4 @@ class MyTestCase(unittest.TestCase):
             input=getAllTargetPageInput,
             output=getAllTargetPageOutput)
 
-        self.assertEqual(1, len(getAllTargetPageOutput.getTargetPageDTOs()))
+        self.assertEqual(1, len(getAllTargetPageOutput.get_target_page_dt_os()))

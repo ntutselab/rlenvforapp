@@ -17,12 +17,12 @@ class RLController:
         self._policy = policy
         self._environmentFactory = GymEnvironmentFactory()
 
-    def learnModel(self, totalTimesteps: int, modelDir: str,
+    def learn_model(self, totalTimesteps: int, modelDir: str,
                    modelSeriesName: str, tensorboardPath: str = "model/log"):
-        environment = self._environmentFactory.createEnvironment()
+        environment = self._environmentFactory.create_environment()
         modelController = ModelController()
-        modelController.setModel(
-            ModelFactory().createModel(algorithm=self._algorithm, policy=self._policy, environment=environment,
+        modelController.set_model(
+            ModelFactory().create_model(algorithm=self._algorithm, policy=self._policy, environment=environment,
                                        tensorboardPath="model/log"))
         modelController.learn(totalTimeSteps=totalTimesteps)
         modelName = modelSeriesName + "_" + str(totalTimesteps) + "step"
@@ -30,12 +30,12 @@ class RLController:
         modelController.save(os.path.join(modelDir, modelName))
         environment.close()
 
-    def learnModelByExitedModel(self, totalTimesteps: int, modelDir: str,
+    def learn_model_by_exited_model(self, totalTimesteps: int, modelDir: str,
                                 modelSeriesName: str, modelPath: str):
-        environment = self._environmentFactory.createEnvironment()
+        environment = self._environmentFactory.create_environment()
         modelController = ModelController()
-        modelController.setModel(
-            ModelFactory().loadModel(
+        modelController.set_model(
+            ModelFactory().load_model(
                 algorithm=self._algorithm,
                 modelPath=modelPath,
                 environment=environment))
@@ -45,11 +45,11 @@ class RLController:
         modelController.save(os.path.join(modelDir, modelName))
         environment.close()
 
-    def iterateLearnModel(self, timestepsPerIteration: int, iterationTimes: int,
+    def iterate_learn_model(self, timestepsPerIteration: int, iterationTimes: int,
                           modelDir: str, modelSeriesName: str, tensorboardPath: str = "model/log"):
-        environment = self._environmentFactory.createEnvironment()
-        modelController = ModelController().setModel(
-            ModelFactory().createModel(algorithm=self._algorithm, policy=self._policy, environment=environment,
+        environment = self._environmentFactory.create_environment()
+        modelController = ModelController().set_model(
+            ModelFactory().create_model(algorithm=self._algorithm, policy=self._policy, environment=environment,
                                        tensorboardPath="model/log"))
         for i in range(iterationTimes):
             modelController.learn(totalTimeSteps=timestepsPerIteration)
@@ -58,25 +58,25 @@ class RLController:
 
             modelController.save(os.path.join(modelDir, modelName))
 
-    def verifyModel(self, modelPath: str, verifyTimes: int):
+    def verify_model(self, modelPath: str, verifyTimes: int):
         episodeRewardList = []
-        environment = self._environmentFactory.createEnvironment()
+        environment = self._environmentFactory.create_environment()
         modelController = ModelController()
-        modelController.setModel(
-            ModelFactory().loadModel(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
+        modelController.set_model(
+            ModelFactory().load_model(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
         for i in range(verifyTimes):
             reward = modelController.play(environment=environment)
             episodeRewardList.append(reward)
         environment.close()
         return episodeRewardList
 
-    def verifyModelByTime(self, modelPath: str, timeLimit: int = 0,
+    def verify_model_by_time(self, modelPath: str, timeLimit: int = 0,
                           explorationEpisodeEsp=0, explorationStepEsp=0):
         episodeRewardList = []
-        environment = self._environmentFactory.createEnvironment()
+        environment = self._environmentFactory.create_environment()
         modelController = ModelController()
-        modelController.setModel(
-            ModelFactory().loadModel(
+        modelController.set_model(
+            ModelFactory().load_model(
                 algorithm=self._algorithm,
                 modelPath=modelPath,
                 environment=environment))
@@ -84,7 +84,7 @@ class RLController:
         isDone = True
         while isDone:
             initialTime = time.time()
-            reward = modelController.playWithExploration(
+            reward = modelController.play_with_exploration(
                 environment=environment,
                 explorationEpisodeEsp=explorationEpisodeEsp,
                 explorationStepEsp=explorationStepEsp)
@@ -95,14 +95,14 @@ class RLController:
         environment.close()
         return episodeRewardList
 
-    def verifyModelByTotalStep(self, modelPath: str, totalStep,
+    def verify_model_by_total_step(self, modelPath: str, totalStep,
                                explorationEpisodeEsp=0, explorationStepEsp=0):
         episodeRewardList = []
-        environment = self._environmentFactory.createEnvironment()
+        environment = self._environmentFactory.create_environment()
         modelController = ModelController()
-        modelController.setModel(
-            ModelFactory().loadModel(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
-        modelController.playByTotalStep(
+        modelController.set_model(
+            ModelFactory().load_model(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
+        modelController.play_by_total_step(
             environment=environment,
             totalStep=totalStep,
             explorationEpisodeEsp=explorationEpisodeEsp,
@@ -110,5 +110,5 @@ class RLController:
         environment.close()
         return episodeRewardList
 
-    def playModel(self):
+    def play_model(self):
         pass

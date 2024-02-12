@@ -25,17 +25,17 @@ class StartApplicationUnderTestUserCase:
         aut = ApplicationUnderTest(
             id=str(
                 uuid.uuid4()),
-            applicationName=input.getApplicationName(),
-            ip=input.getIP(),
-            port=input.getPort())
+            applicationName=input.get_application_name(),
+            ip=input.get_ip(),
+            port=input.get_port())
         self._repository.add(
-            ApplicationUnderTestMapper.mappingApplicationUnderTestEntityFrom(
+            ApplicationUnderTestMapper.mapping_application_under_test_entity_from(
                 aut=aut))
         self._applicationHandler.start(
-            applicationName=aut.getApplicationName(),
-            ip=aut.getIP(),
-            port=aut.getPort())
+            applicationName=aut.get_application_name(),
+            ip=aut.get_ip(),
+            port=aut.get_port())
 
-        output.setUrl(
+        output.set_url(
             f"http://{aut.getIP()}:{str(aut.getPort())}")
-        output.setId(aut.getId())
+        output.set_id(aut.get_id())

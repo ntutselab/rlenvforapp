@@ -10,5 +10,5 @@ class InputValueCommand(IActionCommand.IActionCommand):
         self._inputValue = inputValue
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
-        operator.executeAppEvent(xpath="", value=self._inputValue)
+        operator.set_action_type(super().get_action_type())
+        operator.execute_app_event(xpath="", value=self._inputValue)

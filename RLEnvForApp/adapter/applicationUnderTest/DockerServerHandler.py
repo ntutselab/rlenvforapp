@@ -21,17 +21,17 @@ class DockerServerHandler(ApplicationHandler):
 
     def start(self, applicationName, ip, port):
         if self._isFirstStartServer:
-            self._killAllOfDockerCompose(self._serverFolder)
+            self._kill_all_of_docker_compose(self._serverFolder)
             self._isFirstStartServer = False
-        self._checkAndCreateServerFolder(self._serverFolder)
-        dockerComposePath = self._getDockerComposePath(serverFolder=self._serverFolder, applicationName=applicationName,
+        self._check_and_create_server_folder(self._serverFolder)
+        dockerComposePath = self._get_docker_compose_path(serverFolder=self._serverFolder, applicationName=applicationName,
                                                        port=port)
-        self._createDockerCompose(applicationName, port, dockerComposePath)
+        self._create_docker_compose(applicationName, port, dockerComposePath)
 
         start_time = time.time()
         Logger().info(f"\nServer Port: {port} server is starting...")
-        self._startServer(dockerComposePath, port)
-        tries = self._waitForServerStarted(
+        self._start_server(dockerComposePath, port)
+        tries = self._wait_for_server_started(
             ip=ip, port=port, dockerComposePath=dockerComposePath)
         Logger().info(
             f"Server Port: {port}, waiting time: {time.time() - start_time}")
@@ -42,20 +42,20 @@ class DockerServerHandler(ApplicationHandler):
         self.start(applicationName=applicationName, ip=ip, port=port)
 
     def stop(self, applicationName, ip, port):
-        dockerComposePath = self._getDockerComposePath(serverFolder=self._serverFolder, applicationName=applicationName,
+        dockerComposePath = self._get_docker_compose_path(serverFolder=self._serverFolder, applicationName=applicationName,
                                                        port=port)
-        self._removeServer(dockerComposePath)
+        self._remove_server(dockerComposePath)
 
-    def _createDockerCompose(self, applicationName, port, dockerComposePath):
-        compose_file_content = DockerServerConfig.dockerComposeFileContent(applicationName=applicationName,
+    def _create_docker_compose(self, applicationName, port, dockerComposePath):
+        compose_file_content = DockerServerConfig.docker_compose_file_content(applicationName=applicationName,
                                                                            port=str(port))
         compose_file = open(dockerComposePath, "w+")
         compose_file.write(compose_file_content)
         compose_file.close()
 
-    def _startServer(self, dockerComposePath, port):
+    def _start_server(self, dockerComposePath, port):
         create_process = Popen(
-            DockerServerConfig.createDockerComposeCommand(
+            DockerServerConfig.create_docker_compose_command(
                 dockerComposePath=dockerComposePath))
         try:
             comment, errs = create_process.communicate(
@@ -68,13 +68,13 @@ class DockerServerHandler(ApplicationHandler):
             create_process.kill()
             create_process.communicate()
 
-    def _removeServer(self, dockerComposePath):
-        close_process = Popen(DockerServerConfig.removeDockerComposeCommand(dockerComposePath=dockerComposePath),
+    def _remove_server(self, dockerComposePath):
+        close_process = Popen(DockerServerConfig.remove_docker_compose_command(dockerComposePath=dockerComposePath),
                               stdout=PIPE)
         close_process.communicate(
             timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
 
-    def _checkAndCreateServerFolder(self, serverFolder):
+    def _check_and_create_server_folder(self, serverFolder):
         try:
             os.mkdir(serverFolder)
         except FileExistsError:
@@ -83,31 +83,31 @@ class DockerServerHandler(ApplicationHandler):
             raise RuntimeError(
                 "Something went wrong while creating server_instance folder...")
 
-    def _getDockerComposePath(self, serverFolder, applicationName, port):
-        return os.path.join(serverFolder, DockerServerConfig.dockerComposeFileName(
+    def _get_docker_compose_path(self, serverFolder, applicationName, port):
+        return os.path.join(serverFolder, DockerServerConfig.docker_compose_file_name(
             applicationName=applicationName, port=str(port)))
 
-    def _killAllOfDockerCompose(self, dockerComposePath: str):
-        dockerComposePathFiles = self._getAllFilePathInFolder(
+    def _kill_all_of_docker_compose(self, dockerComposePath: str):
+        dockerComposePathFiles = self._get_all_file_path_in_folder(
             targetFolderPath=dockerComposePath)
         for dockerComposeFilePath in dockerComposePathFiles:
             if ".yml" in dockerComposeFilePath:
-                self._removeServer(dockerComposeFilePath)
+                self._remove_server(dockerComposeFilePath)
 
-    def _getAllFilePathInFolder(self, targetFolderPath: str):
+    def _get_all_file_path_in_folder(self, targetFolderPath: str):
         filePaths = []
         for dirPath, dirNames, fileNames in os.walk(targetFolderPath):
             for file in fileNames:
                 filePaths.append(os.path.join(dirPath, file))
         return filePaths
 
-    def _waitForServerStarted(self, ip, port, dockerComposePath):
+    def _wait_for_server_started(self, ip, port, dockerComposePath):
         url = f"http://{ip}:{port}"
         # url = "http://{ip}:{port}/login".format(ip=ip, port=port)
 
         waitingTimes = 0
         tries = 0
-        while not (200 == self._getResposeStatusCode(url=url)):
+        while not (200 == self._get_respose_status_code(url=url)):
             if tries > self._serverStartedTries:
                 raise RuntimeError(
                     "ERROR: Something went wrong when creating Server...")
@@ -115,14 +115,14 @@ class DockerServerHandler(ApplicationHandler):
                 Logger().info(
                     f"Warning: Server started timeout. {tries} times.")
                 Logger().info("Warning: Server restart.")
-                self._killAllOfDockerCompose(self._serverFolder)
-                self._startServer(dockerComposePath, port)
+                self._kill_all_of_docker_compose(self._serverFolder)
+                self._start_server(dockerComposePath, port)
                 tries += 1
             time.sleep(1)
             waitingTimes += 1
         return tries
 
-    def _getResposeStatusCode(self, url: str):
+    def _get_respose_status_code(self, url: str):
         try:
             return requests.get(url).status_code
         except requests.exceptions.RequestException:

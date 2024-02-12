@@ -5,23 +5,23 @@ from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSi
 
 
 class testBERTTokenizerSingleton(unittest.TestCase):
-    def setUp(self) -> None:
-        self.tokenizer = BERTTokenizerSingleton.getInstance()
+    def set_up(self) -> None:
+        self.tokenizer = BERTTokenizerSingleton.get_instance()
 
-    def testGetId(self):
-        self.assertEqual(self.tokenizer.getId(),
-                         BERTTokenizerSingleton.getInstance().getId())
+    def test_get_id(self):
+        self.assertEqual(self.tokenizer.get_id(),
+                         BERTTokenizerSingleton.get_instance().get_id())
 
-    def testGetTokens(self):
+    def test_get_tokens(self):
         word_sequence: str = "word sequence test, yes."
         word_sequence_token: [] = ["word", "sequence", "test", ",", "yes", "."]
         self.assertEqual(word_sequence_token,
-                         self.tokenizer.getTokens(word_sequence))
+                         self.tokenizer.get_tokens(word_sequence))
 
-    def testGetTokenIds(self):
+    def test_get_token_ids(self):
         word_sequence_token: [] = ["word", "sequence", "test", ",", "yes", "."]
         word_sequence_token_ids: [] = [2773, 5537, 3231, 1010, 2748, 1012]
         self.assertEqual(len(word_sequence_token_ids), len(
-            self.tokenizer.getTokenIds(word_sequence_token)))
+            self.tokenizer.get_token_ids(word_sequence_token)))
         self.assertEqual(word_sequence_token_ids,
-                         self.tokenizer.getTokenIds(word_sequence_token))
+                         self.tokenizer.get_token_ids(word_sequence_token))

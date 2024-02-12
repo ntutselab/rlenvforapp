@@ -10,17 +10,17 @@ class GUIDETargetPageQueueManagerService(ITargetPageQueueManagerService):
     def __init__(self, repository: TargetPageRepository):
         super().__init__(repository)
 
-    def dequeueTargetPage(self) -> TargetPage:
+    def dequeue_target_page(self) -> TargetPage:
         targetPage: TargetPage = None
-        if not super().isEmpty():
-            targetPageEntity = super().getRepository().findAll()[0]
-            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+        if not super().is_empty():
+            targetPageEntity = super().get_repository().find_all()[0]
+            targetPage = TargetPageEntityMapper.mapping_target_page_from(
                 targetPageEntity=targetPageEntity)
-            super().getRepository().deleteById(targetPage.getId())
-            self.enqueueTargetPage(targetPage=targetPage)
+            super().get_repository().delete_by_id(targetPage.get_id())
+            self.enqueue_target_page(targetPage=targetPage)
         return targetPage
 
-    def enqueueTargetPage(self, targetPage: TargetPage):
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+    def enqueue_target_page(self, targetPage: TargetPage):
+        targetPageEntity = TargetPageEntityMapper.mapping_target_page_entity_from(
             targetPage=targetPage)
-        super().getRepository().add(targetPageEntity=targetPageEntity)
+        super().get_repository().add(targetPageEntity=targetPageEntity)

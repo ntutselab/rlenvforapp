@@ -6,7 +6,7 @@ class ASCIIConverter(IConverter):
     def __init__(self):
         super().__init__()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         listCodeCoverageVector = []
 
         for char in stateElement:

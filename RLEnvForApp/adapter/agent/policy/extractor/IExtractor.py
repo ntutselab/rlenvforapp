@@ -1,4 +1,4 @@
 class IExtractor:
     @staticmethod
-    def getExtractor(scaled_images, **kwargs):
+    def get_extractor(scaled_images, **kwargs):
         pass

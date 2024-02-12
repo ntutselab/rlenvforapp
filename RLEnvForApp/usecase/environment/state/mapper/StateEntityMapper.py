@@ -11,78 +11,78 @@ from RLEnvForApp.usecase.environment.state.mapper import (
     AppElementEntityMapper, CodeCoverageEntityMapper)
 
 
-def _mappingAppElementEntitiesFrom(appElements: [AppElement]):
+def _mapping_app_element_entities_from(appElements: [AppElement]):
     appElementEntities: [AppElementEntity] = []
     for appElement in appElements:
         appElementEntities.append(
-            AppElementEntityMapper.mappingAppElementEntityFrom(appElement))
+            AppElementEntityMapper.mapping_app_element_entity_from(appElement))
     return appElementEntities
 
 
-def _mappingAppElementFrom(appElementEntities: [AppElementEntity]):
+def _mapping_app_element_from(appElementEntities: [AppElementEntity]):
     appElements: [AppElement] = []
     for appElementEntity in appElementEntities:
         appElements.append(
-            AppElementEntityMapper.mappingAppElementEntityFrom(appElementEntity))
+            AppElementEntityMapper.mapping_app_element_entity_from(appElementEntity))
     return appElements
 
 
-def _mappingCodeCoverageEntitiesFrom(
+def _mapping_code_coverage_entities_from(
         codeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
     codeCoverageEntityList: [CodeCoverageEntity] = []
     for codeCoverage in codeCoverages:
         codeCoverageEntityList.append(
-            CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage))
+            CodeCoverageEntityMapper.mapping_code_coverage_entity_from(codeCoverage))
     return codeCoverageEntityList
 
 
-def _mappingCodeCoveragesFrom(
+def _mapping_code_coverages_from(
         codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageEntity in codeCoverageEntities:
         codeCoverages.append(
-            CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+            CodeCoverageEntityMapper.mapping_code_coverage_from(
                 codeCoverageEntity=codeCoverageEntity))
     return codeCoverages
 
 
-def mappingStateEntiyFrom(state: State) -> StateEntity:
-    stateEntity = StateEntity(id=state.getId())
-    stateEntity.setDom(state.getDOM())
-    stateEntity.setUrl(state.getUrl())
-    stateEntity.setScreenShot(state.getScreenShot())
-    stateEntity.setInteractedElementEntity(
-        AppElementEntityMapper.mappingAppElementEntityFrom(
-            state.getInteractedElement()))
-    stateEntity.setSelectedAppElementEntities(
-        _mappingAppElementEntitiesFrom(
-            state.getAllSelectedAppElements()))
-    stateEntity.setFocusVector(state.getFocusVector())
-    stateEntity.setActionType(state.getActionType())
-    stateEntity.setCodeCoverages(
-        _mappingCodeCoverageEntitiesFrom(
-            state.getCodeCoverages()))
-    stateEntity.setInputValue(state.getAppEventInputValue())
-    stateEntity.setActionNumber(state.getActionNumber())
-    stateEntity.setOriginalObservation(state.getOriginalObservation())
+def mapping_state_entiy_from(state: State) -> StateEntity:
+    stateEntity = StateEntity(id=state.get_id())
+    stateEntity.set_dom(state.get_dom())
+    stateEntity.set_url(state.get_url())
+    stateEntity.set_screen_shot(state.get_screen_shot())
+    stateEntity.set_interacted_element_entity(
+        AppElementEntityMapper.mapping_app_element_entity_from(
+            state.get_interacted_element()))
+    stateEntity.set_selected_app_element_entities(
+        _mapping_app_element_entities_from(
+            state.get_all_selected_app_elements()))
+    stateEntity.set_focus_vector(state.get_focus_vector())
+    stateEntity.set_action_type(state.get_action_type())
+    stateEntity.set_code_coverages(
+        _mapping_code_coverage_entities_from(
+            state.get_code_coverages()))
+    stateEntity.set_input_value(state.get_app_event_input_value())
+    stateEntity.set_action_number(state.get_action_number())
+    stateEntity.set_original_observation(state.get_original_observation())
     return stateEntity
 
 
-def mappingStateFrom(stateEntity: StateEntity):
-    state = State(id=stateEntity.getId())
-    state.setDOM(stateEntity.getDom())
-    state.setUrl(stateEntity.getUrl())
-    state.setScreenShot(stateEntity.getScreenShot())
-    state.setInteractedElement(
-        AppElementEntityMapper.mappingAppElementFrom(stateEntity.getInterActedElementEntity()))
-    state.setSelectedAppElements(_mappingAppElementFrom(
-        stateEntity.getSelectedAppElementEntities()))
-    state.setFocusVector(stateEntity.getFocusVector())
-    state.setActionType(stateEntity.getActionType())
-    state.setCodeCoverages(
-        _mappingCodeCoveragesFrom(
-            stateEntity.getCodeCoverages()))
-    state.setAppEventInputValue(stateEntity.getInputValue())
-    state.setActionNumber(stateEntity.getActionNumber())
-    state.setOriginalObservation(stateEntity.getOriginalObservation())
+def mapping_state_from(stateEntity: StateEntity):
+    state = State(id=stateEntity.get_id())
+    state.set_dom(stateEntity.get_dom())
+    state.set_url(stateEntity.get_url())
+    state.set_screen_shot(stateEntity.get_screen_shot())
+    state.set_interacted_element(
+        AppElementEntityMapper.mapping_app_element_from(stateEntity.get_inter_acted_element_entity()))
+    state.set_selected_app_elements(_mapping_app_element_from(
+        stateEntity.get_selected_app_element_entities()))
+    state.set_focus_vector(stateEntity.get_focus_vector())
+    state.set_action_type(stateEntity.get_action_type())
+    state.set_code_coverages(
+        _mapping_code_coverages_from(
+            stateEntity.get_code_coverages()))
+    state.set_app_event_input_value(stateEntity.get_input_value())
+    state.set_action_number(stateEntity.get_action_number())
+    state.set_original_observation(stateEntity.get_original_observation())
     return state

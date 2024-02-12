@@ -35,12 +35,12 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
     def close(self):
         pass
 
-    def waitForTargetPage(self):
-        self.pullTargetPage()
+    def wait_for_target_page(self):
+        self.pull_target_page()
 
-    def pullTargetPage(self):
-        while len(self._getAllTargetPageDTO()) == 0:
-            targetPagePaths = self._getAllFilePathInFolder(self._folderPath)
+    def pull_target_page(self):
+        while len(self._get_all_target_page_dto()) == 0:
+            targetPagePaths = self._get_all_file_path_in_folder(self._folderPath)
             for path in targetPagePaths:
                 if ".json" in path:
                     folderPath, pageHTMLFileName = os.path.split(path)
@@ -62,11 +62,11 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
                                                       value=appEvent["value"], category="")
                             appEventDTOs.append(appEventDTO)
 
-                    self._addTargetPage(targetPageUrl=pageLog["targetURL"], rootUrl=self._rootUrl, formXPath=formXpath,
+                    self._add_target_page(targetPageUrl=pageLog["targetURL"], rootUrl=self._rootUrl, formXPath=formXpath,
                                         appEventDTOs=appEventDTOs, stateID=pageLog["stateID"],
                                         codeCoverageVector=None)
 
-    def _getAllTargetPageDTO(self) -> [TargetPageDTO]:
+    def _get_all_target_page_dto(self) -> [TargetPageDTO]:
         getAllTargetPageUseCase = GetAllTargetPageUseCase.GetAllTargetPageUseCase()
         getAllTargetPageInput = GetAllTargetPageInput.GetAllTargetPageInput()
         getAllTargetPageOutput = GetAllTargetPageOutput.GetAllTargetPageOutput()
@@ -74,9 +74,9 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
         getAllTargetPageUseCase.execute(
             input=getAllTargetPageInput,
             output=getAllTargetPageOutput)
-        return getAllTargetPageOutput.getTargetPageDTOs()
+        return getAllTargetPageOutput.get_target_page_dt_os()
 
-    def _addTargetPage(self, targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO], stateID: str = "",
+    def _add_target_page(self, targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO], stateID: str = "",
                        formXPath: str = "", codeCoverageVector: CodeCoverageDTO = None):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
@@ -89,7 +89,7 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
 
-    def _getAllFilePathInFolder(self, targetFolderPath: str):
+    def _get_all_file_path_in_folder(self, targetFolderPath: str):
         filesPath = []
         for dirPath, dirNames, fileNames in os.walk(targetFolderPath):
             for file in fileNames:

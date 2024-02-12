@@ -4,11 +4,11 @@ class AppEventDTO:
         self._value = value
         self._category = category
 
-    def getXpath(self):
+    def get_xpath(self):
         return self._xpath
 
-    def getValue(self):
+    def get_value(self):
         return self._value
 
-    def getCategory(self):
+    def get_category(self):
         return self._category

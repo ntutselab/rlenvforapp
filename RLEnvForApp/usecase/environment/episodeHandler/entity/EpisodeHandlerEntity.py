@@ -9,17 +9,17 @@ class EpisodeHandlerEntity:
         self._episodeStep = episodeStep
         self._stateEntities: [StateEntity] = []
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getEpisodeIndex(self):
+    def get_episode_index(self):
         return self._episodeIndex
 
-    def getEpisodeStep(self):
+    def get_episode_step(self):
         return self._episodeStep
 
-    def setAllStateEntities(self, stateEntities: [StateEntity]):
+    def set_all_state_entities(self, stateEntities: [StateEntity]):
         self._stateEntities = stateEntities
 
-    def getStateEntities(self) -> [StateEntity]:
+    def get_state_entities(self) -> [StateEntity]:
         return self._stateEntities

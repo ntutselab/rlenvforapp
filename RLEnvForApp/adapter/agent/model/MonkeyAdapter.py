@@ -29,7 +29,7 @@ class MonkeyAdapter:
 
     def predict(self, observation, state=None, mask=None, deterministic=False):
         # return str(self._env.action_space.sample()), None  # random select
-        return self.selectActionByCosineSimilarity(observation), None
+        return self.select_action_by_cosine_similarity(observation), None
 
     def action_probability(self, observation, state=None,
                            mask=None, actions=None, logp=False):
@@ -42,46 +42,46 @@ class MonkeyAdapter:
     def load(cls, load_path, env=None, custom_objects=None, **kwargs):
         pass
 
-    def selectActionByCosineSimilarity(self, observation):
+    def select_action_by_cosine_similarity(self, observation):
         similarity = 0.0
         inputTypeIndex = None
 
         autOperator = self._env.env_method(method_name="getAUTOperator")[0]
-        focusedAppElement = autOperator.getFocusedAppElement()
+        focusedAppElement = autOperator.get_focused_app_element()
 
         if not focusedAppElement:
             return str(self._env.action_space.sample())
 
-        tagName = focusedAppElement.getTagName()
-        elementType = focusedAppElement.getType()
+        tagName = focusedAppElement.get_tag_name()
+        elementType = focusedAppElement.get_type()
         if tagName == "button" or tagName == "a" or \
                 (tagName == 'input' and (
                     elementType == 'submit' or elementType == 'image' or elementType == 'checkbox' or elementType == 'radio')):
             similarity = 1.0
             inputTypeIndex = 0
-            for appElement in autOperator.getAllSelectedAppElements():
+            for appElement in autOperator.get_all_selected_app_elements():
                 if appElement == focusedAppElement:
                     continue
-                if not appElement.getValue():
+                if not appElement.get_value():
                     similarity = 0.0
                     inputTypeIndex = None
 
         for i in range(0, self._inputTypeListLength):
             category = self._inputTypeList[i]
 
-            categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[
+            categoryListTokens = inputSpace.CategoryListSingleton.get_instance().get_category_extend_list()[
                 category]
             categoryListTokens.append(category)
 
             # vectorization whole String
-            categoryListVector = FastTextSingleton.getInstance().getWordsVector(categoryListTokens)
+            categoryListVector = FastTextSingleton.get_instance().get_words_vector(categoryListTokens)
             elementLabelVector = np.array(observation[:, :300, :].reshape(300))
 
             labelCosineSimilarity = -1
             if categoryListVector:
                 for categoryVector in categoryListVector:
                     labelCosineSimilarity = max(
-                        CosineSimilarityService.getCosineSimilarity(categoryVector, elementLabelVector), labelCosineSimilarity)
+                        CosineSimilarityService.get_cosine_similarity(categoryVector, elementLabelVector), labelCosineSimilarity)
 
             if np.isnan(labelCosineSimilarity):
                 continue

@@ -18,72 +18,72 @@ class StateEntity:
         self._actionNumber = None
         self._originalObservation = {}
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def setDom(self, dom: str):
+    def set_dom(self, dom: str):
         self._dom = dom
 
-    def getDom(self) -> str:
+    def get_dom(self) -> str:
         return self._dom
 
-    def setUrl(self, url: str):
+    def set_url(self, url: str):
         self._url = url
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._url
 
-    def setScreenShot(self, screenShot):
+    def set_screen_shot(self, screenShot):
         self._screenShot = screenShot
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         return self._screenShot
 
-    def setCodeCoverages(self, codeCoverages: [CodeCoverageEntity]):
+    def set_code_coverages(self, codeCoverages: [CodeCoverageEntity]):
         self._codeCoverages = codeCoverages
 
-    def getCodeCoverages(self) -> [CodeCoverageEntity]:
+    def get_code_coverages(self) -> [CodeCoverageEntity]:
         return self._codeCoverages
 
-    def setFocusVector(self, focusVector: [bool]):
+    def set_focus_vector(self, focusVector: [bool]):
         self._focusVector = focusVector
 
-    def getFocusVector(self) -> [bool]:
+    def get_focus_vector(self) -> [bool]:
         return self._focusVector
 
-    def setActionType(self, actionType: str):
+    def set_action_type(self, actionType: str):
         self._actionType = actionType
 
-    def getActionType(self):
+    def get_action_type(self):
         return self._actionType
 
-    def setInputValue(self, inputValue: str):
+    def set_input_value(self, inputValue: str):
         self._inputValue = inputValue
 
-    def getInputValue(self) -> str:
+    def get_input_value(self) -> str:
         return self._inputValue
 
-    def setInteractedElementEntity(self, interactedElement: AppElementEntity):
+    def set_interacted_element_entity(self, interactedElement: AppElementEntity):
         self._interactedElement = interactedElement
 
-    def getInterActedElementEntity(self) -> AppElementEntity:
+    def get_inter_acted_element_entity(self) -> AppElementEntity:
         return self._interactedElement
 
-    def setSelectedAppElementEntities(
+    def set_selected_app_element_entities(
             self, selectedAppElementEntities: [AppElementEntity]):
         self._selectedAppElementEntities = selectedAppElementEntities
 
-    def getSelectedAppElementEntities(self) -> [AppElementEntity]:
+    def get_selected_app_element_entities(self) -> [AppElementEntity]:
         return self._selectedAppElementEntities
 
-    def setActionNumber(self, actionNumber: int):
+    def set_action_number(self, actionNumber: int):
         self._actionNumber = actionNumber
 
-    def getActionNumber(self) -> int:
+    def get_action_number(self) -> int:
         return self._actionNumber
 
-    def setOriginalObservation(self, originalObservation: dict):
+    def set_original_observation(self, originalObservation: dict):
         self._originalObservation = originalObservation
 
-    def getOriginalObservation(self) -> dict:
+    def get_original_observation(self) -> dict:
         return self._originalObservation

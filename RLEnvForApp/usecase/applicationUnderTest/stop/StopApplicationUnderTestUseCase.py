@@ -18,15 +18,15 @@ class StopApplicationUnderTestUseCase:
 
     def execute(self, input: StopApplicationUnderTestInput.StopApplicationUnderTestInput,
                 output: StopApplicationUnderTestOutput.StopApplicationUnderTestOutput):
-        autId = input.getId()
-        autEntity = self._repository.findById(autId)
-        self._repository.deletById(autId)
-        aut = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
+        autId = input.get_id()
+        autEntity = self._repository.find_by_id(autId)
+        self._repository.delet_by_id(autId)
+        aut = ApplicationUnderTestMapper.mapping_application_under_test_from(
             autEntity)
         autUrl = f"http://{aut.getIP()}:{str(aut.getPort())}"
         self._applicationHandler.stop(
-            applicationName=aut.getApplicationName(),
-            ip=aut.getIP(),
-            port=aut.getPort())
+            applicationName=aut.get_application_name(),
+            ip=aut.get_ip(),
+            port=aut.get_port())
 
-        output.setUrl(autUrl)
+        output.set_url(autUrl)

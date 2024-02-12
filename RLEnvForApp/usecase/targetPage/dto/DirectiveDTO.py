@@ -12,17 +12,17 @@ class DirectiveDTO:
         self._appEventDTOs = appEventDTOs
         self._codeCoverageDTOs = codeCoverageDTOs
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._url
 
-    def getDom(self) -> str:
+    def get_dom(self) -> str:
         return self._dom
 
-    def getFormXPath(self) -> str:
+    def get_form_x_path(self) -> str:
         return self._formXPath
 
-    def getAppEventDTOs(self) -> [AppEventDTO]:
+    def get_app_event_dt_os(self) -> [AppEventDTO]:
         return self._appEventDTOs
 
-    def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
+    def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
         return self._codeCoverageDTOs

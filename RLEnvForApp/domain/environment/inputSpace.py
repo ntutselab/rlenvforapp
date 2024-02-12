@@ -38,7 +38,7 @@ class CategoryListSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if not CategoryListSingleton._instance:
             CategoryListSingleton()
         return CategoryListSingleton._instance
@@ -58,10 +58,10 @@ class CategoryListSingleton:
 
             CategoryListSingleton._instance = self
 
-    def getCategoryExtendList(self) -> dict:
+    def get_category_extend_list(self) -> dict:
         return self._categoryList
 
-    def setCategoryExtendList(self, newList):
+    def set_category_extend_list(self, newList):
         self._categoryList = newList
         with open('category_extend_list.json', 'w', encoding='utf-8') as f:
             json.dump({'category_extend_list': newList},
@@ -72,7 +72,7 @@ class ValueWeightSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if not ValueWeightSingleton._instance:
             ValueWeightSingleton()
         return ValueWeightSingleton._instance
@@ -93,10 +93,10 @@ class ValueWeightSingleton:
 
             ValueWeightSingleton._instance = self
 
-    def getValueWeights(self) -> dict:
+    def get_value_weights(self) -> dict:
         return self._valueWeights
 
-    def setValueWeights(self, newList):
+    def set_value_weights(self, newList):
         self._valueWeights = newList
         with open('input_value_probability.json', 'w', encoding='utf-8') as f:
             json.dump({'weights': newList}, f, ensure_ascii=False, indent=4)

@@ -10,10 +10,10 @@ class IRobotInputValueCommand(IActionCommand.IActionCommand):
         self._inputValue = inputValue
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
-        operator.setActionNumber(super().getActionNumber())
-        operator.executeAppEvent(xpath="", value=self._inputValue)
-        operator.changeFocus()
+        operator.set_action_type(super().get_action_type())
+        operator.set_action_number(super().get_action_number())
+        operator.execute_app_event(xpath="", value=self._inputValue)
+        operator.change_focus()
 
-    def getInputValue(self):
+    def get_input_value(self):
         return self._inputValue

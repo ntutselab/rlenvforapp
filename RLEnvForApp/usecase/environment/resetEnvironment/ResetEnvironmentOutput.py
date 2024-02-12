@@ -7,38 +7,38 @@ class ResetEnvironmentOutput:
         self._formXPath = ""
         self._originalObservation = {}
 
-    def setObservation(self, observation):
+    def set_observation(self, observation):
         self._observation = observation
 
-    def getObservation(self):
+    def get_observation(self):
         return self._observation
 
-    def setOriginalObservation(self, originalObservation: dict):
+    def set_original_observation(self, originalObservation: dict):
         self._originalObservation = originalObservation
 
-    def getOriginalObservation(self):
+    def get_original_observation(self):
         return self._originalObservation
 
-    def setTargetPageUrl(self, url: str):
+    def set_target_page_url(self, url: str):
         self._targetPageUrl = url
 
-    def getTargetPageUrl(self):
+    def get_target_page_url(self):
         return self._targetPageUrl
 
-    def setTargetPageId(self, id: str):
+    def set_target_page_id(self, id: str):
         self._targetPageId = id
 
-    def getTargetPageId(self):
+    def get_target_page_id(self):
         return self._targetPageId
 
-    def getFormXPath(self):
+    def get_form_x_path(self):
         return self._formXPath
 
-    def setFormXPath(self, formXPath: str):
+    def set_form_x_path(self, formXPath: str):
         self._formXPath = formXPath
 
-    def setEpisodeHandlerId(self, id: str):
+    def set_episode_handler_id(self, id: str):
         self._episodeHandlerId = id
 
-    def getEpisodeHandlerId(self):
+    def get_episode_handler_id(self):
         return self._episodeHandlerId

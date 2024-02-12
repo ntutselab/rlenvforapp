@@ -5,14 +5,14 @@ class ApplicationUnderTestEntity:
         self._ip = ip
         self._port = port
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getapplicationName(self):
+    def getapplication_name(self):
         return self._applicationName
 
-    def getIP(self):
+    def get_ip(self):
         return self._ip
 
-    def getPort(self):
+    def get_port(self):
         return self._port

@@ -23,10 +23,10 @@ class GetEpisodeHandlerUseCase:
 
     def execute(self, input: GetEpisodeHandlerInput.GetEpisodeHandlerInput,
                 output: GetEpisodeHandlerOutput.GetEpisodeHandlerOutput):
-        episodeHandlerEntity: [EpisodeHandlerEntity] = self._episodeHandlerRepository.findById(
-            input.getEpisodeHandlerId())
-        episodeHandler: IEpisodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+        episodeHandlerEntity: [EpisodeHandlerEntity] = self._episodeHandlerRepository.find_by_id(
+            input.get_episode_handler_id())
+        episodeHandler: IEpisodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
             episodeHandlerEntity=episodeHandlerEntity)
-        episodeHandlerDTO: EpisodeHandlerDTO = EpisodeHandlerDTOMapper.mappingEpisodeHanlderDTOFrom(
+        episodeHandlerDTO: EpisodeHandlerDTO = EpisodeHandlerDTOMapper.mapping_episode_hanlder_dto_from(
             episodeHandler=episodeHandler)
-        output.setEpisodeHandlerDTO(episodeHandlerDTO=episodeHandlerDTO)
+        output.set_episode_handler_dto(episodeHandlerDTO=episodeHandlerDTO)

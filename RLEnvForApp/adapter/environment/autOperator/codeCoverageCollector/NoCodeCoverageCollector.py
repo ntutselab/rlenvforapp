@@ -8,7 +8,7 @@ class NoCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self):
         super().__init__()
 
-    def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
+    def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
         codeCoverageDTOs = []
         codeCoverageDTOs.append(
             CodeCoverageDTO(
@@ -16,5 +16,5 @@ class NoCodeCoverageCollector(ICodeCoverageCollector):
                 codeCoverageVector=[False]))
         return codeCoverageDTOs
 
-    def resetCodeCoverage(self):
+    def reset_code_coverage(self):
         pass

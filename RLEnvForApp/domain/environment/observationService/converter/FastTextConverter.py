@@ -7,8 +7,8 @@ from RLEnvForApp.domain.environment.observationService.converter.IConverter impo
 class FastTextConverter(IConverter):
     def __init__(self):
         super().__init__()
-        FastTextSingleton.getInstance()
+        FastTextSingleton.get_instance()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         word = stateElement.lower()
-        return FastTextSingleton.getInstance().getWordVector(word=word)
+        return FastTextSingleton.get_instance().get_word_vector(word=word)

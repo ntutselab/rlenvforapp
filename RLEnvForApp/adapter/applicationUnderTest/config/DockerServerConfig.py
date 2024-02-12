@@ -4,39 +4,39 @@ APPLICATION_NAME = "Application"
 PORT = "3000"
 
 
-def dockerComposeFileName(applicationName: str, port: str):
+def docker_compose_file_name(applicationName: str, port: str):
     fileName = f"docker_compose_{applicationName}_{port}.yml"
     return fileName
 
 
-def dockerComposeFileContent(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, applicationName: str = APPLICATION_NAME,
+def docker_compose_file_content(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, applicationName: str = APPLICATION_NAME,
                              port: str = PORT):
     if applicationName == "timeoff_management_with_coverage":
-        return getTimeoffDockerComposeFile(port)
+        return get_timeoff_docker_compose_file(port)
 
     if applicationName == "keystonejs_with_coverage":
-        return getKeystoneJSDockerComposeFile(port)
+        return get_keystone_js_docker_compose_file(port)
 
     if applicationName == "nodebb_with_coverage":
-        return getNodebbDockerComposeFile(port)
+        return get_nodebb_docker_compose_file(port)
 
     if applicationName == "django_blog_with_no_coverage":
-        return getDjangoBlogDockerComposeFile(port)
+        return get_django_blog_docker_compose_file(port)
 
     if applicationName == "spring_petclinic_with_no_coverage":
-        return getSpringPetclinicDockerComposeFile(port)
+        return get_spring_petclinic_docker_compose_file(port)
 
     if applicationName == "kimai":
-        return getKimaiDockerComposeFile(port)
+        return get_kimai_docker_compose_file(port)
 
     if applicationName == "astuto":
-        return getAstutoDockerComposeFile(port)
+        return get_astuto_docker_compose_file(port)
 
     if applicationName == "oscar":
-        return getOscarDockerComposeFile(port)
+        return get_oscar_docker_compose_file(port)
 
     if applicationName == "svelte_commerce":
-        return getSvelteCommerceDockerComposeFile(port)
+        return get_svelte_commerce_docker_compose_file(port)
 
     # compose_file_content = '{applicationName}_{port}:\n' \
     #                        ' image: {dockerImageCreator}/{applicationName}\n' \
@@ -99,19 +99,19 @@ def dockerComposeFileContent(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, app
     # return compose_file_content
 
 
-def createDockerComposeCommand(dockerComposePath: str):
+def create_docker_compose_command(dockerComposePath: str):
     return ["docker-compose", "-f", dockerComposePath, "up", "-d"]
 
 
-def removeDockerComposeCommand(dockerComposePath: str):
+def remove_docker_compose_command(dockerComposePath: str):
     return ["docker-compose", "-f", dockerComposePath, "rm", "-svf"]
 
 
-def findDockerComposeContainerIdCommand(dockerComposePath: str):
+def find_docker_compose_container_id_command(dockerComposePath: str):
     return ["docker-compose", "-f", dockerComposePath, "ps", "-q"]
 
 
-def getTimeoffDockerComposeFile(port: str = PORT):
+def get_timeoff_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       timeoff_management_with_coverage_{port}:
@@ -122,7 +122,7 @@ def getTimeoffDockerComposeFile(port: str = PORT):
     return config
 
 
-def getKeystoneJSDockerComposeFile(port: str = PORT):
+def get_keystone_js_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       keystonejs_with_coverage_{port}:
@@ -141,7 +141,7 @@ def getKeystoneJSDockerComposeFile(port: str = PORT):
     return config
 
 
-def getNodebbDockerComposeFile(port: str = PORT):
+def get_nodebb_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       nodebb_with_coverage_{port}:
@@ -158,7 +158,7 @@ def getNodebbDockerComposeFile(port: str = PORT):
     return config
 
 
-def getDjangoBlogDockerComposeFile(port: str = PORT):
+def get_django_blog_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       django_blog_with_no_coverage_{port}:
@@ -169,7 +169,7 @@ def getDjangoBlogDockerComposeFile(port: str = PORT):
     return config
 
 
-def getSpringPetclinicDockerComposeFile(port: str = PORT):
+def get_spring_petclinic_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       spring_petclinic_with_no_coverage_{port}:
@@ -181,7 +181,7 @@ def getSpringPetclinicDockerComposeFile(port: str = PORT):
     return config
 
 
-def getKimaiDockerComposeFile(port: str = PORT):
+def get_kimai_docker_compose_file(port: str = PORT):
     config = f'''
     version: '3.5'
     services:
@@ -224,7 +224,7 @@ def getKimaiDockerComposeFile(port: str = PORT):
     return config
 
 
-def getAstutoDockerComposeFile(port: str = PORT):
+def get_astuto_docker_compose_file(port: str = PORT):
     config = f'''
     version: '3.4'
     services:
@@ -248,7 +248,7 @@ def getAstutoDockerComposeFile(port: str = PORT):
     return config
 
 
-def getOscarDockerComposeFile(port: str = PORT):
+def get_oscar_docker_compose_file(port: str = PORT):
     config = f'''
     services:
       oscar:
@@ -259,7 +259,7 @@ def getOscarDockerComposeFile(port: str = PORT):
     return config
 
 
-def getSvelteCommerceDockerComposeFile(port: str = PORT):
+def get_svelte_commerce_docker_compose_file(port: str = PORT):
     config = f'''
     version: '3.8'
     services:

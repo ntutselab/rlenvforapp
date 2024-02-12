@@ -8,38 +8,38 @@ class ExecuteActionOutput:
         self._previousState = None
         self._cosineSimilarityText: str = ''
 
-    def setObservation(self, observation):
+    def set_observation(self, observation):
         self._observation = observation
 
-    def getObservation(self):
+    def get_observation(self):
         return self._observation
 
-    def setOriginalObservation(self, originalObservation):
+    def set_original_observation(self, originalObservation):
         self._originalObservation = originalObservation
 
-    def getOriginalObservation(self):
+    def get_original_observation(self):
         return self._originalObservation
 
-    def setCodeCoverageDict(self, codeCoverageDict):
+    def set_code_coverage_dict(self, codeCoverageDict):
         self._codeCoverageDict = codeCoverageDict
 
-    def getCodeCoverageDict(self):
+    def get_code_coverage_dict(self):
         return self._codeCoverageDict
 
-    def setReward(self, reward):
+    def set_reward(self, reward):
         self._reward = reward
 
-    def getReward(self):
+    def get_reward(self):
         return self._reward
 
-    def setIsDone(self, isDone: bool):
+    def set_is_done(self, isDone: bool):
         self._isDone = isDone
 
-    def getIsDone(self):
+    def get_is_done(self):
         return self._isDone
 
-    def setCosineSimilarityText(self, text: str):
+    def set_cosine_similarity_text(self, text: str):
         self._cosineSimilarityText = text
 
-    def getCosineSimilarityText(self) -> str:
+    def get_cosine_similarity_text(self) -> str:
         return self._cosineSimilarityText

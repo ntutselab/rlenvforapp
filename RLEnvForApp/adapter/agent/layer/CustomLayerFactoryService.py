@@ -5,7 +5,7 @@ from stable_baselines.common.policies import nature_cnn
 
 class CustomLayerFactoryService:
     @staticmethod
-    def createIRobotCNNLayer(inputLayer, activation_fn=tf.nn.leaky_relu):
+    def create_i_robot_cnn_layer(inputLayer, activation_fn=tf.nn.leaky_relu):
         layer_1 = tf.contrib.layers.conv2d(
             inputLayer, 32, [
                 1, 7], [
@@ -30,37 +30,37 @@ class CustomLayerFactoryService:
         return flattened
 
     @staticmethod
-    def createFlattenLayer(inputLayer):
+    def create_flatten_layer(inputLayer):
         return tf.contrib.layers.flatten(inputLayer)
 
     @staticmethod
-    def createReshapeLayer(inputLayer, shape):
+    def create_reshape_layer(inputLayer, shape):
         return tf.reshape(inputLayer, shape=shape)
 
     @staticmethod
-    def createSplitLayer(value, num_or_size_splits, axis=0):
+    def create_split_layer(value, num_or_size_splits, axis=0):
         return tf.split(value, num_or_size_splits, axis)
 
     @staticmethod
-    def createConcatLayer(values, axis):
+    def create_concat_layer(values, axis):
         return tf.concat(values, axis)
 
     @staticmethod
-    def createCNNLayer(inputLayer, extractor=nature_cnn):
+    def create_cnn_layer(inputLayer, extractor=nature_cnn):
         return extractor(inputLayer)
 
     @staticmethod
-    def createMLPLayer(inputLayer, layers: list = [64, 64],
+    def create_mlp_layer(inputLayer, layers: list = [64, 64],
                        activation_fn=pf.activations.get_activation("gelu")):
         outputLayer = inputLayer
 
         for layer_size in layers:
-            outputLayer = CustomLayerFactoryService.createFullyConnectedLayer(
+            outputLayer = CustomLayerFactoryService.create_fully_connected_layer(
                 outputLayer, layer_size, activation_fn)
 
         return outputLayer
 
     @staticmethod
-    def createFullyConnectedLayer(inputLayer, layer_size, activation_fn):
+    def create_fully_connected_layer(inputLayer, layer_size, activation_fn):
         return tf.contrib.layers.fully_connected(
             inputLayer, layer_size, activation_fn)

@@ -10,17 +10,17 @@ from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput,
 
 
 class testRemoveTargetPageUseCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._targetPageRepository = InMemoryTargetPageRepository()
         self._targetPageHierarchy = TargetPageHierarchyInitial()
 
     def test_remove_target_page(self):
-        self._targetPageHierarchy.createTargetPage(
+        self._targetPageHierarchy.create_target_page(
             targetPageRepository=self._targetPageRepository,
             targetPageUrl="./",
             rootUrl="",
             appEventDTOs=[])
-        targetPageId = self._targetPageRepository.findAll()[0].getId()
+        targetPageId = self._targetPageRepository.find_all()[0].get_id()
 
         removeTargetPageUseCase = RemoveTargetPageUseCase.RemoveTargetPageUseCase(
             repository=self._targetPageRepository)
@@ -33,5 +33,5 @@ class testRemoveTargetPageUseCase(unittest.TestCase):
             output=removeTargetPageOutput)
 
         self.assertIsNone(
-            self._targetPageRepository.findById(
-                removeTargetPageOutput.getId()))
+            self._targetPageRepository.find_by_id(
+                removeTargetPageOutput.get_id()))

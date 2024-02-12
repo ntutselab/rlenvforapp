@@ -7,16 +7,16 @@ from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 from RLEnvForApp.usecase.environment.state.mapper import StateDTOMapper
 
 
-def _mappingStateDTOsFrom(states: [State]) -> [StateDTO]:
+def _mapping_state_dt_os_from(states: [State]) -> [StateDTO]:
     stateDTOs: [StateDTO] = []
     for state in states:
-        stateDTOs.append(StateDTOMapper.mappingStateDTOFrom(state=state))
+        stateDTOs.append(StateDTOMapper.mapping_state_dto_from(state=state))
     return stateDTOs
 
 
-def mappingEpisodeHanlderDTOFrom(
+def mapping_episode_hanlder_dto_from(
         episodeHandler: IEpisodeHandler) -> EpisodeHandlerDTO:
-    return EpisodeHandlerDTO(id=episodeHandler.getId(),
-                             episodeIndex=episodeHandler.getEpisodeIndex(),
-                             episodeStep=episodeHandler.getEpisodeStep(),
-                             stateDTOs=_mappingStateDTOsFrom(episodeHandler.getAllState()))
+    return EpisodeHandlerDTO(id=episodeHandler.get_id(),
+                             episodeIndex=episodeHandler.get_episode_index(),
+                             episodeStep=episodeHandler.get_episode_step(),
+                             stateDTOs=_mapping_state_dt_os_from(episodeHandler.get_all_state()))

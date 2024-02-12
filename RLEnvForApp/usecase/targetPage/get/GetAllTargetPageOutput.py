@@ -5,8 +5,8 @@ class GetAllTargetPageOutput:
     def __init__(self):
         self._targetPageDTOs: [TargetPageDTO] = []
 
-    def setTargetPageDTOs(self, targetPageDTOs: [TargetPageDTO]):
+    def set_target_page_dt_os(self, targetPageDTOs: [TargetPageDTO]):
         self._targetPageDTOs = targetPageDTOs
 
-    def getTargetPageDTOs(self) -> [TargetPageDTO]:
+    def get_target_page_dt_os(self) -> [TargetPageDTO]:
         return self._targetPageDTOs

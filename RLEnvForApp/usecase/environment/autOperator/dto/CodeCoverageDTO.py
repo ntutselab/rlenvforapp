@@ -5,8 +5,8 @@ class CodeCoverageDTO:
         self._codeCoverageType = codeCoverageType
         self._codeCoverageVector = codeCoverageVector
 
-    def getCodeCoverageType(self):
+    def get_code_coverage_type(self):
         return self._codeCoverageType
 
-    def getCodeCoverageVector(self):
+    def get_code_coverage_vector(self):
         return self._codeCoverageVector

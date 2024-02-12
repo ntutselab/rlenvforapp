@@ -3,8 +3,8 @@ class ExecuteActionInput:
         self._actionNumber = actionNumber
         self._episodeHandlerId = episodeHandlerId
 
-    def getActionNumber(self):
+    def get_action_number(self):
         return self._actionNumber
 
-    def getEpisodeHandlerId(self):
+    def get_episode_handler_id(self):
         return self._episodeHandlerId

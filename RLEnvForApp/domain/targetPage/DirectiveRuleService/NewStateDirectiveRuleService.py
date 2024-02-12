@@ -14,15 +14,15 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def __init__(self):
         super().__init__()
 
-    def isLegal(self, targetPageId: str, beforeActionDom: str,
+    def is_legal(self, targetPageId: str, beforeActionDom: str,
                 afterActionDom="") -> bool:
         if afterActionDom == "":
             Logger().info("afterActionDom is empty string")
             return False
 
-        form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
+        form_submit_criteria = FormSubmitCriteriaSingleton.get_instance().get_form_submit_criteria()
 
-        dom_similarity = self.getDomSimilarity(beforeActionDom, afterActionDom)
+        dom_similarity = self.get_dom_similarity(beforeActionDom, afterActionDom)
 
         if dom_similarity == 100:
             return False
@@ -30,7 +30,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
             return not (dom_similarity == -1 or dom_similarity >= 95)
         elif form_submit_criteria["verify"] == "keyword":
-            return not self._isDomContainKeyword(
+            return not self._is_dom_contain_keyword(
                 afterActionDom, form_submit_criteria["keyword"])
         else:
             raise Exception(
@@ -74,7 +74,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         #     Logger().info("ERROR!!!")
         # return False
 
-    def _getElements(self, dom):
+    def _get_elements(self, dom):
         parser = etree.HTMLParser()
         doc = etree.parse(StringIO(dom), parser)
 
@@ -87,7 +87,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
         return elements
 
-    def _isDomContainKeyword(self, dom: str, keywords: list):
+    def _is_dom_contain_keyword(self, dom: str, keywords: list):
         # keywords = ['error', 'invalid', 'cannot', 'failed', 'not', 'taken', 'required', 'should', 'Must', 'at least']
 
         domTree = etree.parse(StringIO(dom), etree.HTMLParser())
@@ -101,9 +101,9 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
         return False
 
-    def getDomSimilarity(self, beforeActionDom: str, afterActionDom: str):
-        beforeActionElements = self._getElements(beforeActionDom)
-        afterActionElements = self._getElements(afterActionDom)
+    def get_dom_similarity(self, beforeActionDom: str, afterActionDom: str):
+        beforeActionElements = self._get_elements(beforeActionDom)
+        afterActionElements = self._get_elements(afterActionDom)
 
         domSimilarity = -1
         try:

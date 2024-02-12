@@ -8,7 +8,7 @@ class ALBERTConverter(IConverter):
     def __init__(self):
         super().__init__()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         stateElement = stateElement.lower()
-        tokenIds = ALBERTTokenizerSingleton.getInstance().getTokenIds(stateElement)
+        tokenIds = ALBERTTokenizerSingleton.get_instance().get_token_ids(stateElement)
         return tokenIds

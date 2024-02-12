@@ -13,7 +13,7 @@ from RLEnvForApp.usecase.applicationUnderTest.stop import (
 
 
 class testStopApplicationUnderTestUseCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._autRepository = InMemoryApplicationUnderTestRepository()
         self._applicationHandler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
@@ -22,20 +22,20 @@ class testStopApplicationUnderTestUseCase(unittest.TestCase):
             applicationHandler=self._applicationHandler)
 
     def test_stop_application_under_testing(self):
-        self._hirerarchyInitial.startAUTServer(
+        self._hirerarchyInitial.start_aut_server(
             applicationName="timeoff_management_with_coverage")
 
-        autEntity = self._autRepository.findAll()[0]
+        autEntity = self._autRepository.find_all()[0]
         stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
             repository=self._autRepository, applicationHandler=self._applicationHandler)
         stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
-            id=autEntity.getId())
+            id=autEntity.get_id())
         stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
         stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)
 
         isAUTAvailable = True
         try:
-            requests.get(stopAUTOutput.getUrl())
+            requests.get(stopAUTOutput.get_url())
         except requests.exceptions.ConnectionError:
             isAUTAvailable = False
 

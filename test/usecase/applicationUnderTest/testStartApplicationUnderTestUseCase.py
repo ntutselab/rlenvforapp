@@ -19,7 +19,7 @@ from RLEnvForApp.usecase.applicationUnderTest.start import (
 
 
 class testStartApplicationUnderTestUserCase(TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._autRepository = InMemoryApplicationUnderTestRepository()
         self._applicationHandler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
@@ -32,17 +32,17 @@ class testStartApplicationUnderTestUserCase(TestCase):
     #         self._hirerarchyInitial.stopAUTServer(autEntity.getId())
 
     def test_start_timeoff_management_application_under_test(self):
-        self._executeUseCaseAndWait(
+        self._execute_use_case_and_wait(
             applicationName="timeoff_management_with_coverage")
 
     def test_start_nodebb_application_under_test(self):
-        self._executeUseCaseAndWait(applicationName="nodebb_with_coverage")
+        self._execute_use_case_and_wait(applicationName="nodebb_with_coverage")
 
     def test_start_keystonejs_application_under_test(self):
-        self._executeUseCaseAndWait(applicationName="keystonejs_with_coverage")
+        self._execute_use_case_and_wait(applicationName="keystonejs_with_coverage")
 
     def test_start_wagtail_application_under_test(self):
-        self._executeUseCaseAndWait(applicationName="wagtails_with_coverage")
+        self._execute_use_case_and_wait(applicationName="wagtails_with_coverage")
 
     def test_kill_busy_process(self):
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
@@ -53,12 +53,12 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
-            startAUTOutput.getId())
-        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
+        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
+            startAUTOutput.get_id())
+        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
             autEntity)
-        self.assertEqual(aut.getId(), startAUTOutput.getId())
-        serverResponse = requests.get(startAUTOutput.getUrl())
+        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
+        serverResponse = requests.get(startAUTOutput.get_url())
         self.assertEqual(200, serverResponse.status_code)
 
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
@@ -69,12 +69,12 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
-            startAUTOutput.getId())
-        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
+        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
+            startAUTOutput.get_id())
+        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
             autEntity)
-        self.assertEqual(aut.getId(), startAUTOutput.getId())
-        serverResponse = requests.get(startAUTOutput.getUrl())
+        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
+        serverResponse = requests.get(startAUTOutput.get_url())
         self.assertEqual(200, serverResponse.status_code)
 
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
@@ -85,15 +85,15 @@ class testStartApplicationUnderTestUserCase(TestCase):
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
-            startAUTOutput.getId())
-        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
+        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
+            startAUTOutput.get_id())
+        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
             autEntity)
-        self.assertEqual(aut.getId(), startAUTOutput.getId())
-        serverResponse = requests.get(startAUTOutput.getUrl())
+        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
+        serverResponse = requests.get(startAUTOutput.get_url())
         self.assertEqual(200, serverResponse.status_code)
 
-    def _executeUseCaseAndWait(self, applicationName: str):
+    def _execute_use_case_and_wait(self, applicationName: str):
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
             repository=self._autRepository, applicationHandler=self._applicationHandler)
         startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
@@ -102,10 +102,10 @@ class testStartApplicationUnderTestUserCase(TestCase):
 
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.findById(
-            startAUTOutput.getId())
-        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(
+        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
+            startAUTOutput.get_id())
+        aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
             autEntity)
-        self.assertEqual(aut.getId(), startAUTOutput.getId())
-        serverResponse = requests.get(startAUTOutput.getUrl())
+        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
+        serverResponse = requests.get(startAUTOutput.get_url())
         self.assertEqual(200, serverResponse.status_code)

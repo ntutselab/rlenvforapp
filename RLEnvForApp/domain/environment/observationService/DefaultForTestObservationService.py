@@ -12,19 +12,19 @@ class DefaultForTestObservationService(IObservationService):
         self._oneHotLength = 150
         self._oneHotCoveredNumber = 300
 
-    def getObservation(self, state: State):
+    def get_observation(self, state: State):
         onehotConverter = OneHotConverter(
             coveredNumber=self._oneHotCoveredNumber)
         listFocusOneHot = onehotConverter.convert(
-            stateElement=state.getFocusVector(),
+            stateElement=state.get_focus_vector(),
             length=self._oneHotLength)
         return listFocusOneHot
 
-    def getObservationDictionary(self, observation: [int]):
+    def get_observation_dictionary(self, observation: [int]):
         observationDictionary = {}
         observationDictionary["listDom"] = observation[0:130100]
         observationDictionary["listFocusOneHot"] = observation[130100:]
         return observationDictionary
 
-    def getObservationSize(self):
+    def get_observation_size(self):
         return (1, self._domLength + self._oneHotLength * 1, 1)

@@ -24,56 +24,56 @@ class UpdateTargetPageUseCase:
 
     def execute(self, input: UpdateTargetPageInput.UpdateTargetPageInput,
                 output: UpdateTargetPageOutput.UpdateTargetPageOutput):
-        targetPageEntity: TargetPageEntity = self._repository.findById(
-            input.getTargetPageId())
-        targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+        targetPageEntity: TargetPageEntity = self._repository.find_by_id(
+            input.get_target_page_id())
+        targetPage: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
             targetPageEntity=targetPageEntity)
 
-        targetPageUrl = input.getTargetPageUrl()
+        targetPageUrl = input.get_target_page_url()
         if targetPageUrl is not None:
-            targetPage.setTargetUrl(targetUrl=targetPageUrl)
+            targetPage.set_target_url(targetUrl=targetPageUrl)
 
-        rootUrl = input.getRootUrl()
+        rootUrl = input.get_root_url()
         if rootUrl is not None:
-            targetPage.setRootUrl(rootUrl=rootUrl)
+            targetPage.set_root_url(rootUrl=rootUrl)
 
-        appEventDTOs = input.getAppEventDTOs()
+        appEventDTOs = input.get_app_event_dt_os()
         if appEventDTOs is not None:
             appEvents: [AppEvent] = []
             for appEventDTO in appEventDTOs:
                 appEvents.append(
-                    AppEventDTOMapper.mappingAppEventFrom(
+                    AppEventDTOMapper.mapping_app_event_from(
                         appEventDTO=appEventDTO))
-            targetPage.setAppEvents(appEvents=appEvents)
+            targetPage.set_app_events(appEvents=appEvents)
 
-        taskID = input.getTaskID()
+        taskID = input.get_task_id()
         if taskID is not None:
-            targetPage.setTaskID(taskID=taskID)
+            targetPage.set_task_id(taskID=taskID)
 
-        basicCodeCoverageDTO = input.getBasicCodeCoverageDTO()
+        basicCodeCoverageDTO = input.get_basic_code_coverage_dto()
         if basicCodeCoverageDTO is not None:
-            newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+            newBasicCodeCoverage = CodeCoverageDTOMapper.mapping_code_coverage_from(
                 codeCoverageDTO=basicCodeCoverageDTO)
-            basicCodeCoverage = targetPage.getBasicCodeCoverage()
-            if newBasicCodeCoverage.getCodeCoverageType(
-            ) == basicCodeCoverage.getCodeCoverageType():
+            basicCodeCoverage = targetPage.get_basic_code_coverage()
+            if newBasicCodeCoverage.get_code_coverage_type(
+            ) == basicCodeCoverage.get_code_coverage_type():
                 newBasicCodeCoverage.merge(basicCodeCoverage)
-            targetPage.setBasicCodeCoverage(
+            targetPage.set_basic_code_coverage(
                 basicCodeCoverage=newBasicCodeCoverage)
 
-        directiveDTOs = input.getDirectiveDTOs()
+        directiveDTOs = input.get_directive_dt_os()
         if directiveDTOs is not None:
             directives: [Directive] = []
             for directiveDTO in directiveDTOs:
                 directives.append(
-                    DirectiveDTOMapper.mappingDirectiveFrom(
+                    DirectiveDTOMapper.mapping_directive_from(
                         directiveDTO=directiveDTO))
-            targetPage.setDirectives(directives=directives)
+            targetPage.set_directives(directives=directives)
 
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+        targetPageEntity = TargetPageEntityMapper.mapping_target_page_entity_from(
             targetPage=targetPage)
         self._repository.update(targetPageEntity=targetPageEntity)
 
-        TargetPageProcessingManagerSingleton.getInstance(
-        ).setBeProcessedTargetPage(targetPage=targetPage)
-        output.setId(targetPage.getId())
+        TargetPageProcessingManagerSingleton.get_instance(
+        ).set_be_processed_target_page(targetPage=targetPage)
+        output.set_id(targetPage.get_id())

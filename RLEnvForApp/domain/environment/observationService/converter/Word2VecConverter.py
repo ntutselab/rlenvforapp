@@ -9,10 +9,10 @@ from RLEnvForApp.domain.environment.observationService.converter.Word2VecSinglet
 class Word2VecConverter(IConverter):
     def __init__(self):
         super().__init__()
-        Word2VecSingleton.getInstance()
+        Word2VecSingleton.get_instance()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         word_sequence = stateElement.lower()
         # print("word_sequence=", word_sequence) # debug
-        tokens = BERTTokenizerSingleton.getInstance().getTokens(word_sequence)
-        return Word2VecSingleton.getInstance().getWordsVector(words=tokens)
+        tokens = BERTTokenizerSingleton.get_instance().get_tokens(word_sequence)
+        return Word2VecSingleton.get_instance().get_words_vector(words=tokens)

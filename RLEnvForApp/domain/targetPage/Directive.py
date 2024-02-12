@@ -11,22 +11,22 @@ class Directive:
         self._appEvents = appEvents
         self._codeCoverages = codeCoverages
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._url
 
-    def getDom(self) -> str:
+    def get_dom(self) -> str:
         return self._dom
 
-    def getFormXPath(self) -> str:
+    def get_form_x_path(self) -> str:
         return self._formXPath
 
-    def getAppEvents(self) -> [AppEvent]:
+    def get_app_events(self) -> [AppEvent]:
         return self._appEvents
 
-    def getCodeCoverages(self) -> [CodeCoverage]:
+    def get_code_coverages(self) -> [CodeCoverage]:
         return self._codeCoverages
 
-    def getCodeCoverageByType(self, codeCoverageType: str) -> CodeCoverage:
+    def get_code_coverage_by_type(self, codeCoverageType: str) -> CodeCoverage:
         for codeCoverage in self._codeCoverages:
-            if codeCoverage.getCodeCoverageType() == codeCoverageType:
+            if codeCoverage.get_code_coverage_type() == codeCoverageType:
                 return codeCoverage

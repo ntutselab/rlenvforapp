@@ -9,17 +9,17 @@ from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 
 
 class testPythonCodeCoverageCollector(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._serverRootUrl = "http://127.0.0.1:3001"
-        self.session = self._requestsRetrySession()
+        self.session = self._requests_retry_session()
 
-    def test_get_codeCoverageDTO(self):
+    def test_get_code_coverage_dto(self):
         startTime = time.time()
-        print(self._getCoverage())
+        print(self._get_coverage())
         print("End time: ", time.time() - startTime)
         # self.assertEqual(True, False)
 
-    def _getCoverage(self):
+    def _get_coverage(self):
         try:
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
@@ -40,15 +40,15 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
             c = CodeCoverage(
                 codeCoverageType="statement",
                 codeCoverageVector=codeCoverageVector)
-            print(c.getCoveredAmount())
-            print(c.getCodeCoverageVectorLength())
-            print(c.getRatio())
+            print(c.get_covered_amount())
+            print(c.get_code_coverage_vector_length())
+            print(c.get_ratio())
 
             return response
         except Exception as e:
             print("Failed at getting coverage", e.__class__.__name__)
 
-    def _requestsRetrySession(self, retries=3, backoffFactor=0.3,
+    def _requests_retry_session(self, retries=3, backoffFactor=0.3,
                               statusForceList=(500, 502, 504), session=None):
         session = session or requests.Session()
         retry = Retry(

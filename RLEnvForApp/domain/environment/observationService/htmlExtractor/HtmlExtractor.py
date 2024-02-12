@@ -9,7 +9,7 @@ class HtmlExtractor:
     def __init__(self):
         pass
 
-    def getLabelName(self, dom: str, focusElementXpath: str):
+    def get_label_name(self, dom: str, focusElementXpath: str):
         tree = etree.parse(StringIO(dom), etree.HTMLParser())
         focusElements = tree.xpath(focusElementXpath.lower())
         focusElement = None
@@ -24,11 +24,11 @@ class HtmlExtractor:
                 encoding="UTF-8").decode('utf-8').strip()
 
             if labelName == "":
-                labelName = self._findLabelByid(tree, focusElement)
+                labelName = self._find_label_byid(tree, focusElement)
             if labelName == "":
-                labelName = self._findClosestLabelName(element=focusElement)
+                labelName = self._find_closest_label_name(element=focusElement)
             if labelName == "":
-                labelName = self._getHtmlTagAttribute(
+                labelName = self._get_html_tag_attribute(
                     element=focusElement, attribute="placeholder")
 
         if labelName == "":
@@ -37,7 +37,7 @@ class HtmlExtractor:
 
         return ' '.join(labelName.split())
 
-    def getPlaceholder(self, dom: str, focusElementXpath: str):
+    def get_placeholder(self, dom: str, focusElementXpath: str):
         tree = etree.parse(StringIO(dom), etree.HTMLParser())
         focusElements = tree.xpath(focusElementXpath.lower())
         focusElement = None
@@ -46,12 +46,12 @@ class HtmlExtractor:
 
         placeholder = ""
         if focusElement is not None:
-            placeholder = self._getHtmlTagAttribute(
+            placeholder = self._get_html_tag_attribute(
                 element=focusElement, attribute="placeholder")
 
         return ' '.join(placeholder.split())
 
-    def _findLabelByid(self, tree, element):
+    def _find_label_byid(self, tree, element):
         labelName = ""
         if element is not None and 'id' in element.attrib:
             focusElementId = element.attrib['id']
@@ -62,7 +62,7 @@ class HtmlExtractor:
 
         return labelName
 
-    def _findClosestLabelName(self, element):
+    def _find_closest_label_name(self, element):
         labelName = ""
         levelOfParents = 0
         try:
@@ -77,14 +77,14 @@ class HtmlExtractor:
                     element = element.getparent()
                     levelOfParents += 1
                 elif len(labelElements) > 1:
-                    if self._getHtmlTagAttribute(labelElements[index], "for"):
+                    if self._get_html_tag_attribute(labelElements[index], "for"):
                         element = element.getparent()
                         levelOfParents += 1
                         continue
                     labelName = etree.tostring(labelElements[index], method="text", encoding="UTF-8").decode(
                         'utf-8').strip()
                 else:
-                    if self._getHtmlTagAttribute(labelElements[0], "for"):
+                    if self._get_html_tag_attribute(labelElements[0], "for"):
                         element = element.getparent()
                         levelOfParents += 1
                         continue
@@ -96,7 +96,7 @@ class HtmlExtractor:
 
         return labelName
 
-    def _getHtmlTagAttribute(self, element, attribute):
+    def _get_html_tag_attribute(self, element, attribute):
         try:
             attributeText = element.attrib[attribute]
         except Exception as e:

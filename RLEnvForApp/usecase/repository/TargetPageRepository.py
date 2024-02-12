@@ -11,11 +11,11 @@ class TargetPageRepository:
     def update(self, targetPageEntity: TargetPageEntity):
         pass
 
-    def deleteById(self, id):
+    def delete_by_id(self, id):
         pass
 
-    def findById(self, id) -> TargetPageEntity:
+    def find_by_id(self, id) -> TargetPageEntity:
         pass
 
-    def findAll(self) -> [TargetPageEntity]:
+    def find_all(self) -> [TargetPageEntity]:
         pass

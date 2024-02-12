@@ -10,10 +10,10 @@ class ScreenshotPreprocessor:
             self._imageArray, data_format="channels_last")
         self._imagePath = './screenshot.png'
 
-        self.loadImage(colorMode, targetSize)
-        self._preprocessImage()
+        self.load_image(colorMode, targetSize)
+        self._preprocess_image()
 
-    def loadImage(self, colorMode='rgb', targetSize=None):
+    def load_image(self, colorMode='rgb', targetSize=None):
         tf.keras.preprocessing.image.save_img(
             self._imagePath, self._imageArray)
 
@@ -26,12 +26,12 @@ class ScreenshotPreprocessor:
             self._image = tf.keras.preprocessing.image.load_img(
                 path=self._imagePath, color_mode=colorMode, target_size=targetSize)
 
-    def getImageArray(self):
+    def get_image_array(self):
         return self._imageArray
 
-    def saveImage(self, save_path="./"):
+    def save_image(self, save_path="./"):
         tf.keras.preprocessing.image.save_img(save_path, self._imageArray)
 
-    def _preprocessImage(self):
+    def _preprocess_image(self):
         self._imageArray = tf.keras.preprocessing.image.img_to_array(
             self._image)

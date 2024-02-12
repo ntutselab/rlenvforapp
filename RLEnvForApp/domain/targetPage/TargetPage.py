@@ -15,56 +15,56 @@ class TargetPage:
         self._basicCodeCoverage = basicCodeCoverage
         self._directives: [] = directives
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getTargetUrl(self):
+    def get_target_url(self):
         return self._targetUrl
 
-    def setTargetUrl(self, targetUrl: str):
+    def set_target_url(self, targetUrl: str):
         self._targetUrl = targetUrl
 
-    def getRootUrl(self):
+    def get_root_url(self):
         return self._rootUrl
 
-    def setRootUrl(self, rootUrl: str):
+    def set_root_url(self, rootUrl: str):
         self._rootUrl = rootUrl
 
-    def getAppEvents(self) -> [AppEvent]:
+    def get_app_events(self) -> [AppEvent]:
         return self._appEvents
 
-    def setAppEvents(self, appEvents: [AppEvent]):
+    def set_app_events(self, appEvents: [AppEvent]):
         self._appEvents = appEvents
 
-    def getTaskID(self) -> str:
+    def get_task_id(self) -> str:
         return self._taskID
 
-    def setTaskID(self, taskID: str):
+    def set_task_id(self, taskID: str):
         self._taskID = taskID
 
-    def getFormXPath(self):
+    def get_form_x_path(self):
         return self._formXPath
 
-    def setFormXPath(self, formXPath: str):
+    def set_form_x_path(self, formXPath: str):
         self._formXPath = formXPath
 
-    def getBasicCodeCoverage(self) -> [bool]:
+    def get_basic_code_coverage(self) -> [bool]:
         return self._basicCodeCoverage
 
-    def setBasicCodeCoverage(self, basicCodeCoverage: [bool]):
+    def set_basic_code_coverage(self, basicCodeCoverage: [bool]):
         self._basicCodeCoverage = basicCodeCoverage
 
-    def getDirectives(self) -> [Directive]:
+    def get_directives(self) -> [Directive]:
         return self._directives
 
-    def setDirectives(self, directives: [Directive]):
+    def set_directives(self, directives: [Directive]):
         self._directives = directives
 
-    def appendDirective(self, directive: Directive):
+    def append_directive(self, directive: Directive):
         self._directives.append(directive)
 
-    def getTargetCodeCoverage(self) -> CodeCoverage:
-        codeCoverageType = self._basicCodeCoverage.getCodeCoverageType()
+    def get_target_code_coverage(self) -> CodeCoverage:
+        codeCoverageType = self._basicCodeCoverage.get_code_coverage_type()
         if len(self._directives) == 0:
             return self._basicCodeCoverage
         else:
@@ -73,14 +73,14 @@ class TargetPage:
                 if targetDirective is None:
                     targetDirective = directive
                     continue
-                targetCodeCoverage: CodeCoverage = targetDirective.getCodeCoverageByType(
+                targetCodeCoverage: CodeCoverage = targetDirective.get_code_coverage_by_type(
                     codeCoverageType=codeCoverageType)
-                directiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(
+                directiveCodeCoverage: CodeCoverage = directive.get_code_coverage_by_type(
                     codeCoverageType=codeCoverageType)
 
                 if targetDirective is None:
                     targetDirective = directive
-                if targetCodeCoverage.getCoveredAmount() < directiveCodeCoverage.getCoveredAmount():
+                if targetCodeCoverage.get_covered_amount() < directiveCodeCoverage.get_covered_amount():
                     targetDirective = directive
-            return targetDirective.getCodeCoverageByType(
+            return targetDirective.get_code_coverage_by_type(
                 codeCoverageType=codeCoverageType)

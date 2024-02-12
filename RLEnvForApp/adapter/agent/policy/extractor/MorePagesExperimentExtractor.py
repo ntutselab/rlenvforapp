@@ -7,7 +7,7 @@ from RLEnvForApp.logger.logger import Logger
 class MorePagesExperimentExtractor(IExtractor):
 
     @staticmethod
-    def getExtractor(scaled_images, **kwargs):
+    def get_extractor(scaled_images, **kwargs):
         Logger().info(scaled_images)
         labelNameFeature, tagNameFeature, tagTypeFeature = tf.split(
             scaled_images, [300, 300, 300], 2)

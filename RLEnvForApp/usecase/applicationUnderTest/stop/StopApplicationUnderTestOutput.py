@@ -2,8 +2,8 @@ class StopApplicationUnderTestOutput:
     def __init__(self):
         self._url = ""
 
-    def setUrl(self, url):
+    def set_url(self, url):
         self._url = url
 
-    def getUrl(self):
+    def get_url(self):
         return self._url

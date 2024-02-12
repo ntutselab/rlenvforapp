@@ -19,8 +19,8 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
     def close(self):
         pass
 
-    def waitForTargetPage(self):
-        targetPagePaths = self._getAllFilePathInFolder(self._folderPath)
+    def wait_for_target_page(self):
+        targetPagePaths = self._get_all_file_path_in_folder(self._folderPath)
         for path in targetPagePaths:
             if ".html" in path:
                 folderPath, pageHTMLFileName = os.path.split(path)
@@ -29,13 +29,13 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
                 jsonData = open(os.path.join(folderPath, pageJsonFileName),)
                 pageLog = json.load(jsonData)
                 jsonData.close()
-                self._addTargetPage(
+                self._add_target_page(
                     targetPageUrl=path,
                     rootUrl=path,
                     formXPath=pageLog["formXPath"],
                     appEventDTOs=[])
 
-    def _addTargetPage(self, targetPageUrl: str, rootUrl: str,
+    def _add_target_page(self, targetPageUrl: str, rootUrl: str,
                        formXPath: str, appEventDTOs: [AppEventDTO]):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
@@ -46,7 +46,7 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
 
-    def _getAllFilePathInFolder(self, targetFolderPath: str):
+    def _get_all_file_path_in_folder(self, targetFolderPath: str):
         filesPath = []
         for dirPath, dirNames, fileNames in os.walk(targetFolderPath):
             for file in fileNames:

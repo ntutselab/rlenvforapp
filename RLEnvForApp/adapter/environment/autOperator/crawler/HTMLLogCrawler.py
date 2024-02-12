@@ -17,7 +17,7 @@ class HTMLLogCrawler(ICrawler):
         self._targetPath: str = ""
         self._appElementDTOs: [AppElementDTO] = []
 
-    def goToRootPage(self):
+    def go_to_root_page(self):
         folderPath, pageHTMLFileName = os.path.split(self._targetPath)
         pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
 
@@ -38,51 +38,51 @@ class HTMLLogCrawler(ICrawler):
                 continue
             element = htmlParser.xpath(xpath)[0]
             self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                      name=self._getHtmlTagAttribute(
+                                                      name=self._get_html_tag_attribute(
                                                           element=element, attribute="name"),
-                                                      type=self._getHtmlTagAttribute(
+                                                      type=self._get_html_tag_attribute(
                                                           element=element, attribute="type"),
                                                       xpath=htmlParser.getpath(
                                                           element),
-                                                      value=self._getHtmlTagAttribute(element=element,
+                                                      value=self._get_html_tag_attribute(element=element,
                                                                                       attribute="value")))
         random.shuffle(self._appElementDTOs)
 
     def reset(self, rootPath: str, formXPath: str = ""):
         if rootPath != "":
             self._targetPath = rootPath
-        self.goToRootPage()
+        self.go_to_root_page()
 
     def close(self):
         pass
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         # if value == "":
         #     return
         # if "button" in xpath:
         #     return
         for element in self._appElementDTOs:
-            if element.getXpath() is xpath:
+            if element.get_xpath() is xpath:
                 element._value = value
 
-    def changeFocus(self, xpath: str, value: str):
+    def change_focus(self, xpath: str, value: str):
         for element in self._appElementDTOs:
-            if element.getXpath() is xpath:
+            if element.get_xpath() is xpath:
                 element._value = value
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         pass
 
-    def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
+    def get_all_selected_app_elements_dt_os(self) -> [AppElementDTO]:
         return self._appElementDTOs
 
-    def getDOM(self) -> str:
+    def get_dom(self) -> str:
         return self._html
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._targetPath
 
-    def _getHtmlTagAttribute(self, element, attribute):
+    def _get_html_tag_attribute(self, element, attribute):
         attributeText = ""
         try:
             attributeText = element.attrib[attribute]

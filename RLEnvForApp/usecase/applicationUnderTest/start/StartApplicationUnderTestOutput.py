@@ -3,14 +3,14 @@ class StartApplicationUnderTestOutput:
         self._url = ""
         self._id = ""
 
-    def setId(self, id):
+    def set_id(self, id):
         self._id = id
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def setUrl(self, url):
+    def set_url(self, url):
         self._url = url
 
-    def getUrl(self):
+    def get_url(self):
         return self._url

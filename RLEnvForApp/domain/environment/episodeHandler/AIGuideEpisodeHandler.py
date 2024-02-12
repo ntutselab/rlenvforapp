@@ -9,36 +9,36 @@ class AIGuideEpisodeHandler(IEpisodeHandler):
         super().__init__(id, episodeIndex, episodeStep)
         self._states: [State] = []
 
-    def isDone(self) -> bool:
+    def is_done(self) -> bool:
         initState: State = self._states[0]
-        initURL = initState.getUrl()
-        initCoverages: [CodeCoverage] = initState.getCodeCoverages()
+        initURL = initState.get_url()
+        initCoverages: [CodeCoverage] = initState.get_code_coverages()
 
-        lastState: State = self.getState(super().getNumberOfState() - 1)
-        lastUrl = lastState.getUrl()
-        lastCoverages: [CodeCoverage] = lastState.getCodeCoverages()
+        lastState: State = self.get_state(super().get_number_of_state() - 1)
+        lastUrl = lastState.get_url()
+        lastCoverages: [CodeCoverage] = lastState.get_code_coverages()
 
         if initURL != lastUrl:
             return True
 
-        if len(lastState.getFocusVector()) == 0:
+        if len(lastState.get_focus_vector()) == 0:
             return True
 
-        if super().getEpisodeStep() != - \
-                1 and super().getEpisodeStep() <= len(super().getAllState()) - 1:
+        if super().get_episode_step() != - \
+                1 and super().get_episode_step() <= len(super().get_all_state()) - 1:
             return True
 
         for lastCoverage in lastCoverages:
-            initCoverage: CodeCoverage = self._getCodeCoverageByType(
-                type=lastCoverage.getCodeCoverageType(), codeCoverages=initCoverages)
-            improvedCoverage: CodeCoverage = lastCoverage.getImprovedCodeCoverage(
+            initCoverage: CodeCoverage = self._get_code_coverage_by_type(
+                type=lastCoverage.get_code_coverage_type(), codeCoverages=initCoverages)
+            improvedCoverage: CodeCoverage = lastCoverage.get_improved_code_coverage(
                 originalCodeCovreage=initCoverage)
-            if improvedCoverage.getCoveredAmount() != 0:
+            if improvedCoverage.get_covered_amount() != 0:
                 return True
 
         return False
 
-    def _getCodeCoverageByType(self, type: str, codeCoverages: [CodeCoverage]):
+    def _get_code_coverage_by_type(self, type: str, codeCoverages: [CodeCoverage]):
         for codeCoverage in codeCoverages:
-            if codeCoverage.getCodeCoverageType() == type:
+            if codeCoverage.get_code_coverage_type() == type:
                 return codeCoverage

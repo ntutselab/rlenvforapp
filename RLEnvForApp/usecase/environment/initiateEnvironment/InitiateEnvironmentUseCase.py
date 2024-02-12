@@ -18,8 +18,8 @@ class InitiateEnvironmentUseCase:
 
     def execute(self, input: InitiateEnvironmentInput.InitiateEnvironmentInput,
                 output: InitiateEnvironmentOutput.InitiateEnvironmentOutput):
-        output.setActionSpaceSize(
-            self._actionCommandFactory.getActionSpaceSize())
-        output.setObservationSize(
-            self._observationService.getObservationSize())
-        output.setActionList(self._actionCommandFactory.getActionList())
+        output.set_action_space_size(
+            self._actionCommandFactory.get_action_space_size())
+        output.set_observation_size(
+            self._observationService.get_observation_size())
+        output.set_action_list(self._actionCommandFactory.get_action_list())

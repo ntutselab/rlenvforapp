@@ -5,7 +5,7 @@ from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 
 
 class testCodeCoverage(unittest.TestCase):
-    def testGetImprovedCodeCoverage(self):
+    def test_get_improved_code_coverage(self):
         originCodeCoverageVector = [1, 1, 0, 0]
         codeCoverageVector = [1, 0, 1, 0]
         originCodeCoverage = CodeCoverage(
@@ -15,16 +15,16 @@ class testCodeCoverage(unittest.TestCase):
             codeCoverageType="statement",
             codeCoverageVector=codeCoverageVector)
 
-        improvedCodeCoverage = codeCoverage.getImprovedCodeCoverage(
+        improvedCodeCoverage = codeCoverage.get_improved_code_coverage(
             originalCodeCovreage=originCodeCoverage)
         self.assertEqual(
-            improvedCodeCoverage.getCodeCoverageType(),
+            improvedCodeCoverage.get_code_coverage_type(),
             "Improved: statement")
         self.assertEqual(
-            improvedCodeCoverage.getCodeCoverageVector(), [
+            improvedCodeCoverage.get_code_coverage_vector(), [
                 0, 0, 1, 0])
 
-    def testTest(self):
+    def test_test(self):
         xpath = "/html/body/div/form/div[2]/div/input".upper()
         newXpath = ""
         for path in xpath.split("/"):

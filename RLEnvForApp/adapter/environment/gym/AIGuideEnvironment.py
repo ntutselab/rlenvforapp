@@ -78,7 +78,7 @@ class AIGuideEnvironment(gym.Env):
             crawler=self._crawler,
             codeCoverageCollector=self._codeCoverageCollector)
 
-        self._targetPagePort = TargetPagePortFactory().createAIGuideTargetPagePort(javaIp="127.0.0.1",
+        self._targetPagePort = TargetPagePortFactory().create_ai_guide_target_page_port(javaIp="127.0.0.1",
                                                                                    pythonIp="127.0.0.1",
                                                                                    javaPort=2700, pythonPort=2701,
                                                                                    serverName=self._serverName,
@@ -115,29 +115,29 @@ class AIGuideEnvironment(gym.Env):
             output=initiateEnvOutput)
 
         self._logger.info(f"Action List: {initiateEnvOutput.getActionList()}")
-        self._observation_shape = initiateEnvOutput.getObservationSize()
+        self._observation_shape = initiateEnvOutput.get_observation_size()
 
         self.action_space = gym.spaces.Discrete(
-            initiateEnvOutput.getActionSpaceSize())
+            initiateEnvOutput.get_action_space_size())
         self.observation_space = gym.spaces.Box(low=-numpy.inf,
                                                 high=numpy.inf,
                                                 shape=self._observation_shape,
                                                 dtype=numpy.float32)
 
         self._targetPagePort.connect()
-        self._targetPagePort.waitForTargetPage()
+        self._targetPagePort.wait_for_target_page()
         self._isFirstStep = True
 
         self._targetFormXPath = ''
         self._formCounts = {}
 
-        self._autController.startAUTServer()
+        self._autController.start_aut_server()
 
     def step(self, action):
         if self._totalStep > self._pauseTotalStep:
-            self._targetPagePort.setPauseAgent(True)
+            self._targetPagePort.set_pause_agent(True)
             count = 1
-            while self._targetPagePort.getPauseAgent():
+            while self._targetPagePort.get_pause_agent():
                 time.sleep(60)
                 self._logger.info(f'sleep count: {count}')
                 count += 1
@@ -152,10 +152,10 @@ class AIGuideEnvironment(gym.Env):
             # self._episodeHandlerRepository.update(episodeHandlerEntity)
             self._isFirstStep = False
 
-        if self._autOperator.getFocusedAppElement() is None:
+        if self._autOperator.get_focused_app_element() is None:
             focusElementXpath = ""
         else:
-            focusElementXpath = self._autOperator.getFocusedAppElement().getXpath()
+            focusElementXpath = self._autOperator.get_focused_app_element().get_xpath()
 
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
             autOperator=self._autOperator)
@@ -170,7 +170,7 @@ class AIGuideEnvironment(gym.Env):
         except Exception as e:
             self._logger.exception(f"Something wrong when execute action: {e}")
             traceback.print_exc()
-            executeActionOutput.setIsDone(True)
+            executeActionOutput.set_is_done(True)
 
         self._stepsInformation = "total_step:" + f"{self._totalStep:4}" + \
                                  "\tStep:" + f"{self._stepNumber:2}" + \
@@ -180,20 +180,20 @@ class AIGuideEnvironment(gym.Env):
                                  "\tFocusElement: " + str(self._originalObservation).ljust(64) + \
                                  "\tXpath: " + focusElementXpath + \
                                  "\tCodeCoverage:" + \
-            str(executeActionOutput.getCodeCoverageDict())
+            str(executeActionOutput.get_code_coverage_dict())
         self._logger.info(self._stepsInformation)
 
-        observation = numpy.array(executeActionOutput.getObservation())
+        observation = numpy.array(executeActionOutput.get_observation())
         observation.resize(self._observation_shape)
-        self._episodeReward += executeActionOutput.getReward()
+        self._episodeReward += executeActionOutput.get_reward()
         self._stepNumber += 1
         self._totalStep += 1
 
-        self._originalObservation = executeActionOutput.getOriginalObservation()
-        self._originalObservation = self._stripDictionaryContents(
+        self._originalObservation = executeActionOutput.get_original_observation()
+        self._originalObservation = self._strip_dictionary_contents(
             self._originalObservation)
-        return observation, executeActionOutput.getReward(), executeActionOutput.getIsDone(), {
-            "Reward": executeActionOutput.getReward()}
+        return observation, executeActionOutput.get_reward(), executeActionOutput.get_is_done(), {
+            "Reward": executeActionOutput.get_reward()}
 
     def reset(self):
         self._logger.info(
@@ -204,21 +204,21 @@ class AIGuideEnvironment(gym.Env):
 
         isLegalDirective = False
         if not self._isFirstStep:
-            episodeHandlerEntity = self._episodeHandlerRepository.findById(
+            episodeHandlerEntity = self._episodeHandlerRepository.find_by_id(
                 id=self._episodeHandlerId)
-            episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+            episodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
                 episodeHandlerEntity)
-            states = episodeHandler.getAllState()
-            if states[-2].getActionType() == "click" and states[-2].getInteractedElement():
-                interactiveAppElement: AppElement = states[-2].getInteractedElement(
+            states = episodeHandler.get_all_state()
+            if states[-2].get_action_type() == "click" and states[-2].get_interacted_element():
+                interactiveAppElement: AppElement = states[-2].get_interacted_element(
                 )
-                tagName = interactiveAppElement.getTagName()
-                tagType = interactiveAppElement.getType()
+                tagName = interactiveAppElement.get_tag_name()
+                tagType = interactiveAppElement.get_type()
                 if tagName == "button" or tagName == "a" or (tagName == 'input' and (
                         tagType == 'submit' or tagType == "button" or tagType == 'image')):
-                    afterActionDom = states[-1].getDOM()
-                    beforeActionDom = states[-2].getDOM()
-                    isLegalDirective = self._directiveRuleService.isLegal(
+                    afterActionDom = states[-1].get_dom()
+                    beforeActionDom = states[-2].get_dom()
+                    isLegalDirective = self._directiveRuleService.is_legal(
                         targetPageId=self._targetPageId, beforeActionDom=beforeActionDom, afterActionDom=afterActionDom)
 
         if isLegalDirective:
@@ -227,7 +227,7 @@ class AIGuideEnvironment(gym.Env):
                     f"Find legal directive, target page id: {self._targetPageId}")
                 self._logger.info(
                     f"Number of attempts: {self._formCounts[self._targetPageId]}")
-                self._targetPagePort.pushTargetPage(targetPageId=self._targetPageId,
+                self._targetPagePort.push_target_page(targetPageId=self._targetPageId,
                                                     episodeHandlerId=self._episodeHandlerId)
             except Exception as ex:
                 template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
@@ -235,14 +235,14 @@ class AIGuideEnvironment(gym.Env):
                 self._logger.info(message)
                 self._logger.info(f"PUSH ERROR!!! {self._crawler.getUrl()}")
 
-        self._targetPagePort.pullTargetPage()
+        self._targetPagePort.pull_target_page()
 
         self._logger.info(
             "\n\n=======================Reset environment.Env=======================")
         self._episodeIndex += 1
         self._stepNumber = 1
 
-        self._autController.resetAUTServer(isLegalDirective)
+        self._autController.reset_aut_server(isLegalDirective)
         resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
             operator=self._autOperator)
         resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
@@ -253,14 +253,14 @@ class AIGuideEnvironment(gym.Env):
                 input=resetEnvUseInput,
                 output=resetEnvUseOutput)
         except RuntimeError:
-            self._autController.resetAUTServer(True)
+            self._autController.reset_aut_server(True)
             resetEnvUseCase.execute(
                 input=resetEnvUseInput,
                 output=resetEnvUseOutput)
 
-        self._episodeHandlerId = resetEnvUseOutput.getEpisodeHandlerId()
-        self._targetPageId = resetEnvUseOutput.getTargetPageId()
-        self._originalObservation = resetEnvUseOutput.getOriginalObservation()
+        self._episodeHandlerId = resetEnvUseOutput.get_episode_handler_id()
+        self._targetPageId = resetEnvUseOutput.get_target_page_id()
+        self._originalObservation = resetEnvUseOutput.get_original_observation()
 
         if self._targetPageId in self._formCounts:
             self._formCounts[self._targetPageId] += 1
@@ -273,24 +273,24 @@ class AIGuideEnvironment(gym.Env):
         self._logger.info(
             "==========================================================\n\n")
 
-        self._targetFormXPath = resetEnvUseOutput.getFormXPath()
+        self._targetFormXPath = resetEnvUseOutput.get_form_x_path()
 
-        FormSubmitCriteriaSingleton.getInstance().setFormSubmitCriteria(
+        FormSubmitCriteriaSingleton.get_instance().set_form_submit_criteria(
             applicationName=self._serverName,
-            url=resetEnvUseOutput.getTargetPageUrl(),
+            url=resetEnvUseOutput.get_target_page_url(),
             xpath=self._targetFormXPath)
 
-        observation = numpy.array(resetEnvUseOutput.getObservation())
+        observation = numpy.array(resetEnvUseOutput.get_observation())
         observation.resize(self._observation_shape)
 
-        self._originalObservation = self._stripDictionaryContents(
+        self._originalObservation = self._strip_dictionary_contents(
             self._originalObservation)
-        self._updateTargetPage()
+        self._update_target_page()
         self._isFirstStep = True
         return observation
 
     def close(self):
-        self._autController.stopAUTServer()
+        self._autController.stop_aut_server()
         self._crawler.close()
         self._targetPagePort.close()
         self._logger.info(f"form counts: {self._formCounts}")
@@ -299,15 +299,15 @@ class AIGuideEnvironment(gym.Env):
     def render(self):
         pass
 
-    def _stripDictionaryContents(self, dictionary: dict):
+    def _strip_dictionary_contents(self, dictionary: dict):
         for key in dictionary:
             dictionary[key] = str(dictionary[key]).strip()
 
         return dictionary
 
-    def _updateTargetPage(self):
-        codeCoverageDTO = self._getCodeCoverageByType(
-            codeCoverageDTOs=self._codeCoverageCollector.getCodeCoverageDTOs(), codeCoverageType=self._codeCoverageType)
+    def _update_target_page(self):
+        codeCoverageDTO = self._get_code_coverage_by_type(
+            codeCoverageDTOs=self._codeCoverageCollector.get_code_coverage_dt_os(), codeCoverageType=self._codeCoverageType)
         updateTargetPageInput = UpdateTargetPageInput.UpdateTargetPageInput(targetPageId=self._targetPageId,
                                                                             basicCodeCoverageDTO=codeCoverageDTO)
         updateTargetPageOutput = UpdateTargetPageOutput.UpdateTargetPageOutput()
@@ -316,11 +316,11 @@ class AIGuideEnvironment(gym.Env):
             input=updateTargetPageInput,
             output=updateTargetPageOutput)
 
-    def _getCodeCoverageByType(self, codeCoverageDTOs: [
+    def _get_code_coverage_by_type(self, codeCoverageDTOs: [
                                CodeCoverageDTO], codeCoverageType: str):
         for codeCoverageDTO in codeCoverageDTOs:
-            if codeCoverageDTO.getCodeCoverageType() == codeCoverageType:
+            if codeCoverageDTO.get_code_coverage_type() == codeCoverageType:
                 return codeCoverageDTO
 
-    def getAUTOperator(self):
+    def get_aut_operator(self):
         return self._autOperator

@@ -3,13 +3,13 @@ from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import \
     CodeCoverageEntity
 
 
-def mappingCodeCoverageEntityFrom(
+def mapping_code_coverage_entity_from(
         codeCoverage: CodeCoverage) -> CodeCoverageEntity:
-    return CodeCoverageEntity(codeCoverageType=codeCoverage.getCodeCoverageType(),
-                              codeCoverageVector=codeCoverage.getCodeCoverageVector())
+    return CodeCoverageEntity(codeCoverageType=codeCoverage.get_code_coverage_type(),
+                              codeCoverageVector=codeCoverage.get_code_coverage_vector())
 
 
-def mappingCodeCoverageFrom(
+def mapping_code_coverage_from(
         codeCoverageEntity: CodeCoverageEntity) -> CodeCoverage:
-    return CodeCoverage(codeCoverageType=codeCoverageEntity.getCodeCoverageType(),
-                        codeCoverageVector=codeCoverageEntity.getCodeCoverageVector())
+    return CodeCoverage(codeCoverageType=codeCoverageEntity.get_code_coverage_type(),
+                        codeCoverageVector=codeCoverageEntity.get_code_coverage_vector())

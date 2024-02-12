@@ -12,15 +12,15 @@ class InMemoryApplicationUnderTestRepository(ApplicationUnderTestRepository):
     def add(self, autEntity: ApplicationUnderTestEntity):
         self._auts.append(autEntity)
 
-    def deletById(self, id):
-        self._auts.remove(self.findById(id))
+    def delet_by_id(self, id):
+        self._auts.remove(self.find_by_id(id))
 
-    def findById(self, id):
+    def find_by_id(self, id):
         targetAut: ApplicationUnderTestEntity = None
         for autEntity in self._auts:
-            if autEntity.getId() == id:
+            if autEntity.get_id() == id:
                 targetAut = autEntity
         return targetAut
 
-    def findAll(self) -> [ApplicationUnderTestEntity]:
+    def find_all(self) -> [ApplicationUnderTestEntity]:
         return self._auts

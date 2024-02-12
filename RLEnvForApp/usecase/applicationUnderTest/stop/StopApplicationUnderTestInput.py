@@ -2,5 +2,5 @@ class StopApplicationUnderTestInput:
     def __init__(self, id):
         self._Id = id
 
-    def getId(self):
+    def get_id(self):
         return self._Id

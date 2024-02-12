@@ -5,14 +5,14 @@ class IObservationService:
     def __init__(self):
         pass
 
-    def getObservation(self, state: State):
+    def get_observation(self, state: State):
         pass
 
-    def getOriginalObservation(self, state: State) -> dict:
+    def get_original_observation(self, state: State) -> dict:
         return {}
 
-    def getObservationDictionary(self, observation: [int]):
+    def get_observation_dictionary(self, observation: [int]):
         pass
 
-    def getObservationSize(self):
+    def get_observation_size(self):
         pass

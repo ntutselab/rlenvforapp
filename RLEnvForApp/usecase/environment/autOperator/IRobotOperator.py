@@ -26,55 +26,55 @@ class IRobotOperator(IAUTOperator):
         self._focusedAppElementIndex: int = 0
         self._appEventValue: str = ""
 
-    def getState(self) -> State:
+    def get_state(self) -> State:
         state = State.State(id=str(uuid.uuid4()))
         focusedVector: [bool] = []
         for i in range(0, len(self._selectedAppElements)):
             focusedVector.append(i == self._focusedAppElementIndex)
-        state.setFocusVector(focusedVector)
-        state.setInteractedElement(self._interactedElement)
-        state.setSelectedAppElements(self._selectedAppElements)
-        state.setUrl(self._crawler.getUrl())
-        state.setDOM(self._crawler.getDOM())
-        state.setCodeCoverages(
-            self._mappingCodeCoverageForm(codeCoverageDTOs=self._codeCoverageCollector.getCodeCoverageDTOs()))
-        state.setScreenShot(self._crawler.getScreenShot())
-        state.setActionType(super().getActionType())
-        state.setAppEventInputValue(value=self._appEventValue)
+        state.set_focus_vector(focusedVector)
+        state.set_interacted_element(self._interactedElement)
+        state.set_selected_app_elements(self._selectedAppElements)
+        state.set_url(self._crawler.get_url())
+        state.set_dom(self._crawler.get_dom())
+        state.set_code_coverages(
+            self._mapping_code_coverage_form(codeCoverageDTOs=self._codeCoverageCollector.get_code_coverage_dt_os()))
+        state.set_screen_shot(self._crawler.get_screen_shot())
+        state.set_action_type(super().get_action_type())
+        state.set_app_event_input_value(value=self._appEventValue)
         return state
 
-    def resetCrawler(self, path: str, formXPath: str = ""):
+    def reset_crawler(self, path: str, formXPath: str = ""):
         self._selectedAppElements: [AppElement] = []
         self._focusedAppElementIndex = 0
         self._interactedElement = None
         self._appEventValue = ""
         self._crawler.reset(path=path, formXPath=formXPath)
-        self._activeUrl = self._crawler.getUrl()
-        self._updateAllSelectedAppElements()
+        self._activeUrl = self._crawler.get_url()
+        self._update_all_selected_app_elements()
 
-    def goToRootPage(self):
-        self._crawler.goToRootPage()
+    def go_to_root_page(self):
+        self._crawler.go_to_root_page()
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         self._appEventValue = value
         if xpath == "":
-            focusedAppElement = self.getFocusedAppElement()
+            focusedAppElement = self.get_focused_app_element()
             if focusedAppElement is None:
                 return
-            xpath = focusedAppElement.getXpath()
-        self._crawler.executeAppEvent(xpath=xpath, value=value)
+            xpath = focusedAppElement.get_xpath()
+        self._crawler.execute_app_event(xpath=xpath, value=value)
 
         for i in self._selectedAppElements:
-            if i.getXpath() == xpath:
+            if i.get_xpath() == xpath:
                 self._interactedElement = i
-                self._interactedElement.setValue(value)
-        self._updateAllSelectedAppElements()
-        if not (self._activeUrl == self._crawler.getUrl()):
-            self._activeUrl = self._crawler.getUrl()
+                self._interactedElement.set_value(value)
+        self._update_all_selected_app_elements()
+        if not (self._activeUrl == self._crawler.get_url()):
+            self._activeUrl = self._crawler.get_url()
             self._focusedAppElementIndex = 0
 
-    def changeFocus(self):
-        if super().getActionType() == "changeFocus":
+    def change_focus(self):
+        if super().get_action_type() == "changeFocus":
             self._interactedElement = self._selectedAppElements[self._focusedAppElementIndex]
         numberOfSelectedAppElement = len(self._selectedAppElements)
         if numberOfSelectedAppElement != 0:
@@ -83,10 +83,10 @@ class IRobotOperator(IAUTOperator):
         else:
             self._focusedAppElementIndex = 0
 
-    def getAllSelectedAppElements(self) -> [AppElement]:
+    def get_all_selected_app_elements(self) -> [AppElement]:
         return self._selectedAppElements
 
-    def getFocusedAppElement(self) -> AppElement:
+    def get_focused_app_element(self) -> AppElement:
         if len(self._selectedAppElements) == 0:
             return None
         if len(self._selectedAppElements) <= self._focusedAppElementIndex:
@@ -94,7 +94,7 @@ class IRobotOperator(IAUTOperator):
 
         return self._selectedAppElements[self._focusedAppElementIndex]
 
-    def _updateAllSelectedAppElements(self):
+    def _update_all_selected_app_elements(self):
         self._selectedAppElements: [AppElement] = []
 
         inputAppElements: [AppElement] = []
@@ -102,14 +102,14 @@ class IRobotOperator(IAUTOperator):
         hyperlinkAppElements: [AppElement] = []
         otherAppElements: [AppElement] = []
 
-        for appElementDTO in self._crawler.getAllSelectedAppElementsDTOs():
-            appElement = AppElementDTOMapper.mappingAppElementFrom(
+        for appElementDTO in self._crawler.get_all_selected_app_elements_dt_os():
+            appElement = AppElementDTOMapper.mapping_app_element_from(
                 appElementDTO=appElementDTO)
-            if "/input" in appElement.getXpath().lower():
+            if "/input" in appElement.get_xpath().lower():
                 inputAppElements.append(appElement)
-            elif "/button" in appElement.getXpath().lower():
+            elif "/button" in appElement.get_xpath().lower():
                 buttonAppElements.append(appElement)
-            elif "/a" in appElement.getXpath().lower():
+            elif "/a" in appElement.get_xpath().lower():
                 hyperlinkAppElements.append(appElement)
             else:
                 otherAppElements.append(appElement)
@@ -119,10 +119,10 @@ class IRobotOperator(IAUTOperator):
         self._selectedAppElements.extend(hyperlinkAppElements)
         self._selectedAppElements.extend(otherAppElements)
 
-    def _mappingCodeCoverageForm(self, codeCoverageDTOs: [
+    def _mapping_code_coverage_form(self, codeCoverageDTOs: [
                                  CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []
         for i in codeCoverageDTOs:
             codeCoverages.append(
-                CodeCoverage(codeCoverageType=i.getCodeCoverageType(), codeCoverageVector=i.getCodeCoverageVector()))
+                CodeCoverage(codeCoverageType=i.get_code_coverage_type(), codeCoverageVector=i.get_code_coverage_vector()))
         return codeCoverages

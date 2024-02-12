@@ -6,7 +6,7 @@ class ICrawler:
     def __init__(self):
         pass
 
-    def goToRootPage(self):
+    def go_to_root_page(self):
         pass
 
     def reset(self, rootPath: str, formXPath: str):
@@ -15,20 +15,20 @@ class ICrawler:
     def close(self):
         pass
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         pass
 
-    def changeFocus(self, xpath: str, value: str):
+    def change_focus(self, xpath: str, value: str):
         pass
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         pass
 
-    def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
+    def get_all_selected_app_elements_dt_os(self) -> [AppElementDTO]:
         pass
 
-    def getDOM(self) -> str:
+    def get_dom(self) -> str:
         pass
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         pass

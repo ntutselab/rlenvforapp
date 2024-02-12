@@ -28,7 +28,7 @@ class DefaultForTestActionCommandFactoryService(
             "Michael Chen"]
         self._inputActionStartNumber = 2
 
-    def createActionCommand(self, actionNumber: int) -> IActionCommand:
+    def create_action_command(self, actionNumber: int) -> IActionCommand:
 
         if actionNumber == 0:
             return ClickCommand.ClickCommand(actionNumber=actionNumber)
@@ -37,10 +37,10 @@ class DefaultForTestActionCommandFactoryService(
             return ChangeFocusCommand.ChangeFocusCommand(
                 actionNumber=actionNumber)
 
-        if actionNumber >= 0 and actionNumber < self.getActionSpaceSize():
+        if actionNumber >= 0 and actionNumber < self.get_action_space_size():
             indexOfInputData = actionNumber - self._inputActionStartNumber
             return InputValueCommand.InputValueCommand(
                 inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
 
-    def getActionSpaceSize(self) -> int:
+    def get_action_space_size(self) -> int:
         return self._inputActionStartNumber + len(self._inputData)

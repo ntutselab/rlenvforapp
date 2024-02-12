@@ -6,16 +6,16 @@ from RLEnvForApp.domain.environment.state import CodeCoverage
 
 
 class testCodeCoverageVectorConverter(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         pass
 
-    def tearDown(self) -> None:
+    def tear_down(self) -> None:
         pass
 
-    def testConvert(self):
+    def test_convert(self):
         codeCoverage = CodeCoverage.CodeCoverage(
             codeCoverageType="branch coverage", codeCoverageVector=[3, 2, 1, 0])
-        codeCoverageVector = codeCoverage.getCodeCoverageVector()
+        codeCoverageVector = codeCoverage.get_code_coverage_vector()
 
         listCodeCoverageFeature = CodeCoverageVectorConverter().convert(
             stateElement=codeCoverageVector)

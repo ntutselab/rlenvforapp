@@ -12,17 +12,17 @@ class DirectiveEntity:
         self._appEventEntities = appEventEntities
         self._codeCoverageEntities = codeCoverageEntities
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._url
 
-    def getDom(self) -> str:
+    def get_dom(self) -> str:
         return self._dom
 
-    def getFormXPath(self) -> str:
+    def get_form_x_path(self) -> str:
         return self._formXPath
 
-    def getAppEventEntities(self) -> [AppEventEntity]:
+    def get_app_event_entities(self) -> [AppEventEntity]:
         return self._appEventEntities
 
-    def getCodeCoverageEntities(self) -> [CodeCoverageEntity]:
+    def get_code_coverage_entities(self) -> [CodeCoverageEntity]:
         return self._codeCoverageEntities

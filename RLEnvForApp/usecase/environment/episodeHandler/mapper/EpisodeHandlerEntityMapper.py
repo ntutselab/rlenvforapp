@@ -9,24 +9,24 @@ from RLEnvForApp.usecase.environment.state.entity.StateEntity import \
 from RLEnvForApp.usecase.environment.state.mapper import StateEntityMapper
 
 
-def mappingEpisodeHandlerEntityForm(episodeHandler: IEpisodeHandler):
+def mapping_episode_handler_entity_form(episodeHandler: IEpisodeHandler):
     episodeHandlerEntity = EpisodeHandlerEntity(
-        id=episodeHandler.getId(),
-        episodeIndex=episodeHandler.getEpisodeIndex(),
-        episodeStep=episodeHandler.getEpisodeStep())
+        id=episodeHandler.get_id(),
+        episodeIndex=episodeHandler.get_episode_index(),
+        episodeStep=episodeHandler.get_episode_step())
 
     stateEntities: [StateEntity] = []
-    for state in episodeHandler.getAllState():
-        stateEntities.append(StateEntityMapper.mappingStateEntiyFrom(state))
-    episodeHandlerEntity.setAllStateEntities(stateEntities)
+    for state in episodeHandler.get_all_state():
+        stateEntities.append(StateEntityMapper.mapping_state_entiy_from(state))
+    episodeHandlerEntity.set_all_state_entities(stateEntities)
     return episodeHandlerEntity
 
 
-def mappingEpisodeHandlerForm(episodeHandlerEntity: EpisodeHandlerEntity):
-    episodeHandler = EpisodeHandlerFactory().createEpisodeHandler(
-        id=episodeHandlerEntity.getId(), episodeIndex=episodeHandlerEntity.getEpisodeIndex())
-    for stateEntity in episodeHandlerEntity.getStateEntities():
-        episodeHandler.appendState(
-            state=StateEntityMapper.mappingStateFrom(
+def mapping_episode_handler_form(episodeHandlerEntity: EpisodeHandlerEntity):
+    episodeHandler = EpisodeHandlerFactory().create_episode_handler(
+        id=episodeHandlerEntity.get_id(), episodeIndex=episodeHandlerEntity.get_episode_index())
+    for stateEntity in episodeHandlerEntity.get_state_entities():
+        episodeHandler.append_state(
+            state=StateEntityMapper.mapping_state_from(
                 stateEntity=stateEntity))
     return episodeHandler

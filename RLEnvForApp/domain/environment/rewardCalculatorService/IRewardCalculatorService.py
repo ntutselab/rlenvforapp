@@ -6,8 +6,8 @@ class IRewardCalculatorService:
     def __init__(self):
         pass
 
-    def calculateReward(self, episodeHandler: IEpisodeHandler):
+    def calculate_reward(self, episodeHandler: IEpisodeHandler):
         pass
 
-    def getCosineSimilarityText(self):
+    def get_cosine_similarity_text(self):
         pass

@@ -16,7 +16,7 @@ from RLEnvForApp.usecase.targetPage.get import (GetTargetPageInput,
 
 
 class testGetTargetPageUsecase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._repository = InMemoryTargetPageRepository()
         self._targetPageUrl = "./register.html"
         self._rootUrl = "./"
@@ -46,7 +46,7 @@ class testGetTargetPageUsecase(unittest.TestCase):
         createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
-        self._targetPageId = createTargetPageOutput.getId()
+        self._targetPageId = createTargetPageOutput.get_id()
 
     def test_get_target_page(self):
         getTargetPageUseCase = GetTargetPageUseCase.GetTargetPageUseCase(
@@ -58,27 +58,27 @@ class testGetTargetPageUsecase(unittest.TestCase):
         getTargetPageUseCase.execute(
             input=getTargetPageInput,
             output=getTargetPageOutput)
-        targetPageDTO: TargetPageDTO = getTargetPageOutput.getTargetPageDTO()
-        self.assertEqual(targetPageDTO.getId(), self._targetPageId)
+        targetPageDTO: TargetPageDTO = getTargetPageOutput.get_target_page_dto()
+        self.assertEqual(targetPageDTO.get_id(), self._targetPageId)
         self.assertEqual(
-            targetPageDTO.getAppEventDTOs()[0].getXpath(),
+            targetPageDTO.get_app_event_dt_os()[0].get_xpath(),
             "/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]")
-        self.assertEqual(targetPageDTO.getRootUrl(), self._rootUrl)
-        self.assertEqual(targetPageDTO.getTargetUrl(), self._targetPageUrl)
-        self.assertEqual(targetPageDTO.getTaskID(), self._taskID)
+        self.assertEqual(targetPageDTO.get_root_url(), self._rootUrl)
+        self.assertEqual(targetPageDTO.get_target_url(), self._targetPageUrl)
+        self.assertEqual(targetPageDTO.get_task_id(), self._taskID)
         self.assertEqual(
-            targetPageDTO.getBasicCodeCoverageDTO().getCodeCoverageVector(), [
+            targetPageDTO.get_basic_code_coverage_dto().get_code_coverage_vector(), [
                 1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
-        self.assertEqual(len(targetPageDTO.getDirectiveDTOs()), 1)
+        self.assertEqual(len(targetPageDTO.get_directive_dt_os()), 1)
 
-        directiveDTO: DirectiveDTO = targetPageDTO.getDirectiveDTOs()[0]
-        self.assertEqual(directiveDTO.getCodeCoverageDTO().getCodeCoverageType(),
-                         self._directiveDTO.getCodeCoverageDTO().getCodeCoverageType())
-        self.assertEqual(directiveDTO.getCodeCoverageDTO().getCodeCoverageVector(),
-                         self._directiveDTO.getCodeCoverageDTO().getCodeCoverageVector())
+        directiveDTO: DirectiveDTO = targetPageDTO.get_directive_dt_os()[0]
+        self.assertEqual(directiveDTO.getCodeCoverageDTO().get_code_coverage_type(),
+                         self._directiveDTO.getCodeCoverageDTO().get_code_coverage_type())
+        self.assertEqual(directiveDTO.getCodeCoverageDTO().get_code_coverage_vector(),
+                         self._directiveDTO.getCodeCoverageDTO().get_code_coverage_vector())
         self.assertEqual(
-            directiveDTO.getAppEventDTOs()[0].getXpath(),
-            self._appEventDTO.getXpath())
+            directiveDTO.get_app_event_dt_os()[0].get_xpath(),
+            self._appEventDTO.get_xpath())
         self.assertEqual(
-            directiveDTO.getAppEventDTOs()[0].getValue(),
-            self._appEventDTO.getValue())
+            directiveDTO.get_app_event_dt_os()[0].get_value(),
+            self._appEventDTO.get_value())

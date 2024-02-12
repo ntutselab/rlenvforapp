@@ -47,28 +47,28 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
 
         self._cosineSimilarityText: str = ''
 
-    def calculateReward(self, episodeHandler: IEpisodeHandler):
-        previousState: State = episodeHandler.getAllState()[-2]
+    def calculate_reward(self, episodeHandler: IEpisodeHandler):
+        previousState: State = episodeHandler.get_all_state()[-2]
 
-        if episodeHandler.isDone() and self._targetIndicationService.isConform(
+        if episodeHandler.is_done() and self._targetIndicationService.is_conform(
                 state=previousState):
             reward = self._episodeRewardCoefficient * \
-                (1 / self._getEpisodeStepFraction(episodeHandler=episodeHandler))
+                (1 / self._get_episode_step_fraction(episodeHandler=episodeHandler))
             self._logger.info(f'Form submitted reward: {reward}')
             # self._updateCategoryList(previousState)
             return reward
 
-        if previousState.getInteractedElement() is None:
+        if previousState.get_interacted_element() is None:
             self._logger.info('Interacted element is none, reward: 0')
             return 0
 
-        if self._actionIndicationService.isConform(state=previousState):
-            if previousState.getActionType() == "input":
+        if self._actionIndicationService.is_conform(state=previousState):
+            if previousState.get_action_type() == "input":
                 # self._updateCategoryList(previousState)
-                return self._getInputValueReward(previousState=previousState)
+                return self._get_input_value_reward(previousState=previousState)
 
-            if previousState.getActionType() == "click":
-                return self._getClickReward(previousState=previousState)
+            if previousState.get_action_type() == "click":
+                return self._get_click_reward(previousState=previousState)
 
             self._logger.info('Action type is not input or click. reward: -10')
             return -10
@@ -76,37 +76,37 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
             self._logger.info('Category not match record, reward: -10')
             return -10
 
-    def _getEpisodeStepFraction(self, episodeHandler: IEpisodeHandler):
+    def _get_episode_step_fraction(self, episodeHandler: IEpisodeHandler):
         episodeStepFraction = 0
 
-        numberOfState = episodeHandler.getNumberOfState()
-        episodeStep = episodeHandler.getEpisodeStep()
+        numberOfState = episodeHandler.get_number_of_state()
+        episodeStep = episodeHandler.get_episode_step()
         episodeStepFraction = (numberOfState - 1) / episodeStep
         return episodeStepFraction
 
-    def _getInputValueReward(self, previousState: State):
-        elementLabel = previousState.getOriginalObservation()["labelName"]
+    def _get_input_value_reward(self, previousState: State):
+        elementLabel = previousState.get_original_observation()["labelName"]
 
         if not elementLabel:
             self._logger.info("Label is empty")
             return 0.0
 
-        inputCategory = self._inputTypeList[previousState.getActionNumber()]
+        inputCategory = self._inputTypeList[previousState.get_action_number()]
 
         categoryListTokens = list(
-            map(CosineSimilarityService.getTokens, inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[inputCategory]))
+            map(CosineSimilarityService.getTokens, inputSpace.CategoryListSingleton.get_instance().get_category_extend_list()[inputCategory]))
         categoryListTokens.append(inputCategory)
 
         # vectorization whole String
         categoryListVector = list(
-            map(FastTextSingleton.getInstance().getWordsVector, categoryListTokens))
-        elementLabelVector = FastTextSingleton.getInstance().getWordVector(words=elementLabel)
+            map(FastTextSingleton.get_instance().getWordsVector, categoryListTokens))
+        elementLabelVector = FastTextSingleton.get_instance().get_word_vector(words=elementLabel)
 
         labelCosineSimilarity = -1
         if categoryListVector:
             for categoryVector in categoryListVector:
                 labelCosineSimilarity = max(
-                    CosineSimilarityService.getCosineSimilarity(
+                    CosineSimilarityService.get_cosine_similarity(
                         categoryVector, elementLabelVector), labelCosineSimilarity)
 
         if np.isnan(labelCosineSimilarity):
@@ -126,9 +126,9 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
         self._logger.info(f'Input reward: {reward}')
         return reward
 
-    def _getClickReward(self, previousState: State):
-        tag = previousState.getInteractedElement().getTagName()
-        elementType = previousState.getInteractedElement().getType()
+    def _get_click_reward(self, previousState: State):
+        tag = previousState.get_interacted_element().get_tag_name()
+        elementType = previousState.get_interacted_element().get_type()
         if tag == "button" or (tag == 'input' and (
                 elementType == 'submit' or elementType == 'image' or elementType == 'checkbox' or elementType == 'radio')):
             rewardRevise = self._clickRewardCoefficient * 1
@@ -142,17 +142,17 @@ class CosineSimilarityRewardCalculatorService(IRewardCalculatorService):
             f'Click reward: {self._inputRewardBaseLine + rewardRevise}')
         return self._inputRewardBaseLine + rewardRevise
 
-    def _updateCategoryList(self, previousState: State):
-        categoryExtendList = CategoryListSingleton.getInstance().getCategoryExtendList()
+    def _update_category_list(self, previousState: State):
+        categoryExtendList = CategoryListSingleton.get_instance().get_category_extend_list()
 
-        category = inputTypes[previousState.getActionNumber()]
+        category = inputTypes[previousState.get_action_number()]
         if self._cosineSimilarityText != '' and self._cosineSimilarityText not in categoryExtendList[
                 category]:
             categoryExtendList[category].append(self._cosineSimilarityText)
             self._logger.info(
                 f"Append [{self._cosineSimilarityText}] to category: {category}")
 
-        CategoryListSingleton.getInstance().setCategoryExtendList(categoryExtendList)
+        CategoryListSingleton.get_instance().set_category_extend_list(categoryExtendList)
 
-    def getCosineSimilarityText(self) -> str:
+    def get_cosine_similarity_text(self) -> str:
         return self._cosineSimilarityText

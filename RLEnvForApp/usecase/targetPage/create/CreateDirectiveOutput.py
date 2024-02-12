@@ -7,20 +7,20 @@ class CreateDirectiveOutput:
         self._directiveDTO: DirectiveDTO = None
         self._lastDom = ""
 
-    def setIsLegalDirective(self, isLegalDirective: bool):
+    def set_is_legal_directive(self, isLegalDirective: bool):
         self._isLegalDirective = isLegalDirective
 
-    def setDirectiveDTO(self, directiveDTO: DirectiveDTO):
+    def set_directive_dto(self, directiveDTO: DirectiveDTO):
         self._directiveDTO = directiveDTO
 
-    def setLastDom(self, lastDom: str):
+    def set_last_dom(self, lastDom: str):
         self._lastDom = lastDom
 
-    def getIsLegalDirective(self) -> bool:
+    def get_is_legal_directive(self) -> bool:
         return self._isLegalDirective
 
-    def getDirectiveDTO(self) -> DirectiveDTO:
+    def get_directive_dto(self) -> DirectiveDTO:
         return self._directiveDTO
 
-    def getLastDom(self) -> str:
+    def get_last_dom(self) -> str:
         return self._lastDom

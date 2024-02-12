@@ -8,7 +8,7 @@ class EpisodeHandlerFactory:
     def __init__(self):
         pass
 
-    def createEpisodeHandler(
+    def create_episode_handler(
             self, id: str, episodeIndex: int) -> IEpisodeHandler:
         return EnvironmentDIContainers.episodeHandler(
             id=id, episodeIndex=episodeIndex)

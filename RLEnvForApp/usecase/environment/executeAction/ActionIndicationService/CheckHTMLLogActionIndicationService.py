@@ -13,12 +13,12 @@ class CheckHTMLLogActionIndicationService(IActionIndicationService):
     def __init__(self):
         super().__init__()
 
-    def isConform(self, state: State):
-        interactedAppElement: AppElement = state.getInteractedElement()
-        interactedAppElementXpath = interactedAppElement.getXpath().replace(
+    def is_conform(self, state: State):
+        interactedAppElement: AppElement = state.get_interacted_element()
+        interactedAppElementXpath = interactedAppElement.get_xpath().replace(
             "[1]", "")
 
-        path = state.getUrl()
+        path = state.get_url()
         folderPath, pageHTMLFileName = os.path.split(path)
         pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
         jsonData = open(os.path.join(folderPath, pageJsonFileName),)
@@ -36,7 +36,7 @@ class CheckHTMLLogActionIndicationService(IActionIndicationService):
                 f"Xpath not found in record: {interactedAppElementXpath}")
             return False
 
-        actionCategory = inputTypes[state.getActionNumber()]
+        actionCategory = inputTypes[state.get_action_number()]
         if actionCategory != logAppEvents[interactedAppElementXpath]['category']:
             Logger().info(f"Category not match, element xpath")
             return False

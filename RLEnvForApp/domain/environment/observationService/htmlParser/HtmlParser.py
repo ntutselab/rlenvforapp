@@ -6,10 +6,10 @@ class HtmlParser:
         self.elementSet = []
 
     def parse(self, html: str, tagName: str = "body"):
-        return self.extractElementToString(html, tagName)
+        return self.extract_element_to_string(html, tagName)
 
-    def extractElementToString(self, dom: str, tagName: str):
-        contents = self._extractElementContent(dom, tagName)
+    def extract_element_to_string(self, dom: str, tagName: str):
+        contents = self._extract_element_content(dom, tagName)
         contentString = ""
         for tag in contents:
             stringTagName = tag[0]
@@ -19,7 +19,7 @@ class HtmlParser:
             contentString += "tag " + stringTagName + ", content " + stringContent + ". "
         return contentString
 
-    def _extractElementContent(self, dom: str, tagName: str):
+    def _extract_element_content(self, dom: str, tagName: str):
         contents = []
 
         soup = BeautifulSoup(dom, 'html.parser')

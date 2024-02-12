@@ -3,8 +3,8 @@ class CreateDirectiveInput:
         self._targetPageId = targetPageId
         self._episodeHandlerId = episodeHandlerId
 
-    def getTargetPageId(self):
+    def get_target_page_id(self):
         return self._targetPageId
 
-    def getEpisodeHandlerId(self):
+    def get_episode_handler_id(self):
         return self._episodeHandlerId

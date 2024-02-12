@@ -19,7 +19,7 @@ from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
 
 
 class testExecuteActionUseCaseIn0311(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         container = EnvironmentDIContainers()
         container.config.from_ini(
             "configuration/config/20210311_word_2_vec_more_pages_experiment.ini")
@@ -31,7 +31,7 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
         self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
         self._episodeHandlerId = ""
         self._create_target_page()
-        self._resetEnv()
+        self._reset_env()
 
     def test_execute_click_action(self):
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
@@ -43,9 +43,9 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
             input=executeActionInput,
             output=executeActionOutput)
 
-        self.assertEqual(900, len(executeActionOutput.getObservation()))
-        self.assertEqual(False, executeActionOutput.getIsDone())
-        self.assertEqual(-1, executeActionOutput.getReward())
+        self.assertEqual(900, len(executeActionOutput.get_observation()))
+        self.assertEqual(False, executeActionOutput.get_is_done())
+        self.assertEqual(-1, executeActionOutput.get_reward())
 
     def test_execute_input_action(self):
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
@@ -59,16 +59,16 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
 
         self.assertEqual(
             2, len(
-                self._episodeHandlerRepository.findById(
-                    self._episodeHandlerId).getStateEntities()))
-        self.assertEqual(900, len(executeActionOutput.getObservation()))
-        self.assertEqual(False, executeActionOutput.getIsDone())
-        self.assertEqual(1, executeActionOutput.getReward())
+                self._episodeHandlerRepository.find_by_id(
+                    self._episodeHandlerId).get_state_entities()))
+        self.assertEqual(900, len(executeActionOutput.get_observation()))
+        self.assertEqual(False, executeActionOutput.get_is_done())
+        self.assertEqual(1, executeActionOutput.get_reward())
 
     def test_execute_input_action_before_change_focus(self):
-        self._executeAction(1)
-        self._executeAction(1)
-        self._executeAction(1)
+        self._execute_action(1)
+        self._execute_action(1)
+        self._execute_action(1)
 
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
                                                                          episodeHandlerRepository=self._episodeHandlerRepository)
@@ -78,17 +78,17 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
         executeActionUseCase.execute(
             input=executeActionInput,
             output=executeActionOutput)
-        self.assertEqual(900, len(executeActionOutput.getObservation()))
-        self.assertEqual(False, executeActionOutput.getIsDone())
-        self.assertEqual(1, executeActionOutput.getReward())
+        self.assertEqual(900, len(executeActionOutput.get_observation()))
+        self.assertEqual(False, executeActionOutput.get_is_done())
+        self.assertEqual(1, executeActionOutput.get_reward())
 
     def test_execute_success_scenario(self):
-        self._executeAction(6)
-        self._executeAction(8)
-        self._executeAction(9)
-        self._executeAction(2)
-        self._executeAction(11)
-        self._executeAction(11)
+        self._execute_action(6)
+        self._execute_action(8)
+        self._execute_action(9)
+        self._execute_action(2)
+        self._execute_action(11)
+        self._execute_action(11)
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
                                                                          episodeHandlerRepository=self._episodeHandlerRepository)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
@@ -98,27 +98,27 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
             input=executeActionInput,
             output=executeActionOutput)
 
-        self.assertEqual(900, len(executeActionOutput.getObservation()))
-        self.assertTrue(executeActionOutput.getReward() > 100)
-        self.assertEqual(True, executeActionOutput.getIsDone())
+        self.assertEqual(900, len(executeActionOutput.get_observation()))
+        self.assertTrue(executeActionOutput.get_reward() > 100)
+        self.assertEqual(True, executeActionOutput.get_is_done())
 
     def test_execute_passward_false_scenario(self):
-        self._executeAction(5)
+        self._execute_action(5)
 
-        self._executeAction(1)
-        self._executeAction(7)
+        self._execute_action(1)
+        self._execute_action(7)
 
-        self._executeAction(1)
-        self._executeAction(7)
+        self._execute_action(1)
+        self._execute_action(7)
 
-        self._executeAction(1)
-        self._executeAction(2)
+        self._execute_action(1)
+        self._execute_action(2)
 
-        self._executeAction(1)
-        self._executeAction(6)
+        self._execute_action(1)
+        self._execute_action(6)
 
-        self._executeAction(1)
-        self._executeAction(5)
+        self._execute_action(1)
+        self._execute_action(5)
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
                                                                          episodeHandlerRepository=self._episodeHandlerRepository)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
@@ -130,13 +130,13 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
 
         self.assertEqual(
             13, len(
-                self._episodeHandlerRepository.findById(
-                    self._episodeHandlerId).getStateEntities()))
-        self.assertEqual(150, len(executeActionOutput.getObservation()))
-        self.assertEqual(-25, executeActionOutput.getReward())
-        self.assertEqual(True, executeActionOutput.getIsDone())
+                self._episodeHandlerRepository.find_by_id(
+                    self._episodeHandlerId).get_state_entities()))
+        self.assertEqual(150, len(executeActionOutput.get_observation()))
+        self.assertEqual(-25, executeActionOutput.get_reward())
+        self.assertEqual(True, executeActionOutput.get_is_done())
 
-    def _executeAction(self, actionNumber: int):
+    def _execute_action(self, actionNumber: int):
         executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
                                                                          episodeHandlerRepository=self._episodeHandlerRepository)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
@@ -157,7 +157,7 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
         createTargetPageUseCase.execute(
             createTargetPageInput, createTargetPageOutput)
 
-    def _resetEnv(self):
+    def _reset_env(self):
         resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
             operator=self._autOperator, episodeHandlerRepository=self._episodeHandlerRepository)
         resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentIntput(
@@ -167,4 +167,4 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
             input=resetEnvUseInput,
             output=resetEnvUseOutput)
 
-        self._episodeHandlerId = resetEnvUseOutput.getEpisodeHandlerId()
+        self._episodeHandlerId = resetEnvUseOutput.get_episode_handler_id()

@@ -7,7 +7,7 @@ class FileManager:
     def __init__(self):
         pass
 
-    def createFolder(self, folderPath, folderName):
+    def create_folder(self, folderPath, folderName):
         path = os.path.join(folderPath, folderName)
         if os.path.isdir(path):
             Logger().info("%s directory already exist" % path)
@@ -19,7 +19,7 @@ class FileManager:
         else:
             Logger().info("Successfully created the directory %s " % path)
 
-    def createFile(self, path: str, fileName: str, context: str):
+    def create_file(self, path: str, fileName: str, context: str):
         filePath = os.path.join(path, fileName)
         f = open(filePath, "w", encoding='utf-8')
         f.write(str(context))

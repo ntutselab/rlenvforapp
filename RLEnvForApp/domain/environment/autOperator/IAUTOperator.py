@@ -8,35 +8,35 @@ class IAUTOperator:
         self._actionNumber = None
         self._state: State = State(id="123456")
 
-    def setActionType(self, actionType: str):
+    def set_action_type(self, actionType: str):
         self._actionType = actionType
 
-    def getActionType(self):
+    def get_action_type(self):
         return self._actionType
 
-    def setActionNumber(self, actionNumber: int):
+    def set_action_number(self, actionNumber: int):
         self._actionNumber = actionNumber
 
-    def getActionNumber(self):
+    def get_action_number(self):
         return self._actionNumber
 
-    def getState(self) -> State:
+    def get_state(self) -> State:
         pass
 
-    def resetCrawler(self, path: str, formXPath: str):
+    def reset_crawler(self, path: str, formXPath: str):
         pass
 
-    def goToRootPage(self):
+    def go_to_root_page(self):
         pass
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         pass
 
-    def changeFocus(self):
+    def change_focus(self):
         pass
 
-    def getAllSelectedElements(self) -> [AppElement]:
+    def get_all_selected_elements(self) -> [AppElement]:
         pass
 
-    def getFocusedAppElement(self) -> AppElement:
+    def get_focused_app_element(self) -> AppElement:
         pass

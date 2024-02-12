@@ -25,48 +25,48 @@ class CreateTargetPageUseCase:
 
     def execute(self, input: CreateTargetPageInput.CreateTargetPageInput,
                 output: CreateTargetPageOutput.CreateTargetPageOutput):
-        appEvents: [AppEvent] = self._convertAppEventDTOsToAppEvents(
-            input.getAppEventDTOs())
-        codeCoverage: CodeCoverage = self._convertCodeCoverageDTOToCodeCoverage(
-            input.getBasicCodeCoverage())
-        directives: [Directive] = self._convertDirectiveDTOsToDirective(
-            directiveDTOs=input.getDirectiveDTOs())
+        appEvents: [AppEvent] = self._convert_app_event_dt_os_to_app_events(
+            input.get_app_event_dt_os())
+        codeCoverage: CodeCoverage = self._convert_code_coverage_dto_to_code_coverage(
+            input.get_basic_code_coverage())
+        directives: [Directive] = self._convert_directive_dt_os_to_directive(
+            directiveDTOs=input.get_directive_dt_os())
         targetPage = TargetPage(id=str(uuid.uuid4()),
-                                targetUrl=input.getTargetPageUrl(),
-                                rootUrl=input.getRootUrl(),
+                                targetUrl=input.get_target_page_url(),
+                                rootUrl=input.get_root_url(),
                                 appEvents=appEvents,
-                                taskID=input.getTaskID(),
-                                formXPath=input.getFormXPath(),
+                                taskID=input.get_task_id(),
+                                formXPath=input.get_form_x_path(),
                                 basicCodeCoverage=codeCoverage,
                                 directives=directives)
-        targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(
+        targetPageEntity = TargetPageEntityMapper.mapping_target_page_entity_from(
             targetPage=targetPage)
 
         self._repository.add(targetPageEntity=targetPageEntity)
-        output.setId(targetPage.getId())
+        output.set_id(targetPage.get_id())
 
-    def _convertAppEventDTOsToAppEvents(self, appEventDTOs):
+    def _convert_app_event_dt_os_to_app_events(self, appEventDTOs):
         appEvents: [AppEvent] = []
 
         for appEvent in appEventDTOs:
-            appEvents.append(AppEventDTOMapper.mappingAppEventFrom(appEvent))
+            appEvents.append(AppEventDTOMapper.mapping_app_event_from(appEvent))
 
         return appEvents
 
-    def _convertCodeCoverageDTOToCodeCoverage(
+    def _convert_code_coverage_dto_to_code_coverage(
             self, codeCoverageDTO) -> CodeCoverage:
         if codeCoverageDTO is None:
             codeCoverage: CodeCoverage = CodeCoverage(
                 codeCoverageType="null", codeCoverageVector=[])
         else:
-            codeCoverage: CodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+            codeCoverage: CodeCoverage = CodeCoverageDTOMapper.mapping_code_coverage_from(
                 codeCoverageDTO)
         return codeCoverage
 
-    def _convertDirectiveDTOsToDirective(self, directiveDTOs) -> [Directive]:
+    def _convert_directive_dt_os_to_directive(self, directiveDTOs) -> [Directive]:
         directives: [Directive] = []
         for directiveDTO in directiveDTOs:
             directives.append(
-                DirectiveDTOMapper.mappingDirectiveFrom(
+                DirectiveDTOMapper.mapping_directive_from(
                     directiveDTO=directiveDTO))
         return directives

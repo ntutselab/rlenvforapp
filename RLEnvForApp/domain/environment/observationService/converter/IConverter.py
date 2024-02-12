@@ -3,13 +3,13 @@ class IConverter:
         pass
 
     def convert(self, stateElement, length: int = 0):
-        listFeature: [] = self._convertToListFeature(stateElement=stateElement)
-        return self._paddingToLength(listFeature=listFeature, length=length)
+        listFeature: [] = self._convert_to_list_feature(stateElement=stateElement)
+        return self._padding_to_length(listFeature=listFeature, length=length)
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         pass
 
-    def _paddingToLength(self, listFeature: [], length: int):
+    def _padding_to_length(self, listFeature: [], length: int):
         while len(listFeature) < length:
             listFeature.append(0)
 

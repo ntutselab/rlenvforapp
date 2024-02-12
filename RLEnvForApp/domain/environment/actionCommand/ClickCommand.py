@@ -9,5 +9,5 @@ class ClickCommand(IActionCommand.IActionCommand):
         super().__init__(actionNumber=actionNumber, actionType="click")
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
-        operator.executeAppEvent(xpath="", value="")
+        operator.set_action_type(super().get_action_type())
+        operator.execute_app_event(xpath="", value="")

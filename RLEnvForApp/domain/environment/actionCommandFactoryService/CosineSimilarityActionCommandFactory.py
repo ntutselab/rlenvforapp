@@ -23,9 +23,9 @@ class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
                 data = json.load(jsonfile)
             self._inputValueWeights = data['weights']
         else:
-            self._inputValueWeights = ValueWeightSingleton.getInstance().getValueWeights()
+            self._inputValueWeights = ValueWeightSingleton.get_instance().get_value_weights()
 
-    def createActionCommand(self, actionNumber: int) -> IActionCommand:
+    def create_action_command(self, actionNumber: int) -> IActionCommand:
         if actionNumber == 0:
             return IRobotClickCommand.IRobotClickCommand(
                 actionNumber=actionNumber)
@@ -36,8 +36,8 @@ class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
             return IRobotInputValueCommand.IRobotInputValueCommand(
                 inputValue=inputValue, actionNumber=actionNumber)
 
-    def getActionSpaceSize(self) -> int:
+    def get_action_space_size(self) -> int:
         return len(self._inputData)
 
-    def getActionList(self) -> [str]:
+    def get_action_list(self) -> [str]:
         return self._inputData

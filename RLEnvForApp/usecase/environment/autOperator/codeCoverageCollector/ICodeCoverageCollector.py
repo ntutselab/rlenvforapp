@@ -6,8 +6,8 @@ class ICodeCoverageCollector:
     def __init__(self):
         pass
 
-    def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
+    def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
         return []
 
-    def resetCodeCoverage(self):
+    def reset_code_coverage(self):
         pass

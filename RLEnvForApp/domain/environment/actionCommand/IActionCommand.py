@@ -7,10 +7,10 @@ class IActionCommand:
         self._actionNumber = actionNumber
         self._actionType = actionType
 
-    def getActionType(self):
+    def get_action_type(self):
         return self._actionType
 
-    def getActionNumber(self):
+    def get_action_number(self):
         return self._actionNumber
 
     def execute(self, operator: IAUTOperator):

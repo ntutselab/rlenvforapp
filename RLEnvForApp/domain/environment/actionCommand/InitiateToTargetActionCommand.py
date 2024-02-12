@@ -14,7 +14,7 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
         self._formXPath = formXPath
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
+        operator.set_action_type(super().get_action_type())
         isSuccess = False
         retry = 0
         while not isSuccess:
@@ -22,13 +22,13 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
                 Logger().info("Initialize the crawler to the target page")
                 Logger().info(f"Root path: {self._rootPath}")
                 Logger().info(f"Form XPath: {self._formXPath}")
-                operator.resetCrawler(self._rootPath, self._formXPath)
+                operator.reset_crawler(self._rootPath, self._formXPath)
                 Logger().info("=====start the initial action=====")
                 for appEvent in self._appEvents:
                     Logger().info(
                         f"Xpath: {appEvent.getXpath()}, value: {appEvent.getValue()}")
-                    operator.executeAppEvent(
-                        xpath=appEvent.getXpath(), value=appEvent.getValue())
+                    operator.execute_app_event(
+                        xpath=appEvent.get_xpath(), value=appEvent.get_value())
                 isSuccess = True
             except Exception as e:
                 Logger().info(f"InitiateToTargetActionCommand Exception, {e}")

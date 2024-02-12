@@ -7,7 +7,7 @@ class OneHotConverter(IConverter):
         self._coveredNumber = coveredNumber
         super().__init__()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         listOneHot: [int] = []
         for i in stateElement:
             if i:

@@ -13,19 +13,19 @@ class InMemoryTargetPageRepository(TargetPageRepository):
 
     def update(self, targetPageEntity: TargetPageEntity):
         for each in self._targetPageEntities:
-            if each.getId() == targetPageEntity.getId():
+            if each.get_id() == targetPageEntity.get_id():
                 index = self._targetPageEntities.index(each)
                 self._targetPageEntities[index] = targetPageEntity
 
-    def deleteById(self, id):
-        self._targetPageEntities.remove(self.findById(id=id))
+    def delete_by_id(self, id):
+        self._targetPageEntities.remove(self.find_by_id(id=id))
 
-    def findById(self, id):
+    def find_by_id(self, id):
         targetTargetPageEntity: TargetPageEntity = None
         for targetPageEntity in self._targetPageEntities:
-            if targetPageEntity.getId() == id:
+            if targetPageEntity.get_id() == id:
                 targetTargetPageEntity = targetPageEntity
         return targetTargetPageEntity
 
-    def findAll(self) -> [TargetPageEntity]:
+    def find_all(self) -> [TargetPageEntity]:
         return self._targetPageEntities

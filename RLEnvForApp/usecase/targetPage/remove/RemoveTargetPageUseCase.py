@@ -15,6 +15,6 @@ class RemoveTargetPageUseCase:
 
     def execute(self, input: RemoveTargetPageInput.RemoveTargetPageInput,
                 output: RemoveTargetPageOutput.RemoveTargetPageOutput):
-        self._repository.deleteById(input.getTargetPageId())
+        self._repository.delete_by_id(input.get_target_page_id())
 
-        output.setId(input.getTargetPageId())
+        output.set_id(input.get_target_page_id())

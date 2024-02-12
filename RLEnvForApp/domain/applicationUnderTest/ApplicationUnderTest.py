@@ -5,14 +5,14 @@ class ApplicationUnderTest:
         self._ip = ip
         self._port = port
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getApplicationName(self):
+    def get_application_name(self):
         return self._applicationName
 
-    def getIP(self):
+    def get_ip(self):
         return self._ip
 
-    def getPort(self):
+    def get_port(self):
         return self._port

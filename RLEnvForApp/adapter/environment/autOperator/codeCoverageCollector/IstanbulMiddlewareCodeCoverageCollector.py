@@ -13,21 +13,21 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self, serverIp, serverPort):
         super().__init__()
         self._serverRootUrl = f'http://{serverIp}:{serverPort}'
-        self.session = self._requestsRetrySession()
+        self.session = self._requests_retry_session()
 
-    def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
+    def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
         codeCoverageDTOs = []
         codeCoverageDTOs.append(
             CodeCoverageDTO(
                 codeCoverageType="statement coverage",
-                codeCoverageVector=self._getCodeCoverageVector('s')))
+                codeCoverageVector=self._get_code_coverage_vector('s')))
         codeCoverageDTOs.append(
             CodeCoverageDTO(
                 codeCoverageType="branch coverage",
-                codeCoverageVector=self._getCodeCoverageVector('b')))
+                codeCoverageVector=self._get_code_coverage_vector('b')))
         return codeCoverageDTOs
 
-    def resetCodeCoverage(self):
+    def reset_code_coverage(self):
         try:
             # istanbul allows reset on GET as well
             # so here we simply use GET to reset the coverage
@@ -40,7 +40,7 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
             if response.status_code != requests.codes.ok:
                 raise Exception('Reset coverage error!')
 
-    def _requestsRetrySession(self, retries=3, backoffFactor=0.3,
+    def _requests_retry_session(self, retries=3, backoffFactor=0.3,
                               statusForceList=(500, 502, 504), session=None):
         session = session or requests.Session()
         retry = Retry(
@@ -54,7 +54,7 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
         session.mount('https://', adapter)
         return session
 
-    def _getCodeCoverageVector(self, coverageTypeIndicator):
+    def _get_code_coverage_vector(self, coverageTypeIndicator):
         try:
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
@@ -62,24 +62,24 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
                 f"{self._serverRootUrl}{'/coverage/object'}")
             codeCoverageValueVectorList = [list(v[coverageTypeIndicator].values())
                                            for v in response.json().values()]
-            codeCoverageValueVector = self._flatList(
+            codeCoverageValueVector = self._flat_list(
                 codeCoverageValueVectorList)
-            codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(
+            codeCoverageVector = self._convert_code_coverage_value_vector_to_code_coverage_vector(
                 codeCoverageValueVector=codeCoverageValueVector)
             return codeCoverageVector
         except Exception as e:
             Logger().info(f"Failed at getting coverage {e.__class__.__name__}")
 
-    def _flatList(self, originList: []):
+    def _flat_list(self, originList: []):
         flattenedList = []
         for i in originList:
             if isinstance(i, list):
-                flattenedList = [*flattenedList, *self._flatList(i)]
+                flattenedList = [*flattenedList, *self._flat_list(i)]
             else:
                 flattenedList.append(i)
         return flattenedList
 
-    def _convertCodeCoverageValueVectorToCodeCoverageVector(
+    def _convert_code_coverage_value_vector_to_code_coverage_vector(
             self, codeCoverageValueVector):
         codeCoverageVector = []
         for i in codeCoverageValueVector:

@@ -19,81 +19,81 @@ class State:
         self._actionNumber = None
         self._originalObservation = {}
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def setDOM(self, DOM: str):
+    def set_dom(self, DOM: str):
         self._DOM = DOM
 
-    def getDOM(self):
+    def get_dom(self):
         return self._DOM
 
-    def setUrl(self, url: str):
+    def set_url(self, url: str):
         self._url = url
 
-    def getUrl(self):
+    def get_url(self):
         return self._url
 
-    def setScreenShot(self, screenShot):
+    def set_screen_shot(self, screenShot):
         self._screenShot = screenShot
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         return self._screenShot
 
-    def setCodeCoverages(self, codeCoverages: [CodeCoverage]):
+    def set_code_coverages(self, codeCoverages: [CodeCoverage]):
         self._codeCoverages = codeCoverages
 
-    def getCodeCoverages(self) -> [CodeCoverage]:
+    def get_code_coverages(self) -> [CodeCoverage]:
         return self._codeCoverages
 
-    def setFocusVector(self, focusVector: [bool]):
+    def set_focus_vector(self, focusVector: [bool]):
         self._focusVector = focusVector
 
-    def getFocusVector(self):
+    def get_focus_vector(self):
         return self._focusVector
 
-    def setActionType(self, actionType: str):
+    def set_action_type(self, actionType: str):
         self._actionType = actionType
 
-    def getActionType(self):
+    def get_action_type(self):
         return self._actionType
 
-    def setAppEventInputValue(self, value: str):
+    def set_app_event_input_value(self, value: str):
         self._inputValue = value
 
-    def getAppEventInputValue(self):
+    def get_app_event_input_value(self):
         return self._inputValue
 
-    def setInteractedElement(self, interactedElement: AppElement):
+    def set_interacted_element(self, interactedElement: AppElement):
         self._interactedElement = interactedElement
 
-    def getInteractedElement(self) -> AppElement:
+    def get_interacted_element(self) -> AppElement:
         return self._interactedElement
 
-    def getInteractedElementLabel(self) -> str:
-        return HtmlExtractor().getLabelName(self._DOM, self._interactedElement.getXpath())
+    def get_interacted_element_label(self) -> str:
+        return HtmlExtractor().get_label_name(self._DOM, self._interactedElement.get_xpath())
 
-    def getInteractedElementPlaceholder(self) -> str:
-        return HtmlExtractor().getPlaceholder(
-            self._DOM, self._interactedElement.getXpath())
+    def get_interacted_element_placeholder(self) -> str:
+        return HtmlExtractor().get_placeholder(
+            self._DOM, self._interactedElement.get_xpath())
 
-    def setSelectedAppElements(self, appElements: [AppElement]):
+    def set_selected_app_elements(self, appElements: [AppElement]):
         self._selectedAppElements = appElements
 
-    def getAllSelectedAppElements(self) -> [AppElement]:
+    def get_all_selected_app_elements(self) -> [AppElement]:
         return self._selectedAppElements
 
-    def setActionNumber(self, actionNumber: int):
+    def set_action_number(self, actionNumber: int):
         self._actionNumber = actionNumber
 
-    def getActionNumber(self) -> int:
+    def get_action_number(self) -> int:
         return self._actionNumber
 
-    def setOriginalObservation(self, originalObservation: dict):
+    def set_original_observation(self, originalObservation: dict):
         self._originalObservation = originalObservation
 
-    def getOriginalObservation(self) -> dict:
+    def get_original_observation(self) -> dict:
         return self._originalObservation
 
-    def isSelectedAppElementsEmpty(self) -> bool:
+    def is_selected_app_elements_empty(self) -> bool:
         return len(self._selectedAppElements) == 0

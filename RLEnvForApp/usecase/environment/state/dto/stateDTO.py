@@ -17,60 +17,60 @@ class StateDTO:
         self._interactedElement = None
         self._selectedAppElementDTOs: [AppElementDTO] = []
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def setDom(self, dom: str):
+    def set_dom(self, dom: str):
         self._dom = dom
 
-    def getDom(self) -> str:
+    def get_dom(self) -> str:
         return self._dom
 
-    def setUrl(self, url: str):
+    def set_url(self, url: str):
         self._url = url
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._url
 
-    def setScreenShot(self, screenShot):
+    def set_screen_shot(self, screenShot):
         self._screenShot = screenShot
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         return self._screenShot
 
-    def setCodeCoverages(self, codeCoverages: [CodeCoverageDTO]):
+    def set_code_coverages(self, codeCoverages: [CodeCoverageDTO]):
         self._codeCoverages = codeCoverages
 
-    def getCodeCoverages(self) -> [CodeCoverageDTO]:
+    def get_code_coverages(self) -> [CodeCoverageDTO]:
         return self._codeCoverages
 
-    def setFocusVector(self, focusVector: [bool]):
+    def set_focus_vector(self, focusVector: [bool]):
         self._focusVector = focusVector
 
-    def getFocusVector(self) -> [bool]:
+    def get_focus_vector(self) -> [bool]:
         return self._focusVector
 
-    def setActionType(self, actionType: str):
+    def set_action_type(self, actionType: str):
         self._actionType = actionType
 
-    def getActionType(self):
+    def get_action_type(self):
         return self._actionType
 
-    def setAppEventValue(self, value: str):
+    def set_app_event_value(self, value: str):
         self._value = value
 
-    def getAppEventValue(self) -> str:
+    def get_app_event_value(self) -> str:
         return self._value
 
-    def setInteractedElementDTO(self, interactedElement: AppElementDTO):
+    def set_interacted_element_dto(self, interactedElement: AppElementDTO):
         self._interactedElement = interactedElement
 
-    def getInterActedElementDTO(self) -> AppElementDTO:
+    def get_inter_acted_element_dto(self) -> AppElementDTO:
         return self._interactedElement
 
-    def setSelectedAppElementDTOs(
+    def set_selected_app_element_dt_os(
             self, selectedAppElementEntities: [AppElementDTO]):
         self._selectedAppElementDTOs = selectedAppElementEntities
 
-    def getSelectedAppElementDTOs(self) -> [AppElementDTO]:
+    def get_selected_app_element_dt_os(self) -> [AppElementDTO]:
         return self._selectedAppElementDTOs

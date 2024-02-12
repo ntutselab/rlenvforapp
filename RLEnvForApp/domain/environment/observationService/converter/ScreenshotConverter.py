@@ -8,7 +8,7 @@ class ScreenshotConverter(IConverter):
     def __init__(self):
         super().__init__()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         screenshotPreprocessor = ScreenshotPreprocessor(
             stateElement, colorMode='grayscale', targetSize=(331, 916))
-        return screenshotPreprocessor.getImageArray()
+        return screenshotPreprocessor.get_image_array()

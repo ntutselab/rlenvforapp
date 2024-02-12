@@ -2,17 +2,17 @@ from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 
-def mappingAppEventFrom(appEventDTO: AppEventDTO):
+def mapping_app_event_from(appEventDTO: AppEventDTO):
     appEvent = AppEvent(
-        xpath=appEventDTO.getXpath(),
-        value=appEventDTO.getValue(),
-        category=appEventDTO.getCategory())
+        xpath=appEventDTO.get_xpath(),
+        value=appEventDTO.get_value(),
+        category=appEventDTO.get_category())
     return appEvent
 
 
-def mappingAppEventDTOFrom(appEvent: AppEvent):
+def mapping_app_event_dto_from(appEvent: AppEvent):
     appEventDTO = AppEventDTO(
-        xpath=appEvent.getXpath(),
-        value=appEvent.getValue(),
-        category=appEvent.getCategory())
+        xpath=appEvent.get_xpath(),
+        value=appEvent.get_value(),
+        category=appEvent.get_category())
     return appEventDTO

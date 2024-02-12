@@ -5,11 +5,11 @@ class IActionCommandFactoryService:
     def __init__(self):
         pass
 
-    def createActionCommand(self, actionNumber: int) -> IActionCommand:
+    def create_action_command(self, actionNumber: int) -> IActionCommand:
         pass
 
-    def getActionSpaceSize(self) -> int:
+    def get_action_space_size(self) -> int:
         pass
 
-    def getActionList(self) -> [str]:
+    def get_action_list(self) -> [str]:
         pass

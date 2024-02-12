@@ -9,7 +9,7 @@ class BERTTokenizerSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if BERTTokenizerSingleton._instance is None:
             BERTTokenizerSingleton()
         return BERTTokenizerSingleton._instance
@@ -27,13 +27,13 @@ class BERTTokenizerSingleton:
             BERTTokenizerSingleton._instance = self
             Logger().info("done")
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getTokens(self, sentence) -> []:
+    def get_tokens(self, sentence) -> []:
         sentence = sentence.lower()
         tokens = self._tokenizer.tokenize(sentence)
         return tokens
 
-    def getTokenIds(self, tokens: []) -> []:
+    def get_token_ids(self, tokens: []) -> []:
         return self._tokenizer.convert_tokens_to_ids(tokens)

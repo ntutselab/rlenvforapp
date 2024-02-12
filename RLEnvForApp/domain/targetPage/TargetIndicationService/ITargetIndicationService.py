@@ -6,5 +6,5 @@ class ITargetIndicationService:
         self._a = 0
         pass
 
-    def isConform(self, state: State) -> bool:
+    def is_conform(self, state: State) -> bool:
         pass

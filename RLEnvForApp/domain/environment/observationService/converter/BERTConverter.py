@@ -8,9 +8,9 @@ class BERTConverter(IConverter):
     def __init__(self):
         super().__init__()
 
-    def _convertToListFeature(self, stateElement) -> []:
+    def _convert_to_list_feature(self, stateElement) -> []:
         stateElement = stateElement.lower()
-        tokens = BERTTokenizerSingleton.getInstance().getTokens(stateElement)
-        tokenIds = BERTTokenizerSingleton.getInstance().getTokenIds(tokens)
+        tokens = BERTTokenizerSingleton.get_instance().get_tokens(stateElement)
+        tokenIds = BERTTokenizerSingleton.get_instance().get_token_ids(tokens)
 
         return tokenIds

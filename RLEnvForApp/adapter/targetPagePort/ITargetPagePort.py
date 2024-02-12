@@ -8,17 +8,17 @@ class ITargetPagePort:
     def close(self):
         pass
 
-    def waitForTargetPage(self):
+    def wait_for_target_page(self):
         pass
 
-    def pullTargetPage(self):
+    def pull_target_page(self):
         pass
 
-    def pushTargetPage(self, targetPageId: str, episodeHandlerId: str):
+    def push_target_page(self, targetPageId: str, episodeHandlerId: str):
         pass
 
-    def getPauseAgent(self):
+    def get_pause_agent(self):
         pass
 
-    def setPauseAgent(self, isPauseAgent: bool):
+    def set_pause_agent(self, isPauseAgent: bool):
         pass

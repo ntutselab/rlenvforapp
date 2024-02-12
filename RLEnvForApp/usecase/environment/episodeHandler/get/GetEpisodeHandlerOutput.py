@@ -6,8 +6,8 @@ class GetEpisodeHandlerOutput:
     def __init__(self):
         self._episodeHandlerDTO: EpisodeHandlerDTO = None
 
-    def setEpisodeHandlerDTO(self, episodeHandlerDTO: EpisodeHandlerDTO):
+    def set_episode_handler_dto(self, episodeHandlerDTO: EpisodeHandlerDTO):
         self._episodeHandlerDTO = episodeHandlerDTO
 
-    def getEpisodeHandlerDTO(self) -> EpisodeHandlerDTO:
+    def get_episode_handler_dto(self) -> EpisodeHandlerDTO:
         return self._episodeHandlerDTO

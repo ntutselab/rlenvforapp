@@ -29,7 +29,7 @@ class MorePagesExperimentActionCommandFactory(IActionCommandFactoryService):
             inputData_6,
             inputData_7]
 
-    def createActionCommand(self, actionNumber: int) -> IActionCommand:
+    def create_action_command(self, actionNumber: int) -> IActionCommand:
         inputActionStartNumber = 2
 
         if actionNumber == 0:
@@ -46,8 +46,8 @@ class MorePagesExperimentActionCommandFactory(IActionCommandFactoryService):
             return IRobotInputValueCommand.IRobotInputValueCommand(
                 inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
 
-    def getActionSpaceSize(self) -> int:
+    def get_action_space_size(self) -> int:
         return 2 + len(self._inputData)
 
-    def getActionList(self) -> [str]:
+    def get_action_list(self) -> [str]:
         return self._inputData

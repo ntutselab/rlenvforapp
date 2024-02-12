@@ -8,31 +8,31 @@ class IEpisodeHandler:
         self._episodeStep = episodeStep
         self._states: [State] = []
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getEpisodeIndex(self) -> int:
+    def get_episode_index(self) -> int:
         return self._episodeIndex
 
-    def getEpisodeStep(self):
+    def get_episode_step(self):
         return self._episodeStep
 
-    def appendState(self, state: State):
+    def append_state(self, state: State):
         self._states.append(state)
 
-    def getState(self, index: int) -> State:
+    def get_state(self, index: int) -> State:
         return self._states[index]
 
-    def setAllState(self, state: State):
+    def set_all_state(self, state: State):
         self._states = state
 
-    def getAllState(self) -> [State]:
+    def get_all_state(self) -> [State]:
         return self._states
 
-    def isDone(self) -> bool:
+    def is_done(self) -> bool:
         pass
 
-    def getNumberOfState(self) -> int:
+    def get_number_of_state(self) -> int:
         return len(self._states)
 
     def reset(self):

@@ -5,18 +5,18 @@ from RLEnvForApp.domain.environment.observationService.converter.FastTextSinglet
 
 
 class testFastTextSingleton(unittest.TestCase):
-    def setUp(self) -> None:
-        self.model = FastTextSingleton.getInstance()
+    def set_up(self) -> None:
+        self.model = FastTextSingleton.get_instance()
 
-    def testGetId(self):
+    def test_get_id(self):
         self.assertEqual(
-            self.model.getId(),
-            FastTextSingleton.getInstance().getId())
+            self.model.get_id(),
+            FastTextSingleton.get_instance().get_id())
 
-    def testGetWordVector(self):
+    def test_get_word_vector(self):
         word_token: str = "word"
-        self.assertTrue(300, len(self.model.getWordVector(word_token)))
+        self.assertTrue(300, len(self.model.get_word_vector(word_token)))
 
-    def testGetWordsVector(self):
+    def test_get_words_vector(self):
         word_tokens: [] = ["word", "sequence"]
-        self.assertTrue(300, len(self.model.getWordsVector(word_tokens)))
+        self.assertTrue(300, len(self.model.get_words_vector(word_tokens)))

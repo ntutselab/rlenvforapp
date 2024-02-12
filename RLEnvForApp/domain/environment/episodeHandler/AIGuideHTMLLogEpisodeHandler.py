@@ -10,23 +10,23 @@ class AIGuideHTMLLogEpisodeHandler(IEpisodeHandler):
         super().__init__(id, episodeIndex, episodeStep)
         self._states: [State] = []
 
-    def isDone(self) -> bool:
+    def is_done(self) -> bool:
         previousState: State = self._states[-2]
-        if super().getEpisodeStep() != - \
-                1 and super().getEpisodeStep() + 1 <= len(self._states):
+        if super().get_episode_step() != - \
+                1 and super().get_episode_step() + 1 <= len(self._states):
             Logger().info("Episode is done because the episode step exceeded.")
             return True
-        if previousState.getInteractedElement() and previousState.getInteractedElement().getType() == "submit" and \
-                previousState.getActionType() == "click" and \
-                self._isAllInputTagHasValue(previousState.getAllSelectedAppElements()):
+        if previousState.get_interacted_element() and previousState.get_interacted_element().get_type() == "submit" and \
+                previousState.get_action_type() == "click" and \
+                self._is_all_input_tag_has_value(previousState.get_all_selected_app_elements()):
             Logger().info("Episode is done because click on submit button, and all input has value.")
             return True
         return False
 
-    def _isAllInputTagHasValue(self, appElements: [AppElement]):
+    def _is_all_input_tag_has_value(self, appElements: [AppElement]):
         for i in appElements:
-            if i.getTagName() == "input" and (
-                    i.getType() != "button" and i.getType() != "submit"):
-                if i.getValue() == "":
+            if i.get_tag_name() == "input" and (
+                    i.get_type() != "button" and i.get_type() != "submit"):
+                if i.get_value() == "":
                     return False
         return True

@@ -29,7 +29,7 @@ class SeleniumCrawler(ICrawler):
         self._appElementDTOs: [AppElementDTO] = []
         self._formXPath = "//form"
 
-    def goToRootPage(self):
+    def go_to_root_page(self):
         goToRootPageRetryCount = 1
         isGoToRootPageSuccess = False
         isTimeOut = False
@@ -37,7 +37,7 @@ class SeleniumCrawler(ICrawler):
             goToRootPageRetryCount += 1
             try:
                 self._driver.get(self._rootPath)
-                isGoToRootPageSuccess = "http" in self.getUrl()
+                isGoToRootPageSuccess = "http" in self.get_url()
             except BaseException:
                 isGoToRootPageSuccess = False
             isTimeOut = not (goToRootPageRetryCount <
@@ -49,7 +49,7 @@ class SeleniumCrawler(ICrawler):
 
     def reset(self, rootPath: str, formXPath: str = ""):
         self.close()
-        self._driver = self._getWebDriver()
+        self._driver = self._get_web_driver()
         if rootPath != "":
             self._rootPath = rootPath
         else:
@@ -59,13 +59,13 @@ class SeleniumCrawler(ICrawler):
             self._formXPath = formXPath
         else:
             self._formXPath = "//form"
-        self.goToRootPage()
+        self.go_to_root_page()
 
     def close(self):
         if self._driver is not None:
             self._driver.close()
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
         except Exception as e:
@@ -90,43 +90,43 @@ class SeleniumCrawler(ICrawler):
                     f"SeleniumCrawler Warning: xpath: {xpath} can't be input")
                 # raise e
 
-    def getScreenShot(self):
+    def get_screen_shot(self):
         PNGScreenShot = self._driver.get_screenshot_as_png()
         PILScreenShot = Image.open(io.BytesIO(PNGScreenShot))
         numpyScreenShot = numpy.array(PILScreenShot)
         return numpyScreenShot
 
-    def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
-        htmlParser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
+    def get_all_selected_app_elements_dt_os(self) -> [AppElementDTO]:
+        htmlParser = etree.parse(StringIO(self.get_dom()), etree.HTMLParser())
         self._html = etree.tostring(htmlParser).decode("utf-8")
         self._appElementDTOs: [AppElementDTO] = []
         for element in htmlParser.xpath(
                 f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
             elementXpath: str = htmlParser.getpath(element)
-            elementHref: str = self._getHtmlTagAttribute(element, "href")
+            elementHref: str = self._get_html_tag_attribute(element, "href")
             webElement = self._driver.find_element_by_xpath(elementXpath)
-            if self._isInteractable(
-                    elementXpath) and not self._shouldHrefBeIgnored(elementHref):
+            if self._is_interactable(
+                    elementXpath) and not self._should_href_be_ignored(elementHref):
                 self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                          name=self._getHtmlTagAttribute(
+                                                          name=self._get_html_tag_attribute(
                                                               element=element, attribute="name"),
-                                                          type=self._getHtmlTagAttribute(
+                                                          type=self._get_html_tag_attribute(
                                                               element=element, attribute="type"),
                                                           xpath=elementXpath,
                                                           value=webElement.get_attribute("value")))
 
         return self._appElementDTOs
 
-    def changeFocus(self, xpath: str, value: str):
+    def change_focus(self, xpath: str, value: str):
         return
 
-    def getDOM(self) -> str:
+    def get_dom(self) -> str:
         return self._driver.page_source
 
-    def getUrl(self) -> str:
+    def get_url(self) -> str:
         return self._driver.current_url
 
-    def _getWebDriver(self):
+    def _get_web_driver(self):
         browserName = self._browserName
         driver = None
         retry = 0
@@ -157,17 +157,17 @@ class SeleniumCrawler(ICrawler):
         driver.maximize_window()
         return driver
 
-    def _getHtmlTagAttribute(self, element, attribute):
+    def _get_html_tag_attribute(self, element, attribute):
         try:
             attributeText = element.attrib[attribute]
         except BaseException:
             attributeText = ""
         return attributeText
 
-    def _isInteractable(self, xpath):
+    def _is_interactable(self, xpath):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
-            if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(
+            if self._get_html_tag_attribute(element=element, attribute="input") == "input" and self._get_html_tag_attribute(
                     element=element, attribute="type") == "hidden":
                 return False
             return element.is_displayed() and element.is_enabled()
@@ -175,7 +175,7 @@ class SeleniumCrawler(ICrawler):
             Logger().info(f"SeleniumCrawlerException: {e}")
             return False
 
-    def _shouldHrefBeIgnored(self, href: str):
+    def _should_href_be_ignored(self, href: str):
         isFileDownloading = re.match(
             ".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")

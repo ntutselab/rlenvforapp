@@ -17,26 +17,26 @@ class TargetPageEntity:
         self._basicCodeCoverageEntity = basicCodeCoverageEntity
         self._directiveEntities = directiveEntities
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getTargetUrl(self):
+    def get_target_url(self):
         return self._targetUrl
 
-    def getRootUrl(self):
+    def get_root_url(self):
         return self._rootUrl
 
-    def getAppEventEntities(self) -> AppEventEntity:
+    def get_app_event_entities(self) -> AppEventEntity:
         return self._appEventEntities
 
-    def getTaskID(self):
+    def get_task_id(self):
         return self._taskID
 
-    def getFormXPath(self):
+    def get_form_x_path(self):
         return self._formXPath
 
-    def getBasicCodeCoverageEntity(self) -> CodeCoverageEntity:
+    def get_basic_code_coverage_entity(self) -> CodeCoverageEntity:
         return self._basicCodeCoverageEntity
 
-    def getDirectiveEntities(self) -> [DirectiveEntity]:
+    def get_directive_entities(self) -> [DirectiveEntity]:
         return self._directiveEntities

@@ -5,11 +5,11 @@ class ApplicationUnderTestRepository:
     def add(self, autEntity):
         pass
 
-    def deletById(self, id):
+    def delet_by_id(self, id):
         pass
 
-    def findById(self, id):
+    def find_by_id(self, id):
         pass
 
-    def findAll(self):
+    def find_all(self):
         pass

@@ -10,7 +10,7 @@ class Word2VecSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if Word2VecSingleton._instance is None:
             Word2VecSingleton()
         return Word2VecSingleton._instance
@@ -26,35 +26,35 @@ class Word2VecSingleton:
             Word2VecSingleton._instance = self
             Logger().info("done")
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getWordsVector(self, words: list):
+    def get_words_vector(self, words: list):
         vector = [0] * 300
         for word in words:
-            word = self.removeSymbols(word)
+            word = self.remove_symbols(word)
             if word == '' or word == ' ':
                 continue
-            vector += self.getWordVector(word)
+            vector += self.get_word_vector(word)
         return vector
 
-    def getWordVector(self, word: str):
-        word = self.removeSymbols(word)
-        if self.isInVocab(word):
+    def get_word_vector(self, word: str):
+        word = self.remove_symbols(word)
+        if self.is_in_vocab(word):
             vector = self._model[word]
         else:
             vector = np.zeros(300)
         return vector
 
-    def isInVocab(self, word: str):
-        word = self.removeSymbols(word)
+    def is_in_vocab(self, word: str):
+        word = self.remove_symbols(word)
         if word in self._model.vocab:
             return True
         else:
             Logger().info("Word2VecWarning: '" + word + "' is not in the vocab")
             return False
 
-    def removeSymbols(self, word: str):
+    def remove_symbols(self, word: str):
         # print("Original:", word, ", SymbolRemoved:", word.translate(str.maketrans('', '', string.punctuation)).strip())
         return word.translate(str.maketrans(
             '', '', string.punctuation)).strip()  # remove symbols

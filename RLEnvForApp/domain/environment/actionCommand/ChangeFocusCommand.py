@@ -9,5 +9,5 @@ class ChangeFocusCommand(IActionCommand.IActionCommand):
         super().__init__(actionNumber=actionNumber, actionType="changeFocus")
 
     def execute(self, operator: IAUTOperator):
-        operator.setActionType(super().getActionType())
-        operator.changeFocus()
+        operator.set_action_type(super().get_action_type())
+        operator.change_focus()

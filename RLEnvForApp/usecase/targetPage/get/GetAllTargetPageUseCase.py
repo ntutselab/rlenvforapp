@@ -17,11 +17,11 @@ class GetAllTargetPageUseCase:
     def execute(self, input: GetAllTargetPageInput,
                 output: GetAllTargetPageOutput):
         targetPageDTOs: [TargetPageDTO] = []
-        targetPageEntities = self._repository.findAll()
+        targetPageEntities = self._repository.find_all()
         for targetPageEntity in targetPageEntities:
-            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPage = TargetPageEntityMapper.mapping_target_page_from(
                 targetPageEntity=targetPageEntity)
-            targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(
+            targetPageDTO = TargetPageDTOMapper.mapping_target_page_dto_from(
                 targetPage=targetPage)
             targetPageDTOs.append(targetPageDTO)
-        output.setTargetPageDTOs(targetPageDTOs=targetPageDTOs)
+        output.set_target_page_dt_os(targetPageDTOs=targetPageDTOs)

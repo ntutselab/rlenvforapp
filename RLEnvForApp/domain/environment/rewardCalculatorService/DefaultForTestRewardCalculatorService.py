@@ -14,38 +14,38 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
         self._inputRewardCoefficient: float = 3.5
         self._inputRewardBaseLine: float = -3
 
-    def calculateReward(self, episodeHandler: IEpisodeHandler):
+    def calculate_reward(self, episodeHandler: IEpisodeHandler):
         reward = 0.0
-        numberOfState = episodeHandler.getNumberOfState()
-        lastState = episodeHandler.getState(numberOfState - 1)
+        numberOfState = episodeHandler.get_number_of_state()
+        lastState = episodeHandler.get_state(numberOfState - 1)
 
-        if self._isInputAction(lastState=lastState):
-            reward = self._getInputValueReward(
-                elementTagName=lastState.getInteractedElement().getName(),
-                inputValue=lastState.getAppEventInputValue())
+        if self._is_input_action(lastState=lastState):
+            reward = self._get_input_value_reward(
+                elementTagName=lastState.get_interacted_element().get_name(),
+                inputValue=lastState.get_app_event_input_value())
 
-        if self._isChangeFocusAction(lastState=lastState):
-            reward = self._getChangeFocusReward()
+        if self._is_change_focus_action(lastState=lastState):
+            reward = self._get_change_focus_reward()
 
-        if self._isClickAction(lastState=lastState):
-            reward = self._getClickReward()
+        if self._is_click_action(lastState=lastState):
+            reward = self._get_click_reward()
 
-        if episodeHandler.isDone():
-            reward = self._getEpisodeDoneReward(
-                appElements=lastState.getAllSelectedAppElements())
+        if episodeHandler.is_done():
+            reward = self._get_episode_done_reward(
+                appElements=lastState.get_all_selected_app_elements())
 
         return reward
 
-    def _isInputAction(self, lastState: State):
-        return lastState.getActionType() == "input"
+    def _is_input_action(self, lastState: State):
+        return lastState.get_action_type() == "input"
 
-    def _isChangeFocusAction(self, lastState: State):
-        return lastState.getActionType() == "changeFocus"
+    def _is_change_focus_action(self, lastState: State):
+        return lastState.get_action_type() == "changeFocus"
 
-    def _isClickAction(self, lastState: State):
-        return lastState.getActionType() == "click"
+    def _is_click_action(self, lastState: State):
+        return lastState.get_action_type() == "click"
 
-    def _getInputValueReward(self, elementTagName: str, inputValue: str):
+    def _get_input_value_reward(self, elementTagName: str, inputValue: str):
         rewardRevise = 0
         if "name" in elementTagName:
             if inputValue == "Michael Chen":
@@ -74,25 +74,25 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
 
         return self._inputRewardBaseLine + rewardRevise
 
-    def _getChangeFocusReward(self):
+    def _get_change_focus_reward(self):
         return self._changeFocusRewardCoefficient
 
-    def _getClickReward(self):
+    def _get_click_reward(self):
         return self._inputRewardBaseLine
 
-    def _getEpisodeDoneReward(self, appElements: [AppElement]):
+    def _get_episode_done_reward(self, appElements: [AppElement]):
         isSuccessed = True
         password = ""
         for appElement in appElements:
-            if appElement.getValue() == "":
+            if appElement.get_value() == "":
                 isSuccessed = False
-            if "email" in appElement.getName():
-                if appElement.getValue() != "abc@gmail.com":
+            if "email" in appElement.get_name():
+                if appElement.get_value() != "abc@gmail.com":
                     isSuccessed = False
-            if "password" in appElement.getName():
+            if "password" in appElement.get_name():
                 if password is "":
-                    password = appElement.getValue()
-                elif password != appElement.getValue():
+                    password = appElement.get_value()
+                elif password != appElement.get_value():
                     isSuccessed = False
 
         if isSuccessed:

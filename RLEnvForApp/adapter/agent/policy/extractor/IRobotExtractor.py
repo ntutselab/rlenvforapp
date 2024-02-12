@@ -7,7 +7,7 @@ from RLEnvForApp.adapter.agent.policy.extractor.IExtractor import IExtractor
 
 class IRobotExtractor(IExtractor):
     @staticmethod
-    def getExtractor(scaled_images, **kwargs):
+    def get_extractor(scaled_images, **kwargs):
         DOMFeature, branchCoverageVectorFeature, focusIndexFeature = tf.split(scaled_images, [
                                                                               130100, 1036, 150], 2)
 
@@ -23,7 +23,7 @@ class IRobotExtractor(IExtractor):
             focusIndexFeatureInt, squeeze_dims=[1, 3])
         focusIndexFeatureFloat = tf.to_float(focusIndexFeatureResize)
 
-        DOMFeatureFlatten = CustomLayerFactoryService.createIRobotCNNLayer(
+        DOMFeatureFlatten = CustomLayerFactoryService.create_i_robot_cnn_layer(
             inputLayer=DOMFeature)
 
         concatenation = tf.concat(

@@ -22,14 +22,14 @@ class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
         self._DOMCaches: [DOMCache] = []
         self.isHit = False
 
-    def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
-        return self._codeCoverageCollector.getCodeCoverageDTOs()
+    def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
+        return self._codeCoverageCollector.get_code_coverage_dt_os()
 
-    def resetCodeCoverage(self):
-        return self._codeCoverageCollector.resetCodeCoverage()
+    def reset_code_coverage(self):
+        return self._codeCoverageCollector.reset_code_coverage()
 
-    def goToRootPage(self):
-        return self._crawler.goToRootPage()
+    def go_to_root_page(self):
+        return self._crawler.go_to_root_page()
 
     def reset(self, rootPath: str, formXPath: str = ""):
         self.isHit = False
@@ -38,24 +38,24 @@ class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
     def close(self):
         return self._crawler.close()
 
-    def executeAppEvent(self, xpath: str, value: str):
+    def execute_app_event(self, xpath: str, value: str):
         self._appEventSequence.append(
             AppEventDTO(
                 xpath=xpath,
                 value=value,
                 category=""))
-        self._crawler.executeAppEvent(xpath=xpath, value=value)
+        self._crawler.execute_app_event(xpath=xpath, value=value)
         domCache = DOMCache
-        domCache.dom = self._crawler.getDOM()
+        domCache.dom = self._crawler.get_dom()
 
-    def getScreenShot(self):
-        return self._crawler.getScreenShot()
+    def get_screen_shot(self):
+        return self._crawler.get_screen_shot()
 
-    def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
-        return self._crawler.getAllSelectedAppElementsDTOs()
+    def get_all_selected_app_elements_dt_os(self) -> [AppElementDTO]:
+        return self._crawler.get_all_selected_app_elements_dt_os()
 
-    def getDOM(self) -> str:
-        return self._crawler.getDOM()
+    def get_dom(self) -> str:
+        return self._crawler.get_dom()
 
-    def getUrl(self) -> str:
-        return self._crawler.getUrl()
+    def get_url(self) -> str:
+        return self._crawler.get_url()

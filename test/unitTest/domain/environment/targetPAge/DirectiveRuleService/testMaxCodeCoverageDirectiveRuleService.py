@@ -9,101 +9,101 @@ from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 
 
 class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         self._directiveRuleService = MaxCodeCoverageDirectiveRuleService()
         self._codeCoverageType = "statement coverage"
 
     def test_no_improved_code_coverage_with_baseline(self):
-        basicCodeCoverage = self._createCodeCoverage([1, 1, 1, 1, 1])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([1, 1, 1, 1, 1])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
 
         self.assertFalse(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
     def test_improved_code_coverage_with_baseline(self):
-        basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([1, 1, 1, 1, 1])
+        codeCoverage = self._create_code_coverage([1, 1, 1, 1, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
 
         self.assertTrue(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
     def test_improved_code_coverage_with_older_directive(self):
-        basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
-        targetPage.appendDirective(directive=directive)
+        targetPage.append_directive(directive=directive)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 1, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 1, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
         self.assertTrue(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
     def test_no_improved_code_coverage_with_older_directive(self):
-        basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 1, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 1, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
-        targetPage.appendDirective(directive=directive)
+        targetPage.append_directive(directive=directive)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
         self.assertFalse(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
-    def test_no_improved_code_coverage_with_older_directive_but_shorter_appEvents(
+    def test_no_improved_code_coverage_with_older_directive_but_shorter_app_events(
             self):
-        basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(
             appEvents=[
                 AppEvent(
                     xpath="",
                     value="")],
             codeCoverages=[codeCoverage])
-        targetPage.appendDirective(directive=directive)
+        targetPage.append_directive(directive=directive)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
         self.assertTrue(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
-    def test_no_improved_code_coverage_with_older_directive_but_no_shorter_appEvents(
+    def test_no_improved_code_coverage_with_older_directive_but_no_shorter_app_events(
             self):
-        basicCodeCoverage = self._createCodeCoverage([0, 0, 0, 0, 0])
-        targetPage = self._createTargetPage(
+        basicCodeCoverage = self._create_code_coverage([0, 0, 0, 0, 0])
+        targetPage = self._create_target_page(
             basicCodeCoverage=basicCodeCoverage)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(appEvents=[], codeCoverages=[codeCoverage])
-        targetPage.appendDirective(directive=directive)
+        targetPage.append_directive(directive=directive)
 
-        codeCoverage = self._createCodeCoverage([0, 0, 0, 0, 1])
+        codeCoverage = self._create_code_coverage([0, 0, 0, 0, 1])
         directive = Directive(
             appEvents=[
                 AppEvent(
@@ -111,11 +111,11 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
                     value="")],
             codeCoverages=[codeCoverage])
         self.assertFalse(
-            self._directiveRuleService.isLegal(
+            self._directiveRuleService.is_legal(
                 targetPage=targetPage,
                 directive=directive))
 
-    def _createTargetPage(self, basicCodeCoverage: CodeCoverage) -> TargetPage:
+    def _create_target_page(self, basicCodeCoverage: CodeCoverage) -> TargetPage:
         return TargetPage(id="123",
                           targetUrl="/",
                           rootUrl="/",
@@ -124,6 +124,6 @@ class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
                           basicCodeCoverage=basicCodeCoverage,
                           directives=[])
 
-    def _createCodeCoverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
+    def _create_code_coverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
         return CodeCoverage(codeCoverageType=self._codeCoverageType,
                             codeCoverageVector=codeCoverageVector)

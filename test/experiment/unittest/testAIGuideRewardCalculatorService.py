@@ -11,9 +11,9 @@ class testAIGuideRewardCalculatorService(unittest.TestCase):
     def test_coverage_is_better(self):
         rewardCalculater = AIGuideRewardCalculatorService()
         directiveA = Directive(appEvents=None,
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
         directiveB = Directive(appEvents=None,
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
         self.assertEqual(
             rewardCalculater.getBetterDirective(
                 directiveA=directiveA,
@@ -28,11 +28,11 @@ class testAIGuideRewardCalculatorService(unittest.TestCase):
     def test_more_coverage_is_better(self):
         rewardCalculater = AIGuideRewardCalculatorService()
         directiveA = Directive(appEvents=None,
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
-                                              self.createCodeCoverage(type="statement",
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
+                                              self.create_code_coverage(type="statement",
                                                                       coverageVector=[1, 1, 0, 0, 0])])
         directiveB = Directive(appEvents=None,
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
         self.assertEqual(
             rewardCalculater.getBetterDirective(
                 directiveA=directiveA,
@@ -44,14 +44,14 @@ class testAIGuideRewardCalculatorService(unittest.TestCase):
                 directiveB=directiveA),
             directiveB)
 
-    def test_same_coverage_but_appEvent_is_better(self):
+    def test_same_coverage_but_app_event_is_better(self):
         rewardCalculater = AIGuideRewardCalculatorService()
-        directiveA = Directive(appEvents=[self.createAppEvent(), self.createAppEvent()],
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
-                                              self.createCodeCoverage(type="statement",
+        directiveA = Directive(appEvents=[self.create_app_event(), self.create_app_event()],
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
+                                              self.create_code_coverage(type="statement",
                                                                       coverageVector=[1, 1, 0, 0, 0])])
-        directiveB = Directive(appEvents=[self.createAppEvent()],
-                               codeCoverages=[self.createCodeCoverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
+        directiveB = Directive(appEvents=[self.create_app_event()],
+                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
         self.assertEqual(
             rewardCalculater.getBetterDirective(
                 directiveA=directiveA,
@@ -63,9 +63,9 @@ class testAIGuideRewardCalculatorService(unittest.TestCase):
                 directiveB=directiveA),
             directiveB)
 
-    def createCodeCoverage(self, type: str, coverageVector: [bool]):
+    def create_code_coverage(self, type: str, coverageVector: [bool]):
         return CodeCoverage(codeCoverageType=type,
                             codeCoverageVector=coverageVector)
 
-    def createAppEvent(self, xpath: str = "", value: str = ""):
+    def create_app_event(self, xpath: str = "", value: str = ""):
         return AppEvent(xpath=xpath, value=value)

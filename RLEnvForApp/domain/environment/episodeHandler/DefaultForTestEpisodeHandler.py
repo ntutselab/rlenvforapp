@@ -8,11 +8,11 @@ class DefaultForTestEpisodeHandler(IEpisodeHandler):
         super().__init__(id, episodeIndex, episodeStep)
         self._states: [State] = []
 
-    def isDone(self) -> bool:
-        lastState: State = self.getState(super().getNumberOfState() - 1)
-        if super().getEpisodeStep() != - \
-                1 and super().getEpisodeStep() <= len(super().getAllState()):
+    def is_done(self) -> bool:
+        lastState: State = self.get_state(super().get_number_of_state() - 1)
+        if super().get_episode_step() != - \
+                1 and super().get_episode_step() <= len(super().get_all_state()):
             return True
-        if lastState.getActionType() == "click":
+        if lastState.get_action_type() == "click":
             return True
         return False

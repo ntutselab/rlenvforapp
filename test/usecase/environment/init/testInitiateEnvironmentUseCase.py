@@ -9,7 +9,7 @@ from RLEnvForApp.usecase.environment.initiateEnvironment import (
 
 
 class testInitiateEnvironmentUseCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         container = EnvironmentDIContainers()
         container.config.from_ini("configuration/config/default.ini")
         container.wire(modules=[InitiateEnvironmentUseCase])
@@ -24,5 +24,5 @@ class testInitiateEnvironmentUseCase(unittest.TestCase):
             input=initiateEnvironmentInput,
             output=initiateEnvironmentOutput)
         self.assertEqual(
-            (1, 150, 1), initiateEnvironmentOutput.getObservationSize())
-        self.assertEqual(8, initiateEnvironmentOutput.getActionSpaceSize())
+            (1, 150, 1), initiateEnvironmentOutput.get_observation_size())
+        self.assertEqual(8, initiateEnvironmentOutput.get_action_space_size())

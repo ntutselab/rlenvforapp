@@ -8,11 +8,11 @@ class TargetPagePoolRepository:
     def add(self, targetPagePoolEntity: TargetPagePoolEntity):
         pass
 
-    def deleteById(self, id):
+    def delete_by_id(self, id):
         pass
 
-    def findById(self, id) -> TargetPagePoolEntity:
+    def find_by_id(self, id) -> TargetPagePoolEntity:
         pass
 
-    def findAll(self) -> [TargetPagePoolEntity]:
+    def find_all(self) -> [TargetPagePoolEntity]:
         pass

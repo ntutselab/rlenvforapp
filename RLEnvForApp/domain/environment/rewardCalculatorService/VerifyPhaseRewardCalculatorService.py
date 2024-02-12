@@ -22,41 +22,41 @@ class VerifyPhaseRewardCalculatorService(IRewardCalculatorService):
         self._inputRewardCoefficient: float = 10.0
         self._cosineSimilarityText: str = ''
 
-    def calculateReward(self, episodeHandler: IEpisodeHandler):
-        previousState: State = episodeHandler.getAllState()[-2]
+    def calculate_reward(self, episodeHandler: IEpisodeHandler):
+        previousState: State = episodeHandler.get_all_state()[-2]
 
-        if previousState.getInteractedElement() is None:
+        if previousState.get_interacted_element() is None:
             self._logger.info('Interacted element is none, reward: 0')
             return 0
 
-        if previousState.getActionType() == "input":
+        if previousState.get_action_type() == "input":
             self._logger.info('Calculating input reward...')
-            return self._getInputValueReward(previousState=previousState)
+            return self._get_input_value_reward(previousState=previousState)
 
         return 0
 
-    def _getInputValueReward(self, previousState: State):
-        elementLabel = previousState.getOriginalObservation()["labelName"]
+    def _get_input_value_reward(self, previousState: State):
+        elementLabel = previousState.get_original_observation()["labelName"]
 
         if not elementLabel:
             self._logger.info("Label is empty")
             return 0.0
 
-        inputCategory = self._inputTypeList[previousState.getActionNumber()]
+        inputCategory = self._inputTypeList[previousState.get_action_number()]
 
-        categoryListTokens = inputSpace.CategoryListSingleton.getInstance().getCategoryExtendList()[
+        categoryListTokens = inputSpace.CategoryListSingleton.get_instance().get_category_extend_list()[
             inputCategory]
         categoryListTokens.append(inputCategory)
 
         # vectorization whole String
-        categoryListVector = FastTextSingleton.getInstance().getWordsVector(categoryListTokens)
-        elementLabelVector = FastTextSingleton.getInstance().getWordVector(word=elementLabel)
+        categoryListVector = FastTextSingleton.get_instance().get_words_vector(categoryListTokens)
+        elementLabelVector = FastTextSingleton.get_instance().get_word_vector(word=elementLabel)
 
         labelCosineSimilarity = -1
         if categoryListVector:
             for categoryVector in categoryListVector:
                 labelCosineSimilarity = max(
-                    CosineSimilarityService.getCosineSimilarity(
+                    CosineSimilarityService.get_cosine_similarity(
                         categoryVector, elementLabelVector),
                     labelCosineSimilarity)
 
@@ -77,5 +77,5 @@ class VerifyPhaseRewardCalculatorService(IRewardCalculatorService):
         self._logger.info(f'Input reward: {reward}')
         return reward
 
-    def getCosineSimilarityText(self) -> str:
+    def get_cosine_similarity_text(self) -> str:
         return self._cosineSimilarityText

@@ -9,7 +9,7 @@ class FormSubmitCriteriaSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if not FormSubmitCriteriaSingleton._instance:
             FormSubmitCriteriaSingleton()
         return FormSubmitCriteriaSingleton._instance
@@ -29,10 +29,10 @@ class FormSubmitCriteriaSingleton:
 
             FormSubmitCriteriaSingleton._instance = self
 
-    def getFormSubmitCriteria(self) -> dict:
+    def get_form_submit_criteria(self) -> dict:
         return self._formSubmitCriteria
 
-    def setFormSubmitCriteria(
+    def set_form_submit_criteria(
             self, applicationName: str, url: str, xpath: str):
         Logger().info(
             f"Find Form Submit Criteria: {applicationName}, {url}, {xpath}")

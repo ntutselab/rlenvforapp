@@ -7,14 +7,14 @@ class ITargetPageQueueManagerService:
     def __init__(self, repository: TargetPageRepository):
         self._repository = repository
 
-    def getRepository(self):
+    def get_repository(self):
         return self._repository
 
-    def isEmpty(self):
-        return len(self._repository.findAll()) == 0
+    def is_empty(self):
+        return len(self._repository.find_all()) == 0
 
-    def dequeueTargetPage(self) -> TargetPage:
+    def dequeue_target_page(self) -> TargetPage:
         pass
 
-    def enqueueTargetPage(self, targetPage: TargetPage):
+    def enqueue_target_page(self, targetPage: TargetPage):
         pass

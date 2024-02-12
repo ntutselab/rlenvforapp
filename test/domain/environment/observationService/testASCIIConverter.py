@@ -5,13 +5,13 @@ from RLEnvForApp.domain.environment.observationService.converter.ASCIIConverter 
 
 
 class testTimeLogger(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         pass
 
-    def tearDown(self) -> None:
+    def tear_down(self) -> None:
         pass
 
-    def testConvert(self):
+    def test_convert(self):
         stateElement = ['A', 'S', 'C', 'I', 'I']
         listDOMFeature = ASCIIConverter().convert(stateElement=stateElement)
 

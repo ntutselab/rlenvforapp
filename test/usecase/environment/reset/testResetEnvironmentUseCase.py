@@ -20,7 +20,7 @@ from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
 
 
 class testResetEnvironmentUseCase(unittest.TestCase):
-    def setUp(self) -> None:
+    def set_up(self) -> None:
         container = EnvironmentDIContainers()
         container.config.from_ini("configuration/config/default.ini")
         container.wire(
@@ -34,8 +34,8 @@ class testResetEnvironmentUseCase(unittest.TestCase):
         self._episodeHandlerRepository: EpisodeHandlerRepository = InMemoryEpisodeHandlerRepository.InMemoryEpisodeHandlerRepository(
             sizeLimit=1)
 
-        self._createTargetPage()
-        self._autOperator.resetCrawler("./register.html")
+        self._create_target_page()
+        self._autOperator.reset_crawler("./register.html")
 
     def test_first_reset_environment(self):
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
@@ -48,13 +48,13 @@ class testResetEnvironmentUseCase(unittest.TestCase):
             input=resetEnvironmentUseInput,
             output=resetEnvironmentUseOutput)
 
-        episodeHandlerEntity = self._episodeHandlerRepository.findAll()[0]
-        episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+        episodeHandlerEntity = self._episodeHandlerRepository.find_all()[0]
+        episodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
             episodeHandlerEntity=episodeHandlerEntity)
 
         self.assertEqual(
-            resetEnvironmentUseOutput.getEpisodeHandlerId(),
-            episodeHandler.getId())
+            resetEnvironmentUseOutput.get_episode_handler_id(),
+            episodeHandler.get_id())
 
     def test_reset_environment(self):
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
@@ -66,19 +66,19 @@ class testResetEnvironmentUseCase(unittest.TestCase):
             input=resetEnvironmentUseInput,
             output=resetEnvironmentUseOutput)
 
-        self._executeAction(5, resetEnvironmentUseOutput.getEpisodeHandlerId())
+        self._execute_action(5, resetEnvironmentUseOutput.get_episode_handler_id())
 
-        self._executeAction(1, resetEnvironmentUseOutput.getEpisodeHandlerId())
-        self._executeAction(7, resetEnvironmentUseOutput.getEpisodeHandlerId())
+        self._execute_action(1, resetEnvironmentUseOutput.get_episode_handler_id())
+        self._execute_action(7, resetEnvironmentUseOutput.get_episode_handler_id())
 
-        self._executeAction(1, resetEnvironmentUseOutput.getEpisodeHandlerId())
-        self._executeAction(7, resetEnvironmentUseOutput.getEpisodeHandlerId())
+        self._execute_action(1, resetEnvironmentUseOutput.get_episode_handler_id())
+        self._execute_action(7, resetEnvironmentUseOutput.get_episode_handler_id())
 
-        self._executeAction(1, resetEnvironmentUseOutput.getEpisodeHandlerId())
-        self._executeAction(2, resetEnvironmentUseOutput.getEpisodeHandlerId())
+        self._execute_action(1, resetEnvironmentUseOutput.get_episode_handler_id())
+        self._execute_action(2, resetEnvironmentUseOutput.get_episode_handler_id())
 
-        self._executeAction(1, resetEnvironmentUseOutput.getEpisodeHandlerId())
-        self._executeAction(6, resetEnvironmentUseOutput.getEpisodeHandlerId())
+        self._execute_action(1, resetEnvironmentUseOutput.get_episode_handler_id())
+        self._execute_action(6, resetEnvironmentUseOutput.get_episode_handler_id())
 
         resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
             operator=self._autOperator, episodeHandlerRepository=self._episodeHandlerRepository)
@@ -91,9 +91,9 @@ class testResetEnvironmentUseCase(unittest.TestCase):
 
         self.assertEqual(
             1, len(
-                self._episodeHandlerRepository.findAll()[0].getStateEntities()))
+                self._episodeHandlerRepository.find_all()[0].get_state_entities()))
 
-    def _executeAction(self, actionNumber: int, epsisodeHandlerId: str):
+    def _execute_action(self, actionNumber: int, epsisodeHandlerId: str):
         self._executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
             autOperator=self._autOperator, episodeHandlerRepository=self._episodeHandlerRepository)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(
@@ -104,7 +104,7 @@ class testResetEnvironmentUseCase(unittest.TestCase):
             input=executeActionInput,
             output=executeActionOutput)
 
-    def _createTargetPage(self):
+    def _create_target_page(self):
         targetPageUrl = "./register.html"
         rootUrl = "./register.html"
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()

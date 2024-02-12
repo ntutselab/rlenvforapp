@@ -10,47 +10,47 @@ from RLEnvForApp.usecase.targetPage.mapper import (AppEventDTOMapper,
                                                    DirectiveDTOMapper)
 
 
-def mappingTargetPageDTOFrom(targetPage: TargetPage):
+def mapping_target_page_dto_from(targetPage: TargetPage):
     appEventDTOs: [AppEventDTO] = []
-    for appEvent in targetPage.getAppEvents():
+    for appEvent in targetPage.get_app_events():
         appEventDTOs.append(
-            AppEventDTOMapper.mappingAppEventDTOFrom(
+            AppEventDTOMapper.mapping_app_event_dto_from(
                 appEvent=appEvent))
 
     directiveDTOs: [DirectiveDTO] = []
-    for directive in targetPage.getDirectives():
+    for directive in targetPage.get_directives():
         directiveDTOs.append(
-            DirectiveDTOMapper.mappingDirectiveDTOFrom(directive))
+            DirectiveDTOMapper.mapping_directive_dto_from(directive))
 
-    return TargetPageDTO(id=targetPage.getId(),
-                         targetUrl=targetPage.getTargetUrl(),
-                         rootUrl=targetPage.getRootUrl(),
+    return TargetPageDTO(id=targetPage.get_id(),
+                         targetUrl=targetPage.get_target_url(),
+                         rootUrl=targetPage.get_root_url(),
                          appEventDTOs=appEventDTOs,
-                         taskID=targetPage.getTaskID(),
-                         formXPath=targetPage.getFormXPath(),
-                         basicCodeCoverageDTO=CodeCoverageDTOMapper.mappingCodeCoverageDTOFrom(
-                             targetPage.getBasicCodeCoverage()),
+                         taskID=targetPage.get_task_id(),
+                         formXPath=targetPage.get_form_x_path(),
+                         basicCodeCoverageDTO=CodeCoverageDTOMapper.mapping_code_coverage_dto_from(
+                             targetPage.get_basic_code_coverage()),
                          directiveDTOs=directiveDTOs)
 
 
-def mappingTargetPageFrom(targetPageDTO: TargetPageDTO):
+def mapping_target_page_from(targetPageDTO: TargetPageDTO):
     appEvents: [AppEvent] = []
-    for appEventDTO in targetPageDTO.getAppEventDTOs():
+    for appEventDTO in targetPageDTO.get_app_event_dt_os():
         appEvents.append(
-            AppEventDTOMapper.mappingAppEventFrom(
+            AppEventDTOMapper.mapping_app_event_from(
                 appEventDTO=appEventDTO))
 
     directives: [Directive] = []
-    for directiveDTO in targetPageDTO.getDirectiveDTOs():
+    for directiveDTO in targetPageDTO.get_directive_dt_os():
         directives.append(
-            DirectiveDTOMapper.mappingDirectiveFrom(
+            DirectiveDTOMapper.mapping_directive_from(
                 directiveDTO=directiveDTO))
-    return TargetPage(id=targetPageDTO.getId(),
-                      targetUrl=targetPageDTO.getTargetUrl(),
-                      rootUrl=targetPageDTO.getRootUrl(),
+    return TargetPage(id=targetPageDTO.get_id(),
+                      targetUrl=targetPageDTO.get_target_url(),
+                      rootUrl=targetPageDTO.get_root_url(),
                       appEvents=appEvents,
-                      taskID=targetPageDTO.getTaskID(),
-                      formXPath=targetPageDTO.getFormXPath(),
-                      basicCodeCoverage=CodeCoverageDTOMapper.mappingCodeCoverageFrom(
-                          targetPageDTO.getBasicCodeCoverageDTO()),
+                      taskID=targetPageDTO.get_task_id(),
+                      formXPath=targetPageDTO.get_form_x_path(),
+                      basicCodeCoverage=CodeCoverageDTOMapper.mapping_code_coverage_from(
+                          targetPageDTO.get_basic_code_coverage_dto()),
                       directives=directives)

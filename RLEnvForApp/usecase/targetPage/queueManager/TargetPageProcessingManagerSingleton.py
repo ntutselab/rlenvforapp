@@ -5,7 +5,7 @@ class TargetPageProcessingManagerSingleton:
     _instance = None
 
     @staticmethod
-    def getInstance():
+    def get_instance():
         if TargetPageProcessingManagerSingleton._instance is None:
             TargetPageProcessingManagerSingleton._instance = TargetPageProcessingManagerSingleton()
         return TargetPageProcessingManagerSingleton._instance
@@ -16,8 +16,8 @@ class TargetPageProcessingManagerSingleton:
         else:
             self._beProcessedTargetPage: TargetPage = None
 
-    def setBeProcessedTargetPage(self, targetPage: TargetPage):
+    def set_be_processed_target_page(self, targetPage: TargetPage):
         self._beProcessedTargetPage = targetPage
 
-    def getBeProcessedTargetPage(self) -> TargetPage:
+    def get_be_processed_target_page(self) -> TargetPage:
         return self._beProcessedTargetPage

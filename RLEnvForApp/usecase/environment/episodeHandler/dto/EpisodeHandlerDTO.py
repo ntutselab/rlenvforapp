@@ -9,14 +9,14 @@ class EpisodeHandlerDTO:
         self._episodeStep = episodeStep
         self._stateDTOs: [StateDTO] = stateDTOs
 
-    def getId(self):
+    def get_id(self):
         return self._id
 
-    def getEpisodeIndex(self):
+    def get_episode_index(self):
         return self._episodeIndex
 
-    def getEpisodeStep(self):
+    def get_episode_step(self):
         return self._episodeStep
 
-    def getStateDTOs(self) -> [StateDTO]:
+    def get_state_dt_os(self) -> [StateDTO]:
         return self._stateDTOs
