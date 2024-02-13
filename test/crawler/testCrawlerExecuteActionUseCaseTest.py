@@ -38,7 +38,7 @@ from RLEnvForApp.usecase.targetPage.queueManager.HtmlFileTargetPageQueueManagerS
     HtmlFileTargetPageQueueManagerService
 
 
-class testCrawlerExecuteActionUseCaseTest(TestCase):
+class TestCrawlerExecuteActionUseCaseTest(TestCase):
     def set_up(self) -> None:
         self._aut_repository = InMemoryApplicationUnderTestRepository()
         self._target_page_repository = InMemoryTargetPageRepository()

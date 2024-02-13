@@ -9,7 +9,7 @@ from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput,
                                                    RemoveTargetPageUseCase)
 
 
-class testRemoveTargetPageUseCase(unittest.TestCase):
+class TestRemoveTargetPageUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._target_page_repository = InMemoryTargetPageRepository()
         self._target_page_hierarchy = TargetPageHierarchyInitial()

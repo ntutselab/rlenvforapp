@@ -7,7 +7,7 @@ from RLEnvForApp.usecase.environment.observationService.converter.Word2VecConver
     Word2VecConverter
 
 
-class testW2vInner(unittest.TestCase):
+class TestW2vInner(unittest.TestCase):
     def set_up(self) -> None:
         self._w2v_converter = Word2VecConverter()
         self._fast_converter = FastTextConverter()

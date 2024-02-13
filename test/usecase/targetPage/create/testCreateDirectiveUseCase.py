@@ -25,7 +25,7 @@ from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper
 
 
-class testCreateDirectiveUseCase(unittest.TestCase):
+class TestCreateDirectiveUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._code_coverage_type = "statement coverage"
         self._target_page_repository = InMemoryTargetPageRepository()

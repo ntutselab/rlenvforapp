@@ -8,7 +8,7 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.MaxCodeCoverageDirective
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 
 
-class testMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
+class TestMaxCodeCoverageDirectiveRuleService(unittest.TestCase):
     def set_up(self) -> None:
         self._directive_rule_service = MaxCodeCoverageDirectiveRuleService()
         self._code_coverage_type = "statement coverage"

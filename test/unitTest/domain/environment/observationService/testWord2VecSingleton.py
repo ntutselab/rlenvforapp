@@ -4,7 +4,7 @@ from RLEnvForApp.domain.environment.observationService.converter.Word2VecSinglet
     Word2VecSingleton
 
 
-class testWord2VecSingleton(unittest.TestCase):
+class TestWord2VecSingleton(unittest.TestCase):
     def set_up(self) -> None:
         self.model = Word2VecSingleton.get_instance()
 

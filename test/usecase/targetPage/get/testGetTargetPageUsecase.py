@@ -15,7 +15,7 @@ from RLEnvForApp.usecase.targetPage.get import (GetTargetPageInput,
                                                 GetTargetPageUseCase)
 
 
-class testGetTargetPageUsecase(unittest.TestCase):
+class TestGetTargetPageUsecase(unittest.TestCase):
     def set_up(self) -> None:
         self._repository = InMemoryTargetPageRepository()
         self._target_page_url = "./register.html"

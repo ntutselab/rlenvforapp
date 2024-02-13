@@ -14,7 +14,7 @@ from RLEnvForApp.usecase.environment.episodeHandler.mapper import \
     EpisodeHandlerEntityMapper
 
 
-class testGetEpisodeHandlerUseCase(unittest.TestCase):
+class TestGetEpisodeHandlerUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._episode_handler_repository = InMemoryEpisodeHandlerRepository()
         self._code_coverage_type = "statement coverage"

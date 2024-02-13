@@ -18,7 +18,7 @@ from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import \
     IRobotOperator
 
 
-class testCrawlJaxGetImage(TestCase):
+class TestCrawlJaxGetImage(TestCase):
     def set_up(self) -> None:
         self._aut_repository = InMemoryApplicationUnderTestRepository()
         self._application_handler = DockerServerHandler(

@@ -8,7 +8,7 @@ from RLEnvForApp.usecase.environment.initiateEnvironment import (
     InitiateEnvironmentUseCase)
 
 
-class testInitiateEnvironmentUseCase(unittest.TestCase):
+class TestInitiateEnvironmentUseCase(unittest.TestCase):
     def set_up(self) -> None:
         container = EnvironmentDIContainers()
         container.config.from_ini("configuration/config/default.ini")

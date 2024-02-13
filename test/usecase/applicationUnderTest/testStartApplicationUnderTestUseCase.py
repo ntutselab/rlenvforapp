@@ -18,7 +18,7 @@ from RLEnvForApp.usecase.applicationUnderTest.start import (
     StartApplicationUnderTestUserCase)
 
 
-class testStartApplicationUnderTestUserCase(TestCase):
+class TestStartApplicationUnderTestUserCase(TestCase):
     def set_up(self) -> None:
         self._aut_repository = InMemoryApplicationUnderTestRepository()
         self._application_handler = DockerServerHandler(

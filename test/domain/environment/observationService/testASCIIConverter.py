@@ -4,7 +4,7 @@ from RLEnvForApp.domain.environment.observationService.converter.ASCIIConverter 
     ASCIIConverter
 
 
-class testTimeLogger(unittest.TestCase):
+class TestTimeLogger(unittest.TestCase):
     def set_up(self) -> None:
         pass
 

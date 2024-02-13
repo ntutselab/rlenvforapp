@@ -5,7 +5,7 @@ from RLEnvForApp.domain.environment.observationService.converter.CodeCoverageVec
 from RLEnvForApp.domain.environment.state import CodeCoverage
 
 
-class testCodeCoverageVectorConverter(unittest.TestCase):
+class TestCodeCoverageVectorConverter(unittest.TestCase):
     def set_up(self) -> None:
         pass
 

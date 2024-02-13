@@ -4,7 +4,7 @@ from RLEnvForApp.domain.environment.observationService.converter.FastTextSinglet
     FastTextSingleton
 
 
-class testFastTextSingleton(unittest.TestCase):
+class TestFastTextSingleton(unittest.TestCase):
     def set_up(self) -> None:
         self.model = FastTextSingleton.get_instance()
 

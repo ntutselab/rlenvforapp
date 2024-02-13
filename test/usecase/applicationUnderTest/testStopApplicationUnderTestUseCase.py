@@ -12,7 +12,7 @@ from RLEnvForApp.usecase.applicationUnderTest.stop import (
     StopApplicationUnderTestUseCase)
 
 
-class testStopApplicationUnderTestUseCase(unittest.TestCase):
+class TestStopApplicationUnderTestUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._aut_repository = InMemoryApplicationUnderTestRepository()
         self._application_handler = DockerServerHandler(

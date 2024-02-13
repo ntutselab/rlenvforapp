@@ -8,7 +8,7 @@ from urllib3.util import Retry
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 
 
-class testPythonCodeCoverageCollector(unittest.TestCase):
+class TestPythonCodeCoverageCollector(unittest.TestCase):
     def set_up(self) -> None:
         self._server_root_url = "http://127.0.0.1:3001"
         self.session = self._requests_retry_session()

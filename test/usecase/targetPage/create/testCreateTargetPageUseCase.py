@@ -15,7 +15,7 @@ from RLEnvForApp.usecase.targetPage.entity.TargetPageEntity import \
 from RLEnvForApp.usecase.targetPage.mapper import TargetPageEntityMapper
 
 
-class testCreateTargetPageUseCase(unittest.TestCase):
+class TestCreateTargetPageUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._repository = InMemoryTargetPageRepository()
 

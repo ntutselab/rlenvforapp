@@ -7,7 +7,7 @@ from RLEnvForApp.domain.environment.observationService.converter.ScreenshotPrepr
     ScreenshotPreprocessor
 
 
-class testScreenshotProcessor(unittest.TestCase):
+class TestScreenshotProcessor(unittest.TestCase):
     def set_up(self) -> None:
         self._save_path = './screenshot.png'
         self.image_array = np.zeros((1920, 1080, 4))

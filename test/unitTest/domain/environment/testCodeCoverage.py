@@ -4,7 +4,7 @@ import unittest
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 
 
-class testCodeCoverage(unittest.TestCase):
+class TestCodeCoverage(unittest.TestCase):
     def test_get_improved_code_coverage(self):
         origin_code_coverage_vector = [1, 1, 0, 0]
         code_coverage_vector = [1, 0, 1, 0]

@@ -13,7 +13,7 @@ from RLEnvForApp.usecase.targetPage.update import (UpdateTargetPageInput,
                                                    UpdateTargetPageUseCase)
 
 
-class testUpdateTargetPageUseCase(unittest.TestCase):
+class TestUpdateTargetPageUseCase(unittest.TestCase):
     def set_up(self) -> None:
         self._target_page_repository = InMemoryTargetPageRepository()
         self._target_page_hierarchy = TargetPageHierarchyInitial()

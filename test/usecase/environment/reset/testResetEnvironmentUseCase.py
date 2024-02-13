@@ -19,7 +19,7 @@ from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput,
                                                    CreateTargetPageUseCase)
 
 
-class testResetEnvironmentUseCase(unittest.TestCase):
+class TestResetEnvironmentUseCase(unittest.TestCase):
     def set_up(self) -> None:
         container = EnvironmentDIContainers()
         container.config.from_ini("configuration/config/default.ini")

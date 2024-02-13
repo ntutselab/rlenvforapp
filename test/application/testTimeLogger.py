@@ -6,7 +6,7 @@ from RLEnvForApp.application.timeLoggerService.TimeLoggerService import \
     TimeLoggerService
 
 
-class testTimeLogger(unittest.TestCase):
+class TestTimeLogger(unittest.TestCase):
     def set_up(self) -> None:
         self.log_dir = "model/timeLoggerTest/"
 

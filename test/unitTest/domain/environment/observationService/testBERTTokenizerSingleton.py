@@ -4,7 +4,7 @@ from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSi
     BERTTokenizerSingleton
 
 
-class testBERTTokenizerSingleton(unittest.TestCase):
+class TestBERTTokenizerSingleton(unittest.TestCase):
     def set_up(self) -> None:
         self.tokenizer = BERTTokenizerSingleton.get_instance()
 

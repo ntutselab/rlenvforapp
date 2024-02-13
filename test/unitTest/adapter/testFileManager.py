@@ -4,7 +4,7 @@ import unittest
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 
 
-class testFileManager(unittest.TestCase):
+class TestFileManager(unittest.TestCase):
     def test_create_folder(self):
         file_manager = FileManager()
         file_manager.create_folder("htmlSet", "GUIDE_HTML_SET")

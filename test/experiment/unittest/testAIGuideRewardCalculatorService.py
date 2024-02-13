@@ -7,7 +7,7 @@ from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.domain.targetPage.Directive import Directive
 
 
-class testAIGuideRewardCalculatorService(unittest.TestCase):
+class TestAIGuideRewardCalculatorService(unittest.TestCase):
     def test_coverage_is_better(self):
         reward_calculater = AIGuideRewardCalculatorService()
         directive_a = Directive(app_events=None,
