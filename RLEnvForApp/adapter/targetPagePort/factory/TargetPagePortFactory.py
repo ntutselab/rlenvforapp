@@ -9,19 +9,19 @@ class TargetPagePortFactory:
         pass
 
     def create_ai_guide_target_page_port(self, javaIp: str, pythonIp, javaPort: int, pythonPort: int, serverName: str,
-                                    rootUrl: str = "127.0.0.1",
-                                    codeCoverageType: str = "coverage") -> ITargetPagePort.ITargetPagePort:
+                                    root_url: str = "127.0.0.1",
+                                    code_coverage_type: str = "coverage") -> ITargetPagePort.ITargetPagePort:
         return AIGuideTargetPagePort.AIGuideTargetPagePort(javaIp=javaIp, pythonIp=pythonIp, javaPort=javaPort,
                                                            pythonPort=pythonPort, serverName=serverName,
-                                                           rootUrl=rootUrl, codeCoverageType=codeCoverageType)
+                                                           root_url=root_url, code_coverage_type=code_coverage_type)
 
-    def create_ai_guide_html_log_target_page_port(self, folderPath: str):
+    def create_ai_guide_html_log_target_page_port(self, folder_path: str):
         return AIGuideHTMLLogTargetPagePort.AIGuideHTMLLogTargetPagePort(
-            folderPath=folderPath)
+            folder_path=folder_path)
 
     def create_ai_guide_verify_target_page_port(self, javaIp: str, pythonIp, javaPort: int, pythonPort: int, serverName: str,
-                                          rootUrl: str = "127.0.0.1",
-                                          codeCoverageType: str = "coverage") -> ITargetPagePort.ITargetPagePort:
+                                          root_url: str = "127.0.0.1",
+                                          code_coverage_type: str = "coverage") -> ITargetPagePort.ITargetPagePort:
         return AIGuideVerifyTargetPagePort.AIGuideVerifyTargetPagePort(javaIp=javaIp, pythonIp=pythonIp, javaPort=javaPort,
                                                                        pythonPort=pythonPort, serverName=serverName,
-                                                                       rootUrl=rootUrl, codeCoverageType=codeCoverageType)
+                                                                       root_url=root_url, code_coverage_type=code_coverage_type)

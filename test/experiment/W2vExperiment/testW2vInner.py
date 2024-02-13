@@ -9,21 +9,21 @@ from RLEnvForApp.usecase.environment.observationService.converter.Word2VecConver
 
 class testW2vInner(unittest.TestCase):
     def set_up(self) -> None:
-        self._w2vConverter = Word2VecConverter()
-        self._fastConverter = FastTextConverter()
+        self._w2v_converter = Word2VecConverter()
+        self._fast_converter = FastTextConverter()
 
     def test_something(self):
         print("====================================================")
         print("W2V")
         print("====================================================")
-        password = self._w2vConverter.convert(
-            stateElement="password", length=300)
-        name = self._w2vConverter.convert(stateElement="name", length=300)
-        username = self._w2vConverter.convert(
-            stateElement="username", length=300)
-        user = self._w2vConverter.convert(stateElement="user", length=300)
-        last = self._w2vConverter.convert(stateElement="last", length=300)
-        first = self._w2vConverter.convert(stateElement="first", length=300)
+        password = self._w2v_converter.convert(
+            state_element="password", length=300)
+        name = self._w2v_converter.convert(state_element="name", length=300)
+        username = self._w2v_converter.convert(
+            state_element="username", length=300)
+        user = self._w2v_converter.convert(state_element="user", length=300)
+        last = self._w2v_converter.convert(state_element="last", length=300)
+        first = self._w2v_converter.convert(state_element="first", length=300)
         print("inner: ", self._inner(name, name))
         print("first name and last name: ", self._inner(self._sum(last, name),
                                                         self._sum(first, name)))
@@ -40,14 +40,14 @@ class testW2vInner(unittest.TestCase):
         print("====================================================")
         print("fastText")
         print("====================================================")
-        password = self._fastConverter.convert(
-            stateElement="password", length=300)
-        name = self._fastConverter.convert(stateElement="name", length=300)
-        username = self._fastConverter.convert(
-            stateElement="username", length=300)
-        user = self._fastConverter.convert(stateElement="user", length=300)
-        last = self._fastConverter.convert(stateElement="last", length=300)
-        first = self._fastConverter.convert(stateElement="first", length=300)
+        password = self._fast_converter.convert(
+            state_element="password", length=300)
+        name = self._fast_converter.convert(state_element="name", length=300)
+        username = self._fast_converter.convert(
+            state_element="username", length=300)
+        user = self._fast_converter.convert(state_element="user", length=300)
+        last = self._fast_converter.convert(state_element="last", length=300)
+        first = self._fast_converter.convert(state_element="first", length=300)
         print("inner: ", self._inner(name, name))
         print("first name and last name: ", self._inner(self._sum(last, name),
                                                         self._sum(first, name)))
@@ -73,9 +73,9 @@ class testW2vInner(unittest.TestCase):
 
     def _inner(self, vec1, vec2) -> float:
         value = 0
-        unitVec1 = self._to_unit(vec1)
-        unitVec2 = self._to_unit(vec2)
-        for a, b in zip(unitVec1, unitVec2):
+        unit_vec1 = self._to_unit(vec1)
+        unit_vec2 = self._to_unit(vec2)
+        for a, b in zip(unit_vec1, unit_vec2):
             value += a * b
         return value
 

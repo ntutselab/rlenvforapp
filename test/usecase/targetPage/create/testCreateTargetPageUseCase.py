@@ -20,101 +20,101 @@ class testCreateTargetPageUseCase(unittest.TestCase):
         self._repository = InMemoryTargetPageRepository()
 
     def test_create_target_page(self):
-        targetPageUrl = "./register.html"
-        rootUrl = "./"
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+        target_page_url = "./register.html"
+        root_url = "./"
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=self._repository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
-            targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[])
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(
+            target_page_url=target_page_url, root_url=root_url, app_event_dt_os=[])
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
-        targetPageEntity: TargetPageEntity = self._repository.find_by_id(
-            createTargetPageOutput.get_id())
-        targetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page_entity: TargetPageEntity = self._repository.find_by_id(
+            create_target_page_output.get_id())
+        target_page = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
 
-        self.assertEqual(targetPage.get_id(), createTargetPageOutput.get_id())
+        self.assertEqual(target_page.get_id(), create_target_page_output.get_id())
 
     def test_create_target_page_with_app_event(self):
-        targetPageUrl = "./register.html"
-        rootUrl = "./"
-        appEventDTO = AppEventDTO.AppEventDTO(
+        target_page_url = "./register.html"
+        root_url = "./"
+        app_event_dto = AppEventDTO.AppEventDTO(
             xpath="/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]", value="")
 
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=self._repository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
-            targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[appEventDTO])
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(
+            target_page_url=target_page_url, root_url=root_url, app_event_dt_os=[app_event_dto])
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
 
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
-        targetPageEntity: TargetPageEntity = self._repository.find_by_id(
-            createTargetPageOutput.get_id())
-        targetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page_entity: TargetPageEntity = self._repository.find_by_id(
+            create_target_page_output.get_id())
+        target_page = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
         self.assertEqual(
-            targetPage.get_app_events()[0].get_xpath(),
+            target_page.get_app_events()[0].get_xpath(),
             "/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]")
 
     def test_create_target_page_for_ai_guide(self):
-        targetPageUrl = "./register.html"
-        rootUrl = "./"
-        appEventDTO = AppEventDTO.AppEventDTO(
+        target_page_url = "./register.html"
+        root_url = "./"
+        app_event_dto = AppEventDTO.AppEventDTO(
             xpath="/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]", value="")
-        taskID = "testTaskID"
-        originalCodeCoverageDTO = CodeCoverageDTO(
-            codeCoverageType="statement", codeCoverageVector=[
+        task_id = "testTaskID"
+        original_code_coverage_dto = CodeCoverageDTO(
+            code_coverage_type="statement", code_coverage_vector=[
                 1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
-        codeCoverageDTO = CodeCoverageDTO(
-            codeCoverageType="statement", codeCoverageVector=[
+        code_coverage_dto = CodeCoverageDTO(
+            code_coverage_type="statement", code_coverage_vector=[
                 1, 1, 1, 1, 1, 0, 0, 0, 0, 0])
-        directiveDTO = DirectiveDTO(
-            appEventDTOs=[appEventDTO],
-            codeCoverageDTOs=[codeCoverageDTO])
+        directive_dto = DirectiveDTO(
+            app_event_dt_os=[app_event_dto],
+            code_coverage_dt_os=[code_coverage_dto])
 
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=self._repository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
-                                                                            rootUrl=rootUrl,
-                                                                            appEventDTOs=[
-                                                                                appEventDTO],
-                                                                            taskID=taskID,
-                                                                            basicCodeCoverage=originalCodeCoverageDTO,
-                                                                            directiveDTOs=[directiveDTO])
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
+                                                                            root_url=root_url,
+                                                                            app_event_dt_os=[
+                                                                                app_event_dto],
+                                                                            task_id=task_id,
+                                                                            basic_code_coverage=original_code_coverage_dto,
+                                                                            directive_dt_os=[directive_dto])
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
-        targetPageEntity: TargetPageEntity = self._repository.find_by_id(
-            createTargetPageOutput.get_id())
-        self.assertEqual(len(targetPageEntity.get_directive_entities()), 1)
+        target_page_entity: TargetPageEntity = self._repository.find_by_id(
+            create_target_page_output.get_id())
+        self.assertEqual(len(target_page_entity.get_directive_entities()), 1)
 
-        targetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
         self.assertEqual(
-            targetPage.get_app_events()[0].get_xpath(),
+            target_page.get_app_events()[0].get_xpath(),
             "/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]")
-        self.assertEqual(targetPage.get_root_url(), rootUrl)
-        self.assertEqual(targetPage.get_target_url(), targetPageUrl)
-        self.assertEqual(targetPage.get_task_id(), taskID)
+        self.assertEqual(target_page.get_root_url(), root_url)
+        self.assertEqual(target_page.get_target_url(), target_page_url)
+        self.assertEqual(target_page.get_task_id(), task_id)
         self.assertEqual(
-            targetPage.get_basic_code_coverage_dto().get_code_coverage_vector(), [
+            target_page.get_basic_code_coverage_dto().get_code_coverage_vector(), [
                 1, 0, 1, 0, 1, 0, 1, 0, 1, 0])
-        self.assertEqual(len(targetPage.get_directives()), 1)
-        directive: Directive = targetPage.get_directives()[0]
+        self.assertEqual(len(target_page.get_directives()), 1)
+        directive: Directive = target_page.get_directives()[0]
         self.assertEqual(
             directive.get_code_coverages()[0].get_code_coverage_type(),
-            directiveDTO.get_code_coverage_dt_os()[0].get_code_coverage_type())
+            directive_dto.get_code_coverage_dt_os()[0].get_code_coverage_type())
         self.assertEqual(
             directive.get_code_coverages()[0].get_code_coverage_vector(),
-            directiveDTO.get_code_coverage_dt_os()[0].get_code_coverage_vector())
+            directive_dto.get_code_coverage_dt_os()[0].get_code_coverage_vector())
         self.assertEqual(
             directive.get_app_events()[0].get_xpath(),
-            appEventDTO.get_xpath())
+            app_event_dto.get_xpath())
         self.assertEqual(
             directive.get_app_events()[0].get_value(),
-            appEventDTO.get_value())
+            app_event_dto.get_value())

@@ -14,30 +14,30 @@ class CheckHTMLLogActionIndicationService(IActionIndicationService):
         super().__init__()
 
     def is_conform(self, state: State):
-        interactedAppElement: AppElement = state.get_interacted_element()
-        interactedAppElementXpath = interactedAppElement.get_xpath().replace(
+        interacted_app_element: AppElement = state.get_interacted_element()
+        interacted_app_element_xpath = interacted_app_element.get_xpath().replace(
             "[1]", "")
 
         path = state.get_url()
-        folderPath, pageHTMLFileName = os.path.split(path)
-        pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
-        jsonData = open(os.path.join(folderPath, pageJsonFileName),)
-        pageLog = json.load(jsonData)
-        jsonData.close()
-        pageLogAppEvents = pageLog["appEvent"]
+        folder_path, pageHTMLFileName = os.path.split(path)
+        page_json_file_name = os.path.splitext(pageHTMLFileName)[0] + ".json"
+        json_data = open(os.path.join(folder_path, page_json_file_name),)
+        page_log = json.load(json_data)
+        json_data.close()
+        page_log_app_events = page_log["appEvent"]
 
-        logAppEvents = {}
-        for logAppEvent in pageLogAppEvents:
-            logAppEvents[logAppEvent.replace(
-                "[1]", "")] = pageLogAppEvents[logAppEvent]
+        log_app_events = {}
+        for logAppEvent in page_log_app_events:
+            log_app_events[logAppEvent.replace(
+                "[1]", "")] = page_log_app_events[logAppEvent]
 
-        if interactedAppElementXpath not in logAppEvents:
+        if interacted_app_element_xpath not in log_app_events:
             Logger().info(
                 f"Xpath not found in record: {interactedAppElementXpath}")
             return False
 
-        actionCategory = inputTypes[state.get_action_number()]
-        if actionCategory != logAppEvents[interactedAppElementXpath]['category']:
+        action_category = inputTypes[state.get_action_number()]
+        if action_category != log_app_events[interacted_app_element_xpath]['category']:
             Logger().info(f"Category not match, element xpath")
             return False
 

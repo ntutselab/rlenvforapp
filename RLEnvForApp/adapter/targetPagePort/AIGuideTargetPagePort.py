@@ -43,325 +43,325 @@ from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput,
 class AIGuideTargetPagePort(ITargetPagePort):
     @inject
     def __init__(self, javaIp: str, pythonIp, javaPort: int, pythonPort: int,
-                 serverName: str, rootUrl: str = "127.0.0.1", codeCoverageType: str = "coverage"):
+                 serverName: str, root_url: str = "127.0.0.1", code_coverage_type: str = "coverage"):
         super().__init__()
-        self._javaIp = javaIp
-        self._pythonIp = pythonIp
-        self._javaPort = javaPort
-        self._pythonPort = pythonPort
-        self._rootUrl = rootUrl
-        self._codeCoverageType = codeCoverageType
-        self._javaObjectPy4JLearningPool = None
-        self._javaObjectLearningTaskDTOs = []
-        self._serverName = serverName
-        self._isTraining = True
+        self._java_ip = javaIp
+        self._python_ip = pythonIp
+        self._java_port = javaPort
+        self._python_port = pythonPort
+        self._root_url = root_url
+        self._code_coverage_type = code_coverage_type
+        self._java_object_py4_j_learning_pool = None
+        self._java_object_learning_task_dt_os = []
+        self._server_name = serverName
+        self._is_training = True
 
     def connect(self):
         gateway_parameters = GatewayParameters(
-            address=self._javaIp, port=self._javaPort)
+            address=self._java_ip, port=self._java_port)
         callback_server_parameters = CallbackServerParameters(
-            address=self._pythonIp, port=self._pythonPort)
-        self._javaObjectPy4JLearningPool = JavaGateway(gateway_parameters=gateway_parameters,
+            address=self._python_ip, port=self._python_port)
+        self._java_object_py4_j_learning_pool = JavaGateway(gateway_parameters=gateway_parameters,
                                                        callback_server_parameters=callback_server_parameters)
 
     def close(self):
-        self._javaObjectPy4JLearningPool.setAgentDone(True)
-        self._javaObjectPy4JLearningPool.shutdown()
+        self._java_object_py4_j_learning_pool.setAgentDone(True)
+        self._java_object_py4_j_learning_pool.shutdown()
 
     def wait_for_target_page(self):
         Logger().info("Waiting for target page")
-        while (self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
+        while (self._java_object_py4_j_learning_pool.isLearningTaskDTOQueueEmpty()):
             time.sleep(1)
         self.pull_target_page()
 
     def pull_target_page(self):
-        isFirst = True
-        while len(self._get_all_target_page_dto()) == 0 or isFirst:
+        is_first = True
+        while len(self._get_all_target_page_dto()) == 0 or is_first:
             while not (
-                    self._javaObjectPy4JLearningPool.isLearningTaskDTOQueueEmpty()):
-                javaObjectLearningTaskDTO = self._javaObjectPy4JLearningPool.deQueueLearningTaskDTO()
-                url = javaObjectLearningTaskDTO.getTargetURL()
-                stateID = javaObjectLearningTaskDTO.getStateID()
-                formXPaths = javaObjectLearningTaskDTO.getFormXPaths()
+                    self._java_object_py4_j_learning_pool.isLearningTaskDTOQueueEmpty()):
+                java_object_learning_task_dto = self._java_object_py4_j_learning_pool.deQueueLearningTaskDTO()
+                url = java_object_learning_task_dto.getTargetURL()
+                stateID = java_object_learning_task_dto.getStateID()
+                formXPaths = java_object_learning_task_dto.getFormXPaths()
 
-                appEventDTOs = []
-                for javaObjectHighLevelActionDTO in javaObjectLearningTaskDTO.getHighLevelActionDTOList():
+                app_event_dt_os = []
+                for javaObjectHighLevelActionDTO in java_object_learning_task_dto.getHighLevelActionDTOList():
                     for javaObjectActionDTO in javaObjectHighLevelActionDTO.getActionDTOList():
-                        appEventDTO = AppEventDTO(
+                        app_event_dto = AppEventDTO(
                             xpath=javaObjectActionDTO.get_xpath(),
                             value=javaObjectActionDTO.get_value(),
                             category="")
-                        appEventDTOs.append(appEventDTO)
+                        app_event_dt_os.append(app_event_dto)
 
-                codeCoverageVector = []
-                for i in javaObjectLearningTaskDTO.get_code_coverage_vector():
-                    codeCoverageVector.append(i)
-                codeCoverageDTO = self._create_code_coverage_dto(
-                    codeCoverageType=self._codeCoverageType,
-                    codeCoverageVector=javaObjectLearningTaskDTO.get_code_coverage_vector())
-                if not self._have_same_task_id(taskID=stateID):
+                code_coverage_vector = []
+                for i in java_object_learning_task_dto.get_code_coverage_vector():
+                    code_coverage_vector.append(i)
+                code_coverage_dto = self._create_code_coverage_dto(
+                    code_coverage_type=self._code_coverage_type,
+                    code_coverage_vector=java_object_learning_task_dto.get_code_coverage_vector())
+                if not self._have_same_task_id(task_id=stateID):
                     # support for filling out multiple forms
-                    for formXPath in formXPaths:
+                    for form_x_path in formXPaths:
                         self._add_target_page(
-                            targetPageUrl=url,
-                            rootUrl=self._rootUrl,
-                            appEventDTOs=appEventDTOs,
+                            target_page_url=url,
+                            root_url=self._root_url,
+                            app_event_dt_os=app_event_dt_os,
                             stateID=stateID,
-                            formXPath=formXPath,
-                            codeCoverageVector=codeCoverageDTO)
+                            form_x_path=form_x_path,
+                            code_coverage_vector=code_coverage_dto)
                     # support for filling in single form
                     # self._addTargetPage(targetPageUrl=url, rootUrl=self._rootUrl, appEventDTOs=appEventDTOs,
                     # stateID=stateID, formXPath="//form",
                     # codeCoverageVector=codeCoverageDTO)
-                    self._javaObjectLearningTaskDTOs.append(
-                        javaObjectLearningTaskDTO)
-            isFirst = False
+                    self._java_object_learning_task_dt_os.append(
+                        java_object_learning_task_dto)
+            is_first = False
 
-    def push_target_page(self, targetPageId: str, episodeHandlerId: str):
-        directiveDTO = self._create_directive(
-            targetPageId=targetPageId,
-            episodeHandlerId=episodeHandlerId)
-        targetPageDTO: TargetPageDTO = self._get_target_page(
-            targetPageId=targetPageId)
+    def push_target_page(self, target_page_id: str, episode_handler_id: str):
+        directive_dto = self._create_directive(
+            target_page_id=target_page_id,
+            episode_handler_id=episode_handler_id)
+        target_page_dto: TargetPageDTO = self._get_target_page(
+            target_page_id=target_page_id)
 
-        self._javaObjectPy4JLearningPool.enQueueLearningResultDTO(
+        self._java_object_py4_j_learning_pool.enQueueLearningResultDTO(
             self._create_java_object_learning_result_dto(
-                taskId=targetPageDTO.get_task_id(), directiveDTO=directiveDTO))
+                taskId=target_page_dto.get_task_id(), directive_dto=directive_dto))
         self._save_target_page_to_html_set(
-            episodeHandlerId=episodeHandlerId,
-            directiveDTO=directiveDTO)
-        if not self._isTraining:
-            self._remove_target_page(targetPageId=targetPageId)
+            episode_handler_id=episode_handler_id,
+            directive_dto=directive_dto)
+        if not self._is_training:
+            self._remove_target_page(target_page_id=target_page_id)
 
     def get_pause_agent(self):
-        return self._javaObjectPy4JLearningPool.get_pause_agent()
+        return self._java_object_py4_j_learning_pool.get_pause_agent()
 
     def set_pause_agent(self, isPauseAgent: bool):
-        self._javaObjectPy4JLearningPool.set_pause_agent(isPauseAgent)
+        self._java_object_py4_j_learning_pool.set_pause_agent(isPauseAgent)
 
-    def _add_target_page(self, targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO], stateID: str = "",
-                       formXPath: str = "", codeCoverageVector: CodeCoverageDTO = None):
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
-                                                                            rootUrl=rootUrl,
-                                                                            appEventDTOs=appEventDTOs,
-                                                                            taskID=stateID,
-                                                                            formXPath=formXPath,
-                                                                            basicCodeCoverage=codeCoverageVector)
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+    def _add_target_page(self, target_page_url: str, root_url: str, app_event_dt_os: [AppEventDTO], stateID: str = "",
+                       form_x_path: str = "", code_coverage_vector: CodeCoverageDTO = None):
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase()
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
+                                                                            root_url=root_url,
+                                                                            app_event_dt_os=app_event_dt_os,
+                                                                            task_id=stateID,
+                                                                            form_x_path=form_x_path,
+                                                                            basic_code_coverage=code_coverage_vector)
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
     def _get_all_target_page_dto(self) -> [TargetPageDTO]:
-        getAllTargetPageUseCase = GetAllTargetPageUseCase.GetAllTargetPageUseCase()
-        getAllTargetPageInput = GetAllTargetPageInput.GetAllTargetPageInput()
-        getAllTargetPageOutput = GetAllTargetPageOutput.GetAllTargetPageOutput()
+        get_all_target_page_use_case = GetAllTargetPageUseCase.GetAllTargetPageUseCase()
+        get_all_target_page_input = GetAllTargetPageInput.GetAllTargetPageInput()
+        get_all_target_page_output = GetAllTargetPageOutput.GetAllTargetPageOutput()
 
-        getAllTargetPageUseCase.execute(
-            input=getAllTargetPageInput,
-            output=getAllTargetPageOutput)
-        return getAllTargetPageOutput.get_target_page_dt_os()
+        get_all_target_page_use_case.execute(
+            input=get_all_target_page_input,
+            output=get_all_target_page_output)
+        return get_all_target_page_output.get_target_page_dt_os()
 
-    def _remove_target_page(self, targetPageId: str):
-        removeTargetPageUseCase = RemoveTargetPageUseCase.RemoveTargetPageUseCase()
-        removeTargetPageInput = RemoveTargetPageInput.RemoveTargetPageInput(
-            targetPageId=targetPageId)
-        removeTargetPageOutput = RemoveTargetPageOutput.RemoveTargetPageOutput()
+    def _remove_target_page(self, target_page_id: str):
+        remove_target_page_use_case = RemoveTargetPageUseCase.RemoveTargetPageUseCase()
+        remove_target_page_input = RemoveTargetPageInput.RemoveTargetPageInput(
+            target_page_id=target_page_id)
+        remove_target_page_output = RemoveTargetPageOutput.RemoveTargetPageOutput()
 
-        removeTargetPageUseCase.execute(
-            input=removeTargetPageInput,
-            output=removeTargetPageOutput)
+        remove_target_page_use_case.execute(
+            input=remove_target_page_input,
+            output=remove_target_page_output)
 
     def _create_code_coverage_dto(
-            self, codeCoverageType: str, codeCoverageVector: [bool]):
-        return CodeCoverageDTO(codeCoverageType=codeCoverageType,
-                               codeCoverageVector=codeCoverageVector)
+            self, code_coverage_type: str, code_coverage_vector: [bool]):
+        return CodeCoverageDTO(code_coverage_type=code_coverage_type,
+                               code_coverage_vector=code_coverage_vector)
 
-    def _get_target_page(self, targetPageId: str):
-        getTargetPageUseCase = GetTargetPageUseCase.GetTargetPageUseCase()
-        getTargetPageInput = GetTargetPageInput.GetTargetPageInput(
-            targetPageId=targetPageId)
-        getTargetPageOutput = GetTargetPageOutput.GetTargetPageOutput()
+    def _get_target_page(self, target_page_id: str):
+        get_target_page_use_case = GetTargetPageUseCase.GetTargetPageUseCase()
+        get_target_page_input = GetTargetPageInput.GetTargetPageInput(
+            target_page_id=target_page_id)
+        get_target_page_output = GetTargetPageOutput.GetTargetPageOutput()
 
-        getTargetPageUseCase.execute(
-            input=getTargetPageInput,
-            output=getTargetPageOutput)
-        return getTargetPageOutput.get_target_page_dto()
+        get_target_page_use_case.execute(
+            input=get_target_page_input,
+            output=get_target_page_output)
+        return get_target_page_output.get_target_page_dto()
 
-    def _create_directive(self, targetPageId: str, episodeHandlerId: str):
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase()
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=targetPageId, episodeHandlerId=episodeHandlerId)
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+    def _create_directive(self, target_page_id: str, episode_handler_id: str):
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=target_page_id, episode_handler_id=episode_handler_id)
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        return createDirectiveOutput.get_directive_dto()
+        return create_directive_output.get_directive_dto()
 
     def _get_episode_handler_dto(
-            self, episodeHandlerId: str) -> EpisodeHandlerDTO:
+            self, episode_handler_id: str) -> EpisodeHandlerDTO:
         usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase()
         input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(
-            episodeHandlerId=episodeHandlerId)
+            episode_handler_id=episode_handler_id)
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 
         usecase.execute(input=input, output=output)
         return output.get_episode_handler_dto()
 
     def _find_java_object_learning_task_dto_by_task_id(self, stateID: str):
-        for javaObjectLearningTaskDTO in self._javaObjectLearningTaskDTOs:
-            if javaObjectLearningTaskDTO.getStateID() == stateID:
-                return javaObjectLearningTaskDTO
+        for java_object_learning_task_dto in self._java_object_learning_task_dt_os:
+            if java_object_learning_task_dto.getStateID() == stateID:
+                return java_object_learning_task_dto
 
-    def _create_java_object_high_level_actions(self, appEventDTOs: [AppEventDTO]):
-        highLevelActionDTOs = []
-        highLevelActionDTOs.append([])
-        for appEvent in appEventDTOs:
-            if appEvent.get_value() == "":
-                highLevelActionDTOs.append([appEvent])
-                highLevelActionDTOs.append([])
+    def _create_java_object_high_level_actions(self, app_event_dt_os: [AppEventDTO]):
+        high_level_action_dt_os = []
+        high_level_action_dt_os.append([])
+        for app_event in app_event_dt_os:
+            if app_event.get_value() == "":
+                high_level_action_dt_os.append([app_event])
+                high_level_action_dt_os.append([])
             else:
-                highLevelActionDTOs[len(
-                    highLevelActionDTOs) - 1].append(appEvent)
+                high_level_action_dt_os[len(
+                    high_level_action_dt_os) - 1].append(app_event)
 
-        javaObjectHighLevelActionDTOs = []
-        for highLevelActionDTO in highLevelActionDTOs:
+        java_object_high_level_action_dt_os = []
+        for highLevelActionDTO in high_level_action_dt_os:
             if len(highLevelActionDTO) == 0:
                 continue
-            javaObjectHighLevelActionDTOBuilder = self._getjava_object_high_level_action_dto_builder()
-            for appEvent in highLevelActionDTO:
-                javaObjectHighLevelActionDTOBuilder.appendActionDTO(self._get_crawljax_xpath(xpath=appEvent.get_xpath()),
-                                                                    appEvent.get_value())
-            javaObjectHighLevelActionDTOs.append(
-                javaObjectHighLevelActionDTOBuilder.build())
+            java_object_high_level_action_dto_builder = self._getjava_object_high_level_action_dto_builder()
+            for app_event in highLevelActionDTO:
+                java_object_high_level_action_dto_builder.appendActionDTO(self._get_crawljax_xpath(xpath=app_event.get_xpath()),
+                                                                    app_event.get_value())
+            java_object_high_level_action_dt_os.append(
+                java_object_high_level_action_dto_builder.build())
 
-        return javaObjectHighLevelActionDTOs
+        return java_object_high_level_action_dt_os
 
     def _getjava_object_high_level_action_dto_builder(self):
-        javaObjectHighLevelActionDTOBuilder = self._javaObjectPy4JLearningPool.getHighLevelActionDTOBuilder()
-        javaObjectHighLevelActionDTOBuilder.setActionDTOList()
-        return javaObjectHighLevelActionDTOBuilder
+        java_object_high_level_action_dto_builder = self._java_object_py4_j_learning_pool.getHighLevelActionDTOBuilder()
+        java_object_high_level_action_dto_builder.setActionDTOList()
+        return java_object_high_level_action_dto_builder
 
-    def _get_code_coverage_dto_by_type(self, codeCoverageDTOs: [
+    def _get_code_coverage_dto_by_type(self, code_coverage_dt_os: [
                                   CodeCoverageDTO], type: str):
-        for codeCoverageDTO in codeCoverageDTOs:
-            if codeCoverageDTO.get_code_coverage_type() == type:
-                return codeCoverageDTO
+        for code_coverage_dto in code_coverage_dt_os:
+            if code_coverage_dto.get_code_coverage_type() == type:
+                return code_coverage_dto
 
     def _get_crawljax_xpath(self, xpath: str):
-        crawljaxXpath = ""
+        crawljax_xpath = ""
         for i in xpath.upper().split("/"):
             if not re.match(".*\\[\\d*\\]", i) and not i == "":
                 i += "[1]/"
             else:
                 i += "/"
 
-            crawljaxXpath += i
-        return crawljaxXpath[:len(crawljaxXpath) - 1]
+            crawljax_xpath += i
+        return crawljax_xpath[:len(crawljax_xpath) - 1]
 
     def _create_java_object_learning_result_dto(
-            self, taskId: str, directiveDTO: DirectiveDTO):
-        javaObjectLearningTaskDTO = self._find_java_object_learning_task_dto_by_task_id(
+            self, taskId: str, directive_dto: DirectiveDTO):
+        java_object_learning_task_dto = self._find_java_object_learning_task_dto_by_task_id(
             taskId)
-        javaObjectHighLevelActionDTOs = self._create_java_object_high_level_actions(
-            appEventDTOs=directiveDTO.get_app_event_dt_os())
+        java_object_high_level_action_dt_os = self._create_java_object_high_level_actions(
+            app_event_dt_os=directive_dto.get_app_event_dt_os())
 
         # build learning result
-        javaObjectLearningResultDTOBuilder = self._javaObjectPy4JLearningPool.getLearnResultDTOBuilder()
+        java_object_learning_result_dto_builder = self._java_object_py4_j_learning_pool.getLearnResultDTOBuilder()
         # set high level action
-        javaObjectLearningResultDTOBuilder.setHighLevelActionDTOList()
-        for javaObjectHighLevelActionDTO in javaObjectHighLevelActionDTOs:
-            javaObjectLearningResultDTOBuilder.appendHighLevelActionDTOList(
+        java_object_learning_result_dto_builder.setHighLevelActionDTOList()
+        for javaObjectHighLevelActionDTO in java_object_high_level_action_dt_os:
+            java_object_learning_result_dto_builder.appendHighLevelActionDTOList(
                 javaObjectHighLevelActionDTO)
         # set task id
-        javaObjectLearningResultDTOBuilder.set_task_id(
-            javaObjectLearningTaskDTO.getStateID())
-        javaObjectLearningResultDTOBuilder.set_form_x_path(
-            directiveDTO.get_form_x_path())
+        java_object_learning_result_dto_builder.set_task_id(
+            java_object_learning_task_dto.getStateID())
+        java_object_learning_result_dto_builder.set_form_x_path(
+            directive_dto.get_form_x_path())
         # set code coverage
-        codeCoverageDTO = self._get_code_coverage_dto_by_type(codeCoverageDTOs=directiveDTO.get_code_coverage_dt_os(),
+        code_coverage_dto = self._get_code_coverage_dto_by_type(code_coverage_dt_os=directive_dto.get_code_coverage_dt_os(),
                                                          type="statement coverage")
-        codeCoverageVector = codeCoverageDTO.get_code_coverage_vector()
-        codeCoverageVectorSize = len(codeCoverageVector)
-        javaObjectArray = self._javaObjectPy4JLearningPool.new_array(
-            self._javaObjectPy4JLearningPool.jvm.boolean, codeCoverageVectorSize)
-        for i in range(0, codeCoverageVectorSize):
-            javaObjectArray[i] = codeCoverageVector[i]
-        javaObjectLearningResultDTOBuilder.setCodeCoverageVector(
-            javaObjectArray)
+        code_coverage_vector = code_coverage_dto.get_code_coverage_vector()
+        code_coverage_vector_size = len(code_coverage_vector)
+        java_object_array = self._java_object_py4_j_learning_pool.new_array(
+            self._java_object_py4_j_learning_pool.jvm.boolean, code_coverage_vector_size)
+        for i in range(0, code_coverage_vector_size):
+            java_object_array[i] = code_coverage_vector[i]
+        java_object_learning_result_dto_builder.setCodeCoverageVector(
+            java_object_array)
         # set original code coverage
-        javaObjectLearningResultDTOBuilder.setOriginalCodeCoverageVector(
-            javaObjectLearningTaskDTO.get_code_coverage_vector())
-        javaObjectLearningResultDTOBuilder.setDone(False)
-        return javaObjectLearningResultDTOBuilder.build()
+        java_object_learning_result_dto_builder.setOriginalCodeCoverageVector(
+            java_object_learning_task_dto.get_code_coverage_vector())
+        java_object_learning_result_dto_builder.setDone(False)
+        return java_object_learning_result_dto_builder.build()
 
     def _save_target_page_to_html_set(
-            self, episodeHandlerId: str, directiveDTO: DirectiveDTO):
-        fileName = f"{self._serverName}_{urlparse( directiveDTO.getUrl()).path.replace( '/', '_')}_{directiveDTO.getFormXPath().replace( '/', '_')}"
-        initialStateDTO: StateDTO = self._get_episode_handler_dto(
-            episodeHandlerId=episodeHandlerId).get_state_dt_os()[0]
+            self, episode_handler_id: str, directive_dto: DirectiveDTO):
+        file_name = f"{self._serverName}_{urlparse( directiveDTO.getUrl()).path.replace( '/', '_')}_{directiveDTO.getFormXPath().replace( '/', '_')}"
+        initial_state_dto: StateDTO = self._get_episode_handler_dto(
+            episode_handler_id=episode_handler_id).get_state_dt_os()[0]
 
-        interactiveAppElementDictionary = []
-        directiveDictionary = {}
-        for appEventDTO in directiveDTO.get_app_event_dt_os():
-            directiveDictionary[appEventDTO.get_xpath()] = {
-                "value": appEventDTO.get_value(), "category": appEventDTO.get_category()}
-        for appElementDTO in initialStateDTO.get_selected_app_element_dt_os():
-            interactiveAppElementDictionary.append(appElementDTO.get_xpath())
-        formXPath = directiveDTO.get_form_x_path()
-        directiveLogJson = json.dumps(
+        interactive_app_element_dictionary = []
+        directive_dictionary = {}
+        for app_event_dto in directive_dto.get_app_event_dt_os():
+            directive_dictionary[app_event_dto.get_xpath()] = {
+                "value": app_event_dto.get_value(), "category": app_event_dto.get_category()}
+        for app_element_dto in initial_state_dto.get_selected_app_element_dt_os():
+            interactive_app_element_dictionary.append(app_element_dto.get_xpath())
+        form_x_path = directive_dto.get_form_x_path()
+        directive_log_json = json.dumps(
             {
-                "interactive_appElement": interactiveAppElementDictionary,
-                "appEvent": directiveDictionary,
-                "formXPath": formXPath})
+                "interactive_appElement": interactive_app_element_dictionary,
+                "appEvent": directive_dictionary,
+                "formXPath": form_x_path})
 
-        self._update_input_value_weights(directiveDictionary)
+        self._update_input_value_weights(directive_dictionary)
 
         Logger().info(
             f"Save html set:\n{fileName}\n{formXPath}\n{directiveDictionary}")
 
-        fileManager = FileManager()
-        fileManager.create_folder("htmlSet", "GUIDE_HTML_SET")
-        fileManager.create_file(
+        file_manager = FileManager()
+        file_manager.create_folder("htmlSet", "GUIDE_HTML_SET")
+        file_manager.create_file(
             path=os.path.join(
                 "htmlSet",
                 "GUIDE_HTML_SET"),
-            fileName=fileName + ".html",
-            context=directiveDTO.get_dom())
-        fileManager.create_file(
+            file_name=file_name + ".html",
+            context=directive_dto.get_dom())
+        file_manager.create_file(
             path=os.path.join(
                 "htmlSet",
                 "GUIDE_HTML_SET"),
-            fileName=fileName + ".json",
-            context=directiveLogJson)
+            file_name=file_name + ".json",
+            context=directive_log_json)
 
     def _have_same_url(self, url: str):
-        targetPageDTOs = self._get_all_target_page_dto()
-        for targetPageDTO in targetPageDTOs:
-            if targetPageDTO.get_target_url() == url:
+        target_page_dt_os = self._get_all_target_page_dto()
+        for target_page_dto in target_page_dt_os:
+            if target_page_dto.get_target_url() == url:
                 return True
         return False
 
-    def _have_same_task_id(self, taskID: str):
-        targetPageDTOs = self._get_all_target_page_dto()
-        for targetPageDTO in targetPageDTOs:
-            if targetPageDTO.get_task_id() == taskID:
+    def _have_same_task_id(self, task_id: str):
+        target_page_dt_os = self._get_all_target_page_dto()
+        for target_page_dto in target_page_dt_os:
+            if target_page_dto.get_task_id() == task_id:
                 return True
         return False
 
-    def _update_input_value_weights(self, appEvent):
-        inputValueWeights = ValueWeightSingleton.get_instance().get_value_weights()
+    def _update_input_value_weights(self, app_event):
+        input_value_weights = ValueWeightSingleton.get_instance().get_value_weights()
 
-        for xpath, event in appEvent.items():
+        for xpath, event in app_event.items():
             category = event["category"]
             value = event["value"]
             categoryIndex = inputTypes.index(category)
             if value in inputValues[categoryIndex]:
                 indexOfValue = inputValues[categoryIndex].index(value)
-                inputValueWeights[category][indexOfValue] *= 10
+                input_value_weights[category][indexOfValue] *= 10
                 Logger().info(
                     f"Update inputValueWeight: {category} [{value}] {inputValueWeights[category][indexOfValue]}")
-                inputValueWeights[category] = [float(weight) / sum(inputValueWeights[category]) for weight
-                                               in inputValueWeights[category]]
+                input_value_weights[category] = [float(weight) / sum(input_value_weights[category]) for weight
+                                               in input_value_weights[category]]
 
-        ValueWeightSingleton.get_instance().set_value_weights(inputValueWeights)
+        ValueWeightSingleton.get_instance().set_value_weights(input_value_weights)

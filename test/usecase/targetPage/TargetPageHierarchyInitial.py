@@ -10,14 +10,14 @@ class TargetPageHierarchyInitial:
         pass
 
     def create_target_page(self, targetPageRepository: TargetPageRepository.TargetPageRepository,
-                         targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO]):
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+                         target_page_url: str, root_url: str, app_event_dt_os: [AppEventDTO]):
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=targetPageRepository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
-                                                                            rootUrl=rootUrl,
-                                                                            appEventDTOs=appEventDTOs)
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
+                                                                            root_url=root_url,
+                                                                            app_event_dt_os=app_event_dt_os)
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
-        return createTargetPageOutput.get_id()
+        return create_target_page_output.get_id()

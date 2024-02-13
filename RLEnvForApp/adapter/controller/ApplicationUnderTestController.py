@@ -8,35 +8,35 @@ from RLEnvForApp.usecase.applicationUnderTest.stop import (
 
 class ApplicationUnderTestController:
     def __init__(self, applicationName: str, serverIP: str, port: int):
-        self._autID = ""
-        self._applicationName = applicationName
-        self._serverIP = serverIP
+        self._aut_id = ""
+        self._application_name = applicationName
+        self._server_ip = serverIP
         self._port = port
-        self._isCacheModel = False
+        self._is_cache_model = False
 
     def start_aut_server(self):
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase()
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
-            applicationName=self._applicationName, ip=self._serverIP, port=self._port)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase()
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+            applicationName=self._application_name, ip=self._server_ip, port=self._port)
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
-        self._autID = startAUTOutput.get_id()
+        self._aut_id = start_aut_output.get_id()
 
     def stop_aut_server(self):
-        stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase()
-        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
-            id=self._autID)
-        stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
-        stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)
+        stop_aut_use_case = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase()
+        stop_aut_input = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
+            id=self._aut_id)
+        stop_aut_output = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
+        stop_aut_use_case.execute(stop_aut_input, stop_aut_output)
 
-        self._autID = ""
+        self._aut_id = ""
 
-    def reset_aut_server(self, isLegalDirective: bool):
-        if self._autID != "" and isLegalDirective:
+    def reset_aut_server(self, is_legal_directive: bool):
+        if self._aut_id != "" and is_legal_directive:
             self.stop_aut_server()
         # if not self._isCacheModel:
             self.start_aut_server()
 
     def set_is_cache_model(self, isCacheModel: bool):
-        self._isCacheModel = isCacheModel
+        self._is_cache_model = isCacheModel

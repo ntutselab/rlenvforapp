@@ -15,100 +15,100 @@ class RLController:
         Logger().info(f"Algorithm: {algorithm}")
         self._algorithm = algorithm
         self._policy = policy
-        self._environmentFactory = GymEnvironmentFactory()
+        self._environment_factory = GymEnvironmentFactory()
 
-    def learn_model(self, totalTimesteps: int, modelDir: str,
+    def learn_model(self, totalTimesteps: int, model_dir: str,
                    modelSeriesName: str, tensorboardPath: str = "model/log"):
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController()
-        modelController.set_model(
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController()
+        model_controller.set_model(
             ModelFactory().create_model(algorithm=self._algorithm, policy=self._policy, environment=environment,
                                        tensorboardPath="model/log"))
-        modelController.learn(totalTimeSteps=totalTimesteps)
-        modelName = modelSeriesName + "_" + str(totalTimesteps) + "step"
+        model_controller.learn(totalTimeSteps=totalTimesteps)
+        model_name = modelSeriesName + "_" + str(totalTimesteps) + "step"
 
-        modelController.save(os.path.join(modelDir, modelName))
+        model_controller.save(os.path.join(model_dir, model_name))
         environment.close()
 
-    def learn_model_by_exited_model(self, totalTimesteps: int, modelDir: str,
-                                modelSeriesName: str, modelPath: str):
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController()
-        modelController.set_model(
+    def learn_model_by_exited_model(self, totalTimesteps: int, model_dir: str,
+                                modelSeriesName: str, model_path: str):
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController()
+        model_controller.set_model(
             ModelFactory().load_model(
                 algorithm=self._algorithm,
-                modelPath=modelPath,
+                model_path=model_path,
                 environment=environment))
-        modelController.learn(totalTimeSteps=totalTimesteps)
-        modelName = modelSeriesName + "_" + str(totalTimesteps) + "step"
+        model_controller.learn(totalTimeSteps=totalTimesteps)
+        model_name = modelSeriesName + "_" + str(totalTimesteps) + "step"
 
-        modelController.save(os.path.join(modelDir, modelName))
+        model_controller.save(os.path.join(model_dir, model_name))
         environment.close()
 
     def iterate_learn_model(self, timestepsPerIteration: int, iterationTimes: int,
-                          modelDir: str, modelSeriesName: str, tensorboardPath: str = "model/log"):
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController().set_model(
+                          model_dir: str, modelSeriesName: str, tensorboardPath: str = "model/log"):
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController().set_model(
             ModelFactory().create_model(algorithm=self._algorithm, policy=self._policy, environment=environment,
                                        tensorboardPath="model/log"))
         for i in range(iterationTimes):
-            modelController.learn(totalTimeSteps=timestepsPerIteration)
-            modelName = modelSeriesName + "_" + \
+            model_controller.learn(totalTimeSteps=timestepsPerIteration)
+            model_name = modelSeriesName + "_" + \
                 str(timestepsPerIteration * (i + 1)) + "step"
 
-            modelController.save(os.path.join(modelDir, modelName))
+            model_controller.save(os.path.join(model_dir, model_name))
 
-    def verify_model(self, modelPath: str, verifyTimes: int):
-        episodeRewardList = []
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController()
-        modelController.set_model(
-            ModelFactory().load_model(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
+    def verify_model(self, model_path: str, verifyTimes: int):
+        episode_reward_list = []
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController()
+        model_controller.set_model(
+            ModelFactory().load_model(algorithm=self._algorithm, model_path=model_path, environment=environment))
         for i in range(verifyTimes):
-            reward = modelController.play(environment=environment)
-            episodeRewardList.append(reward)
+            reward = model_controller.play(environment=environment)
+            episode_reward_list.append(reward)
         environment.close()
-        return episodeRewardList
+        return episode_reward_list
 
-    def verify_model_by_time(self, modelPath: str, timeLimit: int = 0,
-                          explorationEpisodeEsp=0, explorationStepEsp=0):
-        episodeRewardList = []
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController()
-        modelController.set_model(
+    def verify_model_by_time(self, model_path: str, timeLimit: int = 0,
+                          exploration_episode_esp=0, exploration_step_esp=0):
+        episode_reward_list = []
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController()
+        model_controller.set_model(
             ModelFactory().load_model(
                 algorithm=self._algorithm,
-                modelPath=modelPath,
+                model_path=model_path,
                 environment=environment))
-        totalTime = 0
-        isDone = True
-        while isDone:
+        total_time = 0
+        is_done = True
+        while is_done:
             initialTime = time.time()
-            reward = modelController.play_with_exploration(
+            reward = model_controller.play_with_exploration(
                 environment=environment,
-                explorationEpisodeEsp=explorationEpisodeEsp,
-                explorationStepEsp=explorationStepEsp)
-            totalTime += time.time() - initialTime
-            episodeRewardList.append(reward)
-            isDone = (totalTime < timeLimit) or (timeLimit == 0)
-            Logger().info(totalTime)
+                exploration_episode_esp=exploration_episode_esp,
+                exploration_step_esp=exploration_step_esp)
+            total_time += time.time() - initialTime
+            episode_reward_list.append(reward)
+            is_done = (total_time < timeLimit) or (timeLimit == 0)
+            Logger().info(total_time)
         environment.close()
-        return episodeRewardList
+        return episode_reward_list
 
-    def verify_model_by_total_step(self, modelPath: str, totalStep,
-                               explorationEpisodeEsp=0, explorationStepEsp=0):
-        episodeRewardList = []
-        environment = self._environmentFactory.create_environment()
-        modelController = ModelController()
-        modelController.set_model(
-            ModelFactory().load_model(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
-        modelController.play_by_total_step(
+    def verify_model_by_total_step(self, model_path: str, totalStep,
+                               exploration_episode_esp=0, exploration_step_esp=0):
+        episode_reward_list = []
+        environment = self._environment_factory.create_environment()
+        model_controller = ModelController()
+        model_controller.set_model(
+            ModelFactory().load_model(algorithm=self._algorithm, model_path=model_path, environment=environment))
+        model_controller.play_by_total_step(
             environment=environment,
             totalStep=totalStep,
-            explorationEpisodeEsp=explorationEpisodeEsp,
-            explorationStepEsp=explorationStepEsp)
+            exploration_episode_esp=exploration_episode_esp,
+            exploration_step_esp=exploration_step_esp)
         environment.close()
-        return episodeRewardList
+        return episode_reward_list
 
     def play_model(self):
         pass

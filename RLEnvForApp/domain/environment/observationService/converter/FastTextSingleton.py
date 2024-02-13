@@ -51,6 +51,6 @@ class FastTextSingleton:
         return vector
 
     def remove_symbols(self, word: str):
-        symbolRemoved = word.translate(str.maketrans(
+        symbol_removed = word.translate(str.maketrans(
             '', '', string.punctuation)).strip()  # remove symbols
-        return symbolRemoved
+        return symbol_removed

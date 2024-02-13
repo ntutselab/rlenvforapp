@@ -14,7 +14,7 @@ class ITargetPagePort:
     def pull_target_page(self):
         pass
 
-    def push_target_page(self, targetPageId: str, episodeHandlerId: str):
+    def push_target_page(self, target_page_id: str, episode_handler_id: str):
         pass
 
     def get_pause_agent(self):

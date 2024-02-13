@@ -3,13 +3,13 @@ from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 
 
 class Directive:
-    def __init__(self, url: str, dom: str, formXPath: str, appEvents: [
-                 AppEvent], codeCoverages: [CodeCoverage]):
+    def __init__(self, url: str, dom: str, form_x_path: str, app_events: [
+                 AppEvent], code_coverages: [CodeCoverage]):
         self._url = url
         self._dom = dom
-        self._formXPath = formXPath
-        self._appEvents = appEvents
-        self._codeCoverages = codeCoverages
+        self._form_x_path = form_x_path
+        self._app_events = app_events
+        self._code_coverages = code_coverages
 
     def get_url(self) -> str:
         return self._url
@@ -18,15 +18,15 @@ class Directive:
         return self._dom
 
     def get_form_x_path(self) -> str:
-        return self._formXPath
+        return self._form_x_path
 
     def get_app_events(self) -> [AppEvent]:
-        return self._appEvents
+        return self._app_events
 
     def get_code_coverages(self) -> [CodeCoverage]:
-        return self._codeCoverages
+        return self._code_coverages
 
-    def get_code_coverage_by_type(self, codeCoverageType: str) -> CodeCoverage:
-        for codeCoverage in self._codeCoverages:
-            if codeCoverage.get_code_coverage_type() == codeCoverageType:
-                return codeCoverage
+    def get_code_coverage_by_type(self, code_coverage_type: str) -> CodeCoverage:
+        for code_coverage in self._code_coverages:
+            if code_coverage.get_code_coverage_type() == code_coverage_type:
+                return code_coverage

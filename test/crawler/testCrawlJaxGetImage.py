@@ -20,57 +20,57 @@ from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import \
 
 class testCrawlJaxGetImage(TestCase):
     def set_up(self) -> None:
-        self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._applicationHandler = DockerServerHandler(
+        self._aut_repository = InMemoryApplicationUnderTestRepository()
+        self._application_handler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
-        self._hirerarchyInitial = HirerarchyInitial(
-            autRepository=self._autRepository,
-            applicationHandler=self._applicationHandler)
-        self._hirerarchyInitial.start_aut_server(
+        self._hirerarchy_initial = HirerarchyInitial(
+            autRepository=self._aut_repository,
+            applicationHandler=self._application_handler)
+        self._hirerarchy_initial.start_aut_server(
             "timeoff_management_with_coverage")
-        self._crawljaxCrawler = IRobotCrawler(
+        self._crawljax_crawler = IRobotCrawler(
             javaPort=40000,
             pythonPort=40001,
             crawlerPath="RLEnvForApp/application/crawler/irobot-crawler_screen_shot_v2.jar")
         # self._crawler = IRobotCrawler(javaPort=50000, pythonPort=50001, isJavaServerRunned=True)
-        self._seleniumCrawler = SeleniumCrawler(browserName="Chrome")
+        self._selenium_crawler = SeleniumCrawler(browser_name="Chrome")
 
     def tear_down(self) -> None:
-        self._crawljaxCrawler.close()
-        self._seleniumCrawler.close()
-        for autEntity in self._autRepository.find_all():
-            self._hirerarchyInitial.stop_aut_server(autEntity.get_id())
+        self._crawljax_crawler.close()
+        self._selenium_crawler.close()
+        for aut_entity in self._aut_repository.find_all():
+            self._hirerarchy_initial.stop_aut_server(aut_entity.get_id())
 
     def test_crawl_get_image(self):
-        crawljaxOperator = IRobotOperator(
-            self._crawljaxCrawler,
+        crawljax_operator = IRobotOperator(
+            self._crawljax_crawler,
             IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost",
                 serverPort=3000))
-        crawljaxOperator.reset_crawler(path="http://localhost:3000")
+        crawljax_operator.reset_crawler(path="http://localhost:3000")
 
-        seleniumOperator = IRobotOperator(
-            self._seleniumCrawler,
+        selenium_operator = IRobotOperator(
+            self._selenium_crawler,
             IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost",
                 serverPort=3000))
-        seleniumOperator.reset_crawler(path="http://localhost:3000")
+        selenium_operator.reset_crawler(path="http://localhost:3000")
         # self._crawler.reset("")
 
-        crawljaxState = crawljaxOperator.get_state()
-        seleniumState = seleniumOperator.get_state()
+        crawljax_state = crawljax_operator.get_state()
+        selenium_state = selenium_operator.get_state()
 
-        crawljaxScreenShot = crawljaxState.get_screen_shot()
-        seleniumScreenShot = seleniumState.get_screen_shot()
-        print("crawljaxScreenShot", crawljaxScreenShot.shape)
-        print("seleniumScreenShot", seleniumScreenShot.shape)
+        crawljax_screen_shot = crawljax_state.get_screen_shot()
+        selenium_screen_shot = selenium_state.get_screen_shot()
+        print("crawljaxScreenShot", crawljax_screen_shot.shape)
+        print("seleniumScreenShot", selenium_screen_shot.shape)
         # tf.keras.preprocessing.image.save_img("./crawljaxScreenShot.png", crawljaxScreenShot)
         # tf.keras.preprocessing.image.save_img("./seleniumScreenShot.png", seleniumScreenShot)
-        self.assertEqual(len(crawljaxOperator.get_all_selected_app_elements()),
-                         len(seleniumOperator.get_all_selected_app_elements()))
+        self.assertEqual(len(crawljax_operator.get_all_selected_app_elements()),
+                         len(selenium_operator.get_all_selected_app_elements()))
 
         for crawljaxAppElementDTO, seleniumAppElementDTO in zip(
-                crawljaxOperator.get_all_selected_app_elements(), seleniumOperator.get_all_selected_app_elements()):
+                crawljax_operator.get_all_selected_app_elements(), selenium_operator.get_all_selected_app_elements()):
             self.assertEqual(
                 crawljaxAppElementDTO.get_xpath(),
                 seleniumAppElementDTO.get_xpath())
@@ -86,110 +86,110 @@ class testCrawlJaxGetImage(TestCase):
 
         self.assertTrue(
             numpy.array_equal(
-                crawljaxScreenShot,
-                crawljaxScreenShot))
+                crawljax_screen_shot,
+                crawljax_screen_shot))
         self.assertTrue(
             numpy.array_equal(
-                seleniumScreenShot,
-                seleniumScreenShot))
+                selenium_screen_shot,
+                selenium_screen_shot))
         # self.assertTrue(numpy.array_equal(crawljaxScreenShot, seleniumScreenShot))
 
     def test_crawl_get_image_after_do_action(self):
 
-        self._crawljaxOperator = IRobotOperator(
-            self._crawljaxCrawler, IstanbulMiddlewareCodeCoverageCollector(
+        self._crawljax_operator = IRobotOperator(
+            self._crawljax_crawler, IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost", serverPort=3000))
-        self._crawljaxOperator.reset_crawler(path="http://localhost:3000")
-        self._go_to_canlandar(autOperator=self._crawljaxOperator)
-        crawljaxState = self._crawljaxOperator.get_state()
+        self._crawljax_operator.reset_crawler(path="http://localhost:3000")
+        self._go_to_canlandar(aut_operator=self._crawljax_operator)
+        crawljax_state = self._crawljax_operator.get_state()
 
-        for autEntity in self._autRepository.find_all():
-            self._hirerarchyInitial.stop_aut_server(autEntity.get_id())
-        self._hirerarchyInitial.start_aut_server(
+        for aut_entity in self._aut_repository.find_all():
+            self._hirerarchy_initial.stop_aut_server(aut_entity.get_id())
+        self._hirerarchy_initial.start_aut_server(
             "timeoff_management_with_coverage")
 
-        self._seleniumOperator = IRobotOperator(
-            self._seleniumCrawler, IstanbulMiddlewareCodeCoverageCollector(
+        self._selenium_operator = IRobotOperator(
+            self._selenium_crawler, IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost", serverPort=3000))
-        self._seleniumOperator.reset_crawler(path="http://localhost:3000")
-        self._go_to_canlandar(autOperator=self._seleniumOperator)
-        seleniumState = self._seleniumOperator.get_state()
+        self._selenium_operator.reset_crawler(path="http://localhost:3000")
+        self._go_to_canlandar(aut_operator=self._selenium_operator)
+        selenium_state = self._selenium_operator.get_state()
 
-        self.assertEqual(crawljaxState.get_url(), seleniumState.get_url())
-        self.assertEqual(len(crawljaxState.get_all_selected_app_elements()),
-                         len(seleniumState.get_all_selected_app_elements()))
+        self.assertEqual(crawljax_state.get_url(), selenium_state.get_url())
+        self.assertEqual(len(crawljax_state.get_all_selected_app_elements()),
+                         len(selenium_state.get_all_selected_app_elements()))
 
-        crawljaxScreenShot = crawljaxState.get_screen_shot()
-        seleniumScreenShot = seleniumState.get_screen_shot()
+        crawljax_screen_shot = crawljax_state.get_screen_shot()
+        selenium_screen_shot = selenium_state.get_screen_shot()
         tf.keras.preprocessing.image.save_img(
-            "./crawljaxScreenShot.png", crawljaxScreenShot)
+            "./crawljaxScreenShot.png", crawljax_screen_shot)
         tf.keras.preprocessing.image.save_img(
-            "./seleniumScreenShot.png", seleniumScreenShot)
+            "./seleniumScreenShot.png", selenium_screen_shot)
         self.assertTrue(
             numpy.array_equal(
-                crawljaxScreenShot,
-                crawljaxScreenShot))
+                crawljax_screen_shot,
+                crawljax_screen_shot))
         self.assertTrue(
             numpy.array_equal(
-                seleniumScreenShot,
-                seleniumScreenShot))
+                selenium_screen_shot,
+                selenium_screen_shot))
         # self.assertTrue(numpy.array_equal(crawljaxScreenShot, seleniumScreenShot))
 
-    def _go_to_canlandar(self, autOperator):
-        autOperator.execute_app_event(
+    def _go_to_canlandar(self, aut_operator):
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]", value="")
-        autOperator.get_state()
+        aut_operator.get_state()
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/input[1]",
             value="Company name")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            1, autOperator.get_state().get_focus_vector().index(True))
+            1, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/input[1]",
             value="Kai")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            2, autOperator.get_state().get_focus_vector().index(True))
+            2, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[3]/div[1]/input[1]",
             value="Huang")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            3, autOperator.get_state().get_focus_vector().index(True))
+            3, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[4]/div[1]/input[1]",
             value="test@ntut.edu.tw")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            4, autOperator.get_state().get_focus_vector().index(True))
+            4, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[5]/div[1]/input[1]",
             value="123456")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            5, autOperator.get_state().get_focus_vector().index(True))
+            5, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[6]/div[1]/input[1]",
             value="123456")
-        autOperator.change_focus()
-        autOperator.get_focused_app_element()
+        aut_operator.change_focus()
+        aut_operator.get_focused_app_element()
         self.assertEqual(
-            6, autOperator.get_state().get_focus_vector().index(True))
+            6, aut_operator.get_state().get_focus_vector().index(True))
 
-        autOperator.execute_app_event(
+        aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[9]/div[1]/button[1]", value="")
-        autOperator.get_focused_app_element()
+        aut_operator.get_focused_app_element()
         # autOperator.executeAppEvent(xpath="", value="")
         # autOperator.getFocusedAppElement()

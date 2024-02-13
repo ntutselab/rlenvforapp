@@ -4,10 +4,10 @@ import logging
 class Logger:
     _instance = None
 
-    def __new__(cls, fileName="AIGuideEnv.log"):
+    def __new__(cls, file_name="AIGuideEnv.log"):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            aiGuideLogger = logging.getLogger(fileName)
+            aiGuideLogger = logging.getLogger(file_name)
 
             logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.DEBUG,
                                 datefmt='%Y-%m-%d %H:%M:%S')
@@ -17,7 +17,7 @@ class Logger:
             console.setFormatter(
                 logging.Formatter('%(levelname)-8s %(message)s'))
 
-            fileHandler = logging.FileHandler(mode='w', filename=fileName)
+            fileHandler = logging.FileHandler(mode='w', filename=file_name)
             fileHandler.setFormatter(
                 logging.Formatter('%(asctime)s %(message)s'))
             fileHandler.setLevel(logging.INFO)

@@ -4,26 +4,26 @@ from RLEnvForApp.domain.environment.state.State import State
 
 class IAUTOperator:
     def __init__(self):
-        self._actionType = ""
-        self._actionNumber = None
+        self._action_type = ""
+        self._action_number = None
         self._state: State = State(id="123456")
 
-    def set_action_type(self, actionType: str):
-        self._actionType = actionType
+    def set_action_type(self, action_type: str):
+        self._action_type = action_type
 
     def get_action_type(self):
-        return self._actionType
+        return self._action_type
 
     def set_action_number(self, actionNumber: int):
-        self._actionNumber = actionNumber
+        self._action_number = actionNumber
 
     def get_action_number(self):
-        return self._actionNumber
+        return self._action_number
 
     def get_state(self) -> State:
         pass
 
-    def reset_crawler(self, path: str, formXPath: str):
+    def reset_crawler(self, path: str, form_x_path: str):
         pass
 
     def go_to_root_page(self):

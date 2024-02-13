@@ -26,61 +26,61 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
         container.wire(modules=[ExecuteActionUseCase, ResetEnvironmentUseCase])
 
         self._crawler = HtmlFileCrawler()
-        self._autOperator = ClickForAllElementOperator(self._crawler)
-        self._targetPageRepository = InMemoryTargetPageRepository()
-        self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._episodeHandlerId = ""
+        self._aut_operator = ClickForAllElementOperator(self._crawler)
+        self._target_page_repository = InMemoryTargetPageRepository()
+        self._episode_handler_repository = InMemoryEpisodeHandlerRepository()
+        self._episode_handler_id = ""
         self._create_target_page()
         self._reset_env()
 
     def test_execute_click_action(self):
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=0, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
 
-        self.assertEqual(900, len(executeActionOutput.get_observation()))
-        self.assertEqual(False, executeActionOutput.get_is_done())
-        self.assertEqual(-1, executeActionOutput.get_reward())
+        self.assertEqual(900, len(execute_action_output.get_observation()))
+        self.assertEqual(False, execute_action_output.get_is_done())
+        self.assertEqual(-1, execute_action_output.get_reward())
 
     def test_execute_input_action(self):
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=7, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=7, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
 
         self.assertEqual(
             2, len(
-                self._episodeHandlerRepository.find_by_id(
-                    self._episodeHandlerId).get_state_entities()))
-        self.assertEqual(900, len(executeActionOutput.get_observation()))
-        self.assertEqual(False, executeActionOutput.get_is_done())
-        self.assertEqual(1, executeActionOutput.get_reward())
+                self._episode_handler_repository.find_by_id(
+                    self._episode_handler_id).get_state_entities()))
+        self.assertEqual(900, len(execute_action_output.get_observation()))
+        self.assertEqual(False, execute_action_output.get_is_done())
+        self.assertEqual(1, execute_action_output.get_reward())
 
     def test_execute_input_action_before_change_focus(self):
         self._execute_action(1)
         self._execute_action(1)
         self._execute_action(1)
 
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=3, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
-        self.assertEqual(900, len(executeActionOutput.get_observation()))
-        self.assertEqual(False, executeActionOutput.get_is_done())
-        self.assertEqual(1, executeActionOutput.get_reward())
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=3, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
+        self.assertEqual(900, len(execute_action_output.get_observation()))
+        self.assertEqual(False, execute_action_output.get_is_done())
+        self.assertEqual(1, execute_action_output.get_reward())
 
     def test_execute_success_scenario(self):
         self._execute_action(6)
@@ -89,18 +89,18 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
         self._execute_action(2)
         self._execute_action(11)
         self._execute_action(11)
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=0, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
 
-        self.assertEqual(900, len(executeActionOutput.get_observation()))
-        self.assertTrue(executeActionOutput.get_reward() > 100)
-        self.assertEqual(True, executeActionOutput.get_is_done())
+        self.assertEqual(900, len(execute_action_output.get_observation()))
+        self.assertTrue(execute_action_output.get_reward() > 100)
+        self.assertEqual(True, execute_action_output.get_is_done())
 
     def test_execute_passward_false_scenario(self):
         self._execute_action(5)
@@ -119,52 +119,52 @@ class testExecuteActionUseCaseIn0311(unittest.TestCase):
 
         self._execute_action(1)
         self._execute_action(5)
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=0, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=0, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
 
         self.assertEqual(
             13, len(
-                self._episodeHandlerRepository.find_by_id(
-                    self._episodeHandlerId).get_state_entities()))
-        self.assertEqual(150, len(executeActionOutput.get_observation()))
-        self.assertEqual(-25, executeActionOutput.get_reward())
-        self.assertEqual(True, executeActionOutput.get_is_done())
+                self._episode_handler_repository.find_by_id(
+                    self._episode_handler_id).get_state_entities()))
+        self.assertEqual(150, len(execute_action_output.get_observation()))
+        self.assertEqual(-25, execute_action_output.get_reward())
+        self.assertEqual(True, execute_action_output.get_is_done())
 
     def _execute_action(self, actionNumber: int):
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository)
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=actionNumber, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=self._aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository)
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=actionNumber, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
 
     def _create_target_page(self):
-        targetPageUrl = "./register.html"
-        rootUrl = "./"
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
-            repository=self._targetPageRepository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
-            targetPageUrl=targetPageUrl, rootUrl=rootUrl, appEventDTOs=[])
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        target_page_url = "./register.html"
+        root_url = "./"
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
+            repository=self._target_page_repository)
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(
+            target_page_url=target_page_url, root_url=root_url, app_event_dt_os=[])
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
     def _reset_env(self):
-        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
-            operator=self._autOperator, episodeHandlerRepository=self._episodeHandlerRepository)
-        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentIntput(
+        reset_env_use_case = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
+            operator=self._aut_operator, episodeHandlerRepository=self._episode_handler_repository)
+        reset_env_use_input = ResetEnvironmentInput.ResetEnvironmentIntput(
             episodeIndex=1)
-        resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
-        resetEnvUseCase.execute(
-            input=resetEnvUseInput,
-            output=resetEnvUseOutput)
+        reset_env_use_output = ResetEnvironmentOutput.ResetEnvironmentOutput()
+        reset_env_use_case.execute(
+            input=reset_env_use_input,
+            output=reset_env_use_output)
 
-        self._episodeHandlerId = resetEnvUseOutput.get_episode_handler_id()
+        self._episode_handler_id = reset_env_use_output.get_episode_handler_id()

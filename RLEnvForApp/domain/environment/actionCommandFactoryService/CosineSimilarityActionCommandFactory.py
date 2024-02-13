@@ -16,7 +16,7 @@ from RLEnvForApp.logger.logger import Logger
 class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
     def __init__(self):
         super().__init__()
-        self._inputData = inputSpace.inputValues
+        self._input_data = inputSpace.inputValues
 
         if os.path.exists('input_value_probability.json'):
             with open('input_value_probability.json', encoding='utf-8') as jsonfile:
@@ -30,14 +30,14 @@ class CosineSimilarityActionCommandFactory(IActionCommandFactoryService):
             return IRobotClickCommand.IRobotClickCommand(
                 actionNumber=actionNumber)
         else:
-            inputValue = random.choices(self._inputData[actionNumber],
+            inputValue = random.choices(self._input_data[actionNumber],
                                         weights=self._inputValueWeights[inputSpace.inputTypes[actionNumber]], k=1)[0]
             Logger().info(f"Input value: {inputValue}")
             return IRobotInputValueCommand.IRobotInputValueCommand(
                 inputValue=inputValue, actionNumber=actionNumber)
 
     def get_action_space_size(self) -> int:
-        return len(self._inputData)
+        return len(self._input_data)
 
     def get_action_list(self) -> [str]:
-        return self._inputData
+        return self._input_data

@@ -15,51 +15,51 @@ from RLEnvForApp.usecase.targetPage.update import (UpdateTargetPageInput,
 
 class testUpdateTargetPageUseCase(unittest.TestCase):
     def set_up(self) -> None:
-        self._targetPageRepository = InMemoryTargetPageRepository()
-        self._targetPageHierarchy = TargetPageHierarchyInitial()
+        self._target_page_repository = InMemoryTargetPageRepository()
+        self._target_page_hierarchy = TargetPageHierarchyInitial()
 
     def test_update_target_url_target_page(self):
-        targetPageId = self._targetPageHierarchy.create_target_page(
-            targetPageRepository=self._targetPageRepository, targetPageUrl="/", rootUrl="/", appEventDTOs=[])
+        target_page_id = self._target_page_hierarchy.create_target_page(
+            targetPageRepository=self._target_page_repository, target_page_url="/", root_url="/", app_event_dt_os=[])
         input = UpdateTargetPageInput.UpdateTargetPageInput(
-            targetPageId=targetPageId, targetPageUrl="/login")
+            target_page_id=target_page_id, target_page_url="/login")
         output = UpdateTargetPageOutput.UpdateTargetPageOutput()
         usecase = UpdateTargetPageUseCase.UpdateTargetPageUseCase(
-            repository=self._targetPageRepository)
+            repository=self._target_page_repository)
 
         usecase.execute(input=input, output=output)
-        targetPageEntity = self._targetPageRepository.find_by_id(output.get_id())
-        targetPage: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
-        self.assertEqual("/login", targetPage.get_target_url())
+        target_page_entity = self._target_page_repository.find_by_id(output.get_id())
+        target_page: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
+        self.assertEqual("/login", target_page.get_target_url())
 
     def test_update_code_coverage_target_page(self):
-        targetPageId = self._targetPageHierarchy.create_target_page(
-            targetPageRepository=self._targetPageRepository, targetPageUrl="/", rootUrl="/", appEventDTOs=[])
-        input = UpdateTargetPageInput.UpdateTargetPageInput(targetPageId=targetPageId,
-                                                            basicCodeCoverageDTO=CodeCoverageDTO(codeCoverageType="test codecoverage",
-                                                                                                 codeCoverageVector=[1, 1, 1, 1, 1, 0, 0, 0, 0, 0]))
+        target_page_id = self._target_page_hierarchy.create_target_page(
+            targetPageRepository=self._target_page_repository, target_page_url="/", root_url="/", app_event_dt_os=[])
+        input = UpdateTargetPageInput.UpdateTargetPageInput(target_page_id=target_page_id,
+                                                            basic_code_coverage_dto=CodeCoverageDTO(code_coverage_type="test codecoverage",
+                                                                                                 code_coverage_vector=[1, 1, 1, 1, 1, 0, 0, 0, 0, 0]))
         output = UpdateTargetPageOutput.UpdateTargetPageOutput()
         usecase = UpdateTargetPageUseCase.UpdateTargetPageUseCase(
-            repository=self._targetPageRepository)
+            repository=self._target_page_repository)
         usecase.execute(input=input, output=output)
-        targetPageEntity = self._targetPageRepository.find_by_id(output.get_id())
-        targetPage: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page_entity = self._target_page_repository.find_by_id(output.get_id())
+        target_page: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
         self.assertEqual(
-            5, targetPage.get_basic_code_coverage().get_covered_amount())
+            5, target_page.get_basic_code_coverage().get_covered_amount())
 
-        input = UpdateTargetPageInput.UpdateTargetPageInput(targetPageId=targetPageId,
-                                                            basicCodeCoverageDTO=CodeCoverageDTO(codeCoverageType="test codecoverage",
-                                                                                                 codeCoverageVector=[1, 0, 1, 0, 0, 0, 0, 0, 0, 1]))
+        input = UpdateTargetPageInput.UpdateTargetPageInput(target_page_id=target_page_id,
+                                                            basic_code_coverage_dto=CodeCoverageDTO(code_coverage_type="test codecoverage",
+                                                                                                 code_coverage_vector=[1, 0, 1, 0, 0, 0, 0, 0, 0, 1]))
         output = UpdateTargetPageOutput.UpdateTargetPageOutput()
         usecase = UpdateTargetPageUseCase.UpdateTargetPageUseCase(
-            repository=self._targetPageRepository)
+            repository=self._target_page_repository)
         usecase.execute(input=input, output=output)
-        targetPageEntity = self._targetPageRepository.find_by_id(output.get_id())
-        targetPage: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page_entity = self._target_page_repository.find_by_id(output.get_id())
+        target_page: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
         self.assertEqual(
-            6, targetPage.get_basic_code_coverage().get_covered_amount())
+            6, target_page.get_basic_code_coverage().get_covered_amount())
         self.assertEqual(
-            10, targetPage.get_basic_code_coverage().get_code_coverage_vector_length())
+            10, target_page.get_basic_code_coverage().get_code_coverage_vector_length())

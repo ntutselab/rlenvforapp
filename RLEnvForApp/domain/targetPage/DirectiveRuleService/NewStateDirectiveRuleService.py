@@ -14,7 +14,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def __init__(self):
         super().__init__()
 
-    def is_legal(self, targetPageId: str, beforeActionDom: str,
+    def is_legal(self, target_page_id: str, beforeActionDom: str,
                 afterActionDom="") -> bool:
         if afterActionDom == "":
             Logger().info("afterActionDom is empty string")
@@ -90,10 +90,10 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def _is_dom_contain_keyword(self, dom: str, keywords: list):
         # keywords = ['error', 'invalid', 'cannot', 'failed', 'not', 'taken', 'required', 'should', 'Must', 'at least']
 
-        domTree = etree.parse(StringIO(dom), etree.HTMLParser())
+        dom_tree = etree.parse(StringIO(dom), etree.HTMLParser())
 
         for word in keywords:
-            elements = domTree.xpath(
+            elements = dom_tree.xpath(
                 f"//*[contains(text(),'{word}') and not(self::script or self::style)]")
             if elements:
                 Logger().info(f'Current state contain keyword: {word}')
@@ -102,19 +102,19 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         return False
 
     def get_dom_similarity(self, beforeActionDom: str, afterActionDom: str):
-        beforeActionElements = self._get_elements(beforeActionDom)
-        afterActionElements = self._get_elements(afterActionDom)
+        before_action_elements = self._get_elements(beforeActionDom)
+        after_action_elements = self._get_elements(afterActionDom)
 
-        domSimilarity = -1
+        dom_similarity = -1
         try:
             similarity = difflib.SequenceMatcher()
-            similarity.set_seq1(beforeActionElements)
-            similarity.set_seq2(afterActionElements)
-            domSimilarity = similarity.ratio() * 100
+            similarity.set_seq1(before_action_elements)
+            similarity.set_seq2(after_action_elements)
+            dom_similarity = similarity.ratio() * 100
         except Exception as ex:
             template = 'Error, An exception of type {0} occurred. Arguments:\n{1!r}'
             message = template.format(type(ex).__name__, ex.args)
             Logger().info(message)
 
         Logger().info(f"domSimilarity is: {domSimilarity}")
-        return domSimilarity
+        return dom_similarity

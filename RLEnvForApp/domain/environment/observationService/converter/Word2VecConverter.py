@@ -11,8 +11,8 @@ class Word2VecConverter(IConverter):
         super().__init__()
         Word2VecSingleton.get_instance()
 
-    def _convert_to_list_feature(self, stateElement) -> []:
-        word_sequence = stateElement.lower()
+    def _convert_to_list_feature(self, state_element) -> []:
+        word_sequence = state_element.lower()
         # print("word_sequence=", word_sequence) # debug
         tokens = BERTTokenizerSingleton.get_instance().get_tokens(word_sequence)
         return Word2VecSingleton.get_instance().get_words_vector(words=tokens)

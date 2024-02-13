@@ -15,10 +15,10 @@ class GetTargetPageUseCase:
         self._repository = repository
 
     def execute(self, input: GetTargetPageInput, output: GetTargetPageOutput):
-        targetPageId = input.get_target_page_id()
-        targetPageEntity = self._repository.find_by_id(targetPageId)
-        targetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
-        targetPageDTO = TargetPageDTOMapper.mapping_target_page_dto_from(
-            targetPage=targetPage)
-        output.set_target_page_dto(targetPageDTO=targetPageDTO)
+        target_page_id = input.get_target_page_id()
+        target_page_entity = self._repository.find_by_id(target_page_id)
+        target_page = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
+        target_page_dto = TargetPageDTOMapper.mapping_target_page_dto_from(
+            target_page=target_page)
+        output.set_target_page_dto(target_page_dto=target_page_dto)

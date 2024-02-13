@@ -12,8 +12,8 @@ class testTimeLogger(unittest.TestCase):
         pass
 
     def test_convert(self):
-        stateElement = ['A', 'S', 'C', 'I', 'I']
-        listDOMFeature = ASCIIConverter().convert(stateElement=stateElement)
+        state_element = ['A', 'S', 'C', 'I', 'I']
+        list_dom_feature = ASCIIConverter().convert(state_element=state_element)
 
-        self.assertNotEqual(['A', 'S', 'C', 'I', 'I'], listDOMFeature)
-        self.assertEqual([65, 83, 67, 73, 73], listDOMFeature)
+        self.assertNotEqual(['A', 'S', 'C', 'I', 'I'], list_dom_feature)
+        self.assertEqual([65, 83, 67, 73, 73], list_dom_feature)

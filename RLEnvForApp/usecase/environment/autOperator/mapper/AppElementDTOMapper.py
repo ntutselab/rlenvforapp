@@ -4,17 +4,17 @@ from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
 
 
 def mapping_app_element_from(
-        appElementDTO: AppElementDTO) -> AppElement.AppElement:
-    if appElementDTO is None:
+        app_element_dto: AppElementDTO) -> AppElement.AppElement:
+    if app_element_dto is None:
         return None
-    return AppElement.AppElement(tagName=appElementDTO.get_tag_name(), name=appElementDTO.get_name(),
-                                 type=appElementDTO.get_type(), xpath=appElementDTO.get_xpath(),
-                                 value=appElementDTO.get_value())
+    return AppElement.AppElement(tag_name=app_element_dto.get_tag_name(), name=app_element_dto.get_name(),
+                                 type=app_element_dto.get_type(), xpath=app_element_dto.get_xpath(),
+                                 value=app_element_dto.get_value())
 
 
 def mapping_app_element_dto_from(
-        appElement: AppElement.AppElement) -> AppElementDTO:
-    if appElement is None:
+        app_element: AppElement.AppElement) -> AppElementDTO:
+    if app_element is None:
         return None
-    return AppElementDTO(tagName=appElement.get_tag_name(), name=appElement.get_name(), type=appElement.get_type(),
-                         xpath=appElement.get_xpath(), value=appElement.get_value())
+    return AppElementDTO(tag_name=app_element.get_tag_name(), name=app_element.get_name(), type=app_element.get_type(),
+                         xpath=app_element.get_xpath(), value=app_element.get_value())

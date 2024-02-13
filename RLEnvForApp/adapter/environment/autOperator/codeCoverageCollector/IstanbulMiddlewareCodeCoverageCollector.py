@@ -12,20 +12,20 @@ from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
 class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self, serverIp, serverPort):
         super().__init__()
-        self._serverRootUrl = f'http://{serverIp}:{serverPort}'
+        self._server_root_url = f'http://{serverIp}:{serverPort}'
         self.session = self._requests_retry_session()
 
     def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
-        codeCoverageDTOs = []
-        codeCoverageDTOs.append(
+        code_coverage_dt_os = []
+        code_coverage_dt_os.append(
             CodeCoverageDTO(
-                codeCoverageType="statement coverage",
-                codeCoverageVector=self._get_code_coverage_vector('s')))
-        codeCoverageDTOs.append(
+                code_coverage_type="statement coverage",
+                code_coverage_vector=self._get_code_coverage_vector('s')))
+        code_coverage_dt_os.append(
             CodeCoverageDTO(
-                codeCoverageType="branch coverage",
-                codeCoverageVector=self._get_code_coverage_vector('b')))
-        return codeCoverageDTOs
+                code_coverage_type="branch coverage",
+                code_coverage_vector=self._get_code_coverage_vector('b')))
+        return code_coverage_dt_os
 
     def reset_code_coverage(self):
         try:
@@ -33,9 +33,9 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
             # so here we simply use GET to reset the coverage
             response = self.session.get(
                 f"{self._serverRootUrl}{'/coverage/reset'}")
-        except Exception as e:
+        except Exception as exception:
             Logger().info(
-                f"Failed at resetting coverage {e.__class__.__name__}")
+                f"Failed at resetting coverage {exception.__class__.__name__}")
         else:
             if response.status_code != requests.codes.ok:
                 raise Exception('Reset coverage error!')
@@ -64,25 +64,25 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
                                            for v in response.json().values()]
             codeCoverageValueVector = self._flat_list(
                 codeCoverageValueVectorList)
-            codeCoverageVector = self._convert_code_coverage_value_vector_to_code_coverage_vector(
+            code_coverage_vector = self._convert_code_coverage_value_vector_to_code_coverage_vector(
                 codeCoverageValueVector=codeCoverageValueVector)
-            return codeCoverageVector
-        except Exception as e:
-            Logger().info(f"Failed at getting coverage {e.__class__.__name__}")
+            return code_coverage_vector
+        except Exception as exception:
+            Logger().info(f"Failed at getting coverage {exception.__class__.__name__}")
 
     def _flat_list(self, originList: []):
-        flattenedList = []
+        flattened_list = []
         for i in originList:
             if isinstance(i, list):
-                flattenedList = [*flattenedList, *self._flat_list(i)]
+                flattened_list = [*flattened_list, *self._flat_list(i)]
             else:
-                flattenedList.append(i)
-        return flattenedList
+                flattened_list.append(i)
+        return flattened_list
 
     def _convert_code_coverage_value_vector_to_code_coverage_vector(
             self, codeCoverageValueVector):
-        codeCoverageVector = []
+        code_coverage_vector = []
         for i in codeCoverageValueVector:
-            codeCoverageVector.append(i != 0)
+            code_coverage_vector.append(i != 0)
 
-        return codeCoverageVector
+        return code_coverage_vector

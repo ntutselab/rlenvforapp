@@ -20,12 +20,12 @@ from RLEnvForApp.usecase.applicationUnderTest.start import (
 
 class testStartApplicationUnderTestUserCase(TestCase):
     def set_up(self) -> None:
-        self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._applicationHandler = DockerServerHandler(
+        self._aut_repository = InMemoryApplicationUnderTestRepository()
+        self._application_handler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
-        self._hirerarchyInitial = HirerarchyInitial(
-            autRepository=self._autRepository,
-            applicationHandler=self._applicationHandler)
+        self._hirerarchy_initial = HirerarchyInitial(
+            autRepository=self._aut_repository,
+            applicationHandler=self._application_handler)
 
     # def tearDown(self) -> None:
     #     for autEntity in self._autRepository.findAll():
@@ -45,67 +45,67 @@ class testStartApplicationUnderTestUserCase(TestCase):
         self._execute_use_case_and_wait(applicationName="wagtails_with_coverage")
 
     def test_kill_busy_process(self):
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
-            repository=self._autRepository,
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
+            repository=self._aut_repository,
             applicationHandler=DockerServerHandler("RLEnvForApp/application/serverInstance"))
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
             applicationName="timeoff_management_with_coverage", ip="127.0.0.1", port=3000)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
-            startAUTOutput.get_id())
+        aut_entity: ApplicationUnderTestEntity = self._aut_repository.find_by_id(
+            start_aut_output.get_id())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
-            autEntity)
-        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
-        serverResponse = requests.get(startAUTOutput.get_url())
-        self.assertEqual(200, serverResponse.status_code)
+            aut_entity)
+        self.assertEqual(aut.get_id(), start_aut_output.get_id())
+        server_response = requests.get(start_aut_output.get_url())
+        self.assertEqual(200, server_response.status_code)
 
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
-            repository=self._autRepository,
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
+            repository=self._aut_repository,
             applicationHandler=DockerServerHandler("RLEnvForApp/application/serverInstance"))
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
             applicationName="timeoff_management_with_coverage", ip="127.0.0.1", port=3000)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
-            startAUTOutput.get_id())
+        aut_entity: ApplicationUnderTestEntity = self._aut_repository.find_by_id(
+            start_aut_output.get_id())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
-            autEntity)
-        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
-        serverResponse = requests.get(startAUTOutput.get_url())
-        self.assertEqual(200, serverResponse.status_code)
+            aut_entity)
+        self.assertEqual(aut.get_id(), start_aut_output.get_id())
+        server_response = requests.get(start_aut_output.get_url())
+        self.assertEqual(200, server_response.status_code)
 
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
-            repository=self._autRepository,
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
+            repository=self._aut_repository,
             applicationHandler=DockerServerHandler("RLEnvForApp/application/serverInstance"))
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
             applicationName="nodebb_with_coverage", ip="127.0.0.1", port=3000)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
-            startAUTOutput.get_id())
+        aut_entity: ApplicationUnderTestEntity = self._aut_repository.find_by_id(
+            start_aut_output.get_id())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
-            autEntity)
-        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
-        serverResponse = requests.get(startAUTOutput.get_url())
-        self.assertEqual(200, serverResponse.status_code)
+            aut_entity)
+        self.assertEqual(aut.get_id(), start_aut_output.get_id())
+        server_response = requests.get(start_aut_output.get_url())
+        self.assertEqual(200, server_response.status_code)
 
     def _execute_use_case_and_wait(self, applicationName: str):
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
-            repository=self._autRepository, applicationHandler=self._applicationHandler)
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
+            repository=self._aut_repository, applicationHandler=self._application_handler)
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
             applicationName=applicationName, ip="127.0.0.1", port=3001)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
 
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
-        autEntity: ApplicationUnderTestEntity = self._autRepository.find_by_id(
-            startAUTOutput.get_id())
+        aut_entity: ApplicationUnderTestEntity = self._aut_repository.find_by_id(
+            start_aut_output.get_id())
         aut: ApplicationUnderTest = ApplicationUnderTestMapper.mapping_application_under_test_from(
-            autEntity)
-        self.assertEqual(aut.get_id(), startAUTOutput.get_id())
-        serverResponse = requests.get(startAUTOutput.get_url())
-        self.assertEqual(200, serverResponse.status_code)
+            aut_entity)
+        self.assertEqual(aut.get_id(), start_aut_output.get_id())
+        server_response = requests.get(start_aut_output.get_url())
+        self.assertEqual(200, server_response.status_code)

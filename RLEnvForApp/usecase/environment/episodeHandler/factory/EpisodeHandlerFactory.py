@@ -10,5 +10,5 @@ class EpisodeHandlerFactory:
 
     def create_episode_handler(
             self, id: str, episodeIndex: int) -> IEpisodeHandler:
-        return EnvironmentDIContainers.episodeHandler(
+        return EnvironmentDIContainers.episode_handler(
             id=id, episodeIndex=episodeIndex)

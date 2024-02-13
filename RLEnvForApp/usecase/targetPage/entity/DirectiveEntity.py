@@ -4,13 +4,13 @@ from RLEnvForApp.usecase.targetPage.entity.AppEventEntity import AppEventEntity
 
 
 class DirectiveEntity:
-    def __init__(self, url: str, dom: str, formXPath: str, appEventEntities: [
-                 AppEventEntity], codeCoverageEntities: [CodeCoverageEntity]):
+    def __init__(self, url: str, dom: str, form_x_path: str, app_event_entities: [
+                 AppEventEntity], code_coverage_entities: [CodeCoverageEntity]):
         self._url = url
         self._dom = dom
-        self._formXPath = formXPath
-        self._appEventEntities = appEventEntities
-        self._codeCoverageEntities = codeCoverageEntities
+        self._form_x_path = form_x_path
+        self._app_event_entities = app_event_entities
+        self._code_coverage_entities = code_coverage_entities
 
     def get_url(self) -> str:
         return self._url
@@ -19,10 +19,10 @@ class DirectiveEntity:
         return self._dom
 
     def get_form_x_path(self) -> str:
-        return self._formXPath
+        return self._form_x_path
 
     def get_app_event_entities(self) -> [AppEventEntity]:
-        return self._appEventEntities
+        return self._app_event_entities
 
     def get_code_coverage_entities(self) -> [CodeCoverageEntity]:
-        return self._codeCoverageEntities
+        return self._code_coverage_entities

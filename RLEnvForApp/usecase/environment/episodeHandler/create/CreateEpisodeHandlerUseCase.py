@@ -16,12 +16,12 @@ class CreateEpisodeHandlerUseCase:
 
     def execute(self, input: CreateEpisodeHandlerInput.CreateEpisodeHandlerInput,
                 output: CreateEpisodeHandlerOutput.CreateEpisodeHandlerOutput):
-        episodeHandler = Provide[EnvironmentDIContainers.episodeHandler(
+        episode_handler = Provide[EnvironmentDIContainers.episode_handler(
             episodeIndex=input.get_episode_index())]
 
         self._repository.add(
             EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                episode_handler=episode_handler))
 
-        output.set_id(episodeHandler.get_id())
-        output.set_index(episodeHandler.get_index())
+        output.set_id(episode_handler.get_id())
+        output.set_index(episode_handler.get_index())

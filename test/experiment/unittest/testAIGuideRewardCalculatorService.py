@@ -9,63 +9,63 @@ from RLEnvForApp.domain.targetPage.Directive import Directive
 
 class testAIGuideRewardCalculatorService(unittest.TestCase):
     def test_coverage_is_better(self):
-        rewardCalculater = AIGuideRewardCalculatorService()
-        directiveA = Directive(appEvents=None,
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
-        directiveB = Directive(appEvents=None,
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
+        reward_calculater = AIGuideRewardCalculatorService()
+        directive_a = Directive(app_events=None,
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
+        directive_b = Directive(app_events=None,
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveA,
-                directiveB=directiveB),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_a,
+                directive_b=directive_b),
+            directive_b)
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveB,
-                directiveB=directiveA),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_b,
+                directive_b=directive_a),
+            directive_b)
 
     def test_more_coverage_is_better(self):
-        rewardCalculater = AIGuideRewardCalculatorService()
-        directiveA = Directive(appEvents=None,
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
+        reward_calculater = AIGuideRewardCalculatorService()
+        directive_a = Directive(app_events=None,
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
                                               self.create_code_coverage(type="statement",
                                                                       coverageVector=[1, 1, 0, 0, 0])])
-        directiveB = Directive(appEvents=None,
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
+        directive_b = Directive(app_events=None,
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 1, 0, 0, 0])])
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveA,
-                directiveB=directiveB),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_a,
+                directive_b=directive_b),
+            directive_b)
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveB,
-                directiveB=directiveA),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_b,
+                directive_b=directive_a),
+            directive_b)
 
     def test_same_coverage_but_app_event_is_better(self):
-        rewardCalculater = AIGuideRewardCalculatorService()
-        directiveA = Directive(appEvents=[self.create_app_event(), self.create_app_event()],
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
+        reward_calculater = AIGuideRewardCalculatorService()
+        directive_a = Directive(app_events=[self.create_app_event(), self.create_app_event()],
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0]),
                                               self.create_code_coverage(type="statement",
                                                                       coverageVector=[1, 1, 0, 0, 0])])
-        directiveB = Directive(appEvents=[self.create_app_event()],
-                               codeCoverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
+        directive_b = Directive(app_events=[self.create_app_event()],
+                               code_coverages=[self.create_code_coverage(type="branch", coverageVector=[1, 0, 0, 0, 0])])
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveA,
-                directiveB=directiveB),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_a,
+                directive_b=directive_b),
+            directive_b)
         self.assertEqual(
-            rewardCalculater.getBetterDirective(
-                directiveA=directiveB,
-                directiveB=directiveA),
-            directiveB)
+            reward_calculater.getBetterDirective(
+                directive_a=directive_b,
+                directive_b=directive_a),
+            directive_b)
 
     def create_code_coverage(self, type: str, coverageVector: [bool]):
-        return CodeCoverage(codeCoverageType=type,
-                            codeCoverageVector=coverageVector)
+        return CodeCoverage(code_coverage_type=type,
+                            code_coverage_vector=coverageVector)
 
     def create_app_event(self, xpath: str = "", value: str = ""):
         return AppEvent(xpath=xpath, value=value)

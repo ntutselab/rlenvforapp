@@ -14,29 +14,29 @@ from RLEnvForApp.usecase.applicationUnderTest.stop import (
 
 class testStopApplicationUnderTestUseCase(unittest.TestCase):
     def set_up(self) -> None:
-        self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._applicationHandler = DockerServerHandler(
+        self._aut_repository = InMemoryApplicationUnderTestRepository()
+        self._application_handler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
-        self._hirerarchyInitial = HirerarchyInitial(
-            autRepository=self._autRepository,
-            applicationHandler=self._applicationHandler)
+        self._hirerarchy_initial = HirerarchyInitial(
+            autRepository=self._aut_repository,
+            applicationHandler=self._application_handler)
 
     def test_stop_application_under_testing(self):
-        self._hirerarchyInitial.start_aut_server(
+        self._hirerarchy_initial.start_aut_server(
             applicationName="timeoff_management_with_coverage")
 
-        autEntity = self._autRepository.find_all()[0]
-        stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
-            repository=self._autRepository, applicationHandler=self._applicationHandler)
-        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
-            id=autEntity.get_id())
-        stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
-        stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)
+        aut_entity = self._aut_repository.find_all()[0]
+        stop_aut_use_case = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
+            repository=self._aut_repository, applicationHandler=self._application_handler)
+        stop_aut_input = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
+            id=aut_entity.get_id())
+        stop_aut_output = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
+        stop_aut_use_case.execute(stop_aut_input, stop_aut_output)
 
-        isAUTAvailable = True
+        is_aut_available = True
         try:
-            requests.get(stopAUTOutput.get_url())
+            requests.get(stop_aut_output.get_url())
         except requests.exceptions.ConnectionError:
-            isAUTAvailable = False
+            is_aut_available = False
 
-        self.assertEqual(False, isAUTAvailable)
+        self.assertEqual(False, is_aut_available)

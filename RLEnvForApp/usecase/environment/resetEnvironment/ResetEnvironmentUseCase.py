@@ -31,47 +31,47 @@ class ResetEnvironmentUseCase:
                      EnvironmentDIContainers.targetPageQueueManagerService],
                  observationSerivce: IObservationService = Provide[EnvironmentDIContainers.observationService]):
         self._operator = operator
-        self._episodeHandlerRepository = episodeHandlerRepository
-        self._targetPageQueueManagerService = targetPageQueueManagerService
-        self._observationService = observationSerivce
+        self._episode_handler_repository = episodeHandlerRepository
+        self._target_page_queue_manager_service = targetPageQueueManagerService
+        self._observation_service = observationSerivce
 
     def execute(self, input: ResetEnvironmentInput.ResetEnvironmentInput,
                 output: ResetEnvironmentOutput.ResetEnvironmentOutput):
-        targetPage = None
-        episodeHandler = EpisodeHandlerFactory().create_episode_handler(
+        target_page = None
+        episode_handler = EpisodeHandlerFactory().create_episode_handler(
             id=str(uuid.uuid4()), episodeIndex=input.get_episode_index())
-        if not self._targetPageQueueManagerService.is_empty():
-            targetPage = self._targetPageQueueManagerService.dequeue_target_page()
+        if not self._target_page_queue_manager_service.is_empty():
+            target_page = self._target_page_queue_manager_service.dequeue_target_page()
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
-                appEvents=targetPage.get_app_events(),
-                rootPath=targetPage.get_root_url(),
-                formXPath=targetPage.get_form_x_path())
+                app_events=target_page.get_app_events(),
+                rootPath=target_page.get_root_url(),
+                form_x_path=target_page.get_form_x_path())
         else:
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
-                appEvents=[],
+                app_events=[],
                 rootPath="register.html",
-                formXPath="")
+                form_x_path="")
         initiateToTargetActionCommand.execute(operator=self._operator)
 
         state: State = self._operator.get_state()
-        observation, originalObservation = self._observationService.get_observation(
+        observation, originalObservation = self._observation_service.get_observation(
             state=state)
         state.set_original_observation(originalObservation)
 
-        episodeHandler.append_state(state)
-        self._episodeHandlerRepository.add(
+        episode_handler.append_state(state)
+        self._episode_handler_repository.add(
             EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                episode_handler=episode_handler))
 
         url = ""
-        formXPath = ""
-        if targetPage is not None:
-            url = targetPage.get_target_url()
-            formXPath = targetPage.get_form_x_path()
+        form_x_path = ""
+        if target_page is not None:
+            url = target_page.get_target_url()
+            form_x_path = target_page.get_form_x_path()
 
         output.set_target_page_url(url=url)
-        output.set_target_page_id(targetPage.get_id())
-        output.set_form_x_path(formXPath=formXPath)
-        output.set_episode_handler_id(episodeHandler.get_id())
+        output.set_target_page_id(target_page.get_id())
+        output.set_form_x_path(form_x_path=form_x_path)
+        output.set_episode_handler_id(episode_handler.get_id())
         output.set_observation(observation)
         output.set_original_observation(originalObservation)

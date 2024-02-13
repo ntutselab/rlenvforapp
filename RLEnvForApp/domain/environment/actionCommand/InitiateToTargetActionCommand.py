@@ -7,29 +7,29 @@ from . import IActionCommand
 
 
 class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
-    def __init__(self, appEvents: [AppEvent], rootPath: str, formXPath: str):
-        super().__init__(actionNumber=-1, actionType="init")
-        self._appEvents = appEvents
-        self._rootPath = rootPath
-        self._formXPath = formXPath
+    def __init__(self, app_events: [AppEvent], rootPath: str, form_x_path: str):
+        super().__init__(actionNumber=-1, action_type="init")
+        self._app_events = app_events
+        self._root_path = rootPath
+        self._form_x_path = form_x_path
 
     def execute(self, operator: IAUTOperator):
         operator.set_action_type(super().get_action_type())
-        isSuccess = False
+        is_success = False
         retry = 0
-        while not isSuccess:
+        while not is_success:
             try:
                 Logger().info("Initialize the crawler to the target page")
                 Logger().info(f"Root path: {self._rootPath}")
                 Logger().info(f"Form XPath: {self._formXPath}")
-                operator.reset_crawler(self._rootPath, self._formXPath)
+                operator.reset_crawler(self._root_path, self._form_x_path)
                 Logger().info("=====start the initial action=====")
-                for appEvent in self._appEvents:
+                for app_event in self._app_events:
                     Logger().info(
                         f"Xpath: {appEvent.getXpath()}, value: {appEvent.getValue()}")
                     operator.execute_app_event(
-                        xpath=appEvent.get_xpath(), value=appEvent.get_value())
-                isSuccess = True
+                        xpath=app_event.get_xpath(), value=app_event.get_value())
+                is_success = True
             except Exception as e:
                 Logger().info(f"InitiateToTargetActionCommand Exception, {e}")
                 retry += 1

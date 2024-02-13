@@ -35,9 +35,9 @@ controller: RLController = None
 
 
 def set_di_container():
-    envContainer = EnvironmentDIContainers()
-    agentContainer = AgentDIContainers()
-    envContainer.wire(
+    env_container = EnvironmentDIContainers()
+    agent_container = AgentDIContainers()
+    env_container.wire(
         modules=[sys.modules[__name__],
                  AIGuideEnvironment.AIGuideEnvironment,
                  AIGuideHTMLLogEnvironment.AIGuideHTMLLogEnvironment,
@@ -54,63 +54,63 @@ def set_di_container():
                  GetEpisodeHandlerUseCase,
                  StartApplicationUnderTestUserCase,
                  StopApplicationUnderTestUseCase])
-    agentContainer.wire(
+    agent_container.wire(
         modules=[sys.modules[__name__], RLController])
 
 
 def get_all_file_path_in_folder(targetFolderPath: str):
-    filePaths = []
-    for dirPath, dirNames, fileNames in os.walk(targetFolderPath):
+    file_paths = []
+    for dir_path, dirNames, fileNames in os.walk(targetFolderPath):
         for file in fileNames:
-            filePaths.append(dirPath + "/" + file)
-    return filePaths
+            file_paths.append(dir_path + "/" + file)
+    return file_paths
 
 
-def verify_model(modelPath: str, verifyTimes):
-    episodeRewardList = controller.verify_model(modelPath, verifyTimes)
-    successTimes = 0
-    for i in episodeRewardList:
+def verify_model(model_path: str, verifyTimes):
+    episode_reward_list = controller.verify_model(model_path, verifyTimes)
+    success_times = 0
+    for i in episode_reward_list:
         if i > 100:
-            successTimes += 1
-    modelResult = modelPath + " model success times:" + str(successTimes)
-    Logger().info(modelResult)
-    return modelResult
+            success_times += 1
+    model_result = model_path + " model success times:" + str(success_times)
+    Logger().info(model_result)
+    return model_result
 
 
-def verify_all_model(modelDir: str):
-    modelResults = []
-    for modelPath in get_all_file_path_in_folder(modelDir):
-        episodeRewardList = controller.verify_model(modelPath, 10)
-        successTimes = 0
-        for i in episodeRewardList:
+def verify_all_model(MODEL_DIR: str):
+    model_results = []
+    for model_path in get_all_file_path_in_folder(MODEL_DIR):
+        episode_reward_list = controller.verify_model(model_path, 10)
+        success_times = 0
+        for i in episode_reward_list:
             if i > 100:
-                successTimes += 1
-        modelResult = modelPath + " model success times:" + str(successTimes)
-        Logger().info(modelResult)
-        modelResults.append(modelResult)
+                success_times += 1
+        model_result = model_path + " model success times:" + str(success_times)
+        Logger().info(model_result)
+        model_results.append(model_result)
 
     Logger().info("====================")
-    for result in modelResults:
+    for result in model_results:
         Logger().info(result)
 
 
 if __name__ == '__main__':
-    verifyTime = 0.5
+    VERIFY_TIME = 0.5
 
     # These two parameters determine whether the agent will choose actions randomly.
     # For details, refer to chapter 3.3.1 of "Jiun-Kai Huang - Training a Reinforcement Learning Agent to Support Crawling of Different Web Applications".
     # In my research, I don't care Code coverage, but focused on filling out
     # the form successfully, so I set them to -1. by Chuang-chen chiu
-    explorationEpisodeEsp = -1
-    explorationStepEsp = -1
+    EXPLORATION_EPISODE_ESP = -1
+    EXPLORATION_STEP_ESP = -1
 
-    toTalTimeStep = 10000
-    modelDir = "model/model"
+    TO_TAL_TIME_STEP = 10000
+    MODEL_DIR = "model/model"
 
     modelNames = [""]
 
-    for modelName in modelNames:
-        comment = ''
+    for model_name in modelNames:
+        COMMENT = ''
         logger = Logger(f"{comment}_{modelName}.log")
         Logger().info(f"{comment}_{modelName}")
 
@@ -123,8 +123,8 @@ if __name__ == '__main__':
         # verifyModel(modelPath=os.path.join(modelDir, modelName + "_" + str(toTalTimeStep) + "step.zip"), verifyTimes=74)
 
         # =======verify phase=======
-        controller.verify_model_by_total_step(modelPath=os.path.join(modelDir, modelName),
-                                          totalStep=toTalTimeStep, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
+        controller.verify_model_by_total_step(model_path=os.path.join(MODEL_DIR, model_name),
+                                          totalStep=TO_TAL_TIME_STEP, exploration_episode_esp=EXPLORATION_EPISODE_ESP, exploration_step_esp=EXPLORATION_STEP_ESP)
 
         # =======final verify phase=======
         # controller.verifyModelByTime(modelPath=os.path.join(modelDir, modelName),

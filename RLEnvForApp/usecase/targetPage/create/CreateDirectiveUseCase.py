@@ -31,46 +31,46 @@ class CreateDirectiveUseCase:
                  episodeHandlerRepository: EpisodeHandlerRepository = Provide[
                      EnvironmentDIContainers.episodeHandlerRepository],
                  directiveRuleService: IDirectiveRuleService = Provide[EnvironmentDIContainers.directiveRuleService]):
-        self._directiveRuleService: IDirectiveRuleService = directiveRuleService
-        self._targetPageRepository = targetPageRepository
-        self._episodeHandlerRepository = episodeHandlerRepository
+        self._directive_rule_service: IDirectiveRuleService = directiveRuleService
+        self._target_page_repository = targetPageRepository
+        self._episode_handler_repository = episodeHandlerRepository
 
     def execute(self, input: CreateDirectiveInput.CreateDirectiveInput,
                 output: CreateDirectiveOutput.CreateDirectiveOutput):
-        targetPageEntity = self._targetPageRepository.find_by_id(
+        target_page_entity = self._target_page_repository.find_by_id(
             input.get_target_page_id())
-        targetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
-        targetEpisodeHandlerEntity = self._episodeHandlerRepository.find_by_id(
+        target_page = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
+        target_episode_handler_entity = self._episode_handler_repository.find_by_id(
             input.get_episode_handler_id())
-        episodeEpisodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
-            targetEpisodeHandlerEntity)
-        codeCoverages: [CodeCoverage] = None
-        appEvents: [AppEvent] = []
+        episode_episode_handler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
+            target_episode_handler_entity)
+        code_coverages: [CodeCoverage] = None
+        app_events: [AppEvent] = []
 
-        fileManager = FileManager()
-        fileManager.create_folder("output", "create")
+        file_manager = FileManager()
+        file_manager.create_folder("output", "create")
 
-        for state in episodeEpisodeHandler.get_all_state():
-            actionType = state.get_action_type()
+        for state in episode_episode_handler.get_all_state():
+            action_type = state.get_action_type()
             interactiveAppElement: AppElement = state.get_interacted_element()
-            codeCoverages = state.get_code_coverages()
+            code_coverages = state.get_code_coverages()
 
             if (interactiveAppElement is None):
                 continue
 
-            if actionType == "changeFocus":
+            if action_type == "changeFocus":
                 continue
-            if actionType == "click":
+            if action_type == "click":
                 if not interactiveAppElement.get_tag_name() == "button" and not (interactiveAppElement.get_tag_name() == "input" and (interactiveAppElement.get_type() ==
                                                                                                                                   "submit" or interactiveAppElement.get_type() == "button" or interactiveAppElement.get_type() == "image" or interactiveAppElement.get_type() == "checkbox")):
                     continue
-                appEvents.append(
+                app_events.append(
                     AppEvent(
                         xpath=interactiveAppElement.get_xpath(),
                         value="",
                         category="click"))
-            if actionType == "input":
+            if action_type == "input":
                 if not interactiveAppElement.get_tag_name(
                 ) == "input" and not interactiveAppElement.get_tag_name() == "textarea":
                     continue
@@ -79,23 +79,23 @@ class CreateDirectiveUseCase:
                     category = inputTypes[state.get_action_number()]
                 else:
                     category = ""
-                appEvents.append(
+                app_events.append(
                     AppEvent(
                         xpath=interactiveAppElement.get_xpath(),
                         value=value,
                         category=category))
 
-        initialState: State = episodeEpisodeHandler.get_state(0)
+        initial_state: State = episode_episode_handler.get_state(0)
         directive = Directive(
-            url=initialState.get_url(),
-            dom=initialState.get_dom(),
-            formXPath=targetPage.get_form_x_path(),
-            appEvents=appEvents,
-            codeCoverages=codeCoverages)
-        targetPage.append_directive(directive=directive)
-        self._targetPageRepository.update(
+            url=initial_state.get_url(),
+            dom=initial_state.get_dom(),
+            form_x_path=target_page.get_form_x_path(),
+            app_events=app_events,
+            code_coverages=code_coverages)
+        target_page.append_directive(directive=directive)
+        self._target_page_repository.update(
             TargetPageEntityMapper.mapping_target_page_entity_from(
-                targetPage=targetPage))
+                target_page=target_page))
 
         output.set_directive_dto(
             DirectiveDTOMapper.mapping_directive_dto_from(

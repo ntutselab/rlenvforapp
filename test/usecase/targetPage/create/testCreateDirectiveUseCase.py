@@ -27,406 +27,406 @@ from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper
 
 class testCreateDirectiveUseCase(unittest.TestCase):
     def set_up(self) -> None:
-        self._codeCoverageType = "statement coverage"
-        self._targetPageRepository = InMemoryTargetPageRepository()
-        self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._targetPageId = self._create_target_page(
-            repository=self._targetPageRepository)
+        self._code_coverage_type = "statement coverage"
+        self._target_page_repository = InMemoryTargetPageRepository()
+        self._episode_handler_repository = InMemoryEpisodeHandlerRepository()
+        self._target_page_id = self._create_target_page(
+            repository=self._target_page_repository)
 
     def test_no_improved_code_coverage_with_baseline(self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_improved_code_coverage_with_baseline_and_more_app_event(self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="input",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="input",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="input", value="123"),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.append_state(self._create_state(actionType="input",
+                                                         tag_name="input", value="123"),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episode_handler.append_state(self._create_state(action_type="input",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="input", value="456"),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.append_state(self._create_state(actionType="click",
+                                                         tag_name="input", value="456"),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        directiveDTO = createDirectiveOutput.get_directive_dto()
+        directive_dto = create_directive_output.get_directive_dto()
         directive = DirectiveDTOMapper.mapping_directive_from(
-            directiveDTO=directiveDTO)
-        self.assertTrue(createDirectiveOutput.get_is_legal_directive())
+            directive_dto=directive_dto)
+        self.assertTrue(create_directive_output.get_is_legal_directive())
         self.assertEqual(len(directive.get_app_events()), 3)
 
     def test_smaller_code_coverage_than_baseline(self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_no_improved_code_coverage_with_baseline_and_more_previous_state(
             self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_smaller_code_coverage_than_baseline_and_previous_state(self):
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_improved_code_coverage_with_baseline_and_with_previous_state(
             self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 0, 1, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 0, 1, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_same_code_coverage_with_previous_state_but_app_event_is_smaller(
             self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.append_state(self._create_state(actionType="click",
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        directiveDTO = createDirectiveOutput.get_directive_dto()
+        directive_dto = create_directive_output.get_directive_dto()
         directive = DirectiveDTOMapper.mapping_directive_from(
-            directiveDTO=directiveDTO)
-        self.assertTrue(createDirectiveOutput.get_is_legal_directive())
+            directive_dto=directive_dto)
+        self.assertTrue(create_directive_output.get_is_legal_directive())
         self.assertEqual(directive.get_app_events()[0].get_value(), "")
 
     def test_same_code_coverage_with_previous_state_but_app_event_is_bigger(
             self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.append_state(self._create_state(actionType="click",
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_smaller_code_coverage_than_previous_state_but_app_event_is_bigger(
             self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 1, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 1, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        episodeHandler.append_state(self._create_state(actionType="click",
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
 
     def test_no_improved_code_coverage_with_previous_state(self):
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
-        self._create_directive(episodeHandlerId=episodeHandler.get_id())
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
+        self._create_directive(episode_handler_id=episode_handler.get_id())
 
-        episodeHandler = self._create_episode_handler()
-        episodeHandler.append_state(self._create_state(actionType="click",
+        episode_handler = self._create_episode_handler()
+        episode_handler.append_state(self._create_state(action_type="click",
                                                      interactedElement=self._create_app_element(
-                                                         tagName="button", value=""),
-                                                     codeCoverages=[self._create_code_coverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(
-            episodeHandlerEntity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                                                         tag_name="button", value=""),
+                                                     code_coverages=[self._create_code_coverage(code_coverage_vector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
+        self._episode_handler_repository.add(
+            episode_handler_entity=EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
+                episode_handler=episode_handler))
 
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandler.get_id())
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler.get_id())
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
 
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)
 
-        directiveDTO = createDirectiveOutput.get_directive_dto()
+        directive_dto = create_directive_output.get_directive_dto()
         directive = DirectiveDTOMapper.mapping_directive_from(
-            directiveDTO=directiveDTO)
-        self.assertFalse(createDirectiveOutput.get_is_legal_directive())
+            directive_dto=directive_dto)
+        self.assertFalse(create_directive_output.get_is_legal_directive())
         self.assertEqual(directive.get_app_events()[0].get_value(), "")
 
     def _create_target_page(self, repository):
-        targetPageUrl = "./register.html"
-        rootUrl = "./"
-        appEventDTO = AppEventDTO(
+        target_page_url = "./register.html"
+        root_url = "./"
+        app_event_dto = AppEventDTO(
             xpath="/HTML[1]/BODY[1]/DIV[1]/FORM[1]/DIV[4]/DIV[2]/P[1]/A[2]", value="")
-        taskID = "testTaskID"
-        originalCodeCoverageDTO = self._create_code_coverage_dto(
-            codeCoverageVector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+        task_id = "testTaskID"
+        original_code_coverage_dto = self._create_code_coverage_dto(
+            code_coverage_vector=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
             repository=repository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
-                                                                            rootUrl=rootUrl,
-                                                                            appEventDTOs=[
-                                                                                appEventDTO],
-                                                                            taskID=taskID,
-                                                                            basicCodeCoverage=originalCodeCoverageDTO)
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
-        return createTargetPageOutput.get_id()
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
+                                                                            root_url=root_url,
+                                                                            app_event_dt_os=[
+                                                                                app_event_dto],
+                                                                            task_id=task_id,
+                                                                            basic_code_coverage=original_code_coverage_dto)
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
+        return create_target_page_output.get_id()
 
-    def _create_code_coverage_dto(self, codeCoverageVector: [
+    def _create_code_coverage_dto(self, code_coverage_vector: [
                                bool]) -> CodeCoverageDTO:
-        return CodeCoverageDTO(codeCoverageType=self._codeCoverageType,
-                               codeCoverageVector=codeCoverageVector)
+        return CodeCoverageDTO(code_coverage_type=self._code_coverage_type,
+                               code_coverage_vector=code_coverage_vector)
 
-    def _create_code_coverage(self, codeCoverageVector: [bool]) -> CodeCoverage:
-        return CodeCoverage(codeCoverageType=self._codeCoverageType,
-                            codeCoverageVector=codeCoverageVector)
+    def _create_code_coverage(self, code_coverage_vector: [bool]) -> CodeCoverage:
+        return CodeCoverage(code_coverage_type=self._code_coverage_type,
+                            code_coverage_vector=code_coverage_vector)
 
     def _create_episode_handler(self):
         return MorePagesExperimentEpisodeHandler(
-            id="episodeHandlerId", episodeIndex=0, episodeStep=16)
+            id="episodeHandlerId", episodeIndex=0, episode_step=16)
 
-    def _create_state(self, actionType: str, interactedElement: AppElement,
-                     codeCoverages: [CodeCoverage]) -> State:
+    def _create_state(self, action_type: str, interactedElement: AppElement,
+                     code_coverages: [CodeCoverage]) -> State:
         state = State(id="stateId")
-        state.set_action_type(actionType=actionType)
+        state.set_action_type(action_type=action_type)
         state.set_interacted_element(interactedElement=interactedElement)
-        state.set_code_coverages(codeCoverages=codeCoverages)
+        state.set_code_coverages(code_coverages=code_coverages)
         return state
 
-    def _create_app_element(self, tagName: str, value: str):
-        return AppElement(tagName=tagName, name="",
+    def _create_app_element(self, tag_name: str, value: str):
+        return AppElement(tag_name=tag_name, name="",
                           type="", value=value, xpath="")
 
-    def _create_directive(self, episodeHandlerId: str):
-        createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
-                                                                               episodeHandlerRepository=self._episodeHandlerRepository,
+    def _create_directive(self, episode_handler_id: str):
+        create_directive_use_case = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._target_page_repository,
+                                                                               episodeHandlerRepository=self._episode_handler_repository,
                                                                                directiveRuleService=MaxCodeCoverageDirectiveRuleService())
-        createDirectiveInput = CreateDirectiveInput.CreateDirectiveInput(
-            targetPageId=self._targetPageId, episodeHandlerId=episodeHandlerId)
-        createDirectiveOutput = CreateDirectiveOutput.CreateDirectiveOutput()
-        createDirectiveUseCase.execute(
-            createDirectiveInput, createDirectiveOutput)
+        create_directive_input = CreateDirectiveInput.CreateDirectiveInput(
+            target_page_id=self._target_page_id, episode_handler_id=episode_handler_id)
+        create_directive_output = CreateDirectiveOutput.CreateDirectiveOutput()
+        create_directive_use_case.execute(
+            create_directive_input, create_directive_output)

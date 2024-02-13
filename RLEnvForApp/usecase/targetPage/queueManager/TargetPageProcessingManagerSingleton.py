@@ -16,8 +16,8 @@ class TargetPageProcessingManagerSingleton:
         else:
             self._beProcessedTargetPage: TargetPage = None
 
-    def set_be_processed_target_page(self, targetPage: TargetPage):
-        self._beProcessedTargetPage = targetPage
+    def set_be_processed_target_page(self, target_page: TargetPage):
+        self._beProcessedTargetPage = target_page
 
     def get_be_processed_target_page(self) -> TargetPage:
         return self._beProcessedTargetPage

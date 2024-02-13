@@ -13,40 +13,40 @@ from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 
 class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
     def __init__(self, crawler: ICrawler,
-                 codeCoverageCollector: ICodeCoverageCollector):
+                 code_coverage_collector: ICodeCoverageCollector):
         super().__init__()
         self._crawler = crawler
-        self._codeCoverageCollector = codeCoverageCollector
+        self._code_coverage_collector = code_coverage_collector
 
-        self._appEventSequence: [AppEventDTO] = []
-        self._DOMCaches: [DOMCache] = []
-        self.isHit = False
+        self._app_event_sequence: [AppEventDTO] = []
+        self._dom_caches: [DOMCache] = []
+        self.is_hit = False
 
     def get_code_coverage_dt_os(self) -> [CodeCoverageDTO]:
-        return self._codeCoverageCollector.get_code_coverage_dt_os()
+        return self._code_coverage_collector.get_code_coverage_dt_os()
 
     def reset_code_coverage(self):
-        return self._codeCoverageCollector.reset_code_coverage()
+        return self._code_coverage_collector.reset_code_coverage()
 
     def go_to_root_page(self):
         return self._crawler.go_to_root_page()
 
-    def reset(self, rootPath: str, formXPath: str = ""):
-        self.isHit = False
-        return self._crawler.reset(rootPath=rootPath, formXPath=formXPath)
+    def reset(self, rootPath: str, form_x_path: str = ""):
+        self.is_hit = False
+        return self._crawler.reset(rootPath=rootPath, form_x_path=form_x_path)
 
     def close(self):
         return self._crawler.close()
 
     def execute_app_event(self, xpath: str, value: str):
-        self._appEventSequence.append(
+        self._app_event_sequence.append(
             AppEventDTO(
                 xpath=xpath,
                 value=value,
                 category=""))
         self._crawler.execute_app_event(xpath=xpath, value=value)
-        domCache = DOMCache
-        domCache.dom = self._crawler.get_dom()
+        dom_cache = DOMCache
+        dom_cache.dom = self._crawler.get_dom()
 
     def get_screen_shot(self):
         return self._crawler.get_screen_shot()

@@ -4,4 +4,4 @@ from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import \
 
 class DOMCache:
     dom: str
-    appElementDTOs: [AppElementDTO]
+    app_element_dt_os: [AppElementDTO]

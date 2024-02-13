@@ -6,7 +6,7 @@ from RLEnvForApp.adapter.agent.model.MonkeyAdapter import MonkeyAdapter
 
 class ModelFactory:
     def __init__(self):
-        self._configPath = ""
+        self._config_path = ""
         self._config = None
 
     def create_model(self, algorithm, policy, environment, tensorboardPath):
@@ -35,16 +35,16 @@ class ModelFactory:
         if algorithm == "Monkey":
             return MonkeyAdapter(policy=None, env=environment)
 
-    def load_model(self, algorithm, modelPath,
+    def load_model(self, algorithm, model_path,
                   environment=None, tensorboardPath=None):
         self._check_algorithm(algorithm=algorithm)
 
         model = None
         if algorithm == "DQN":
-            model = DQN.load(modelPath, env=environment)
+            model = DQN.load(model_path, env=environment)
             # model.exploration_initial_eps=0.1
         if algorithm == "PPO2":
-            model = PPO2.load(modelPath, env=environment)
+            model = PPO2.load(model_path, env=environment)
         if algorithm == "Monkey":
             return MonkeyAdapter(policy=None, env=environment)
 

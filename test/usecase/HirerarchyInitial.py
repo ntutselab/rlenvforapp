@@ -13,21 +13,21 @@ from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import \
 class HirerarchyInitial:
     def __init__(self, autRepository: ApplicationUnderTestRepository,
                  applicationHandler: ApplicationHandler):
-        self._autRepository = autRepository
-        self._applicationHandler = applicationHandler
+        self._aut_repository = autRepository
+        self._application_handler = applicationHandler
 
     def start_aut_server(self, applicationName):
-        startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
-            repository=self._autRepository, applicationHandler=self._applicationHandler)
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+        start_aut_use_case = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase(
+            repository=self._aut_repository, applicationHandler=self._application_handler)
+        start_aut_input = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
             applicationName=applicationName, ip="127.0.0.1", port=3000)
-        startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
-        startAUTUseCase.execute(startAUTInput, startAUTOutput)
+        start_aut_output = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
+        start_aut_use_case.execute(start_aut_input, start_aut_output)
 
     def stop_aut_server(self, id):
-        stopAUTUseCase = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
-            repository=self._autRepository, applicationHandler=self._applicationHandler)
-        stopAUTInput = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
+        stop_aut_use_case = StopApplicationUnderTestUseCase.StopApplicationUnderTestUseCase(
+            repository=self._aut_repository, applicationHandler=self._application_handler)
+        stop_aut_input = StopApplicationUnderTestInput.StopApplicationUnderTestInput(
             id=id)
-        stopAUTOutput = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
-        stopAUTUseCase.execute(stopAUTInput, stopAUTOutput)
+        stop_aut_output = StopApplicationUnderTestOutput.StopApplicationUnderTestOutput()
+        stop_aut_use_case.execute(stop_aut_input, stop_aut_output)

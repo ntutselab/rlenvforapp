@@ -5,15 +5,15 @@ from ..entity import ApplicationUnderTestEntity
 
 def mapping_application_under_test_entity_from(
         aut: ApplicationUnderTest.ApplicationUnderTest):
-    autEntity = ApplicationUnderTestEntity.ApplicationUnderTestEntity(id=aut.get_id(),
+    aut_entity = ApplicationUnderTestEntity.ApplicationUnderTestEntity(id=aut.get_id(),
                                                                       applicationName=aut.get_application_name(),
                                                                       ip=aut.get_ip(), port=aut.get_port())
-    return autEntity
+    return aut_entity
 
 
 def mapping_application_under_test_from(
-        autEntity: ApplicationUnderTestEntity.ApplicationUnderTestEntity):
-    aut: ApplicationUnderTest.ApplicationUnderTest = ApplicationUnderTest.ApplicationUnderTest(id=autEntity.get_id(),
-                                                                                               applicationName=autEntity.getapplication_name(),
-                                                                                               ip=autEntity.get_ip(), port=autEntity.get_port())
+        aut_entity: ApplicationUnderTestEntity.ApplicationUnderTestEntity):
+    aut: ApplicationUnderTest.ApplicationUnderTest = ApplicationUnderTest.ApplicationUnderTest(id=aut_entity.get_id(),
+                                                                                               applicationName=aut_entity.getapplication_name(),
+                                                                                               ip=aut_entity.get_ip(), port=aut_entity.get_port())
     return aut

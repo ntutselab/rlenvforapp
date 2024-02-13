@@ -5,10 +5,10 @@ class TargetPageRepository:
     def __init__(self):
         pass
 
-    def add(self, targetPageEntity: TargetPageEntity):
+    def add(self, target_page_entity: TargetPageEntity):
         pass
 
-    def update(self, targetPageEntity: TargetPageEntity):
+    def update(self, target_page_entity: TargetPageEntity):
         pass
 
     def delete_by_id(self, id):

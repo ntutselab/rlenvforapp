@@ -19,14 +19,14 @@ class GetEpisodeHandlerUseCase:
     @inject
     def __init__(
             self, episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository]):
-        self._episodeHandlerRepository = episodeHandlerRepository
+        self._episode_handler_repository = episodeHandlerRepository
 
     def execute(self, input: GetEpisodeHandlerInput.GetEpisodeHandlerInput,
                 output: GetEpisodeHandlerOutput.GetEpisodeHandlerOutput):
-        episodeHandlerEntity: [EpisodeHandlerEntity] = self._episodeHandlerRepository.find_by_id(
+        episode_handler_entity: [EpisodeHandlerEntity] = self._episode_handler_repository.find_by_id(
             input.get_episode_handler_id())
-        episodeHandler: IEpisodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
-            episodeHandlerEntity=episodeHandlerEntity)
-        episodeHandlerDTO: EpisodeHandlerDTO = EpisodeHandlerDTOMapper.mapping_episode_hanlder_dto_from(
-            episodeHandler=episodeHandler)
-        output.set_episode_handler_dto(episodeHandlerDTO=episodeHandlerDTO)
+        episode_handler: IEpisodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
+            episode_handler_entity=episode_handler_entity)
+        episode_handler_dto: EpisodeHandlerDTO = EpisodeHandlerDTOMapper.mapping_episode_hanlder_dto_from(
+            episode_handler=episode_handler)
+        output.set_episode_handler_dto(episode_handler_dto=episode_handler_dto)

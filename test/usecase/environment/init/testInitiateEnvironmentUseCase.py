@@ -15,14 +15,14 @@ class testInitiateEnvironmentUseCase(unittest.TestCase):
         container.wire(modules=[InitiateEnvironmentUseCase])
 
     def test_initiate_environment(self):
-        initiateEnvironmentUseCase = InitiateEnvironmentUseCase.InitiateEnvironmentUseCase(
+        initiate_environment_use_case = InitiateEnvironmentUseCase.InitiateEnvironmentUseCase(
             observationSerivce=DefaultForTestObservationService())
-        initiateEnvironmentInput = InitiateEnvironmentInput.InitiateEnvironmentInput()
-        initiateEnvironmentOutput = InitiateEnvironmentOutput.InitiateEnvironmentOutput()
+        initiate_environment_input = InitiateEnvironmentInput.InitiateEnvironmentInput()
+        initiate_environment_output = InitiateEnvironmentOutput.InitiateEnvironmentOutput()
 
-        initiateEnvironmentUseCase.execute(
-            input=initiateEnvironmentInput,
-            output=initiateEnvironmentOutput)
+        initiate_environment_use_case.execute(
+            input=initiate_environment_input,
+            output=initiate_environment_output)
         self.assertEqual(
-            (1, 150, 1), initiateEnvironmentOutput.get_observation_size())
-        self.assertEqual(8, initiateEnvironmentOutput.get_action_space_size())
+            (1, 150, 1), initiate_environment_output.get_observation_size())
+        self.assertEqual(8, initiate_environment_output.get_action_space_size())

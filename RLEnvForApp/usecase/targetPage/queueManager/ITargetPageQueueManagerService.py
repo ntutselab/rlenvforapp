@@ -16,5 +16,5 @@ class ITargetPageQueueManagerService:
     def dequeue_target_page(self) -> TargetPage:
         pass
 
-    def enqueue_target_page(self, targetPage: TargetPage):
+    def enqueue_target_page(self, target_page: TargetPage):
         pass

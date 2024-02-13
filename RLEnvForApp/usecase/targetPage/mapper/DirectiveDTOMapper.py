@@ -11,42 +11,42 @@ from RLEnvForApp.usecase.targetPage.mapper import AppEventDTOMapper
 
 
 def _mapping_code_coverage_dt_os_from(
-        odeCoverages: [CodeCoverage]) -> [CodeCoverageDTO]:
-    codeCoverageDTOs: [CodeCoverageDTO] = []
-    for codeCoverage in odeCoverages:
-        codeCoverageDTOs.append(
+        code_coverages: [CodeCoverage]) -> [CodeCoverageDTO]:
+    code_coverage_dt_os: [CodeCoverageDTO] = []
+    for code_coverage in code_coverages:
+        code_coverage_dt_os.append(
             CodeCoverageDTOMapper.mapping_code_coverage_dto_from(
-                codeCoverage=codeCoverage))
-    return codeCoverageDTOs
+                code_coverage=code_coverage))
+    return code_coverage_dt_os
 
 
 def _mapping_code_coverage_from(
-        codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
-    codeCoverages: [CodeCoverage] = []
-    for codeCoverageDTO in codeCoverageDTOs:
-        codeCoverages.append(
+        code_coverage_dt_os: [CodeCoverageDTO]) -> [CodeCoverage]:
+    code_coverages: [CodeCoverage] = []
+    for code_coverage_dto in code_coverage_dt_os:
+        code_coverages.append(
             CodeCoverageDTOMapper.mapping_code_coverage_from(
-                codeCoverageDTO=codeCoverageDTO))
-    return codeCoverages
+                code_coverage_dto=code_coverage_dto))
+    return code_coverages
 
 
-def mapping_directive_from(directiveDTO: DirectiveDTO) -> Directive:
-    appEvents: [AppEvent] = []
-    for appEventDTO in directiveDTO.get_app_event_dt_os():
-        appEvents.append(
+def mapping_directive_from(directive_dto: DirectiveDTO) -> Directive:
+    app_events: [AppEvent] = []
+    for app_event_dto in directive_dto.get_app_event_dt_os():
+        app_events.append(
             AppEventDTOMapper.mapping_app_event_from(
-                appEventDTO=appEventDTO))
+                app_event_dto=app_event_dto))
 
-    return Directive(url=directiveDTO.get_url(), dom=directiveDTO.get_dom(), formXPath=directiveDTO.get_form_x_path(),
-                     appEvents=appEvents, codeCoverages=_mapping_code_coverage_from(codeCoverageDTOs=directiveDTO.get_code_coverage_dt_os()))
+    return Directive(url=directive_dto.get_url(), dom=directive_dto.get_dom(), form_x_path=directive_dto.get_form_x_path(),
+                     app_events=app_events, code_coverages=_mapping_code_coverage_from(code_coverage_dt_os=directive_dto.get_code_coverage_dt_os()))
 
 
 def mapping_directive_dto_from(directive: Directive) -> DirectiveDTO:
-    appEventDTOs: [AppEventDTO] = []
-    for appEvent in directive.get_app_events():
-        appEventDTOs.append(
+    app_event_dt_os: [AppEventDTO] = []
+    for app_event in directive.get_app_events():
+        app_event_dt_os.append(
             AppEventDTOMapper.mapping_app_event_dto_from(
-                appEvent=appEvent))
+                app_event=app_event))
 
-    return DirectiveDTO(url=directive.get_url(), dom=directive.get_dom(), formXPath=directive.get_form_x_path(),
-                        appEventDTOs=appEventDTOs, codeCoverageDTOs=_mapping_code_coverage_dt_os_from(directive.get_code_coverages()))
+    return DirectiveDTO(url=directive.get_url(), dom=directive.get_dom(), form_x_path=directive.get_form_x_path(),
+                        app_event_dt_os=app_event_dt_os, code_coverage_dt_os=_mapping_code_coverage_dt_os_from(directive.get_code_coverages()))

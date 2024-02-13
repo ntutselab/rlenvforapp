@@ -18,7 +18,7 @@ class StartApplicationUnderTestUserCase:
     def __init__(self, repository: ApplicationUnderTestRepository = Provide[EnvironmentDIContainers.applicationUnderTestRepository],
                  applicationHandler: ApplicationHandler = Provide[EnvironmentDIContainers.applicationHandler]):
         self._repository = repository
-        self._applicationHandler = applicationHandler
+        self._application_handler = applicationHandler
 
     def execute(self, input: StartApplicationUnderTestInput.StartApplicationUnderTestInput,
                 output: StartApplicationUnderTestOutput.StartApplicationUnderTestOutput):
@@ -31,7 +31,7 @@ class StartApplicationUnderTestUserCase:
         self._repository.add(
             ApplicationUnderTestMapper.mapping_application_under_test_entity_from(
                 aut=aut))
-        self._applicationHandler.start(
+        self._application_handler.start(
             applicationName=aut.get_application_name(),
             ip=aut.get_ip(),
             port=aut.get_port())

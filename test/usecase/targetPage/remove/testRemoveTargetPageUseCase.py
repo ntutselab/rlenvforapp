@@ -11,27 +11,27 @@ from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput,
 
 class testRemoveTargetPageUseCase(unittest.TestCase):
     def set_up(self) -> None:
-        self._targetPageRepository = InMemoryTargetPageRepository()
-        self._targetPageHierarchy = TargetPageHierarchyInitial()
+        self._target_page_repository = InMemoryTargetPageRepository()
+        self._target_page_hierarchy = TargetPageHierarchyInitial()
 
     def test_remove_target_page(self):
-        self._targetPageHierarchy.create_target_page(
-            targetPageRepository=self._targetPageRepository,
-            targetPageUrl="./",
-            rootUrl="",
-            appEventDTOs=[])
-        targetPageId = self._targetPageRepository.find_all()[0].get_id()
+        self._target_page_hierarchy.create_target_page(
+            targetPageRepository=self._target_page_repository,
+            target_page_url="./",
+            root_url="",
+            app_event_dt_os=[])
+        target_page_id = self._target_page_repository.find_all()[0].get_id()
 
-        removeTargetPageUseCase = RemoveTargetPageUseCase.RemoveTargetPageUseCase(
-            repository=self._targetPageRepository)
-        removeTargetPageInput = RemoveTargetPageInput.RemoveTargetPageInput(
-            targetPageId=targetPageId)
-        removeTargetPageOutput = RemoveTargetPageOutput.RemoveTargetPageOutput()
+        remove_target_page_use_case = RemoveTargetPageUseCase.RemoveTargetPageUseCase(
+            repository=self._target_page_repository)
+        remove_target_page_input = RemoveTargetPageInput.RemoveTargetPageInput(
+            target_page_id=target_page_id)
+        remove_target_page_output = RemoveTargetPageOutput.RemoveTargetPageOutput()
 
-        removeTargetPageUseCase.execute(
-            input=removeTargetPageInput,
-            output=removeTargetPageOutput)
+        remove_target_page_use_case.execute(
+            input=remove_target_page_input,
+            output=remove_target_page_output)
 
         self.assertIsNone(
-            self._targetPageRepository.find_by_id(
-                removeTargetPageOutput.get_id()))
+            self._target_page_repository.find_by_id(
+                remove_target_page_output.get_id()))

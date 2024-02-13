@@ -13,12 +13,12 @@ class testCodeCoverageVectorConverter(unittest.TestCase):
         pass
 
     def test_convert(self):
-        codeCoverage = CodeCoverage.CodeCoverage(
-            codeCoverageType="branch coverage", codeCoverageVector=[3, 2, 1, 0])
-        codeCoverageVector = codeCoverage.get_code_coverage_vector()
+        code_coverage = CodeCoverage.CodeCoverage(
+            code_coverage_type="branch coverage", code_coverage_vector=[3, 2, 1, 0])
+        code_coverage_vector = code_coverage.get_code_coverage_vector()
 
-        listCodeCoverageFeature = CodeCoverageVectorConverter().convert(
-            stateElement=codeCoverageVector)
+        list_code_coverage_feature = CodeCoverageVectorConverter().convert(
+            state_element=code_coverage_vector)
 
-        self.assertNotEqual([3, 2, 1, 0], listCodeCoverageFeature)
-        self.assertEqual([1, 1, 1, 0], listCodeCoverageFeature)
+        self.assertNotEqual([3, 2, 1, 0], list_code_coverage_feature)
+        self.assertEqual([1, 1, 1, 0], list_code_coverage_feature)

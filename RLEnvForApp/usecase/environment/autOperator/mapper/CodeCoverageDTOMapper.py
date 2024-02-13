@@ -3,11 +3,11 @@ from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import \
     CodeCoverageDTO
 
 
-def mapping_code_coverage_from(codeCoverageDTO: CodeCoverageDTO) -> CodeCoverage:
-    return CodeCoverage(codeCoverageType=codeCoverageDTO.get_code_coverage_type(),
-                        codeCoverageVector=codeCoverageDTO.get_code_coverage_vector())
+def mapping_code_coverage_from(code_coverage_dto: CodeCoverageDTO) -> CodeCoverage:
+    return CodeCoverage(code_coverage_type=code_coverage_dto.get_code_coverage_type(),
+                        code_coverage_vector=code_coverage_dto.get_code_coverage_vector())
 
 
-def mapping_code_coverage_dto_from(codeCoverage: CodeCoverage) -> CodeCoverageDTO:
-    return CodeCoverageDTO(codeCoverageType=codeCoverage.get_code_coverage_type(),
-                           codeCoverageVector=codeCoverage.get_code_coverage_vector())
+def mapping_code_coverage_dto_from(code_coverage: CodeCoverage) -> CodeCoverageDTO:
+    return CodeCoverageDTO(code_coverage_type=code_coverage.get_code_coverage_type(),
+                           code_coverage_vector=code_coverage.get_code_coverage_vector())

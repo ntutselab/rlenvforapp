@@ -4,12 +4,12 @@ from RLEnvForApp.usecase.environment.episodeHandler.entity.EpisodeHandlerEntity 
 
 class EpisodeHandlerRepository:
     def __init__(self, sizeLimit: int):
-        self._sizeLimit = sizeLimit
+        self._size_limit = sizeLimit
 
     def get_size_limit(self):
-        return self._sizeLimit
+        return self._size_limit
 
-    def add(self, episodeHandlerEntity: EpisodeHandlerEntity):
+    def add(self, episode_handler_entity: EpisodeHandlerEntity):
         pass
 
     def delete_by_id(self, id: str):
@@ -21,5 +21,5 @@ class EpisodeHandlerRepository:
     def find_all(self) -> [EpisodeHandlerEntity]:
         pass
 
-    def update(self, episodeHandlerEntity: EpisodeHandlerEntity):
+    def update(self, episode_handler_entity: EpisodeHandlerEntity):
         pass

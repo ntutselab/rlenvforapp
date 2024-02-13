@@ -21,7 +21,7 @@ from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import \
 
 class ExecuteActionUseCase:
     @inject
-    def __init__(self, autOperator: IAUTOperator,
+    def __init__(self, aut_operator: IAUTOperator,
                  episodeHandlerRepository: EpisodeHandlerRepository = Provide[
                      EnvironmentDIContainers.episodeHandlerRepository],
                  rewardCalculatorService: IRewardCalculatorService = Provide[
@@ -29,55 +29,55 @@ class ExecuteActionUseCase:
                  actionCommandFactory: IActionCommandFactoryService = Provide[
                      EnvironmentDIContainers.actionCommandFactory],
                  observationSerivce: IObservationService = Provide[EnvironmentDIContainers.observationService]):
-        self._actionCommandFactory = actionCommandFactory
-        self._autOperator = autOperator
-        self._observationService = observationSerivce
-        self._episodeHandlerRepository = episodeHandlerRepository
-        self._rewardCalculatorService = rewardCalculatorService
+        self._action_command_factory = actionCommandFactory
+        self._aut_operator = aut_operator
+        self._observation_service = observationSerivce
+        self._episode_handler_repository = episodeHandlerRepository
+        self._reward_calculator_service = rewardCalculatorService
 
     def execute(self, input: ExecuteActionInput.ExecuteActionInput,
                 output: ExecuteActionOutput.ExecuteActionOutput):
-        episodeHandlerEntity = self._episodeHandlerRepository.find_by_id(
+        episode_handler_entity = self._episode_handler_repository.find_by_id(
             input.get_episode_handler_id())
-        episodeHandler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
-            episodeHandlerEntity=episodeHandlerEntity)
+        episode_handler = EpisodeHandlerEntityMapper.mapping_episode_handler_form(
+            episode_handler_entity=episode_handler_entity)
 
-        previousState: State = episodeHandler.get_all_state()[-1]
-        previousState.set_action_number(input.get_action_number())
+        previous_state: State = episode_handler.get_all_state()[-1]
+        previous_state.set_action_number(input.get_action_number())
 
-        actionCommand: IActionCommand = self._actionCommandFactory.create_action_command(
+        action_command: IActionCommand = self._action_command_factory.create_action_command(
             actionNumber=input.get_action_number())
-        actionCommand.execute(operator=self._autOperator)
+        action_command.execute(operator=self._aut_operator)
 
         if input.get_action_number() == 0:
-            previousState.set_action_type("click")
+            previous_state.set_action_type("click")
         else:
-            previousState.set_action_type("input")
-            previousState.set_app_event_input_value(actionCommand.get_input_value())
+            previous_state.set_action_type("input")
+            previous_state.set_app_event_input_value(action_command.get_input_value())
 
-        state: State = self._autOperator.get_state()
-        observation, originalObservation = self._observationService.get_observation(
+        state: State = self._aut_operator.get_state()
+        observation, originalObservation = self._observation_service.get_observation(
             state=state)
         state.set_original_observation(originalObservation)
 
-        episodeHandler.append_state(state=state)
-        self._episodeHandlerRepository.update(
+        episode_handler.append_state(state=state)
+        self._episode_handler_repository.update(
             EpisodeHandlerEntityMapper.mapping_episode_handler_entity_form(
-                episodeHandler=episodeHandler))
+                episode_handler=episode_handler))
 
-        codeCoverageDict = {}
-        for codeCoverage in state.get_code_coverages():
-            codeCoverageDict[codeCoverage.get_code_coverage_type(
-            )] = self._get_percent(codeCoverage.get_ratio())
+        code_coverage_dict = {}
+        for code_coverage in state.get_code_coverages():
+            code_coverage_dict[code_coverage.get_code_coverage_type(
+            )] = self._get_percent(code_coverage.get_ratio())
         output.set_observation(observation)
         output.set_original_observation(originalObservation)
-        output.set_code_coverage_dict(codeCoverageDict=codeCoverageDict)
+        output.set_code_coverage_dict(code_coverage_dict=code_coverage_dict)
         output.set_reward(
-            self._rewardCalculatorService.calculate_reward(
-                episodeHandler=episodeHandler))
+            self._reward_calculator_service.calculate_reward(
+                episode_handler=episode_handler))
         output.set_cosine_similarity_text(
-            self._rewardCalculatorService.get_cosine_similarity_text())
-        output.set_is_done(episodeHandler.is_done())
+            self._reward_calculator_service.get_cosine_similarity_text())
+        output.set_is_done(episode_handler.is_done())
 
     def _get_percent(self, ratio):
         return ratio * 100

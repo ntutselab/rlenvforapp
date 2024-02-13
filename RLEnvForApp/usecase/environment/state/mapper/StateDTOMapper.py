@@ -10,38 +10,38 @@ from RLEnvForApp.usecase.environment.autOperator.mapper import (
 from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 
 
-def _mapping_app_element_dt_os_from(appElements: [AppElement]):
-    appElementDTOs: [AppElementDTO] = []
-    for appElement in appElements:
-        appElementDTOs.append(
+def _mapping_app_element_dt_os_from(app_elements: [AppElement]):
+    app_element_dt_os: [AppElementDTO] = []
+    for app_element in app_elements:
+        app_element_dt_os.append(
             AppElementDTOMapper.mapping_app_element_dto_from(
-                appElement=appElement))
-    return appElementDTOs
+                app_element=app_element))
+    return app_element_dt_os
 
 
-def _mapping_code_coverage_dt_os_from(codeCoverages: [CodeCoverage]):
-    codeCoverageDTOs: [CodeCoverageDTO] = []
-    for codeCoverage in codeCoverages:
-        codeCoverageDTOs.append(
+def _mapping_code_coverage_dt_os_from(code_coverages: [CodeCoverage]):
+    code_coverage_dt_os: [CodeCoverageDTO] = []
+    for code_coverage in code_coverages:
+        code_coverage_dt_os.append(
             CodeCoverageDTOMapper.mapping_code_coverage_dto_from(
-                codeCoverage=codeCoverage))
-    return codeCoverageDTOs
+                code_coverage=code_coverage))
+    return code_coverage_dt_os
 
 
 def mapping_state_dto_from(state: State):
-    stateDTO = StateDTO(id=state.get_id())
-    stateDTO.set_dom(state.get_dom())
-    stateDTO.set_url(state.get_url())
-    stateDTO.set_screen_shot(state.get_screen_shot())
-    stateDTO.set_interacted_element_dto(
+    state_dto = StateDTO(id=state.get_id())
+    state_dto.set_dom(state.get_dom())
+    state_dto.set_url(state.get_url())
+    state_dto.set_screen_shot(state.get_screen_shot())
+    state_dto.set_interacted_element_dto(
         AppElementDTOMapper.mapping_app_element_dto_from(state.get_interacted_element()))
-    stateDTO.set_selected_app_element_dt_os(
+    state_dto.set_selected_app_element_dt_os(
         _mapping_app_element_dt_os_from(
             state.get_all_selected_app_elements()))
-    stateDTO.set_focus_vector(state.get_focus_vector())
-    stateDTO.set_action_type(state.get_action_type())
-    stateDTO.set_code_coverages(
+    state_dto.set_focus_vector(state.get_focus_vector())
+    state_dto.set_action_type(state.get_action_type())
+    state_dto.set_code_coverages(
         _mapping_code_coverage_dt_os_from(
             state.get_code_coverages()))
-    stateDTO.set_app_event_value(state.get_app_event_input_value())
-    return stateDTO
+    state_dto.set_app_event_value(state.get_app_event_input_value())
+    return state_dto

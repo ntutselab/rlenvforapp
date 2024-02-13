@@ -36,19 +36,19 @@ class FormSubmitCriteriaSingleton:
             self, applicationName: str, url: str, xpath: str):
         Logger().info(
             f"Find Form Submit Criteria: {applicationName}, {url}, {xpath}")
-        byApplicationName = self._OriginFormSubmitCriteria.get(applicationName)
-        byUrl = {}
-        for key in byApplicationName:
+        by_application_name = self._OriginFormSubmitCriteria.get(applicationName)
+        by_url = {}
+        for key in by_application_name:
             if key == url:
-                byUrl = byApplicationName.get(key)
+                by_url = by_application_name.get(key)
                 break
             if "{}" in key:
                 pattern = key.replace("{}", ".+")
                 if bool(re.fullmatch(pattern, url)):
                     Logger().info(f"Match criteria: {pattern}")
-                    byUrl = byApplicationName.get(key)
+                    by_url = by_application_name.get(key)
                     break
 
-        self._formSubmitCriteria = byUrl.get(xpath, {})
+        self._formSubmitCriteria = by_url.get(xpath, {})
         Logger().info(
             f"Form Submit Criteria set to : {self._formSubmitCriteria}")

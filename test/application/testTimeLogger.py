@@ -8,55 +8,55 @@ from RLEnvForApp.application.timeLoggerService.TimeLoggerService import \
 
 class testTimeLogger(unittest.TestCase):
     def set_up(self) -> None:
-        self.logDir = "model/timeLoggerTest/"
+        self.log_dir = "model/timeLoggerTest/"
 
-        self.startTimeFileName = "startTime.log"
-        startTimeLogPath = os.path.join(self.logDir, self.startTimeFileName)
-        if os.path.exists(startTimeLogPath):
-            os.remove(startTimeLogPath)
+        self.start_time_file_name = "startTime.log"
+        start_time_log_path = os.path.join(self.log_dir, self.start_time_file_name)
+        if os.path.exists(start_time_log_path):
+            os.remove(start_time_log_path)
 
-        self.stopTimeFileName = "stopTime.log"
-        stopTimeLogPath = os.path.join(self.logDir, self.stopTimeFileName)
-        if os.path.exists(stopTimeLogPath):
-            os.remove(stopTimeLogPath)
+        self.stop_time_file_name = "stopTime.log"
+        stop_time_log_path = os.path.join(self.log_dir, self.stop_time_file_name)
+        if os.path.exists(stop_time_log_path):
+            os.remove(stop_time_log_path)
 
-        self.timePeriodFileName = "timePeriod.log"
-        timePeriodLogPath = os.path.join(self.logDir, self.timePeriodFileName)
-        if os.path.exists(timePeriodLogPath):
-            os.remove(timePeriodLogPath)
+        self.time_period_file_name = "timePeriod.log"
+        time_period_log_path = os.path.join(self.log_dir, self.time_period_file_name)
+        if os.path.exists(time_period_log_path):
+            os.remove(time_period_log_path)
 
     def tear_down(self) -> None:
         pass
 
     def test_period_log(self):
-        timePassedSeconds = 1
+        time_passed_seconds = 1
 
-        startTimeSeconds = TimeLoggerService().log_start(logDir=self.logDir)
-        time.sleep(timePassedSeconds)
-        stopTimeSeconds = TimeLoggerService().log_stop(logDir=self.logDir)
+        start_time_seconds = TimeLoggerService().log_start(log_dir=self.log_dir)
+        time.sleep(time_passed_seconds)
+        stop_time_seconds = TimeLoggerService().log_stop(log_dir=self.log_dir)
 
         self.assertGreaterEqual(
-            stopTimeSeconds -
-            startTimeSeconds,
-            timePassedSeconds)
-        startTimeLogPath = os.path.join(self.logDir, self.startTimeFileName)
-        stopTimeLogPath = os.path.join(self.logDir, self.stopTimeFileName)
-        self.assertTrue(os.path.exists(startTimeLogPath))
-        self.assertTrue(os.path.exists(stopTimeLogPath))
+            stop_time_seconds -
+            start_time_seconds,
+            time_passed_seconds)
+        start_time_log_path = os.path.join(self.log_dir, self.start_time_file_name)
+        stop_time_log_path = os.path.join(self.log_dir, self.stop_time_file_name)
+        self.assertTrue(os.path.exists(start_time_log_path))
+        self.assertTrue(os.path.exists(stop_time_log_path))
 
-        timePeriodLogPath = os.path.join(self.logDir, self.timePeriodFileName)
-        diffSeconds = TimeLoggerService().log_second_diff(startTimeSeconds=startTimeSeconds,
-                                                        stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
-        self.assertTrue(os.path.exists(timePeriodLogPath))
+        time_period_log_path = os.path.join(self.log_dir, self.time_period_file_name)
+        diff_seconds = TimeLoggerService().log_second_diff(start_time_seconds=start_time_seconds,
+                                                        stop_time_seconds=stop_time_seconds, log_dir=self.log_dir)
+        self.assertTrue(os.path.exists(time_period_log_path))
 
     def test_log_once(self):
-        timeSeconds = TimeLoggerService().log(logDir=self.logDir)
-        timeLogPath = os.path.join(self.logDir, str(timeSeconds) + ".log")
-        self.assertTrue(os.path.exists(timeLogPath))
+        time_seconds = TimeLoggerService().log(log_dir=self.log_dir)
+        time_log_path = os.path.join(self.log_dir, str(time_seconds) + ".log")
+        self.assertTrue(os.path.exists(time_log_path))
 
     def test_log_second_diff(self):
-        startTimeSeconds = 100
-        stopTimeSeconds = 1000000
-        diffSeconds = TimeLoggerService().log_second_diff(startTimeSeconds=startTimeSeconds,
-                                                        stopTimeSeconds=stopTimeSeconds, logDir=self.logDir)
-        self.assertEqual(stopTimeSeconds - startTimeSeconds, diffSeconds)
+        start_time_seconds = 100
+        stop_time_seconds = 1000000
+        diff_seconds = TimeLoggerService().log_second_diff(start_time_seconds=start_time_seconds,
+                                                        stop_time_seconds=stop_time_seconds, log_dir=self.log_dir)
+        self.assertEqual(stop_time_seconds - start_time_seconds, diff_seconds)

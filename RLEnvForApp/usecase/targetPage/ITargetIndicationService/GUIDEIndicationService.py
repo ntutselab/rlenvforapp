@@ -12,28 +12,28 @@ class GUIDEIndicationService(ITargetIndicationService):
         super().__init__()
 
     def is_conform(self, state: State) -> bool:
-        targetPage: TargetPage = TargetPageProcessingManagerSingleton.get_instance(
+        target_page: TargetPage = TargetPageProcessingManagerSingleton.get_instance(
         ).get_be_processed_target_page()
-        basicCodeCoverage: CodeCoverage = targetPage.get_basic_code_coverage()
-        targetCodeCoverage: CodeCoverage = targetPage.get_target_code_coverage()
-        stateCodeCoverage: CodeCoverage = self._get_code_coverage_by_type(
-            codeCoverages=state.get_code_coverages(), type=targetCodeCoverage.get_code_coverage_type())
+        basic_code_coverage: CodeCoverage = target_page.get_basic_code_coverage()
+        target_code_coverage: CodeCoverage = target_page.get_target_code_coverage()
+        state_code_coverage: CodeCoverage = self._get_code_coverage_by_type(
+            code_coverages=state.get_code_coverages(), type=target_code_coverage.get_code_coverage_type())
 
-        targetImprovedCodeCoverage = targetCodeCoverage.get_improved_code_coverage(
-            originalCodeCovreage=basicCodeCoverage)
-        stateImprovedCodeCoverage = stateCodeCoverage.get_improved_code_coverage(
-            originalCodeCovreage=basicCodeCoverage)
+        target_improved_code_coverage = target_code_coverage.get_improved_code_coverage(
+            originalCodeCovreage=basic_code_coverage)
+        state_improved_code_coverage = state_code_coverage.get_improved_code_coverage(
+            originalCodeCovreage=basic_code_coverage)
 
-        if stateImprovedCodeCoverage.get_covered_amount() == 0:
+        if state_improved_code_coverage.get_covered_amount() == 0:
             return False
 
-        if stateImprovedCodeCoverage.get_covered_amount(
-        ) >= targetImprovedCodeCoverage.get_covered_amount():
+        if state_improved_code_coverage.get_covered_amount(
+        ) >= target_improved_code_coverage.get_covered_amount():
             return True
         else:
             return False
 
-    def _get_code_coverage_by_type(self, codeCoverages: [CodeCoverage], type: str):
-        for codeCoverage in codeCoverages:
-            if codeCoverage.get_code_coverage_type() == type:
-                return codeCoverage
+    def _get_code_coverage_by_type(self, code_coverages: [CodeCoverage], type: str):
+        for code_coverage in code_coverages:
+            if code_coverage.get_code_coverage_type() == type:
+                return code_coverage

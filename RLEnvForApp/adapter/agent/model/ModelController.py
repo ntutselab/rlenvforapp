@@ -18,51 +18,51 @@ class ModelController:
         self._model.save(path)
 
     def play(self, environment):
-        isContinue = True
-        totalReward = 0
+        is_continue = True
+        total_reward = 0
         observation = environment.env_method(method_name="reset")
-        while isContinue:
+        while is_continue:
             action, state = self._model.predict(observation)
-            observation, reward, isDone, info = environment.env_method(
+            observation, reward, is_done, info = environment.env_method(
                 method_name="step", action=action)[0]
-            totalReward += reward
-            isContinue = not isDone
-        return totalReward
+            total_reward += reward
+            is_continue = not is_done
+        return total_reward
 
     def play_with_exploration(
-            self, environment, explorationEpisodeEsp=0, explorationStepEsp=0):
-        isContinue = True
-        isRandomEpisode = explorationEpisodeEsp > random.random()
-        totalReward = 0
+            self, environment, exploration_episode_esp=0, exploration_step_esp=0):
+        is_continue = True
+        is_random_episode = exploration_episode_esp > random.random()
+        total_reward = 0
         observation = environment.env_method(method_name="reset")
-        while isContinue:
-            observation, reward, isDone, info = self._do_one_step(environment=environment, observation=observation,
-                                                                isRandomEpisode=isRandomEpisode,
-                                                                explorationStepEsp=explorationStepEsp)
-            totalReward += reward
-            isContinue = not isDone
-        return totalReward
+        while is_continue:
+            observation, reward, is_done, info = self._do_one_step(environment=environment, observation=observation,
+                                                                is_random_episode=is_random_episode,
+                                                                exploration_step_esp=exploration_step_esp)
+            total_reward += reward
+            is_continue = not is_done
+        return total_reward
 
     def play_by_total_step(self, environment, totalStep,
-                        explorationEpisodeEsp=0, explorationStepEsp=0):
-        timeStep = 0
+                        exploration_episode_esp=0, exploration_step_esp=0):
+        time_step = 0
         observation = environment.env_method(method_name="reset")[0]
-        isRandomEpisode = False
-        while totalStep > timeStep:
-            observation, reward, isDone, info = self._do_one_step(environment=environment, observation=observation,
-                                                                isRandomEpisode=isRandomEpisode,
-                                                                explorationStepEsp=explorationStepEsp)
-            timeStep += 1
-            if isDone:
-                isRandomEpisode = explorationEpisodeEsp > random.random()
+        is_random_episode = False
+        while totalStep > time_step:
+            observation, reward, is_done, info = self._do_one_step(environment=environment, observation=observation,
+                                                                is_random_episode=is_random_episode,
+                                                                exploration_step_esp=exploration_step_esp)
+            time_step += 1
+            if is_done:
+                is_random_episode = exploration_episode_esp > random.random()
                 observation = environment.env_method(method_name="reset")[0]
 
     def _do_one_step(self, environment, observation,
-                   isRandomEpisode, explorationStepEsp=0):
-        isRandomStep = explorationStepEsp > random.random()
+                   is_random_episode, exploration_step_esp=0):
+        is_random_step = exploration_step_esp > random.random()
         action, state = self._model.predict(observation)
-        if isRandomEpisode and isRandomStep:
-            actionList = list(range(environment.action_space.n))
-            actionList.remove(int(action))
-            action = random.choice(actionList)
+        if is_random_episode and is_random_step:
+            action_list = list(range(environment.action_space.n))
+            action_list.remove(int(action))
+            action = random.choice(action_list)
         return environment.env_method(method_name="step", action=action)[0]

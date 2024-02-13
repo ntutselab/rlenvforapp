@@ -51,9 +51,9 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
     )
 
     # other
-    episodeHandler = providers.Factory(
+    episode_handler = providers.Factory(
         DIConfiguration.get_class_name(config.Environment.episode_handler()),
-        episodeStep=int(config.Global.episode_step())
+        episode_step=int(config.Global.episode_step())
     )
 
     applicationHandler = providers.Factory(

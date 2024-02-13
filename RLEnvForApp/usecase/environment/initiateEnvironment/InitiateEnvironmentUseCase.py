@@ -13,13 +13,13 @@ class InitiateEnvironmentUseCase:
     @inject
     def __init__(self, actionCommandFactory: IActionCommandFactoryService = Provide[EnvironmentDIContainers.actionCommandFactory],
                  observationSerivce: IObservationService = Provide[EnvironmentDIContainers.observationService],):
-        self._actionCommandFactory = actionCommandFactory
-        self._observationService = observationSerivce
+        self._action_command_factory = actionCommandFactory
+        self._observation_service = observationSerivce
 
     def execute(self, input: InitiateEnvironmentInput.InitiateEnvironmentInput,
                 output: InitiateEnvironmentOutput.InitiateEnvironmentOutput):
         output.set_action_space_size(
-            self._actionCommandFactory.get_action_space_size())
+            self._action_command_factory.get_action_space_size())
         output.set_observation_size(
-            self._observationService.get_observation_size())
-        output.set_action_list(self._actionCommandFactory.get_action_list())
+            self._observation_service.get_observation_size())
+        output.set_action_list(self._action_command_factory.get_action_list())

@@ -24,56 +24,56 @@ class UpdateTargetPageUseCase:
 
     def execute(self, input: UpdateTargetPageInput.UpdateTargetPageInput,
                 output: UpdateTargetPageOutput.UpdateTargetPageOutput):
-        targetPageEntity: TargetPageEntity = self._repository.find_by_id(
+        target_page_entity: TargetPageEntity = self._repository.find_by_id(
             input.get_target_page_id())
-        targetPage: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
-            targetPageEntity=targetPageEntity)
+        target_page: TargetPage = TargetPageEntityMapper.mapping_target_page_from(
+            target_page_entity=target_page_entity)
 
-        targetPageUrl = input.get_target_page_url()
-        if targetPageUrl is not None:
-            targetPage.set_target_url(targetUrl=targetPageUrl)
+        target_page_url = input.get_target_page_url()
+        if target_page_url is not None:
+            target_page.set_target_url(targetUrl=target_page_url)
 
-        rootUrl = input.get_root_url()
-        if rootUrl is not None:
-            targetPage.set_root_url(rootUrl=rootUrl)
+        root_url = input.get_root_url()
+        if root_url is not None:
+            target_page.set_root_url(root_url=root_url)
 
-        appEventDTOs = input.get_app_event_dt_os()
-        if appEventDTOs is not None:
-            appEvents: [AppEvent] = []
-            for appEventDTO in appEventDTOs:
-                appEvents.append(
+        app_event_dt_os = input.get_app_event_dt_os()
+        if app_event_dt_os is not None:
+            app_events: [AppEvent] = []
+            for app_event_dto in app_event_dt_os:
+                app_events.append(
                     AppEventDTOMapper.mapping_app_event_from(
-                        appEventDTO=appEventDTO))
-            targetPage.set_app_events(appEvents=appEvents)
+                        app_event_dto=app_event_dto))
+            target_page.set_app_events(app_events=app_events)
 
-        taskID = input.get_task_id()
-        if taskID is not None:
-            targetPage.set_task_id(taskID=taskID)
+        task_id = input.get_task_id()
+        if task_id is not None:
+            target_page.set_task_id(task_id=task_id)
 
-        basicCodeCoverageDTO = input.get_basic_code_coverage_dto()
-        if basicCodeCoverageDTO is not None:
+        basic_code_coverage_dto = input.get_basic_code_coverage_dto()
+        if basic_code_coverage_dto is not None:
             newBasicCodeCoverage = CodeCoverageDTOMapper.mapping_code_coverage_from(
-                codeCoverageDTO=basicCodeCoverageDTO)
-            basicCodeCoverage = targetPage.get_basic_code_coverage()
+                code_coverage_dto=basic_code_coverage_dto)
+            basic_code_coverage = target_page.get_basic_code_coverage()
             if newBasicCodeCoverage.get_code_coverage_type(
-            ) == basicCodeCoverage.get_code_coverage_type():
-                newBasicCodeCoverage.merge(basicCodeCoverage)
-            targetPage.set_basic_code_coverage(
-                basicCodeCoverage=newBasicCodeCoverage)
+            ) == basic_code_coverage.get_code_coverage_type():
+                newBasicCodeCoverage.merge(basic_code_coverage)
+            target_page.set_basic_code_coverage(
+                basic_code_coverage=newBasicCodeCoverage)
 
-        directiveDTOs = input.get_directive_dt_os()
-        if directiveDTOs is not None:
+        directive_dt_os = input.get_directive_dt_os()
+        if directive_dt_os is not None:
             directives: [Directive] = []
-            for directiveDTO in directiveDTOs:
+            for directive_dto in directive_dt_os:
                 directives.append(
                     DirectiveDTOMapper.mapping_directive_from(
-                        directiveDTO=directiveDTO))
-            targetPage.set_directives(directives=directives)
+                        directive_dto=directive_dto))
+            target_page.set_directives(directives=directives)
 
-        targetPageEntity = TargetPageEntityMapper.mapping_target_page_entity_from(
-            targetPage=targetPage)
-        self._repository.update(targetPageEntity=targetPageEntity)
+        target_page_entity = TargetPageEntityMapper.mapping_target_page_entity_from(
+            target_page=target_page)
+        self._repository.update(target_page_entity=target_page_entity)
 
         TargetPageProcessingManagerSingleton.get_instance(
-        ).set_be_processed_target_page(targetPage=targetPage)
-        output.set_id(targetPage.get_id())
+        ).set_be_processed_target_page(target_page=target_page)
+        output.set_id(target_page.get_id())

@@ -40,98 +40,98 @@ from RLEnvForApp.usecase.targetPage.queueManager.HtmlFileTargetPageQueueManagerS
 
 class testCrawlerExecuteActionUseCaseTest(TestCase):
     def set_up(self) -> None:
-        self._autRepository = InMemoryApplicationUnderTestRepository()
-        self._targetPageRepository = InMemoryTargetPageRepository()
-        self._episodeHandlerRepository = InMemoryEpisodeHandlerRepository()
-        self._applicationHandler = DockerServerHandler(
+        self._aut_repository = InMemoryApplicationUnderTestRepository()
+        self._target_page_repository = InMemoryTargetPageRepository()
+        self._episode_handler_repository = InMemoryEpisodeHandlerRepository()
+        self._application_handler = DockerServerHandler(
             "RLEnvForApp/application/serverInstance")
-        self._hirerarchyInitial = HirerarchyInitial(
-            autRepository=self._autRepository,
-            applicationHandler=self._applicationHandler)
-        self._hirerarchyInitial.start_aut_server(
+        self._hirerarchy_initial = HirerarchyInitial(
+            autRepository=self._aut_repository,
+            applicationHandler=self._application_handler)
+        self._hirerarchy_initial.start_aut_server(
             "timeoff_management_with_coverage")
         # self._crawler = IRobotCrawler(javaPort=50000, pythonPort=50001, crawlerPath="RLEnvForApp/application/crawler/irobot-crawler_screen_shot_v2.jar")
-        self._crawler = SeleniumCrawler(browserName="Chrome")
+        self._crawler = SeleniumCrawler(browser_name="Chrome")
 
     def tear_down(self) -> None:
         print("Crawler closed")
         self._crawler.close()
-        for autEntity in self._autRepository.find_all():
-            self._hirerarchyInitial.stop_aut_server(autEntity.get_id())
+        for aut_entity in self._aut_repository.find_all():
+            self._hirerarchy_initial.stop_aut_server(aut_entity.get_id())
 
     def test_crawljax_goto_root_page_error(self):
-        self.assertFalse(self._crawler.reset(path="", formXPath=""))
+        self.assertFalse(self._crawler.reset(path="", form_x_path=""))
 
     def test_crawljax_goto_register_get_coverage(self):
-        statementCoverageLength = 0
-        branchCoverageLength = 0
-        statementCoveragedAmount = 0
-        branchCoveragedAmount = 0
+        statement_coverage_length = 0
+        branch_coverage_length = 0
+        statement_coveraged_amount = 0
+        branch_coveraged_amount = 0
 
-        self._autOperator = IRobotOperator(
+        self._aut_operator = IRobotOperator(
             self._crawler, IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost", serverPort=3000))
 
-        self._autOperator.reset_crawler(path="http://localhost:3000")
-        self._autOperator.get_state()
+        self._aut_operator.reset_crawler(path="http://localhost:3000")
+        self._aut_operator.get_state()
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/form[1]/div[4]/div[2]/p[1]/a[2]", value="")
-        self._autOperator.get_state()
+        self._aut_operator.get_state()
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/input[1]",
             value="Company name")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            1, self._autOperator.get_state().get_focus_vector().index(True))
+            1, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/input[1]", value="Kai")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            2, self._autOperator.get_state().get_focus_vector().index(True))
+            2, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[3]/div[1]/input[1]",
             value="Huang")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            3, self._autOperator.get_state().get_focus_vector().index(True))
+            3, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[4]/div[1]/input[1]",
             value="test@ntut.edu.tw")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            4, self._autOperator.get_state().get_focus_vector().index(True))
+            4, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[5]/div[1]/input[1]",
             value="123456")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            5, self._autOperator.get_state().get_focus_vector().index(True))
+            5, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[6]/div[1]/input[1]",
             value="123456")
-        self._autOperator.change_focus()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.change_focus()
+        self._aut_operator.get_focused_app_element()
         self.assertEqual(
-            6, self._autOperator.get_state().get_focus_vector().index(True))
+            6, self._aut_operator.get_state().get_focus_vector().index(True))
 
-        self._autOperator.execute_app_event(
+        self._aut_operator.execute_app_event(
             xpath="/html[1]/body[1]/div[1]/div[3]/div[1]/form[1]/div[9]/div[1]/button[1]", value="")
-        self._autOperator.get_focused_app_element()
-        self._autOperator.execute_app_event(xpath="", value="")
-        state = self._autOperator.get_state()
-        self._autOperator.get_focused_app_element()
+        self._aut_operator.get_focused_app_element()
+        self._aut_operator.execute_app_event(xpath="", value="")
+        state = self._aut_operator.get_state()
+        self._aut_operator.get_focused_app_element()
 
         self.assertEqual("http://localhost:3000/calendar/", state.get_url())
         if len(state.get_focus_vector()) == 0:
@@ -141,89 +141,89 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
         else:
             self.assertEqual(0, state.get_focus_vector().index(True))
 
-        codeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
+        code_coverage_collector = IstanbulMiddlewareCodeCoverageCollector(
             serverIp="localhost", serverPort=3000)
-        codeCoverages: [
-            CodeCoverage] = codeCoverageCollector.get_code_coverage_dt_os()
-        for i in codeCoverages:
-            codeCoverage: CodeCoverage = CodeCoverageEntityMapper.mapping_code_coverage_from(
+        code_coverages: [
+            CodeCoverage] = code_coverage_collector.get_code_coverage_dt_os()
+        for i in code_coverages:
+            code_coverage: CodeCoverage = CodeCoverageEntityMapper.mapping_code_coverage_from(
                 i)
             if i.get_code_coverage_type() == "statement coverage":
-                statementCoverageLength = codeCoverage.get_code_coverage_vector_length()
-                statementCoveragedAmount = codeCoverage.get_covered_amount()
+                statement_coverage_length = code_coverage.get_code_coverage_vector_length()
+                statement_coveraged_amount = code_coverage.get_covered_amount()
             if i.get_code_coverage_type() == "branch coverage":
-                branchCoverageLength = codeCoverage.get_code_coverage_vector_length()
-                branchCoveragedAmount = codeCoverage.get_covered_amount()
+                branch_coverage_length = code_coverage.get_code_coverage_vector_length()
+                branch_coveraged_amount = code_coverage.get_covered_amount()
 
-        self.assertEqual(1036, branchCoverageLength)
-        self.assertEqual(2698, statementCoverageLength)
-        self.assertEqual(170, branchCoveragedAmount)
-        self.assertEqual(814, statementCoveragedAmount)
+        self.assertEqual(1036, branch_coverage_length)
+        self.assertEqual(2698, statement_coverage_length)
+        self.assertEqual(170, branch_coveraged_amount)
+        self.assertEqual(814, statement_coveraged_amount)
 
     def test_change_focus_command(self):
-        self._autOperator = IRobotOperator(
+        self._aut_operator = IRobotOperator(
             self._crawler, IstanbulMiddlewareCodeCoverageCollector(
                 serverIp="localhost", serverPort=3000))
         self._create_target_page()
-        self._reset_env(autOperator=self._autOperator)
-        state = self._autOperator.get_state()
+        self._reset_env(aut_operator=self._aut_operator)
+        state = self._aut_operator.get_state()
         self.assertEqual(
             0, state.get_all_selected_app_elements().index(
                 state.get_interacted_element()))
 
-        self._execute_action(autOperator=self._autOperator, actionNumber=1)
-        state = self._autOperator.get_state()
+        self._execute_action(aut_operator=self._aut_operator, actionNumber=1)
+        state = self._aut_operator.get_state()
         self.assertEqual(
             0, state.get_all_selected_app_elements().index(
                 state.get_interacted_element()))
 
-        self._execute_action(autOperator=self._autOperator, actionNumber=1)
-        state = self._autOperator.get_state()
+        self._execute_action(aut_operator=self._aut_operator, actionNumber=1)
+        state = self._aut_operator.get_state()
         self.assertEqual(
             1, state.get_all_selected_app_elements().index(
                 state.get_interacted_element()))
 
-        self._execute_action(autOperator=self._autOperator, actionNumber=1)
-        state = self._autOperator.get_state()
+        self._execute_action(aut_operator=self._aut_operator, actionNumber=1)
+        state = self._aut_operator.get_state()
         self.assertEqual(
             2, state.get_all_selected_app_elements().index(
                 state.get_interacted_element()))
 
-    def _execute_action(self, autOperator: IAUTOperator, actionNumber: int):
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=autOperator,
-                                                                         episodeHandlerRepository=self._episodeHandlerRepository,
+    def _execute_action(self, aut_operator: IAUTOperator, actionNumber: int):
+        execute_action_use_case = ExecuteActionUseCase.ExecuteActionUseCase(aut_operator=aut_operator,
+                                                                         episodeHandlerRepository=self._episode_handler_repository,
                                                                          rewardCalculatorService=DefaultForTestRewardCalculatorService(),
                                                                          actionCommandFactory=DefaultForTestActionCommandFactoryService(),
                                                                          observationSerivce=DefaultForTestObservationService())
-        executeActionInput = ExecuteActionInput.ExecuteActionInput(
-            actionNumber=actionNumber, epsisodeHandlerId=self._episodeHandlerId)
-        executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
-        executeActionUseCase.execute(
-            input=executeActionInput,
-            output=executeActionOutput)
-        return executeActionOutput
+        execute_action_input = ExecuteActionInput.ExecuteActionInput(
+            actionNumber=actionNumber, epsisodeHandlerId=self._episode_handler_id)
+        execute_action_output = ExecuteActionOutput.ExecuteActionOutput()
+        execute_action_use_case.execute(
+            input=execute_action_input,
+            output=execute_action_output)
+        return execute_action_output
 
     def _create_target_page(self):
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
-            repository=self._targetPageRepository)
-        createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(
-            targetPageUrl="http://localhost:3000", rootUrl="http://localhost:3000", appEventDTOs=[])
-        createTargetPageOutput = CreateTargetPageOutput.CreateTargetPageOutput()
-        createTargetPageUseCase.execute(
-            createTargetPageInput, createTargetPageOutput)
+        create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase(
+            repository=self._target_page_repository)
+        create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(
+            target_page_url="http://localhost:3000", root_url="http://localhost:3000", app_event_dt_os=[])
+        create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
+        create_target_page_use_case.execute(
+            create_target_page_input, create_target_page_output)
 
-    def _reset_env(self, autOperator: IAUTOperator):
-        resetEnvironmentUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=autOperator,
-                                                                                  episodeHandlerRepository=self._episodeHandlerRepository,
+    def _reset_env(self, aut_operator: IAUTOperator):
+        reset_environment_use_case = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=aut_operator,
+                                                                                  episodeHandlerRepository=self._episode_handler_repository,
                                                                                   targetPageQueueManagerService=HtmlFileTargetPageQueueManagerService(
-                                                                                      repository=self._targetPageRepository),
+                                                                                      repository=self._target_page_repository),
                                                                                   observationSerivce=DefaultForTestObservationService())
-        resetEnvironmentUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+        reset_environment_use_input = ResetEnvironmentInput.ResetEnvironmentInput(
             episodeIndex=1)
-        resetEnvironmentUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
-        resetEnvironmentUseCase.execute(
-            input=resetEnvironmentUseInput,
-            output=resetEnvironmentUseOutput)
+        reset_environment_use_output = ResetEnvironmentOutput.ResetEnvironmentOutput()
+        reset_environment_use_case.execute(
+            input=reset_environment_use_input,
+            output=reset_environment_use_output)
 
-        self._episodeHandlerId = resetEnvironmentUseOutput.get_episode_handler_id()
-        return resetEnvironmentUseOutput
+        self._episode_handler_id = reset_environment_use_output.get_episode_handler_id()
+        return reset_environment_use_output

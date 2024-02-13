@@ -2,7 +2,7 @@ class ApplicationUnderTestRepository:
     def __init__(self):
         pass
 
-    def add(self, autEntity):
+    def add(self, aut_entity):
         pass
 
     def delet_by_id(self, id):

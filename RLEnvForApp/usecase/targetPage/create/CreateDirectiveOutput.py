@@ -3,24 +3,24 @@ from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 
 class CreateDirectiveOutput:
     def __init__(self):
-        self._isLegalDirective = False
-        self._directiveDTO: DirectiveDTO = None
-        self._lastDom = ""
+        self._is_legal_directive = False
+        self._directive_dto: DirectiveDTO = None
+        self._last_dom = ""
 
-    def set_is_legal_directive(self, isLegalDirective: bool):
-        self._isLegalDirective = isLegalDirective
+    def set_is_legal_directive(self, is_legal_directive: bool):
+        self._is_legal_directive = is_legal_directive
 
-    def set_directive_dto(self, directiveDTO: DirectiveDTO):
-        self._directiveDTO = directiveDTO
+    def set_directive_dto(self, directive_dto: DirectiveDTO):
+        self._directive_dto = directive_dto
 
     def set_last_dom(self, lastDom: str):
-        self._lastDom = lastDom
+        self._last_dom = lastDom
 
     def get_is_legal_directive(self) -> bool:
-        return self._isLegalDirective
+        return self._is_legal_directive
 
     def get_directive_dto(self) -> DirectiveDTO:
-        return self._directiveDTO
+        return self._directive_dto
 
     def get_last_dom(self) -> str:
-        return self._lastDom
+        return self._last_dom

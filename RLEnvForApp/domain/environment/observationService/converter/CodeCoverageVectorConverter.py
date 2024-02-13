@@ -6,13 +6,13 @@ class CodeCoverageVectorConverter(IConverter):
     def __init__(self):
         super().__init__()
 
-    def _convert_to_list_feature(self, stateElement) -> []:
-        listCodeCoverageVector = []
+    def _convert_to_list_feature(self, state_element) -> []:
+        list_code_coverage_vector = []
 
-        for i in stateElement:
+        for i in state_element:
             if i:
-                listCodeCoverageVector.append(1)
+                list_code_coverage_vector.append(1)
             else:
-                listCodeCoverageVector.append(0)
+                list_code_coverage_vector.append(0)
 
-        return listCodeCoverageVector
+        return list_code_coverage_vector

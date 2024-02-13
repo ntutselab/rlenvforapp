@@ -4,25 +4,25 @@ from RLEnvForApp.logger.logger import Logger
 
 
 class CodeCoverage:
-    def __init__(self, codeCoverageType: str, codeCoverageVector: [bool]):
-        self._codeCoverageType = codeCoverageType
-        self._codeCoverageVector = codeCoverageVector
+    def __init__(self, code_coverage_type: str, code_coverage_vector: [bool]):
+        self._code_coverage_type = code_coverage_type
+        self._code_coverage_vector = code_coverage_vector
 
     def get_code_coverage_type(self):
-        return self._codeCoverageType
+        return self._code_coverage_type
 
     def get_code_coverage_vector(self):
-        return self._codeCoverageVector
+        return self._code_coverage_vector
 
     def get_code_coverage_vector_length(self):
-        return len(self._codeCoverageVector)
+        return len(self._code_coverage_vector)
 
     def get_covered_amount(self):
-        coveredAmount = 0
-        for i in self._codeCoverageVector:
+        covered_amount = 0
+        for i in self._code_coverage_vector:
             if i:
-                coveredAmount += 1
-        return coveredAmount
+                covered_amount += 1
+        return covered_amount
 
     def get_ratio(self):
         return self.get_covered_amount() / self.get_code_coverage_vector_length()
@@ -32,21 +32,21 @@ class CodeCoverage:
         ) != originalCodeCovreage.get_code_coverage_vector_length():
             Logger().info(
                 f"Warning: Origin code coverage size is {originalCodeCovreage.getCodeCoverageVectorLength()}, New code coverage size is {self.getCodeCoverageVectorLength()}")
-        originCodeCoverageVector = originalCodeCovreage.get_code_coverage_vector()
-        improvedCodeCoverageVector: [bool] = []
+        origin_code_coverage_vector = originalCodeCovreage.get_code_coverage_vector()
+        improved_code_coverage_vector: [bool] = []
         for covered, originalCovered in itertools.zip_longest(
-                self._codeCoverageVector, originCodeCoverageVector):
-            improvedCodeCoverageVector.append(
+                self._code_coverage_vector, origin_code_coverage_vector):
+            improved_code_coverage_vector.append(
                 bool(not originalCovered and covered))
-        return CodeCoverage(codeCoverageType="Improved: " + self._codeCoverageType,
-                            codeCoverageVector=improvedCodeCoverageVector)
+        return CodeCoverage(code_coverage_type="Improved: " + self._code_coverage_type,
+                            code_coverage_vector=improved_code_coverage_vector)
 
-    def merge(self, codeCoverage):
-        if self.get_code_coverage_type() != codeCoverage.get_code_coverage_type():
+    def merge(self, code_coverage):
+        if self.get_code_coverage_type() != code_coverage.get_code_coverage_type():
             raise Exception("Differenet type of code coverage")
-        codeCoverageVector = codeCoverage.get_code_coverage_vector()
-        newCodeCoverageVector: [bool] = []
+        code_coverage_vector = code_coverage.get_code_coverage_vector()
+        new_code_coverage_vector: [bool] = []
         for covered, originalCovered in itertools.zip_longest(
-                self._codeCoverageVector, codeCoverageVector):
-            newCodeCoverageVector.append(bool(originalCovered or covered))
-        self._codeCoverageVector = newCodeCoverageVector
+                self._code_coverage_vector, code_coverage_vector):
+            new_code_coverage_vector.append(bool(originalCovered or covered))
+        self._code_coverage_vector = new_code_coverage_vector

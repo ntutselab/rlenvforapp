@@ -9,6 +9,6 @@ class FastTextConverter(IConverter):
         super().__init__()
         FastTextSingleton.get_instance()
 
-    def _convert_to_list_feature(self, stateElement) -> []:
-        word = stateElement.lower()
+    def _convert_to_list_feature(self, state_element) -> []:
+        word = state_element.lower()
         return FastTextSingleton.get_instance().get_word_vector(word=word)

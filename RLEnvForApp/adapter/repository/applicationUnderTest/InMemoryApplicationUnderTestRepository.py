@@ -9,18 +9,18 @@ class InMemoryApplicationUnderTestRepository(ApplicationUnderTestRepository):
         super().__init__()
         self._auts: [ApplicationUnderTestEntity] = []
 
-    def add(self, autEntity: ApplicationUnderTestEntity):
-        self._auts.append(autEntity)
+    def add(self, aut_entity: ApplicationUnderTestEntity):
+        self._auts.append(aut_entity)
 
     def delet_by_id(self, id):
         self._auts.remove(self.find_by_id(id))
 
     def find_by_id(self, id):
-        targetAut: ApplicationUnderTestEntity = None
-        for autEntity in self._auts:
-            if autEntity.get_id() == id:
-                targetAut = autEntity
-        return targetAut
+        target_aut: ApplicationUnderTestEntity = None
+        for aut_entity in self._auts:
+            if aut_entity.get_id() == id:
+                target_aut = aut_entity
+        return target_aut
 
     def find_all(self) -> [ApplicationUnderTestEntity]:
         return self._auts

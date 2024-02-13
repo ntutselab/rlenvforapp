@@ -5,8 +5,8 @@ PORT = "3000"
 
 
 def docker_compose_file_name(applicationName: str, port: str):
-    fileName = f"docker_compose_{applicationName}_{port}.yml"
-    return fileName
+    file_name = f"docker_compose_{applicationName}_{port}.yml"
+    return file_name
 
 
 def docker_compose_file_content(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, applicationName: str = APPLICATION_NAME,
@@ -99,16 +99,16 @@ def docker_compose_file_content(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, 
     # return compose_file_content
 
 
-def create_docker_compose_command(dockerComposePath: str):
-    return ["docker-compose", "-f", dockerComposePath, "up", "-d"]
+def create_docker_compose_command(docker_compose_path: str):
+    return ["docker-compose", "-f", docker_compose_path, "up", "-d"]
 
 
-def remove_docker_compose_command(dockerComposePath: str):
-    return ["docker-compose", "-f", dockerComposePath, "rm", "-svf"]
+def remove_docker_compose_command(docker_compose_path: str):
+    return ["docker-compose", "-f", docker_compose_path, "rm", "-svf"]
 
 
-def find_docker_compose_container_id_command(dockerComposePath: str):
-    return ["docker-compose", "-f", dockerComposePath, "ps", "-q"]
+def find_docker_compose_container_id_command(docker_compose_path: str):
+    return ["docker-compose", "-f", docker_compose_path, "ps", "-q"]
 
 
 def get_timeoff_docker_compose_file(port: str = PORT):

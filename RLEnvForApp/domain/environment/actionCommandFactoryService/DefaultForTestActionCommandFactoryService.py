@@ -19,14 +19,14 @@ class DefaultForTestActionCommandFactoryService(
         IActionCommandFactoryService.IActionCommandFactoryService):
     def __init__(self):
         super().__init__()
-        self._inputData = [
+        self._input_data = [
             "abc@gmail.com",
             "10",
             "2020/05/29",
             "sgfsdg",
             "0984000000",
             "Michael Chen"]
-        self._inputActionStartNumber = 2
+        self._input_action_start_number = 2
 
     def create_action_command(self, actionNumber: int) -> IActionCommand:
 
@@ -38,9 +38,9 @@ class DefaultForTestActionCommandFactoryService(
                 actionNumber=actionNumber)
 
         if actionNumber >= 0 and actionNumber < self.get_action_space_size():
-            indexOfInputData = actionNumber - self._inputActionStartNumber
+            indexOfInputData = actionNumber - self._input_action_start_number
             return InputValueCommand.InputValueCommand(
-                inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
+                inputValue=self._input_data[indexOfInputData], actionNumber=actionNumber)
 
     def get_action_space_size(self) -> int:
-        return self._inputActionStartNumber + len(self._inputData)
+        return self._input_action_start_number + len(self._input_data)

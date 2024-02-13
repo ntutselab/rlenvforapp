@@ -52,13 +52,13 @@ class CustomLayerFactoryService:
     @staticmethod
     def create_mlp_layer(inputLayer, layers: list = [64, 64],
                        activation_fn=pf.activations.get_activation("gelu")):
-        outputLayer = inputLayer
+        output_layer = inputLayer
 
         for layer_size in layers:
-            outputLayer = CustomLayerFactoryService.create_fully_connected_layer(
-                outputLayer, layer_size, activation_fn)
+            output_layer = CustomLayerFactoryService.create_fully_connected_layer(
+                output_layer, layer_size, activation_fn)
 
-        return outputLayer
+        return output_layer
 
     @staticmethod
     def create_fully_connected_layer(inputLayer, layer_size, activation_fn):

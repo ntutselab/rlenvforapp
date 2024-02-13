@@ -14,43 +14,43 @@ class HTMLLogCrawler(ICrawler):
     def __init__(self):
         super().__init__()
         self._html: str = ""
-        self._targetPath: str = ""
-        self._appElementDTOs: [AppElementDTO] = []
+        self._target_path: str = ""
+        self._app_element_dt_os: [AppElementDTO] = []
 
     def go_to_root_page(self):
-        folderPath, pageHTMLFileName = os.path.split(self._targetPath)
-        pageJsonFileName = os.path.splitext(pageHTMLFileName)[0] + ".json"
+        folder_path, pageHTMLFileName = os.path.split(self._target_path)
+        page_json_file_name = os.path.splitext(pageHTMLFileName)[0] + ".json"
 
-        htmlParser = etree.parse(
+        html_parser = etree.parse(
             os.path.join(
-                folderPath,
+                folder_path,
                 pageHTMLFileName),
             etree.HTMLParser())
-        self._html = etree.tostring(htmlParser).decode("utf-8")
-        self._appElementDTOs: [AppElementDTO] = []
+        self._html = etree.tostring(html_parser).decode("utf-8")
+        self._app_element_dt_os: [AppElementDTO] = []
 
-        jsonData = open(os.path.join(folderPath, pageJsonFileName),)
-        pageLog = json.load(jsonData)
-        jsonData.close()
-        interactiveXpaths = pageLog["interactive_appElement"]
-        for xpath in interactiveXpaths:
-            if xpath not in pageLog["appEvent"]:
+        json_data = open(os.path.join(folder_path, page_json_file_name),)
+        page_log = json.load(json_data)
+        json_data.close()
+        interactive_xpaths = page_log["interactive_appElement"]
+        for xpath in interactive_xpaths:
+            if xpath not in page_log["appEvent"]:
                 continue
-            element = htmlParser.xpath(xpath)[0]
-            self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
+            element = html_parser.xpath(xpath)[0]
+            self._app_element_dt_os.append(AppElementDTO(tag_name=element.tag,
                                                       name=self._get_html_tag_attribute(
                                                           element=element, attribute="name"),
                                                       type=self._get_html_tag_attribute(
                                                           element=element, attribute="type"),
-                                                      xpath=htmlParser.getpath(
+                                                      xpath=html_parser.getpath(
                                                           element),
                                                       value=self._get_html_tag_attribute(element=element,
                                                                                       attribute="value")))
-        random.shuffle(self._appElementDTOs)
+        random.shuffle(self._app_element_dt_os)
 
-    def reset(self, rootPath: str, formXPath: str = ""):
+    def reset(self, rootPath: str, form_x_path: str = ""):
         if rootPath != "":
-            self._targetPath = rootPath
+            self._target_path = rootPath
         self.go_to_root_page()
 
     def close(self):
@@ -61,12 +61,12 @@ class HTMLLogCrawler(ICrawler):
         #     return
         # if "button" in xpath:
         #     return
-        for element in self._appElementDTOs:
+        for element in self._app_element_dt_os:
             if element.get_xpath() is xpath:
                 element._value = value
 
     def change_focus(self, xpath: str, value: str):
-        for element in self._appElementDTOs:
+        for element in self._app_element_dt_os:
             if element.get_xpath() is xpath:
                 element._value = value
 
@@ -74,18 +74,18 @@ class HTMLLogCrawler(ICrawler):
         pass
 
     def get_all_selected_app_elements_dt_os(self) -> [AppElementDTO]:
-        return self._appElementDTOs
+        return self._app_element_dt_os
 
     def get_dom(self) -> str:
         return self._html
 
     def get_url(self) -> str:
-        return self._targetPath
+        return self._target_path
 
     def _get_html_tag_attribute(self, element, attribute):
-        attributeText = ""
+        attribute_text = ""
         try:
-            attributeText = element.attrib[attribute]
+            attribute_text = element.attrib[attribute]
         except BaseException:
-            attributeText = ""
-        return attributeText
+            attribute_text = ""
+        return attribute_text
