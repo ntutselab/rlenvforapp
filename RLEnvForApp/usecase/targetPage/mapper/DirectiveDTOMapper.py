@@ -37,7 +37,7 @@ def mapping_directive_from(directive_dto: DirectiveDTO) -> Directive:
             AppEventDTOMapper.mapping_app_event_from(
                 app_event_dto=app_event_dto))
 
-    return Directive(url=directive_dto.get_url(), dom=directive_dto.get_dom(), form_x_path=directive_dto.get_form_x_path(),
+    return Directive(url=directive_dto.get_url(), dom=directive_dto.get_dom(), form_xpath=directive_dto.get_form_xpath(),
                      app_events=app_events, code_coverages=_mapping_code_coverage_from(code_coverage_dt_os=directive_dto.get_code_coverage_dt_os()))
 
 
@@ -48,5 +48,5 @@ def mapping_directive_dto_from(directive: Directive) -> DirectiveDTO:
             AppEventDTOMapper.mapping_app_event_dto_from(
                 app_event=app_event))
 
-    return DirectiveDTO(url=directive.get_url(), dom=directive.get_dom(), form_x_path=directive.get_form_x_path(),
+    return DirectiveDTO(url=directive.get_url(), dom=directive.get_dom(), form_xpath=directive.get_form_xpath(),
                         app_event_dt_os=app_event_dt_os, code_coverage_dt_os=_mapping_code_coverage_dt_os_from(directive.get_code_coverages()))

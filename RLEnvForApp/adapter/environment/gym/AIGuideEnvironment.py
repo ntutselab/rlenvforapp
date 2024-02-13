@@ -128,7 +128,7 @@ class AIGuideEnvironment(gym.Env):
         self._target_page_port.wait_for_target_page()
         self._is_first_step = True
 
-        self._target_form_x_path = ''
+        self._target_form_xpath = ''
         self._form_counts = {}
 
         self._aut_controller.start_aut_server()
@@ -273,12 +273,12 @@ class AIGuideEnvironment(gym.Env):
         self._logger.info(
             "==========================================================\n\n")
 
-        self._target_form_x_path = reset_env_use_output.get_form_x_path()
+        self._target_form_xpath = reset_env_use_output.get_form_xpath()
 
         FormSubmitCriteriaSingleton.get_instance().set_form_submit_criteria(
             applicationName=self._server_name,
             url=reset_env_use_output.get_target_page_url(),
-            xpath=self._target_form_x_path)
+            xpath=self._target_form_xpath)
 
         observation = numpy.array(reset_env_use_output.get_observation())
         observation.resize(self._observation_shape)

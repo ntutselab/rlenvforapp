@@ -89,7 +89,7 @@ class CreateDirectiveUseCase:
         directive = Directive(
             url=initial_state.get_url(),
             dom=initial_state.get_dom(),
-            form_x_path=target_page.get_form_x_path(),
+            form_xpath=target_page.get_form_xpath(),
             app_events=app_events,
             code_coverages=code_coverages)
         target_page.append_directive(directive=directive)

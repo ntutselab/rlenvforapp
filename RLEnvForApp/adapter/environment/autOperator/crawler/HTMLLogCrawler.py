@@ -48,7 +48,7 @@ class HTMLLogCrawler(ICrawler):
                                                                                       attribute="value")))
         random.shuffle(self._app_element_dt_os)
 
-    def reset(self, rootPath: str, form_x_path: str = ""):
+    def reset(self, rootPath: str, form_xpath: str = ""):
         if rootPath != "":
             self._target_path = rootPath
         self.go_to_root_page()

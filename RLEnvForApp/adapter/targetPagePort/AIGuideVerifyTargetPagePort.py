@@ -62,7 +62,7 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
                                                       value=app_event["value"], category="")
                             app_event_dt_os.append(app_event_dto)
 
-                    self._add_target_page(target_page_url=page_log["targetURL"], root_url=self._root_url, form_x_path=formXpath,
+                    self._add_target_page(target_page_url=page_log["targetURL"], root_url=self._root_url, form_xpath=formXpath,
                                         app_event_dt_os=app_event_dt_os, stateID=page_log["stateID"],
                                         code_coverage_vector=None)
 
@@ -77,13 +77,13 @@ class AIGuideVerifyTargetPagePort(ITargetPagePort):
         return get_all_target_page_output.get_target_page_dt_os()
 
     def _add_target_page(self, target_page_url: str, root_url: str, app_event_dt_os: [AppEventDTO], stateID: str = "",
-                       form_x_path: str = "", code_coverage_vector: CodeCoverageDTO = None):
+                       form_xpath: str = "", code_coverage_vector: CodeCoverageDTO = None):
         create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase()
         create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
                                                                             root_url=root_url,
                                                                             app_event_dt_os=app_event_dt_os,
                                                                             task_id=stateID,
-                                                                            form_x_path=form_x_path,
+                                                                            form_xpath=form_xpath,
                                                                             basic_code_coverage=code_coverage_vector)
         create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
         create_target_page_use_case.execute(

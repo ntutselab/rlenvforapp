@@ -45,12 +45,12 @@ class ResetEnvironmentUseCase:
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
                 app_events=target_page.get_app_events(),
                 rootPath=target_page.get_root_url(),
-                form_x_path=target_page.get_form_x_path())
+                form_xpath=target_page.get_form_xpath())
         else:
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
                 app_events=[],
                 rootPath="register.html",
-                form_x_path="")
+                form_xpath="")
         initiateToTargetActionCommand.execute(operator=self._operator)
 
         state: State = self._operator.get_state()
@@ -64,14 +64,14 @@ class ResetEnvironmentUseCase:
                 episode_handler=episode_handler))
 
         url = ""
-        form_x_path = ""
+        form_xpath = ""
         if target_page is not None:
             url = target_page.get_target_url()
-            form_x_path = target_page.get_form_x_path()
+            form_xpath = target_page.get_form_xpath()
 
         output.set_target_page_url(url=url)
         output.set_target_page_id(target_page.get_id())
-        output.set_form_x_path(form_x_path=form_x_path)
+        output.set_form_xpath(form_xpath=form_xpath)
         output.set_episode_handler_id(episode_handler.get_id())
         output.set_observation(observation)
         output.set_original_observation(originalObservation)

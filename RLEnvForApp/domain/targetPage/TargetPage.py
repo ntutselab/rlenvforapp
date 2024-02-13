@@ -5,13 +5,13 @@ from RLEnvForApp.domain.targetPage.Directive import Directive
 
 class TargetPage:
     def __init__(self, id: str, targetUrl: str, root_url: str, app_events: [AppEvent], task_id: str,
-                 form_x_path: str, basic_code_coverage: CodeCoverage, directives: [Directive]):
+                 form_xpath: str, basic_code_coverage: CodeCoverage, directives: [Directive]):
         self._id = id
         self._target_url = targetUrl
         self._root_url = root_url
         self._app_events = app_events
         self._task_id = task_id
-        self._form_x_path = form_x_path
+        self._form_xpath = form_xpath
         self._basic_code_coverage = basic_code_coverage
         self._directives: [] = directives
 
@@ -42,11 +42,11 @@ class TargetPage:
     def set_task_id(self, task_id: str):
         self._task_id = task_id
 
-    def get_form_x_path(self):
-        return self._form_x_path
+    def get_form_xpath(self):
+        return self._form_xpath
 
-    def set_form_x_path(self, form_x_path: str):
-        self._form_x_path = form_x_path
+    def set_form_xpath(self, form_xpath: str):
+        self._form_xpath = form_xpath
 
     def get_basic_code_coverage(self) -> [bool]:
         return self._basic_code_coverage

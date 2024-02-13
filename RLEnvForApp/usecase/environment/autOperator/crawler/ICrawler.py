@@ -9,7 +9,7 @@ class ICrawler:
     def go_to_root_page(self):
         pass
 
-    def reset(self, rootPath: str, form_x_path: str):
+    def reset(self, rootPath: str, form_xpath: str):
         pass
 
     def close(self):

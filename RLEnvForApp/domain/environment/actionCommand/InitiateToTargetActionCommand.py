@@ -7,11 +7,11 @@ from . import IActionCommand
 
 
 class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
-    def __init__(self, app_events: [AppEvent], rootPath: str, form_x_path: str):
+    def __init__(self, app_events: [AppEvent], rootPath: str, form_xpath: str):
         super().__init__(actionNumber=-1, action_type="init")
         self._app_events = app_events
         self._root_path = rootPath
-        self._form_x_path = form_x_path
+        self._form_xpath = form_xpath
 
     def execute(self, operator: IAUTOperator):
         operator.set_action_type(super().get_action_type())
@@ -22,7 +22,7 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
                 Logger().info("Initialize the crawler to the target page")
                 Logger().info(f"Root path: {self._rootPath}")
                 Logger().info(f"Form XPath: {self._formXPath}")
-                operator.reset_crawler(self._root_path, self._form_x_path)
+                operator.reset_crawler(self._root_path, self._form_xpath)
                 Logger().info("=====start the initial action=====")
                 for app_event in self._app_events:
                     Logger().info(

@@ -31,9 +31,9 @@ class AUTCacheHandler(ICrawler, ICodeCoverageCollector):
     def go_to_root_page(self):
         return self._crawler.go_to_root_page()
 
-    def reset(self, rootPath: str, form_x_path: str = ""):
+    def reset(self, rootPath: str, form_xpath: str = ""):
         self.is_hit = False
-        return self._crawler.reset(rootPath=rootPath, form_x_path=form_x_path)
+        return self._crawler.reset(rootPath=rootPath, form_xpath=form_xpath)
 
     def close(self):
         return self._crawler.close()

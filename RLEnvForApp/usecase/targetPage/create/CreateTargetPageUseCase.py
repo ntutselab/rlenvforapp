@@ -36,7 +36,7 @@ class CreateTargetPageUseCase:
                                 root_url=input.get_root_url(),
                                 app_events=app_events,
                                 task_id=input.get_task_id(),
-                                form_x_path=input.get_form_x_path(),
+                                form_xpath=input.get_form_xpath(),
                                 basic_code_coverage=code_coverage,
                                 directives=directives)
         target_page_entity = TargetPageEntityMapper.mapping_target_page_entity_from(

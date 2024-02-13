@@ -23,7 +23,7 @@ class IAUTOperator:
     def get_state(self) -> State:
         pass
 
-    def reset_crawler(self, path: str, form_x_path: str):
+    def reset_crawler(self, path: str, form_xpath: str):
         pass
 
     def go_to_root_page(self):

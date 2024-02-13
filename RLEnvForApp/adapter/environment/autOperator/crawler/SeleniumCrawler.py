@@ -27,7 +27,7 @@ class SeleniumCrawler(ICrawler):
         self._root_path = ""
         self._driver = None
         self._app_element_dt_os: [AppElementDTO] = []
-        self._form_x_path = "//form"
+        self._form_xpath = "//form"
 
     def go_to_root_page(self):
         go_to_root_page_retry_count = 1
@@ -47,7 +47,7 @@ class SeleniumCrawler(ICrawler):
             Logger().info("SeleniumCrawler Warning: Crawler go to root page time out.")
         return is_go_to_root_page_success
 
-    def reset(self, rootPath: str, form_x_path: str = ""):
+    def reset(self, rootPath: str, form_xpath: str = ""):
         self.close()
         self._driver = self._get_web_driver()
         if rootPath != "":
@@ -55,10 +55,10 @@ class SeleniumCrawler(ICrawler):
         else:
             Logger().info(
                 f"SeleniumCrawler Warning: reset to '{rootPath}', go to root page '{self._rootPath}'")
-        if form_x_path != "":
-            self._form_x_path = form_x_path
+        if form_xpath != "":
+            self._form_xpath = form_xpath
         else:
-            self._form_x_path = "//form"
+            self._form_xpath = "//form"
         self.go_to_root_page()
 
     def close(self):

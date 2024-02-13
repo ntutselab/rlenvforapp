@@ -7,13 +7,13 @@ from RLEnvForApp.usecase.targetPage.entity.DirectiveEntity import \
 
 class TargetPageEntity:
     def __init__(self, id: str, targetUrl: str, root_url: str, app_event_entities: [AppEventEntity], task_id: str,
-                 form_x_path: str, basicCodeCoverageEntity: CodeCoverageEntity, directive_entities: [DirectiveEntity]):
+                 form_xpath: str, basicCodeCoverageEntity: CodeCoverageEntity, directive_entities: [DirectiveEntity]):
         self._id = id
         self._target_url = targetUrl
         self._root_url = root_url
         self._app_event_entities = app_event_entities
         self._task_id = task_id
-        self._form_x_path = form_x_path
+        self._form_xpath = form_xpath
         self._basic_code_coverage_entity = basicCodeCoverageEntity
         self._directive_entities = directive_entities
 
@@ -32,8 +32,8 @@ class TargetPageEntity:
     def get_task_id(self):
         return self._task_id
 
-    def get_form_x_path(self):
-        return self._form_x_path
+    def get_form_xpath(self):
+        return self._form_xpath
 
     def get_basic_code_coverage_entity(self) -> CodeCoverageEntity:
         return self._basic_code_coverage_entity

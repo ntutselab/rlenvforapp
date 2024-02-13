@@ -27,7 +27,7 @@ def mapping_target_page_entity_from(target_page: TargetPage.TargetPage):
                                              root_url=target_page.get_root_url(),
                                              app_event_entities=app_event_entities,
                                              task_id=target_page.get_task_id(),
-                                             form_x_path=target_page.get_form_x_path(),
+                                             form_xpath=target_page.get_form_xpath(),
                                              basicCodeCoverageEntity=CodeCoverageEntityMapper.mapping_code_coverage_entity_from(
                                                  target_page.get_basic_code_coverage()),
                                              directive_entities=directive_entities)
@@ -50,7 +50,7 @@ def mapping_target_page_from(target_page_entity: TargetPageEntity):
                                  root_url=target_page_entity._root_url,
                                  app_events=app_events,
                                  task_id=target_page_entity.get_task_id(),
-                                 form_x_path=target_page_entity.get_form_x_path(),
+                                 form_xpath=target_page_entity.get_form_xpath(),
                                  basic_code_coverage=CodeCoverageEntityMapper.mapping_code_coverage_from(
                                      target_page_entity.get_basic_code_coverage_entity()),
                                  directives=directives)

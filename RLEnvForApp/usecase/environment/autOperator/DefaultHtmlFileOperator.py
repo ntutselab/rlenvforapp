@@ -34,8 +34,8 @@ class DefaultHtmlFileOperator(IAUTOperator):
         state.set_focus_vector(focused_vector)
         return state
 
-    def reset_crawler(self, path: str, form_x_path: str = ""):
-        self._crawler.reset(path=path, form_x_path=form_x_path)
+    def reset_crawler(self, path: str, form_xpath: str = ""):
+        self._crawler.reset(path=path, form_xpath=form_xpath)
         self._set_selected_app_element()
         self._focused_app_element_index = 0
         self._app_event_value = ""

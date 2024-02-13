@@ -37,7 +37,7 @@ def mapping_directive_entity_from(directive: Directive) -> DirectiveEntity:
         app_event_entities.append(
             AppEventEntityMapper.mapping_app_event_entity_from(
                 app_event=app_event))
-    return DirectiveEntity(url=directive.get_url(), dom=directive.get_dom(), form_x_path=directive.get_form_x_path(
+    return DirectiveEntity(url=directive.get_url(), dom=directive.get_dom(), form_xpath=directive.get_form_xpath(
     ), app_event_entities=app_event_entities, code_coverage_entities=_mapping_code_coverage_entities_from(directive.get_code_coverages()))
 
 
@@ -47,5 +47,5 @@ def mapping_directive_from(directive_entity: DirectiveEntity) -> Directive:
         app_events.append(
             AppEventEntityMapper.mapping_app_event_from(
                 app_event_entity=app_event_entity))
-    return Directive(url=directive_entity.get_url(), dom=directive_entity.get_dom(), form_x_path=directive_entity.get_form_x_path(
+    return Directive(url=directive_entity.get_url(), dom=directive_entity.get_dom(), form_xpath=directive_entity.get_form_xpath(
     ), app_events=app_events, code_coverages=_mapping_code_coverage_from(directive_entity.get_code_coverage_entities()))

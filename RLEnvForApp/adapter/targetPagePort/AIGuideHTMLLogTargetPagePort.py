@@ -32,15 +32,15 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
                 self._add_target_page(
                     target_page_url=path,
                     root_url=path,
-                    form_x_path=page_log["formXPath"],
+                    form_xpath=page_log["formXPath"],
                     app_event_dt_os=[])
 
     def _add_target_page(self, target_page_url: str, root_url: str,
-                       form_x_path: str, app_event_dt_os: [AppEventDTO]):
+                       form_xpath: str, app_event_dt_os: [AppEventDTO]):
         create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase()
         create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
                                                                             root_url=root_url,
-                                                                            form_x_path=form_x_path,
+                                                                            form_xpath=form_xpath,
                                                                             app_event_dt_os=[])
         create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
         create_target_page_use_case.execute(

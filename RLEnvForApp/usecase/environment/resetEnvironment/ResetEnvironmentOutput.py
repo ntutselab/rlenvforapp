@@ -4,7 +4,7 @@ class ResetEnvironmentOutput:
         self._episode_handler_id = ""
         self._target_page_url = ""
         self._target_page_id = ""
-        self._form_x_path = ""
+        self._form_xpath = ""
         self._original_observation = {}
 
     def set_observation(self, observation):
@@ -31,11 +31,11 @@ class ResetEnvironmentOutput:
     def get_target_page_id(self):
         return self._target_page_id
 
-    def get_form_x_path(self):
-        return self._form_x_path
+    def get_form_xpath(self):
+        return self._form_xpath
 
-    def set_form_x_path(self, form_x_path: str):
-        self._form_x_path = form_x_path
+    def set_form_xpath(self, form_xpath: str):
+        self._form_xpath = form_xpath
 
     def set_episode_handler_id(self, id: str):
         self._episode_handler_id = id

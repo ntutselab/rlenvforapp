@@ -101,13 +101,13 @@ class AIGuideTargetPagePort(ITargetPagePort):
                     code_coverage_vector=java_object_learning_task_dto.get_code_coverage_vector())
                 if not self._have_same_task_id(task_id=stateID):
                     # support for filling out multiple forms
-                    for form_x_path in formXPaths:
+                    for form_xpath in formXPaths:
                         self._add_target_page(
                             target_page_url=url,
                             root_url=self._root_url,
                             app_event_dt_os=app_event_dt_os,
                             stateID=stateID,
-                            form_x_path=form_x_path,
+                            form_xpath=form_xpath,
                             code_coverage_vector=code_coverage_dto)
                     # support for filling in single form
                     # self._addTargetPage(targetPageUrl=url, rootUrl=self._rootUrl, appEventDTOs=appEventDTOs,
@@ -140,13 +140,13 @@ class AIGuideTargetPagePort(ITargetPagePort):
         self._java_object_py4_j_learning_pool.set_pause_agent(isPauseAgent)
 
     def _add_target_page(self, target_page_url: str, root_url: str, app_event_dt_os: [AppEventDTO], stateID: str = "",
-                       form_x_path: str = "", code_coverage_vector: CodeCoverageDTO = None):
+                       form_xpath: str = "", code_coverage_vector: CodeCoverageDTO = None):
         create_target_page_use_case = CreateTargetPageUseCase.CreateTargetPageUseCase()
         create_target_page_input = CreateTargetPageInput.CreateTargetPageInput(target_page_url=target_page_url,
                                                                             root_url=root_url,
                                                                             app_event_dt_os=app_event_dt_os,
                                                                             task_id=stateID,
-                                                                            form_x_path=form_x_path,
+                                                                            form_xpath=form_xpath,
                                                                             basic_code_coverage=code_coverage_vector)
         create_target_page_output = CreateTargetPageOutput.CreateTargetPageOutput()
         create_target_page_use_case.execute(
@@ -276,8 +276,8 @@ class AIGuideTargetPagePort(ITargetPagePort):
         # set task id
         java_object_learning_result_dto_builder.set_task_id(
             java_object_learning_task_dto.getStateID())
-        java_object_learning_result_dto_builder.set_form_x_path(
-            directive_dto.get_form_x_path())
+        java_object_learning_result_dto_builder.set_form_xpath(
+            directive_dto.get_form_xpath())
         # set code coverage
         code_coverage_dto = self._get_code_coverage_dto_by_type(code_coverage_dt_os=directive_dto.get_code_coverage_dt_os(),
                                                          type="statement coverage")
@@ -308,12 +308,12 @@ class AIGuideTargetPagePort(ITargetPagePort):
                 "value": app_event_dto.get_value(), "category": app_event_dto.get_category()}
         for app_element_dto in initial_state_dto.get_selected_app_element_dt_os():
             interactive_app_element_dictionary.append(app_element_dto.get_xpath())
-        form_x_path = directive_dto.get_form_x_path()
+        form_xpath = directive_dto.get_form_xpath()
         directive_log_json = json.dumps(
             {
                 "interactive_appElement": interactive_app_element_dictionary,
                 "appEvent": directive_dictionary,
-                "formXPath": form_x_path})
+                "formXPath": form_xpath})
 
         self._update_input_value_weights(directive_dictionary)
 

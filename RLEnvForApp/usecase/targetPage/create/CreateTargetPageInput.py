@@ -6,12 +6,12 @@ from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 
 class CreateTargetPageInput():
     def __init__(self, target_page_url: str, root_url: str, app_event_dt_os: [AppEventDTO], task_id: str = "",
-                 form_x_path: str = "", basic_code_coverage: CodeCoverageDTO = None, directive_dt_os: [DirectiveDTO] = []):
+                 form_xpath: str = "", basic_code_coverage: CodeCoverageDTO = None, directive_dt_os: [DirectiveDTO] = []):
         self._target_page_url = target_page_url
         self._root_url = root_url
         self._app_event_dt_os = app_event_dt_os
         self._task_id = task_id
-        self._form_x_path = form_x_path
+        self._form_xpath = form_xpath
         self._basic_code_coverage = basic_code_coverage
         self._directive_dt_os = directive_dt_os
 
@@ -27,8 +27,8 @@ class CreateTargetPageInput():
     def get_task_id(self):
         return self._task_id
 
-    def get_form_x_path(self):
-        return self._form_x_path
+    def get_form_xpath(self):
+        return self._form_xpath
 
     def get_basic_code_coverage(self):
         return self._basic_code_coverage

@@ -60,7 +60,7 @@ class testCrawlerExecuteActionUseCaseTest(TestCase):
             self._hirerarchy_initial.stop_aut_server(aut_entity.get_id())
 
     def test_crawljax_goto_root_page_error(self):
-        self.assertFalse(self._crawler.reset(path="", form_x_path=""))
+        self.assertFalse(self._crawler.reset(path="", form_xpath=""))
 
     def test_crawljax_goto_register_get_coverage(self):
         statement_coverage_length = 0
