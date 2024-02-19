@@ -50,8 +50,8 @@ class CategoryListSingleton:
 
     def setCategoryExtendList(self, newList):
         self._categoryList = newList
-        with open('category_extend_list.json', 'w', encoding='utf-8') as f:
-            json.dump({'category_extend_list': newList}, f, ensure_ascii=False, indent=4)
+        with open('category_extend_list.json', 'w', encoding='utf-8') as file:
+            json.dump({'category_extend_list': newList}, file, ensure_ascii=False, indent=4)
 
 
 class ValueWeightSingleton:
@@ -83,5 +83,5 @@ class ValueWeightSingleton:
 
     def setValueWeights(self, newList):
         self._valueWeights = newList
-        with open('input_value_probability.json', 'w', encoding='utf-8') as f:
-            json.dump({'weights': newList}, f, ensure_ascii=False, indent=4)
+        with open('input_value_probability.json', 'w', encoding='utf-8') as file:
+            json.dump({'weights': newList}, file, ensure_ascii=False, indent=4)

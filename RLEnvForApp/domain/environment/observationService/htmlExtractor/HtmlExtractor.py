@@ -86,14 +86,14 @@ class HtmlExtractor:
                         continue
                     labelName = etree.tostring(labelElements[0], method="text", encoding="UTF-8").decode(
                         'utf-8').strip()
-        except Exception as e:
-            Logger().info(f"HTML Extractor Warning: find closest Label name fail {e}")
+        except Exception as exception:
+            Logger().info(f"HTML Extractor Warning: find closest Label name fail {exception}")
 
         return labelName
 
     def _getHtmlTagAttribute(self, element, attribute):
         try:
             attributeText = element.attrib[attribute]
-        except Exception as e:
+        except Exception:
             attributeText = ""
         return attributeText

@@ -27,8 +27,8 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
                     Logger().info(f"Xpath: {appEvent.getXpath()}, value: {appEvent.getValue()}")
                     operator.executeAppEvent(xpath=appEvent.getXpath(), value=appEvent.getValue())
                 isSuccess = True
-            except Exception as e:
-                Logger().info(f"InitiateToTargetActionCommand Exception, {e}")
+            except Exception as exception:
+                Logger().info(f"InitiateToTargetActionCommand Exception, {exception}")
                 retry += 1
             if retry >= 10:
                 raise RuntimeError
