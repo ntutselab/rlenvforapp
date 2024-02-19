@@ -35,14 +35,15 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
                 for line in sorted(codeLineVector):
                     fileCoverageVector.append(line in coverageInfo["executed_lines"])
                 codeCoverageVector.extend(fileCoverageVector)
-            c = CodeCoverage(codeCoverageType="statement", codeCoverageVector=codeCoverageVector)
-            print(c.getCoveredAmount())
-            print(c.getCodeCoverageVectorLength())
-            print(c.getRatio())
+            coverage = CodeCoverage(codeCoverageType="statement",
+                                    codeCoverageVector=codeCoverageVector)
+            print(coverage.getCoveredAmount())
+            print(coverage.getCodeCoverageVectorLength())
+            print(coverage.getRatio())
 
             return response
-        except Exception as e:
-            print("Failed at getting coverage", e.__class__.__name__)
+        except Exception as exception:
+            print("Failed at getting coverage", exception.__class__.__name__)
 
     def _requestsRetrySession(self, retries=3, backoffFactor=0.3, statusForceList=(500, 502, 504), session=None):
         session = session or requests.Session()

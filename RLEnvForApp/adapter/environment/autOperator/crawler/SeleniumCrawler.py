@@ -65,24 +65,24 @@ class SeleniumCrawler(ICrawler):
     def executeAppEvent(self, xpath: str, value: str):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
-        except Exception as e:
+        except Exception as exception:
             Logger().info(f"SeleniumCrawlerWarning: No such element in xpath {xpath}")
-            raise e
+            raise exception
 
         if value == "":
             try:
                 element.click()
                 time.sleep(EVENT_WAITING_TIME/1000)
-            except Exception as e:
+            except Exception as exception:
                 Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be clicked")
-                # raise e
+                # raise exception
         else:
             try:
                 element.clear()
                 element.send_keys(value)
-            except Exception as e:
+            except Exception as exception:
                 Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be input")
-                # raise e
+                # raise exception
 
     def getScreenShot(self):
         PNGScreenShot = self._driver.get_screenshot_as_png()
@@ -158,8 +158,8 @@ class SeleniumCrawler(ICrawler):
             if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(element=element, attribute="type") == "hidden":
                 return False
             return element.is_displayed() and element.is_enabled()
-        except Exception as e:
-            Logger().info(f"SeleniumCrawlerException: {e}")
+        except Exception as exception:
+            Logger().info(f"SeleniumCrawlerException: {exception}")
             return False
 
     def _shouldHrefBeIgnored(self, href: str):

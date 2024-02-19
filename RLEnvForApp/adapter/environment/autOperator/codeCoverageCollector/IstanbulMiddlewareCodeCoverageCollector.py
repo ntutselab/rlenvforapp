@@ -27,8 +27,8 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
             # istanbul allows reset on GET as well
             # so here we simply use GET to reset the coverage
             response = self.session.get(f"{self._serverRootUrl}/coverage/reset")
-        except Exception as e:
-            Logger().info(f"Failed at resetting coverage {e.__class__.__name__}")
+        except Exception as exception:
+            Logger().info(f"Failed at resetting coverage {exception.__class__.__name__}")
         else:
             if response.status_code != requests.codes.ok:
                 raise Exception('Reset coverage error!')
@@ -53,8 +53,8 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
             codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(
                 codeCoverageValueVector=codeCoverageValueVector)
             return codeCoverageVector
-        except Exception as e:
-            Logger().info(f"Failed at getting coverage {e.__class__.__name__}")
+        except Exception as exception:
+            Logger().info(f"Failed at getting coverage {exception.__class__.__name__}")
 
     def _flatList(self, originList: []):
         flattenedList = []
