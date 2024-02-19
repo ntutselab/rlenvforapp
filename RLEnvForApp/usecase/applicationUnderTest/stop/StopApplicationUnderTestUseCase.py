@@ -22,6 +22,7 @@ class StopApplicationUnderTestUseCase:
         self._repository.deletById(autId)
         aut = ApplicationUnderTestMapper.mappingApplicationUnderTestFrom(autEntity)
         autUrl = f"http://{aut.getIP()}:{str(aut.getPort())}"
-        self._applicationHandler.stop(applicationName=aut.getApplicationName(), ip=aut.getIP(), port=aut.getPort())
+        self._applicationHandler.stop(
+            applicationName=aut.getApplicationName(), ip=aut.getIP(), port=aut.getPort())
 
         output.setUrl(autUrl)

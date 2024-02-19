@@ -23,8 +23,10 @@ def mappingTargetPageDTOFrom(targetPage: TargetPage):
                          appEventDTOs=appEventDTOs,
                          taskID=targetPage.getTaskID(),
                          formXPath=targetPage.getFormXPath(),
-                         basicCodeCoverageDTO=CodeCoverageDTOMapper.mappingCodeCoverageDTOFrom(targetPage.getBasicCodeCoverage()),
+                         basicCodeCoverageDTO=CodeCoverageDTOMapper.mappingCodeCoverageDTOFrom(
+                             targetPage.getBasicCodeCoverage()),
                          directiveDTOs=directiveDTOs)
+
 
 def mappingTargetPageFrom(targetPageDTO: TargetPageDTO):
     appEvents: [AppEvent] = []
@@ -40,5 +42,6 @@ def mappingTargetPageFrom(targetPageDTO: TargetPageDTO):
                       appEvents=appEvents,
                       taskID=targetPageDTO.getTaskID(),
                       formXPath=targetPageDTO.getFormXPath(),
-                      basicCodeCoverage=CodeCoverageDTOMapper.mappingCodeCoverageFrom(targetPageDTO.getBasicCodeCoverageDTO()),
+                      basicCodeCoverage=CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+                          targetPageDTO.getBasicCodeCoverageDTO()),
                       directives=directives)

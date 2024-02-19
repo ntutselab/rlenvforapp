@@ -20,7 +20,8 @@ inputData_7 = "Kai Huang"
 class MorePagesExperimentActionCommandFactory(IActionCommandFactoryService):
     def __init__(self):
         super().__init__()
-        self._inputData = [inputData_2, inputData_3, inputData_4, inputData_5, inputData_6, inputData_7]
+        self._inputData = [inputData_2, inputData_3,
+                           inputData_4, inputData_5, inputData_6, inputData_7]
 
     def createActionCommand(self, actionNumber: int) -> IActionCommand:
         inputActionStartNumber = 2
@@ -35,8 +36,7 @@ class MorePagesExperimentActionCommandFactory(IActionCommandFactoryService):
             indexOfInputData = actionNumber - inputActionStartNumber
             return IRobotInputValueCommand.IRobotInputValueCommand(inputValue=self._inputData[indexOfInputData], actionNumber=actionNumber)
 
-
-    def getActionSpaceSize(self)->int:
+    def getActionSpaceSize(self) -> int:
         return 2 + len(self._inputData)
 
     def getActionList(self) -> [str]:

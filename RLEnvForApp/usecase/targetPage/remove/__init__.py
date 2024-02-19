@@ -1,1 +1,1 @@
-__all__=["RemoveTargetPageInput", "RemoveTargetPageOutput", "RemoveTargetPageUseCase"]
+__all__ = ["RemoveTargetPageInput", "RemoveTargetPageOutput", "RemoveTargetPageUseCase"]

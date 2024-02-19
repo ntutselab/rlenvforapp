@@ -11,7 +11,8 @@ class TimeLoggerService:
         timeStamp = time.ctime(startTimeSeconds)
 
         savePath = os.path.join(logDir, "startTime.log")
-        savedContent = "Start Time: " + str(timeStamp) + "\nStart Time(seconds): " + str(startTimeSeconds) + "\n"
+        savedContent = "Start Time: " + str(timeStamp) + \
+            "\nStart Time(seconds): " + str(startTimeSeconds) + "\n"
         self._writeFile(path=savePath, content=savedContent)
         return startTimeSeconds
 
@@ -20,7 +21,8 @@ class TimeLoggerService:
         timeStamp = time.ctime(stopTimeSeconds)
 
         savePath = os.path.join(logDir, "stopTime.log")
-        savedContent = "Stop Time: " + str(timeStamp) + "\nStop Time(seconds): " + str(stopTimeSeconds) + "\n"
+        savedContent = "Stop Time: " + str(timeStamp) + \
+            "\nStop Time(seconds): " + str(stopTimeSeconds) + "\n"
         self._writeFile(path=savePath, content=savedContent)
         return stopTimeSeconds
 
@@ -29,7 +31,8 @@ class TimeLoggerService:
         timeStamp = time.ctime(timeSeconds)
 
         savePath = os.path.join(logDir, str(timeSeconds) + ".log")
-        savedContent = "Log Time: " + str(timeStamp) + "\nLog Time(seconds): " + str(timeSeconds) + "\n"
+        savedContent = "Log Time: " + str(timeStamp) + \
+            "\nLog Time(seconds): " + str(timeSeconds) + "\n"
         self._writeFile(path=savePath, content=savedContent)
         return timeSeconds
 
@@ -37,9 +40,10 @@ class TimeLoggerService:
         diffSeconds = stopTimeSeconds - startTimeSeconds
         startTime = time.localtime(startTimeSeconds)
         stopTime = time.localtime(stopTimeSeconds)
-    
+
         savePath = os.path.join(logDir, "timePeriod.log")
-        savedContent = "Start Time: " + str(startTime) + "\nStop Time: " + str(stopTime) + "\nTime Period: "
+        savedContent = "Start Time: " + str(startTime) + \
+            "\nStop Time: " + str(stopTime) + "\nTime Period: "
         savedContent = savedContent + self._getFormatTime(diffSeconds)
         self._writeFile(path=savePath, content=savedContent)
         return diffSeconds

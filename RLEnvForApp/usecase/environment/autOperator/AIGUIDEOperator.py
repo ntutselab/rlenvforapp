@@ -76,7 +76,8 @@ class AIGUIDEOperator(IAUTOperator):
             self._interactedElement = self._selectedAppElements[self._focusedAppElementIndex]
         numberOfSelectedAppElement = len(self._selectedAppElements)
         if numberOfSelectedAppElement != 0:
-            self._focusedAppElementIndex = (self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
+            self._focusedAppElementIndex = (
+                self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
         else:
             self._focusedAppElementIndex = 0
 
@@ -114,7 +115,6 @@ class AIGUIDEOperator(IAUTOperator):
         self._selectedAppElements.extend(hyperlinkAppElements)
         self._selectedAppElements.extend(otherAppElements)
         self._selectedAppElements.extend(buttonAppElements)
-
 
     def _mappingCodeCoverageForm(self, codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []

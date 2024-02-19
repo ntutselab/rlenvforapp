@@ -19,7 +19,8 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
         lastState = episodeHandler.getState(numberOfState - 1)
 
         if self._isInputAction(lastState=lastState):
-            reward = self._getInputValueReward(elementTagName=lastState.getInteractedElement().getName(), inputValue=lastState.getAppEventInputValue())
+            reward = self._getInputValueReward(elementTagName=lastState.getInteractedElement(
+            ).getName(), inputValue=lastState.getAppEventInputValue())
 
         if self._isChangeFocusAction(lastState=lastState):
             reward = self._getChangeFocusReward()
@@ -32,7 +33,6 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
 
         return reward
 
-
     def _isInputAction(self, lastState: State):
         return lastState.getActionType() == "input"
 
@@ -41,7 +41,6 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
 
     def _isClickAction(self, lastState: State):
         return lastState.getActionType() == "click"
-
 
     def _getInputValueReward(self, elementTagName: str, inputValue: str):
         rewardRevise = 0

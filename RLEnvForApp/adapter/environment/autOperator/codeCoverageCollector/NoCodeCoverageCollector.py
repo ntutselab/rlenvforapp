@@ -9,7 +9,8 @@ class NoCodeCoverageCollector(ICodeCoverageCollector):
 
     def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
         codeCoverageDTOs = []
-        codeCoverageDTOs.append(CodeCoverageDTO(codeCoverageType="statement coverage", codeCoverageVector=[False]))
+        codeCoverageDTOs.append(CodeCoverageDTO(
+            codeCoverageType="statement coverage", codeCoverageVector=[False]))
         return codeCoverageDTOs
 
     def resetCodeCoverage(self):

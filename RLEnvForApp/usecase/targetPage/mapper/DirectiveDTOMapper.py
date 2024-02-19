@@ -11,14 +11,16 @@ from RLEnvForApp.usecase.targetPage.mapper import AppEventDTOMapper
 def _mappingCodeCoverageDTOsFrom(odeCoverages: [CodeCoverage]) -> [CodeCoverageDTO]:
     codeCoverageDTOs: [CodeCoverageDTO] = []
     for codeCoverage in odeCoverages:
-        codeCoverageDTOs.append(CodeCoverageDTOMapper.mappingCodeCoverageDTOFrom(codeCoverage=codeCoverage))
+        codeCoverageDTOs.append(
+            CodeCoverageDTOMapper.mappingCodeCoverageDTOFrom(codeCoverage=codeCoverage))
     return codeCoverageDTOs
 
 
 def _mappingCodeCoverageFrom(codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageDTO in codeCoverageDTOs:
-        codeCoverages.append(CodeCoverageDTOMapper.mappingCodeCoverageFrom(codeCoverageDTO=codeCoverageDTO))
+        codeCoverages.append(CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+            codeCoverageDTO=codeCoverageDTO))
     return codeCoverages
 
 

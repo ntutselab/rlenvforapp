@@ -30,5 +30,6 @@ class MyTestCase(unittest.TestCase):
                 passwoardAppElementDTO = appElementDTO
         self.assertEqual("testPassword", passwoardAppElementDTO.getValue())
 
+
 if __name__ == '__main__':
     unittest.main()

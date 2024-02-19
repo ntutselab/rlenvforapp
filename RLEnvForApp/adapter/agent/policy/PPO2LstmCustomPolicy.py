@@ -20,4 +20,4 @@ class PPO2LstmCustomPolicy(LstmPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm=256, reuse=False, **_kwargs):
         super(PPO2LstmCustomPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm, reuse, cnn_extractor=AgentDIContainers.cnnExtractor,
-                                            layer_norm=False, feature_extraction="cnn", **_kwargs)
+                                                   layer_norm=False, feature_extraction="cnn", **_kwargs)

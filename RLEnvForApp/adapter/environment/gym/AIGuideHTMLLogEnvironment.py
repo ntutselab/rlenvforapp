@@ -31,7 +31,8 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         self._crawler = HTMLLogCrawler()
         self._autOperator = AIGUIDEOperator(crawler=self._crawler)
 
-        self._targetPagePort = TargetPagePortFactory().createAIGuideHTMLLogTargetPagePort(folderPath="htmlSet/GUIDE_HTML_SET")
+        self._targetPagePort = TargetPagePortFactory().createAIGuideHTMLLogTargetPagePort(
+            folderPath="htmlSet/GUIDE_HTML_SET")
 
         self._targetPageId = ""
         self._episodeHandlerId = ""
@@ -64,7 +65,8 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         else:
             focusElementXpath = self._autOperator.getFocusedAppElement().getXpath()
 
-        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(autOperator=self._autOperator)
+        executeActionUseCase = ExecuteActionUseCase.ExecuteActionUseCase(
+            autOperator=self._autOperator)
         executeActionInput = ExecuteActionInput.ExecuteActionInput(actionNumber=int(action),
                                                                    episodeHandlerId=self._episodeHandlerId)
         executeActionOutput = ExecuteActionOutput.ExecuteActionOutput()
@@ -100,12 +102,15 @@ class AIGuideHTMLLogEnvironment(gym.Env):
         self._episodeIndex += 1
         self._stepNumber = 1
 
-        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(operator=self._autOperator)
-        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(episodeIndex=self._episodeIndex)
+        resetEnvUseCase = ResetEnvironmentUseCase.ResetEnvironmentUseCase(
+            operator=self._autOperator)
+        resetEnvUseInput = ResetEnvironmentInput.ResetEnvironmentInput(
+            episodeIndex=self._episodeIndex)
         resetEnvUseOutput = ResetEnvironmentOutput.ResetEnvironmentOutput()
         resetEnvUseCase.execute(input=resetEnvUseInput, output=resetEnvUseOutput)
 
-        self._logger.info("Episode Handler Amount:" + f"{len(self._episodeHandlerRepository.findAll()):2}")
+        self._logger.info("Episode Handler Amount:" +
+                          f"{len(self._episodeHandlerRepository.findAll()):2}")
         self._logger.info("Target page url is: " + resetEnvUseOutput.getTargetPageUrl())
         self._logger.info("==========================================================\n\n")
 

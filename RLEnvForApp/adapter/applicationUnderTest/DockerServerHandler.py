@@ -51,9 +51,11 @@ class DockerServerHandler(ApplicationHandler):
         compose_file.close()
 
     def _startServer(self, dockerComposePath, port):
-        create_process = Popen(DockerServerConfig.createDockerComposeCommand(dockerComposePath=dockerComposePath))
+        create_process = Popen(DockerServerConfig.createDockerComposeCommand(
+            dockerComposePath=dockerComposePath))
         try:
-            comment, errs = create_process.communicate(timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
+            comment, errs = create_process.communicate(
+                timeout=DockerServerConfig.MAXIMUM_WAITING_TIMEOUT)
             Logger().info(f"\tServer Port: {port}, comment: {comment}")
             Logger().info(f"\tServer Port: {port}, error: {errs}")
         except SubprocessError:

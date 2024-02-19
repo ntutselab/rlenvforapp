@@ -23,7 +23,8 @@ class ModelController:
         observation = environment.env_method(method_name="reset")
         while isContinue:
             action, state = self._model.predict(observation)
-            observation, reward, isDone, info = environment.env_method(method_name="step", action=action)[0]
+            observation, reward, isDone, info = environment.env_method(
+                method_name="step", action=action)[0]
             totalReward += reward
             isContinue = not isDone
         return totalReward

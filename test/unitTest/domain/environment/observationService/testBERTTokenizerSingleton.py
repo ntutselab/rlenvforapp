@@ -19,5 +19,6 @@ class testBERTTokenizerSingleton(unittest.TestCase):
     def testGetTokenIds(self):
         word_sequence_token: [] = ["word", "sequence", "test", ",", "yes", "."]
         word_sequence_token_ids: [] = [2773, 5537, 3231, 1010, 2748, 1012]
-        self.assertEqual(len(word_sequence_token_ids), len(self.tokenizer.getTokenIds(word_sequence_token)))
+        self.assertEqual(len(word_sequence_token_ids), len(
+            self.tokenizer.getTokenIds(word_sequence_token)))
         self.assertEqual(word_sequence_token_ids, self.tokenizer.getTokenIds(word_sequence_token))

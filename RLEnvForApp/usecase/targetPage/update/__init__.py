@@ -1,1 +1,1 @@
-__all__=["UpdateTargetPageInput", "UpdateTargetPageOutput", "UpdateTargetPageUseCase"]
+__all__ = ["UpdateTargetPageInput", "UpdateTargetPageOutput", "UpdateTargetPageUseCase"]

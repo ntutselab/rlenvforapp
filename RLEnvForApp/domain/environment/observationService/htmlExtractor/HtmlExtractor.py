@@ -18,7 +18,8 @@ class HtmlExtractor:
         labelName = ""
 
         if focusElement is not None:
-            labelName = etree.tostring(focusElement, method="text", encoding="UTF-8").decode('utf-8').strip()
+            labelName = etree.tostring(focusElement, method="text",
+                                       encoding="UTF-8").decode('utf-8').strip()
 
             if labelName == "":
                 labelName = self._findLabelByid(tree, focusElement)
@@ -28,7 +29,8 @@ class HtmlExtractor:
                 labelName = self._getHtmlTagAttribute(element=focusElement, attribute="placeholder")
 
         if labelName == "":
-            Logger().info(f"HTML Extractor Warning: Can't find Label name in xpath[{focusElementXpath}]")
+            Logger().info(
+                f"HTML Extractor Warning: Can't find Label name in xpath[{focusElementXpath}]")
 
         return ' '.join(labelName.split())
 
