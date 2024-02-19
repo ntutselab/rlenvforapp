@@ -17,7 +17,8 @@ class GetAllTargetPageUseCase:
         targetPageDTOs: [TargetPageDTO] = []
         targetPageEntities = self._repository.findAll()
         for targetPageEntity in targetPageEntities:
-            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+            targetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+                targetPageEntity=targetPageEntity)
             targetPageDTO = TargetPageDTOMapper.mappingTargetPageDTOFrom(targetPage=targetPage)
             targetPageDTOs.append(targetPageDTO)
         output.setTargetPageDTOs(targetPageDTOs=targetPageDTOs)

@@ -11,10 +11,12 @@ from RLEnvForApp.domain.environment.actionCommandFactoryService import IActionCo
 # 6. 0984000000
 # 7. Michael Chen
 
+
 class DefaultForTestActionCommandFactoryService(IActionCommandFactoryService.IActionCommandFactoryService):
     def __init__(self):
         super().__init__()
-        self._inputData = ["abc@gmail.com", "10", "2020/05/29", "sgfsdg", "0984000000", "Michael Chen"]
+        self._inputData = ["abc@gmail.com", "10", "2020/05/29",
+                           "sgfsdg", "0984000000", "Michael Chen"]
         self._inputActionStartNumber = 2
 
     def createActionCommand(self, actionNumber: int) -> IActionCommand:

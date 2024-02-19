@@ -1,5 +1,5 @@
 class ApplicationUnderTestEntity:
-    def __init__(self,id:str, applicationName:str, ip: str, port: int):
+    def __init__(self, id: str, applicationName: str, ip: str, port: int):
         self._id = id
         self._applicationName = applicationName
         self._ip = ip

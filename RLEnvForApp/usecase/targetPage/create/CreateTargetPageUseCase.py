@@ -23,8 +23,10 @@ class CreateTargetPageUseCase:
     def execute(self, input: CreateTargetPageInput.CreateTargetPageInput,
                 output: CreateTargetPageOutput.CreateTargetPageOutput):
         appEvents: [AppEvent] = self._convertAppEventDTOsToAppEvents(input.getAppEventDTOs())
-        codeCoverage: CodeCoverage = self._convertCodeCoverageDTOToCodeCoverage(input.getBasicCodeCoverage())
-        directives: [Directive] = self._convertDirectiveDTOsToDirective(directiveDTOs=input.getDirectiveDTOs())
+        codeCoverage: CodeCoverage = self._convertCodeCoverageDTOToCodeCoverage(
+            input.getBasicCodeCoverage())
+        directives: [Directive] = self._convertDirectiveDTOsToDirective(
+            directiveDTOs=input.getDirectiveDTOs())
         targetPage = TargetPage(id=str(uuid.uuid4()),
                                 targetUrl=input.getTargetPageUrl(),
                                 rootUrl=input.getRootUrl(),
@@ -48,9 +50,11 @@ class CreateTargetPageUseCase:
 
     def _convertCodeCoverageDTOToCodeCoverage(self, codeCoverageDTO) -> CodeCoverage:
         if codeCoverageDTO is None:
-            codeCoverage: CodeCoverage = CodeCoverage(codeCoverageType="null", codeCoverageVector=[])
+            codeCoverage: CodeCoverage = CodeCoverage(
+                codeCoverageType="null", codeCoverageVector=[])
         else:
-            codeCoverage: CodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(codeCoverageDTO)
+            codeCoverage: CodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+                codeCoverageDTO)
         return codeCoverage
 
     def _convertDirectiveDTOsToDirective(self, directiveDTOs) -> [Directive]:

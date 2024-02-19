@@ -38,9 +38,6 @@ def dockerComposeFileContent(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, app
     if applicationName == "svelte_commerce":
         return getSvelteCommerceDockerComposeFile(port)
 
-
-
-
     # compose_file_content = '{applicationName}_{port}:\n' \
     #                        ' image: {dockerImageCreator}/{applicationName}\n' \
     #                        ' ports:\n' \
@@ -272,4 +269,3 @@ def getSvelteCommerceDockerComposeFile(port: str = PORT):
           - "{port}:3000"
     '''
     return config
-

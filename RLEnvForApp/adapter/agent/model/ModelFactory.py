@@ -14,18 +14,18 @@ class ModelFactory:
 
         if algorithm == "DQN":
             return DQN(policy, environment,
-                        gamma=ModelDIContainers.gamma,
-                        learning_rate=ModelDIContainers.learning_rate,
-                        verbose=ModelDIContainers.verbose,
-                        prioritized_replay=ModelDIContainers.prioritized_replay,
-                        tensorboard_log=tensorboardPath,
-                        learning_starts=ModelDIContainers.learning_starts,
-                        exploration_fraction=ModelDIContainers.exploration_fraction,
-                        exploration_final_eps=ModelDIContainers.exploration_final_eps,
-                        exploration_initial_eps=ModelDIContainers.exploration_initial_eps,
-                        buffer_size=ModelDIContainers.buffer_size,
-                        batch_size=ModelDIContainers.batch_size,
-                        target_network_update_freq=ModelDIContainers.target_network_update_freq)
+                       gamma=ModelDIContainers.gamma,
+                       learning_rate=ModelDIContainers.learning_rate,
+                       verbose=ModelDIContainers.verbose,
+                       prioritized_replay=ModelDIContainers.prioritized_replay,
+                       tensorboard_log=tensorboardPath,
+                       learning_starts=ModelDIContainers.learning_starts,
+                       exploration_fraction=ModelDIContainers.exploration_fraction,
+                       exploration_final_eps=ModelDIContainers.exploration_final_eps,
+                       exploration_initial_eps=ModelDIContainers.exploration_initial_eps,
+                       buffer_size=ModelDIContainers.buffer_size,
+                       batch_size=ModelDIContainers.batch_size,
+                       target_network_update_freq=ModelDIContainers.target_network_update_freq)
         if algorithm == "PPO2":
             return PPO2(policy, environment,
                         verbose=ModelDIContainers.verbose,

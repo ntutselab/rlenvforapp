@@ -20,9 +20,12 @@ class StartApplicationUnderTestUserCase:
         self._applicationHandler = applicationHandler
 
     def execute(self, input: StartApplicationUnderTestInput.StartApplicationUnderTestInput, output: StartApplicationUnderTestOutput.StartApplicationUnderTestOutput):
-        aut = ApplicationUnderTest(id=str(uuid.uuid4()), applicationName= input.getApplicationName(), ip=input.getIP(), port=input.getPort())
-        self._repository.add(ApplicationUnderTestMapper.mappingApplicationUnderTestEntityFrom(aut=aut))
-        self._applicationHandler.start(applicationName=aut.getApplicationName(), ip=aut.getIP(), port=aut.getPort())
+        aut = ApplicationUnderTest(id=str(
+            uuid.uuid4()), applicationName=input.getApplicationName(), ip=input.getIP(), port=input.getPort())
+        self._repository.add(
+            ApplicationUnderTestMapper.mappingApplicationUnderTestEntityFrom(aut=aut))
+        self._applicationHandler.start(
+            applicationName=aut.getApplicationName(), ip=aut.getIP(), port=aut.getPort())
 
         output.setUrl(f"http://{aut.getIP()}:{str(aut.getPort())}")
         output.setId(aut.getId())

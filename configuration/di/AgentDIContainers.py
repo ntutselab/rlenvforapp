@@ -6,7 +6,7 @@ from .DIConfiguration import DIConfiguration
 class AgentDIContainers(containers.DeclarativeContainer):
     config = DIConfiguration.config
 
-    #policy
+    # policy
     cnnExtractor = providers.Callable(
         DIConfiguration.get_class_name(config.Agent.cnn_extractor())
     )

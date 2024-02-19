@@ -35,7 +35,7 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
                 for line in sorted(codeLineVector):
                     fileCoverageVector.append(line in coverageInfo["executed_lines"])
                 codeCoverageVector.extend(fileCoverageVector)
-            c=CodeCoverage(codeCoverageType="statement", codeCoverageVector=codeCoverageVector)
+            c = CodeCoverage(codeCoverageType="statement", codeCoverageVector=codeCoverageVector)
             print(c.getCoveredAmount())
             print(c.getCodeCoverageVectorLength())
             print(c.getRatio())
@@ -44,10 +44,10 @@ class testPythonCodeCoverageCollector(unittest.TestCase):
         except Exception as e:
             print("Failed at getting coverage", e.__class__.__name__)
 
-
     def _requestsRetrySession(self, retries=3, backoffFactor=0.3, statusForceList=(500, 502, 504), session=None):
         session = session or requests.Session()
-        retry = Retry(total=retries, read=retries, connect=retries, backoff_factor=backoffFactor, status_forcelist=statusForceList)
+        retry = Retry(total=retries, read=retries, connect=retries,
+                      backoff_factor=backoffFactor, status_forcelist=statusForceList)
         adapter = HTTPAdapter(max_retries=retry)
         session.mount('http://', adapter)
         session.mount('https://', adapter)

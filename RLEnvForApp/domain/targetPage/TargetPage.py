@@ -73,8 +73,10 @@ class TargetPage:
                 if targetDirective is None:
                     targetDirective = directive
                     continue
-                targetCodeCoverage: CodeCoverage = targetDirective.getCodeCoverageByType(codeCoverageType=codeCoverageType)
-                directiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(codeCoverageType=codeCoverageType)
+                targetCodeCoverage: CodeCoverage = targetDirective.getCodeCoverageByType(
+                    codeCoverageType=codeCoverageType)
+                directiveCodeCoverage: CodeCoverage = directive.getCodeCoverageByType(
+                    codeCoverageType=codeCoverageType)
 
                 if targetDirective is None:
                     targetDirective = directive

@@ -72,18 +72,22 @@ class MorePagesExperimentObservationService(IObservationService):
             return ""
 
         elementLabelTokens = CosineSimilarityService.getTokens(elementLabel)
-        elementLabelVectors = list(map(FastTextSingleton.getInstance().getWordVector, elementLabelTokens))
-        categoryVectors = list(map(FastTextSingleton.getInstance().getWordVector, inputSpace.inputTypes))
+        elementLabelVectors = list(
+            map(FastTextSingleton.getInstance().getWordVector, elementLabelTokens))
+        categoryVectors = list(
+            map(FastTextSingleton.getInstance().getWordVector, inputSpace.inputTypes))
 
         labelVectorSimilarities = [0] * len(elementLabelTokens)
         for index, elementLabelVector in enumerate(elementLabelVectors):
             labelVectorSimilarity = 0
             for categoryVector in categoryVectors:
-                labelVectorSimilarity = max(CosineSimilarityService.getCosineSimilarity(categoryVector, elementLabelVector), labelVectorSimilarity)
+                labelVectorSimilarity = max(CosineSimilarityService.getCosineSimilarity(
+                    categoryVector, elementLabelVector), labelVectorSimilarity)
             labelVectorSimilarities[index] = labelVectorSimilarity
 
         totalSum = sum(labelVectorSimilarities)
         labelVectorSimilarities = [x / totalSum for x in labelVectorSimilarities]
-        elementLabelToken = np.random.choice(elementLabelTokens, size=1, p=labelVectorSimilarities)[0]
+        elementLabelToken = np.random.choice(
+            elementLabelTokens, size=1, p=labelVectorSimilarities)[0]
 
         return elementLabelToken

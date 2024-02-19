@@ -27,7 +27,6 @@ class SeleniumCrawler(ICrawler):
         self._appElementDTOs: [AppElementDTO] = []
         self._formXPath = "//form"
 
-
     def goToRootPage(self):
         goToRootPageRetryCount = 1
         isGoToRootPageSuccess = False
@@ -51,7 +50,8 @@ class SeleniumCrawler(ICrawler):
         if rootPath != "":
             self._rootPath = rootPath
         else:
-            Logger().info(f"SeleniumCrawler Warning: reset to '{rootPath}', go to root page '{self._rootPath}'")
+            Logger().info(
+                f"SeleniumCrawler Warning: reset to '{rootPath}', go to root page '{self._rootPath}'")
         if formXPath != "":
             self._formXPath = formXPath
         else:
@@ -100,8 +100,10 @@ class SeleniumCrawler(ICrawler):
             webElement = self._driver.find_element_by_xpath(elementXpath)
             if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):
                 self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                          name=self._getHtmlTagAttribute(element=element, attribute="name"),
-                                                          type=self._getHtmlTagAttribute(element=element, attribute="type"),
+                                                          name=self._getHtmlTagAttribute(
+                                                              element=element, attribute="name"),
+                                                          type=self._getHtmlTagAttribute(
+                                                              element=element, attribute="type"),
                                                           xpath=elementXpath,
                                                           value=webElement.get_attribute("value")))
 
@@ -163,5 +165,6 @@ class SeleniumCrawler(ICrawler):
     def _shouldHrefBeIgnored(self, href: str):
         isFileDownloading = re.match(".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")
-        isExternal = not urlparse(href).netloc == "" and not urlparse(href).netloc == urlparse(self._rootPath).netloc
+        isExternal = not urlparse(href).netloc == "" and not urlparse(
+            href).netloc == urlparse(self._rootPath).netloc
         return isFileDownloading or isMailTo or isExternal

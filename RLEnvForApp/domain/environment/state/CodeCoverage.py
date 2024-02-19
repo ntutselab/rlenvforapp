@@ -4,7 +4,7 @@ from RLEnvForApp.logger.logger import Logger
 
 
 class CodeCoverage:
-    def __init__(self, codeCoverageType: str,codeCoverageVector: [bool]):
+    def __init__(self, codeCoverageType: str, codeCoverageVector: [bool]):
         self._codeCoverageType = codeCoverageType
         self._codeCoverageVector = codeCoverageVector
 
@@ -29,7 +29,8 @@ class CodeCoverage:
 
     def getImprovedCodeCoverage(self, originalCodeCovreage):
         if self.getCodeCoverageVectorLength() != originalCodeCovreage.getCodeCoverageVectorLength():
-            Logger().info(f"Warning: Origin code coverage size is {originalCodeCovreage.getCodeCoverageVectorLength()}, New code coverage size is {self.getCodeCoverageVectorLength()}")
+            Logger().info(
+                f"Warning: Origin code coverage size is {originalCodeCovreage.getCodeCoverageVectorLength()}, New code coverage size is {self.getCodeCoverageVectorLength()}")
         originCodeCoverageVector = originalCodeCovreage.getCodeCoverageVector()
         improvedCodeCoverageVector: [bool] = []
         for covered, originalCovered in itertools.zip_longest(self._codeCoverageVector, originCodeCoverageVector):

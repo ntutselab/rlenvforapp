@@ -17,9 +17,12 @@ from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandl
 class ExecuteActionUseCase:
     @inject
     def __init__(self, autOperator: IAUTOperator,
-                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository],
-                 rewardCalculatorService: IRewardCalculatorService = Provide[EnvironmentDIContainers.rewardCalculatorService],
-                 actionCommandFactory: IActionCommandFactoryService = Provide[EnvironmentDIContainers.actionCommandFactory],
+                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[
+                     EnvironmentDIContainers.episodeHandlerRepository],
+                 rewardCalculatorService: IRewardCalculatorService = Provide[
+                     EnvironmentDIContainers.rewardCalculatorService],
+                 actionCommandFactory: IActionCommandFactoryService = Provide[
+                     EnvironmentDIContainers.actionCommandFactory],
                  observationSerivce: IObservationService = Provide[EnvironmentDIContainers.observationService]):
         self._actionCommandFactory = actionCommandFactory
         self._autOperator = autOperator
@@ -29,12 +32,14 @@ class ExecuteActionUseCase:
 
     def execute(self, input: ExecuteActionInput.ExecuteActionInput, output: ExecuteActionOutput.ExecuteActionOutput):
         episodeHandlerEntity = self._episodeHandlerRepository.findById(input.getEpisodeHandlerId())
-        episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episodeHandlerEntity=episodeHandlerEntity)
+        episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+            episodeHandlerEntity=episodeHandlerEntity)
 
         previousState: State = episodeHandler.getAllState()[-1]
         previousState.setActionNumber(input.getActionNumber())
 
-        actionCommand: IActionCommand = self._actionCommandFactory.createActionCommand(actionNumber=input.getActionNumber())
+        actionCommand: IActionCommand = self._actionCommandFactory.createActionCommand(
+            actionNumber=input.getActionNumber())
         actionCommand.execute(operator=self._autOperator)
 
         if input.getActionNumber() == 0:
@@ -48,15 +53,18 @@ class ExecuteActionUseCase:
         state.setOriginalObservation(originalObservation)
 
         episodeHandler.appendState(state=state)
-        self._episodeHandlerRepository.update(EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+        self._episodeHandlerRepository.update(
+            EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
 
         codeCoverageDict = {}
         for codeCoverage in state.getCodeCoverages():
-            codeCoverageDict[codeCoverage.getCodeCoverageType()] = self._getPercent(codeCoverage.getRatio())
+            codeCoverageDict[codeCoverage.getCodeCoverageType(
+            )] = self._getPercent(codeCoverage.getRatio())
         output.setObservation(observation)
         output.setOriginalObservation(originalObservation)
         output.setCodeCoverageDict(codeCoverageDict=codeCoverageDict)
-        output.setReward(self._rewardCalculatorService.calculateReward(episodeHandler=episodeHandler))
+        output.setReward(self._rewardCalculatorService.calculateReward(
+            episodeHandler=episodeHandler))
         output.setCosineSimilarityText(self._rewardCalculatorService.getCosineSimilarityText())
         output.setIsDone(episodeHandler.isDone())
 

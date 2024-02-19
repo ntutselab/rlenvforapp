@@ -36,4 +36,4 @@ class CheckActionTypeIndicationService(IActionIndicationService):
     def _isValidChangeFocusAction(self, appElement: AppElement):
         isValidInputAction = self._isValidInputAction(appElement=appElement)
         isValidClickAction = self._isValidClickAction(appElement=appElement)
-        return not(isValidClickAction or isValidInputAction)
+        return not (isValidClickAction or isValidInputAction)

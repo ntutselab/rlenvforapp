@@ -5,7 +5,7 @@ class HtmlParser:
     def __init__(self):
         self.elementSet = []
 
-    def parse(self, html: str, tagName: str="body"):
+    def parse(self, html: str, tagName: str = "body"):
         return self.extractElementToString(html, tagName)
 
     def extractElementToString(self, dom: str, tagName: str):

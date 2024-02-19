@@ -17,7 +17,7 @@ class RLController:
         self._policy = policy
         self._environmentFactory = GymEnvironmentFactory()
 
-    def learnModel(self, totalTimesteps: int, modelDir: str, modelSeriesName: str, tensorboardPath: str="model/log"):
+    def learnModel(self, totalTimesteps: int, modelDir: str, modelSeriesName: str, tensorboardPath: str = "model/log"):
         environment = self._environmentFactory.createEnvironment()
         modelController = ModelController()
         modelController.setModel(
@@ -32,14 +32,15 @@ class RLController:
     def learnModelByExitedModel(self, totalTimesteps: int, modelDir: str, modelSeriesName: str, modelPath: str):
         environment = self._environmentFactory.createEnvironment()
         modelController = ModelController()
-        modelController.setModel(ModelFactory().loadModel(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
+        modelController.setModel(ModelFactory().loadModel(
+            algorithm=self._algorithm, modelPath=modelPath, environment=environment))
         modelController.learn(totalTimeSteps=totalTimesteps)
         modelName = modelSeriesName + "_" + str(totalTimesteps) + "step"
 
         modelController.save(os.path.join(modelDir, modelName))
         environment.close()
 
-    def iterateLearnModel(self, timestepsPerIteration: int, iterationTimes: int, modelDir: str, modelSeriesName: str, tensorboardPath: str="model/log"):
+    def iterateLearnModel(self, timestepsPerIteration: int, iterationTimes: int, modelDir: str, modelSeriesName: str, tensorboardPath: str = "model/log"):
         environment = self._environmentFactory.createEnvironment()
         modelController = ModelController().setModel(
             ModelFactory().createModel(algorithm=self._algorithm, policy=self._policy, environment=environment,
@@ -62,16 +63,18 @@ class RLController:
         environment.close()
         return episodeRewardList
 
-    def verifyModelByTime(self, modelPath: str, timeLimit: int = 0, explorationEpisodeEsp = 0, explorationStepEsp = 0):
+    def verifyModelByTime(self, modelPath: str, timeLimit: int = 0, explorationEpisodeEsp=0, explorationStepEsp=0):
         episodeRewardList = []
         environment = self._environmentFactory.createEnvironment()
         modelController = ModelController()
-        modelController.setModel(ModelFactory().loadModel(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
+        modelController.setModel(ModelFactory().loadModel(
+            algorithm=self._algorithm, modelPath=modelPath, environment=environment))
         totalTime = 0
         isDone = True
         while isDone:
             initialTime = time.time()
-            reward = modelController.playWithExploration(environment=environment, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
+            reward = modelController.playWithExploration(
+                environment=environment, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
             totalTime += time.time() - initialTime
             episodeRewardList.append(reward)
             isDone = (totalTime < timeLimit) or (timeLimit == 0)
@@ -79,13 +82,14 @@ class RLController:
         environment.close()
         return episodeRewardList
 
-    def verifyModelByTotalStep(self, modelPath: str, totalStep, explorationEpisodeEsp = 0, explorationStepEsp = 0):
+    def verifyModelByTotalStep(self, modelPath: str, totalStep, explorationEpisodeEsp=0, explorationStepEsp=0):
         episodeRewardList = []
         environment = self._environmentFactory.createEnvironment()
         modelController = ModelController()
         modelController.setModel(
             ModelFactory().loadModel(algorithm=self._algorithm, modelPath=modelPath, environment=environment))
-        modelController.playByTotalStep(environment=environment, totalStep=totalStep, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
+        modelController.playByTotalStep(environment=environment, totalStep=totalStep,
+                                        explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
         environment.close()
         return episodeRewardList
 

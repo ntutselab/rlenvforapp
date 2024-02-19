@@ -22,8 +22,10 @@ from . import ResetEnvironmentInput, ResetEnvironmentOutput
 class ResetEnvironmentUseCase:
     @inject
     def __init__(self, operator: IAUTOperator,
-                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository],
-                 targetPageQueueManagerService: ITargetPageQueueManagerService = Provide[EnvironmentDIContainers.targetPageQueueManagerService],
+                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[
+                     EnvironmentDIContainers.episodeHandlerRepository],
+                 targetPageQueueManagerService: ITargetPageQueueManagerService = Provide[
+                     EnvironmentDIContainers.targetPageQueueManagerService],
                  observationSerivce: IObservationService = Provide[EnvironmentDIContainers.observationService]):
         self._operator = operator
         self._episodeHandlerRepository = episodeHandlerRepository
@@ -32,18 +34,19 @@ class ResetEnvironmentUseCase:
 
     def execute(self, input: ResetEnvironmentInput.ResetEnvironmentInput, output: ResetEnvironmentOutput.ResetEnvironmentOutput):
         targetPage = None
-        episodeHandler = EpisodeHandlerFactory().createEpisodeHandler(id=str(uuid.uuid4()), episodeIndex=input.getEpisodeIndex())
+        episodeHandler = EpisodeHandlerFactory().createEpisodeHandler(
+            id=str(uuid.uuid4()), episodeIndex=input.getEpisodeIndex())
         if not self._targetPageQueueManagerService.isEmpty():
             targetPage = self._targetPageQueueManagerService.dequeueTargetPage()
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
-                                                                            appEvents=targetPage.getAppEvents(),
-                                                                            rootPath=targetPage.getRootUrl(),
-                                                                            formXPath=targetPage.getFormXPath())
+                appEvents=targetPage.getAppEvents(),
+                rootPath=targetPage.getRootUrl(),
+                formXPath=targetPage.getFormXPath())
         else:
             initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
-                                                                            appEvents=[],
-                                                                            rootPath="register.html",
-                                                                            formXPath="")
+                appEvents=[],
+                rootPath="register.html",
+                formXPath="")
         initiateToTargetActionCommand.execute(operator=self._operator)
 
         state: State = self._operator.getState()
@@ -51,7 +54,8 @@ class ResetEnvironmentUseCase:
         state.setOriginalObservation(originalObservation)
 
         episodeHandler.appendState(state)
-        self._episodeHandlerRepository.add(EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+        self._episodeHandlerRepository.add(
+            EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
 
         url = ""
         formXPath = ""

@@ -11,21 +11,25 @@ from RLEnvForApp.usecase.targetPage.mapper import AppEventEntityMapper
 def _mappingCodeCoverageEntitiesFrom(odeCoverages: [CodeCoverage]) -> [CodeCoverageEntity]:
     codeCoverageEntities: [CodeCoverageEntity] = []
     for codeCoverage in odeCoverages:
-        codeCoverageEntities.append(CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage=codeCoverage))
+        codeCoverageEntities.append(
+            CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(codeCoverage=codeCoverage))
     return codeCoverageEntities
 
 
 def _mappingCodeCoverageFrom(codeCoverageEntities: [CodeCoverageEntity]) -> [CodeCoverage]:
     codeCoverages: [CodeCoverage] = []
     for codeCoverageEntity in codeCoverageEntities:
-        codeCoverages.append(CodeCoverageEntityMapper.mappingCodeCoverageFrom(codeCoverageEntity=codeCoverageEntity))
+        codeCoverages.append(CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+            codeCoverageEntity=codeCoverageEntity))
     return codeCoverages
+
 
 def mappingDirectiveEntityFrom(directive: Directive) -> DirectiveEntity:
     appEventEntities: [AppEventEntity] = []
     for appEvent in directive.getAppEvents():
         appEventEntities.append(AppEventEntityMapper.mappingAppEventEntityFrom(appEvent=appEvent))
     return DirectiveEntity(url=directive.getUrl(), dom=directive.getDom(), formXPath=directive.getFormXPath(), appEventEntities=appEventEntities, codeCoverageEntities=_mappingCodeCoverageEntitiesFrom(directive.getCodeCoverages()))
+
 
 def mappingDirectiveFrom(directiveEntity: DirectiveEntity) -> Directive:
     appEvents: [AppEvent] = []

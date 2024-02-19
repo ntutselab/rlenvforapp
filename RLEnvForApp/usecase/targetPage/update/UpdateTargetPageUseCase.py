@@ -21,7 +21,8 @@ class UpdateTargetPageUseCase:
     def execute(self, input: UpdateTargetPageInput.UpdateTargetPageInput,
                 output: UpdateTargetPageOutput.UpdateTargetPageOutput):
         targetPageEntity: TargetPageEntity = self._repository.findById(input.getTargetPageId())
-        targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
+        targetPage: TargetPage = TargetPageEntityMapper.mappingTargetPageFrom(
+            targetPageEntity=targetPageEntity)
 
         targetPageUrl = input.getTargetPageUrl()
         if targetPageUrl is not None:
@@ -44,7 +45,8 @@ class UpdateTargetPageUseCase:
 
         basicCodeCoverageDTO = input.getBasicCodeCoverageDTO()
         if basicCodeCoverageDTO != None:
-            newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(codeCoverageDTO=basicCodeCoverageDTO)
+            newBasicCodeCoverage = CodeCoverageDTOMapper.mappingCodeCoverageFrom(
+                codeCoverageDTO=basicCodeCoverageDTO)
             basicCodeCoverage = targetPage.getBasicCodeCoverage()
             if newBasicCodeCoverage.getCodeCoverageType() == basicCodeCoverage.getCodeCoverageType():
                 newBasicCodeCoverage.merge(basicCodeCoverage)
@@ -54,7 +56,8 @@ class UpdateTargetPageUseCase:
         if directiveDTOs != None:
             directives: [Directive] = []
             for directiveDTO in directiveDTOs:
-                directives.append(DirectiveDTOMapper.mappingDirectiveFrom(directiveDTO=directiveDTO))
+                directives.append(DirectiveDTOMapper.mappingDirectiveFrom(
+                    directiveDTO=directiveDTO))
             targetPage.setDirectives(directives=directives)
 
         targetPageEntity = TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage)

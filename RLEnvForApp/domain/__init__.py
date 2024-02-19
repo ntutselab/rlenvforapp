@@ -1,1 +1,1 @@
-__all__=["applicationUnderTest", "environment", "targetPage"]
+__all__ = ["applicationUnderTest", "environment", "targetPage"]

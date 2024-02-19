@@ -32,8 +32,10 @@ class HTMLLogCrawler(ICrawler):
                 continue
             element = htmlParser.xpath(xpath)[0]
             self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
-                                                      name=self._getHtmlTagAttribute(element=element, attribute="name"),
-                                                      type=self._getHtmlTagAttribute(element=element, attribute="type"),
+                                                      name=self._getHtmlTagAttribute(
+                                                          element=element, attribute="name"),
+                                                      type=self._getHtmlTagAttribute(
+                                                          element=element, attribute="type"),
                                                       xpath=htmlParser.getpath(element),
                                                       value=self._getHtmlTagAttribute(element=element,
                                                                                       attribute="value")))
