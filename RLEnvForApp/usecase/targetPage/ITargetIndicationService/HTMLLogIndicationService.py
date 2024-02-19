@@ -3,7 +3,6 @@ import json, os
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
-from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.domain.environment.inputSpace import inputTypes, inputValues
 from RLEnvForApp.logger.logger import Logger
 

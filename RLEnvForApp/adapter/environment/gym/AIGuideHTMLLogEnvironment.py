@@ -1,9 +1,5 @@
 import gym
 import numpy
-import json
-import os
-
-from collections import defaultdict
 from dependency_injector.wiring import Provide, inject
 from RLEnvForApp.adapter.environment.autOperator.crawler.HTMLLogCrawler import HTMLLogCrawler
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
@@ -12,7 +8,6 @@ from RLEnvForApp.usecase.environment.executeAction import *
 from RLEnvForApp.usecase.environment.initiateEnvironment import *
 from RLEnvForApp.usecase.environment.resetEnvironment import *
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton, inputTypes, inputValues, CategoryListSingleton
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.logger.logger import Logger
 

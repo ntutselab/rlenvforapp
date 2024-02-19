@@ -1,7 +1,5 @@
-from RLEnvForApp.usecase.applicationUnderTest.applicationHandler.ApplicationHandler import ApplicationHandler
 from RLEnvForApp.usecase.applicationUnderTest.start import *
 from RLEnvForApp.usecase.applicationUnderTest.stop import *
-from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import ApplicationUnderTestRepository
 
 
 class ApplicationUnderTestController:

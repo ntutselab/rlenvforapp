@@ -2,22 +2,17 @@ import json
 import os
 import re
 import time
-from io import StringIO
 from urllib.parse import urlparse
-
-from lxml import etree
 from py4j.java_gateway import (
     JavaGateway, GatewayParameters, CallbackServerParameters)
 
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
 from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton, inputValues, inputTypes
-from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import EpisodeHandlerDTO
 from RLEnvForApp.usecase.environment.episodeHandler.get import *
-from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
 from RLEnvForApp.usecase.targetPage.create import *
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
@@ -25,9 +20,7 @@ from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 from RLEnvForApp.usecase.targetPage.dto.TargetPageDTO import TargetPageDTO
 from RLEnvForApp.usecase.targetPage.get import *
 from RLEnvForApp.usecase.targetPage.remove import *
-from dependency_injector.wiring import inject, Provide
-from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from dependency_injector.wiring import inject
 
 
 class AIGuideTargetPagePort(ITargetPagePort):

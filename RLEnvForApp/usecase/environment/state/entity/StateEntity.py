@@ -1,4 +1,3 @@
-from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from . import AppElementEntity
 from .CodeCoverageEntity import CodeCoverageEntity
 

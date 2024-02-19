@@ -1,7 +1,3 @@
-import os
-import gym
-
-from dependency_injector import providers
 from stable_baselines import DQN, PPO2
 
 from RLEnvForApp.adapter.agent.model.MonkeyAdapter import MonkeyAdapter

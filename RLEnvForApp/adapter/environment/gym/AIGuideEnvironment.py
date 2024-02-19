@@ -1,10 +1,4 @@
-import json
-import os
 import traceback
-from collections import defaultdict
-from io import StringIO
-
-from lxml import etree
 
 import gym
 import numpy
@@ -12,14 +6,10 @@ import time
 from dependency_injector.wiring import Provide, inject
 
 from RLEnvForApp.adapter.controller.ApplicationUnderTestController import ApplicationUnderTestController
-from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.IstanbulMiddlewareCodeCoverageCollector import \
-    IstanbulMiddlewareCodeCoverageCollector
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.NoCodeCoverageCollector import \
     NoCodeCoverageCollector
 from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import SeleniumCrawler
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
-from RLEnvForApp.domain.environment.inputSpace import inputTypes, ValueWeightSingleton, CategoryListSingleton, \
-    inputValues
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
