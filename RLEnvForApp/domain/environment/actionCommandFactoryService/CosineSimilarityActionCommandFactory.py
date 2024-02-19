@@ -2,11 +2,11 @@ import json
 import os
 import random
 
-from RLEnvForApp.domain.environment.actionCommand import IRobotInputValueCommand, IRobotClickCommand
+from RLEnvForApp.domain.environment import inputSpace
+from RLEnvForApp.domain.environment.actionCommand import IRobotClickCommand, IRobotInputValueCommand
 from RLEnvForApp.domain.environment.actionCommand.IActionCommand import IActionCommand
 from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import \
     IActionCommandFactoryService
-from RLEnvForApp.domain.environment import inputSpace
 from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton
 from RLEnvForApp.logger.logger import Logger
 

@@ -1,5 +1,7 @@
 from stable_baselines.common.policies import LstmPolicy
+
 from configuration.di.AgentDIContainers import AgentDIContainers
+
 
 class PPO2LstmCustomPolicy(LstmPolicy):
     """

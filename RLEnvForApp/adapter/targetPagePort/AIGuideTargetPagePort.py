@@ -4,24 +4,30 @@ import re
 import time
 from urllib.parse import urlparse
 
-from py4j.java_gateway import (
-    JavaGateway, GatewayParameters, CallbackServerParameters)
+from dependency_injector.wiring import inject
+from py4j.java_gateway import CallbackServerParameters, GatewayParameters, JavaGateway
 
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
-from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton, inputValues, inputTypes
+from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton, inputTypes, inputValues
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.dto.EpisodeHandlerDTO import EpisodeHandlerDTO
-from RLEnvForApp.usecase.environment.episodeHandler.get import GetEpisodeHandlerUseCase, GetEpisodeHandlerInput, GetEpisodeHandlerOutput
+from RLEnvForApp.usecase.environment.episodeHandler.get import (GetEpisodeHandlerInput,
+                                                                GetEpisodeHandlerOutput,
+                                                                GetEpisodeHandlerUseCase)
 from RLEnvForApp.usecase.environment.state.dto.stateDTO import StateDTO
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput, CreateDirectiveUseCase, CreateDirectiveInput, CreateDirectiveOutput
+from RLEnvForApp.usecase.targetPage.create import (CreateDirectiveInput, CreateDirectiveOutput,
+                                                   CreateDirectiveUseCase, CreateTargetPageInput,
+                                                   CreateTargetPageOutput, CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 from RLEnvForApp.usecase.targetPage.dto.TargetPageDTO import TargetPageDTO
-from RLEnvForApp.usecase.targetPage.get import GetTargetPageUseCase, GetTargetPageInput, GetTargetPageOutput, GetAllTargetPageUseCase, GetAllTargetPageInput, GetAllTargetPageOutput
-from RLEnvForApp.usecase.targetPage.remove import RemoveTargetPageUseCase, RemoveTargetPageInput, RemoveTargetPageOutput
-from dependency_injector.wiring import inject
+from RLEnvForApp.usecase.targetPage.get import (GetAllTargetPageInput, GetAllTargetPageOutput,
+                                                GetAllTargetPageUseCase, GetTargetPageInput,
+                                                GetTargetPageOutput, GetTargetPageUseCase)
+from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput, RemoveTargetPageOutput,
+                                                   RemoveTargetPageUseCase)
 
 
 class AIGuideTargetPagePort(ITargetPagePort):

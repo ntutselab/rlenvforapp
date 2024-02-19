@@ -1,13 +1,13 @@
-from subprocess import (Popen, SubprocessError, PIPE)
-
 import os
 import time
+from subprocess import PIPE, Popen, SubprocessError
 
 import requests
 
 from RLEnvForApp.adapter.applicationUnderTest.config import DockerServerConfig
 from RLEnvForApp.logger.logger import Logger
-from RLEnvForApp.usecase.applicationUnderTest.applicationHandler.ApplicationHandler import ApplicationHandler
+from RLEnvForApp.usecase.applicationUnderTest.applicationHandler.ApplicationHandler import \
+    ApplicationHandler
 
 
 class DockerServerHandler(ApplicationHandler):

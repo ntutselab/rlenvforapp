@@ -1,16 +1,17 @@
 from dependency_injector.wiring import Provide, inject
 
-from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
-from RLEnvForApp.domain.environment.actionCommandFactoryService import IActionCommandFactoryService
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.domain.environment.actionCommand import IActionCommand
-from RLEnvForApp.domain.environment.observationService.IObservationService import IObservationService
-from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
+from RLEnvForApp.domain.environment.actionCommandFactoryService import IActionCommandFactoryService
+from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
+from RLEnvForApp.domain.environment.observationService.IObservationService import \
+    IObservationService
+from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
+    IRewardCalculatorService
 from RLEnvForApp.domain.environment.state import State
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.environment.executeAction import (ExecuteActionInput)
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionOutput
+from RLEnvForApp.usecase.environment.executeAction import ExecuteActionInput, ExecuteActionOutput
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 
 
 class ExecuteActionUseCase:

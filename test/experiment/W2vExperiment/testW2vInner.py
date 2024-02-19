@@ -1,8 +1,10 @@
 import unittest
 from math import sqrt
 
-from RLEnvForApp.usecase.environment.observationService.converter.FastTextConverter import FastTextConverter
-from RLEnvForApp.usecase.environment.observationService.converter.Word2VecConverter import Word2VecConverter
+from RLEnvForApp.usecase.environment.observationService.converter.FastTextConverter import \
+    FastTextConverter
+from RLEnvForApp.usecase.environment.observationService.converter.Word2VecConverter import \
+    Word2VecConverter
 
 
 class testW2vInner(unittest.TestCase):

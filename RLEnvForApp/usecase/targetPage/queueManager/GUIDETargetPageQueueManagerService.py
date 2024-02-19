@@ -1,7 +1,8 @@
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
 from RLEnvForApp.usecase.targetPage.mapper import TargetPageEntityMapper
-from RLEnvForApp.usecase.targetPage.queueManager.ITargetPageQueueManagerService import ITargetPageQueueManagerService
+from RLEnvForApp.usecase.targetPage.queueManager.ITargetPageQueueManagerService import \
+    ITargetPageQueueManagerService
 
 
 class GUIDETargetPageQueueManagerService(ITargetPageQueueManagerService):

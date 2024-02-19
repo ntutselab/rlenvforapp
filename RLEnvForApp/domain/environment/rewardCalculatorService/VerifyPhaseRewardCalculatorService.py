@@ -1,10 +1,13 @@
 import numpy as np
 
 from RLEnvForApp.domain.environment import inputSpace
-from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import CosineSimilarityService
+from RLEnvForApp.domain.environment.cosineSimilarityService.CosineSimilarityService import \
+    CosineSimilarityService
 from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import FastTextSingleton
-from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
+from RLEnvForApp.domain.environment.observationService.converter.FastTextSingleton import \
+    FastTextSingleton
+from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
+    IRewardCalculatorService
 from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.logger.logger import Logger
 

@@ -1,5 +1,7 @@
-from stable_baselines.common.policies import FeedForwardPolicy # for PPO2
+from stable_baselines.common.policies import FeedForwardPolicy  # for PPO2
+
 from configuration.di.AgentDIContainers import AgentDIContainers
+
 
 class PPO2CustomPolicy(FeedForwardPolicy):
     """

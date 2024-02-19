@@ -1,4 +1,7 @@
 
+from dependency_injector.wiring import Provide, inject
+
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 from RLEnvForApp.domain.environment.inputSpace import inputTypes
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
@@ -6,14 +9,14 @@ from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.environment.state.State import State
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
 from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
+    IDirectiveRuleService
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
 from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
-from RLEnvForApp.usecase.targetPage.create import (CreateDirectiveInput, CreateDirectiveOutput)
-from RLEnvForApp.usecase.targetPage.mapper import TargetPageEntityMapper, DirectiveDTOMapper
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.usecase.targetPage.create import CreateDirectiveInput, CreateDirectiveOutput
+from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper, TargetPageEntityMapper
+
 
 class CreateDirectiveUseCase:
     @inject

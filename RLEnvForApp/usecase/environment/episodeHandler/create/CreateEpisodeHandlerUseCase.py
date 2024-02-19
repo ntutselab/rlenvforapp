@@ -1,10 +1,11 @@
 
 from dependency_injector.wiring import Provide
 
-from . import (CreateEpisodeHandlerInput, CreateEpisodeHandlerOutput)
-from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
+from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
+
+from . import CreateEpisodeHandlerInput, CreateEpisodeHandlerOutput
 
 
 class CreateEpisodeHandlerUseCase:

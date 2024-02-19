@@ -1,5 +1,6 @@
-from . import IActionCommand
 from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
+
+from . import IActionCommand
 
 
 class IRobotClickCommand(IActionCommand.IActionCommand):

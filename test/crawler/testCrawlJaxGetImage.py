@@ -1,5 +1,7 @@
-import numpy
+from test.usecase.HirerarchyInitial import HirerarchyInitial
 from unittest import TestCase
+
+import numpy
 import tensorflow as tf
 
 from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler
@@ -10,7 +12,6 @@ from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import 
 from RLEnvForApp.adapter.repository.applicationUnderTest.InMemoryApplicationUnderTestRepository import \
     InMemoryApplicationUnderTestRepository
 from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import IRobotOperator
-from test.usecase.HirerarchyInitial import HirerarchyInitial
 
 
 class testCrawlJaxGetImage(TestCase):

@@ -1,14 +1,20 @@
 import unittest
 
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.adapter.environment.autOperator.crawler.HtmlFileCrawler import HtmlFileCrawler
 from RLEnvForApp.adapter.repository.episodeHandler.InMemoryEpisodeHandlerRepository import \
     InMemoryEpisodeHandlerRepository
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
-from RLEnvForApp.usecase.environment.autOperator.ClickForAllElementOperator import ClickForAllElementOperator
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
-from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
+from RLEnvForApp.usecase.environment.autOperator.ClickForAllElementOperator import \
+    ClickForAllElementOperator
+from RLEnvForApp.usecase.environment.executeAction import (ExecuteActionInput, ExecuteActionOutput,
+                                                           ExecuteActionUseCase)
+from RLEnvForApp.usecase.environment.resetEnvironment import (ResetEnvironmentInput,
+                                                              ResetEnvironmentOutput,
+                                                              ResetEnvironmentUseCase)
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput, CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 
 
 class testExecuteActionUseCaseIn0311(unittest.TestCase):

@@ -2,7 +2,8 @@ import unittest
 
 from RLEnvForApp.adapter.repository.episodeHandler.InMemoryEpisodeHandlerRepository import \
     InMemoryEpisodeHandlerRepository
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
 from RLEnvForApp.domain.environment.episodeHandler.MorePagesExperimentEpisodeHandler import \
     MorePagesExperimentEpisodeHandler
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
@@ -12,7 +13,9 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.MaxCodeCoverageDirective
     MaxCodeCoverageDirectiveRuleService
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateDirectiveInput, CreateDirectiveOutput, CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
+from RLEnvForApp.usecase.targetPage.create import (CreateDirectiveInput, CreateDirectiveOutput,
+                                                   CreateDirectiveUseCase, CreateTargetPageInput,
+                                                   CreateTargetPageOutput, CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper
 

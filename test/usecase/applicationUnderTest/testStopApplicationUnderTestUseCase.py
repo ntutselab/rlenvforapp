@@ -1,10 +1,14 @@
-import unittest, requests
+import unittest
+from test.usecase.HirerarchyInitial import HirerarchyInitial
+
+import requests
 
 from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler
 from RLEnvForApp.adapter.repository.applicationUnderTest.InMemoryApplicationUnderTestRepository import \
     InMemoryApplicationUnderTestRepository
-from RLEnvForApp.usecase.applicationUnderTest.stop import StopApplicationUnderTestUseCase, StopApplicationUnderTestInput, StopApplicationUnderTestOutput
-from test.usecase.HirerarchyInitial import HirerarchyInitial
+from RLEnvForApp.usecase.applicationUnderTest.stop import (StopApplicationUnderTestInput,
+                                                           StopApplicationUnderTestOutput,
+                                                           StopApplicationUnderTestUseCase)
 
 
 class testStopApplicationUnderTestUseCase(unittest.TestCase):

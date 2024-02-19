@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
+
 class CosineSimilarityService:
     @staticmethod
     def getCosineSimilarity(vector1, vector2):

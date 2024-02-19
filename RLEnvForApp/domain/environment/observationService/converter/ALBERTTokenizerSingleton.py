@@ -1,4 +1,5 @@
 import os
+
 import bert
 import sentencepiece as spm
 

@@ -1,7 +1,7 @@
 from stable_baselines import DQN, PPO2
 
-from RLEnvForApp.adapter.agent.model.MonkeyAdapter import MonkeyAdapter
 from configuration.di.ModelDIContainers import ModelDIContainers
+from RLEnvForApp.adapter.agent.model.MonkeyAdapter import MonkeyAdapter
 
 
 class ModelFactory:

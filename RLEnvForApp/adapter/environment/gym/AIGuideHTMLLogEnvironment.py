@@ -1,16 +1,22 @@
 import gym
 import numpy
-
 from dependency_injector.wiring import Provide, inject
+
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.adapter.environment.autOperator.crawler.HTMLLogCrawler import HTMLLogCrawler
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
-from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
-from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase, InitiateEnvironmentInput, InitiateEnvironmentOutput
-from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
-from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.logger.logger import Logger
+from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
+from RLEnvForApp.usecase.environment.executeAction import (ExecuteActionInput, ExecuteActionOutput,
+                                                           ExecuteActionUseCase)
+from RLEnvForApp.usecase.environment.initiateEnvironment import (InitiateEnvironmentInput,
+                                                                 InitiateEnvironmentOutput,
+                                                                 InitiateEnvironmentUseCase)
+from RLEnvForApp.usecase.environment.resetEnvironment import (ResetEnvironmentInput,
+                                                              ResetEnvironmentOutput,
+                                                              ResetEnvironmentUseCase)
+from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
+
 
 class AIGuideHTMLLogEnvironment(gym.Env):
     @inject

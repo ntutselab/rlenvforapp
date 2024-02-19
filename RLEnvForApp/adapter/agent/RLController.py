@@ -8,6 +8,7 @@ from RLEnvForApp.adapter.agent.model.ModelFactory import ModelFactory
 from RLEnvForApp.adapter.environment.factory.GymEnvironmentFactory import GymEnvironmentFactory
 from RLEnvForApp.logger.logger import Logger
 
+
 class RLController:
     @inject
     def __init__(self, algorithm, policy):

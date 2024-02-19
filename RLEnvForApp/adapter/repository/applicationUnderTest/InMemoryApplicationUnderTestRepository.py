@@ -1,5 +1,7 @@
-from RLEnvForApp.usecase.applicationUnderTest.entity.ApplicationUnderTestEntity import ApplicationUnderTestEntity
-from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import ApplicationUnderTestRepository
+from RLEnvForApp.usecase.applicationUnderTest.entity.ApplicationUnderTestEntity import \
+    ApplicationUnderTestEntity
+from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import \
+    ApplicationUnderTestRepository
 
 
 class InMemoryApplicationUnderTestRepository(ApplicationUnderTestRepository):

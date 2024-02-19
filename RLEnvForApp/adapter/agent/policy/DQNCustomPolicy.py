@@ -1,5 +1,7 @@
-from stable_baselines.deepq.policies import FeedForwardPolicy # for DQN
+from stable_baselines.deepq.policies import FeedForwardPolicy  # for DQN
+
 from configuration.di.AgentDIContainers import AgentDIContainers
+
 
 class DQNCustomPolicy(FeedForwardPolicy):
     """

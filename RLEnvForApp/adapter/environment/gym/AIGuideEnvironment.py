@@ -1,31 +1,39 @@
+import time
 import traceback
 
 import gym
 import numpy
-import time
 from dependency_injector.wiring import Provide, inject
 
-from RLEnvForApp.adapter.controller.ApplicationUnderTestController import ApplicationUnderTestController
+from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
+from RLEnvForApp.adapter.controller.ApplicationUnderTestController import \
+    ApplicationUnderTestController
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.NoCodeCoverageCollector import \
     NoCodeCoverageCollector
 from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import SeleniumCrawler
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import \
+    FormSubmitCriteriaSingleton
+from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
+    IDirectiveRuleService
+from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
-
 from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCoverageCollector import \
     ICodeCoverageCollector
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
-from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase, InitiateEnvironmentInput, InitiateEnvironmentOutput
-from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
-from RLEnvForApp.usecase.targetPage.update import UpdateTargetPageUseCase, UpdateTargetPageInput, UpdateTargetPageOutput
+from RLEnvForApp.usecase.environment.executeAction import (ExecuteActionInput, ExecuteActionOutput,
+                                                           ExecuteActionUseCase)
+from RLEnvForApp.usecase.environment.initiateEnvironment import (InitiateEnvironmentInput,
+                                                                 InitiateEnvironmentOutput,
+                                                                 InitiateEnvironmentUseCase)
+from RLEnvForApp.usecase.environment.resetEnvironment import (ResetEnvironmentInput,
+                                                              ResetEnvironmentOutput,
+                                                              ResetEnvironmentUseCase)
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from RLEnvForApp.logger.logger import Logger
-from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
+from RLEnvForApp.usecase.targetPage.update import (UpdateTargetPageInput, UpdateTargetPageOutput,
+                                                   UpdateTargetPageUseCase)
 
 
 class AIGuideEnvironment(gym.Env):

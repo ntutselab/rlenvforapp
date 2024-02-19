@@ -1,7 +1,8 @@
-from RLEnvForApp.logger.logger import Logger
-from . import IActionCommand
 from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
 from RLEnvForApp.domain.targetPage.AppEvent import AppEvent
+from RLEnvForApp.logger.logger import Logger
+
+from . import IActionCommand
 
 
 class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
