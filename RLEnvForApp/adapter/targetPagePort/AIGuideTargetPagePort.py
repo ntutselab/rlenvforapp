@@ -235,7 +235,7 @@ class AIGuideTargetPagePort(ITargetPagePort):
         return javaObjectLearningResultDTOBuilder.build()
 
     def _saveTargetPageToHtmlSet(self, episodeHandlerId: str, directiveDTO: DirectiveDTO):
-        fileName = f"{self._serverName}_{urlparse(directiveDTO.getUrl())}_{directiveDTO.getFormXPath().replace("/", "_")}"
+        fileName = f"{self._serverName}_{urlparse(directiveDTO.getUrl())}_{directiveDTO.getFormXPath().replace('/', '_')}"
         initialStateDTO: StateDTO = self._getEpisodeHandlerDTO(episodeHandlerId=episodeHandlerId).getStateDTOs()[0]
 
         interactiveAppElementDictionary = []
