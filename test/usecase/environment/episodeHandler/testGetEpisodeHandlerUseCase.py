@@ -23,17 +23,22 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         episodeHandler = self._createEpisodeHandler()
         episodeHandlerId = episodeHandler.getId()
         episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
         episodeHandler.appendState(self._createState(actionType="changeFocus",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
         episodeHandler.appendState(self._createState(actionType="click",
-                                                     interactedElement=self._createAppElement(value=""),
+                                                     interactedElement=self._createAppElement(
+                                                         value=""),
                                                      codeCoverages=[self._createCodeCoverage(codeCoverageVector=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0])]))
-        self._episodeHandlerRepository.add(episodeHandlerEntity=EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+        self._episodeHandlerRepository.add(
+            episodeHandlerEntity=EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
 
-        usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(episodeHandlerRepository=self._episodeHandlerRepository)
+        usecase = GetEpisodeHandlerUseCase.GetEpisodeHandlerUseCase(
+            episodeHandlerRepository=self._episodeHandlerRepository)
         input = GetEpisodeHandlerInput.GetEpisodeHandlerInput(episodeHandlerId=episodeHandlerId)
         output = GetEpisodeHandlerOutput.GetEpisodeHandlerOutput()
 

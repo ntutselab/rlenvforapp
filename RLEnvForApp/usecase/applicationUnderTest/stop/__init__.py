@@ -1,1 +1,2 @@
-__all__=["StopApplicationUnderTestUseCase", "StopApplicationUnderTestInput", "StopApplicationUnderTestOutput"]
+__all__ = ["StopApplicationUnderTestUseCase",
+           "StopApplicationUnderTestInput", "StopApplicationUnderTestOutput"]

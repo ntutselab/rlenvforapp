@@ -9,7 +9,8 @@ class TargetPageHierarchyInitial:
         pass
 
     def createTargetPage(self, targetPageRepository: TargetPageRepository.TargetPageRepository, targetPageUrl: str, rootUrl: str, appEventDTOs: [AppEventDTO]):
-        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(repository=targetPageRepository)
+        createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase(
+            repository=targetPageRepository)
         createTargetPageInput = CreateTargetPageInput.CreateTargetPageInput(targetPageUrl=targetPageUrl,
                                                                             rootUrl=rootUrl,
                                                                             appEventDTOs=appEventDTOs)

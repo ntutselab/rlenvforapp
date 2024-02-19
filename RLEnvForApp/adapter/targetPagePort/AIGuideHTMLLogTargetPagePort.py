@@ -27,7 +27,8 @@ class AIGuideHTMLLogTargetPagePort(ITargetPagePort):
                 jsonData = open(os.path.join(folderPath, pageJsonFileName),)
                 pageLog = json.load(jsonData)
                 jsonData.close()
-                self._addTargetPage(targetPageUrl=path, rootUrl=path, formXPath=pageLog["formXPath"], appEventDTOs=[])
+                self._addTargetPage(targetPageUrl=path, rootUrl=path,
+                                    formXPath=pageLog["formXPath"], appEventDTOs=[])
 
     def _addTargetPage(self, targetPageUrl: str, rootUrl: str, formXPath: str, appEventDTOs: [AppEventDTO]):
         createTargetPageUseCase = CreateTargetPageUseCase.CreateTargetPageUseCase()

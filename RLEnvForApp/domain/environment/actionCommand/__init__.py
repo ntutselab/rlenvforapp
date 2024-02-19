@@ -1,1 +1,2 @@
-__all__=["ClickCommand", "ChangeFocusCommand", "InputValueCommand", "IActionCommand", "IRobotInputValueCommand", "IRobotClickCommand"]
+__all__ = ["ClickCommand", "ChangeFocusCommand", "InputValueCommand",
+           "IActionCommand", "IRobotInputValueCommand", "IRobotClickCommand"]

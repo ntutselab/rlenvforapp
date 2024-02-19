@@ -16,7 +16,8 @@ class ApplicationUnderTestController:
 
     def startAUTServer(self):
         startAUTUseCase = StartApplicationUnderTestUserCase.StartApplicationUnderTestUserCase()
-        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(applicationName=self._applicationName, ip=self._serverIP, port=self._port)
+        startAUTInput = StartApplicationUnderTestInput.StartApplicationUnderTestInput(
+            applicationName=self._applicationName, ip=self._serverIP, port=self._port)
         startAUTOutput = StartApplicationUnderTestOutput.StartApplicationUnderTestOutput()
         startAUTUseCase.execute(startAUTInput, startAUTOutput)
 

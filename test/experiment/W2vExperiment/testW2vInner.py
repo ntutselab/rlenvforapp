@@ -23,16 +23,16 @@ class testW2vInner(unittest.TestCase):
         last = self._w2vConverter.convert(stateElement="last", length=300)
         first = self._w2vConverter.convert(stateElement="first", length=300)
         print("inner: ", self._inner(name, name))
-        print("first name and last name: ",self._inner(self._sum(last, name),
+        print("first name and last name: ", self._inner(self._sum(last, name),
+                                                        self._sum(first, name)))
+        print("first name and name: ", self._inner(self._sum(first, name),
+                                                   name))
+        print("last name and name: ", self._inner(self._sum(last, name),
+                                                  name))
+        print("username and name: ", self._inner(username, name))
+        print("username and first name: ", self._inner(username,
                                                        self._sum(first, name)))
-        print("first name and name: ",self._inner(self._sum(first, name),
-                                                       name))
-        print("last name and name: ",self._inner(self._sum(last, name),
-                                                       name))
-        print("username and name: ",self._inner(username, name))
-        print("username and first name: ",self._inner(username,
-                                                      self._sum(first, name)))
-        print("username and last name: ",self._inner(username,
+        print("username and last name: ", self._inner(username,
                                                       self._sum(last, name)))
 
         print("====================================================")
@@ -45,16 +45,16 @@ class testW2vInner(unittest.TestCase):
         last = self._fastConverter.convert(stateElement="last", length=300)
         first = self._fastConverter.convert(stateElement="first", length=300)
         print("inner: ", self._inner(name, name))
-        print("first name and last name: ",self._inner(self._sum(last, name),
+        print("first name and last name: ", self._inner(self._sum(last, name),
+                                                        self._sum(first, name)))
+        print("first name and name: ", self._inner(self._sum(first, name),
+                                                   name))
+        print("last name and name: ", self._inner(self._sum(last, name),
+                                                  name))
+        print("username and name: ", self._inner(username, name))
+        print("username and first name: ", self._inner(username,
                                                        self._sum(first, name)))
-        print("first name and name: ",self._inner(self._sum(first, name),
-                                                       name))
-        print("last name and name: ",self._inner(self._sum(last, name),
-                                                       name))
-        print("username and name: ",self._inner(username, name))
-        print("username and first name: ",self._inner(username,
-                                                      self._sum(first, name)))
-        print("username and last name: ",self._inner(username,
+        print("username and last name: ", self._inner(username,
                                                       self._sum(last, name)))
 
     def _toUnit(self, vec1) -> []:

@@ -22,7 +22,8 @@ class CreateDirectiveUseCase:
     @inject
     def __init__(self,
                  targetPageRepository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],
-                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[EnvironmentDIContainers.episodeHandlerRepository],
+                 episodeHandlerRepository: EpisodeHandlerRepository = Provide[
+                     EnvironmentDIContainers.episodeHandlerRepository],
                  directiveRuleService: IDirectiveRuleService = Provide[EnvironmentDIContainers.directiveRuleService]):
         self._directiveRuleService: IDirectiveRuleService = directiveRuleService
         self._targetPageRepository = targetPageRepository
@@ -32,8 +33,10 @@ class CreateDirectiveUseCase:
                 output: CreateDirectiveOutput.CreateDirectiveOutput):
         targetPageEntity = self._targetPageRepository.findById(input.getTargetPageId())
         targetPage = TargetPageEntityMapper.mappingTargetPageFrom(targetPageEntity=targetPageEntity)
-        targetEpisodeHandlerEntity = self._episodeHandlerRepository.findById(input.getEpisodeHandlerId())
-        episodeEpisodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(targetEpisodeHandlerEntity)
+        targetEpisodeHandlerEntity = self._episodeHandlerRepository.findById(
+            input.getEpisodeHandlerId())
+        episodeEpisodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+            targetEpisodeHandlerEntity)
         codeCoverages: [CodeCoverage] = None
         appEvents: [AppEvent] = []
 
@@ -53,7 +56,8 @@ class CreateDirectiveUseCase:
             if actionType == "click":
                 if not interactiveAppElement.getTagName() == "button" and not (interactiveAppElement.getTagName() == "input" and (interactiveAppElement.getType() == "submit" or interactiveAppElement.getType() == "button" or interactiveAppElement.getType() == "image" or interactiveAppElement.getType() == "checkbox")):
                     continue
-                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(), value="", category="click"))
+                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
+                                 value="", category="click"))
             if actionType == "input":
                 if not interactiveAppElement.getTagName() == "input" and not interactiveAppElement.getTagName() == "textarea":
                     continue
@@ -62,11 +66,14 @@ class CreateDirectiveUseCase:
                     category = inputTypes[state.getActionNumber()]
                 else:
                     category = ""
-                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(), value=value, category=category))
+                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
+                                 value=value, category=category))
 
         initialState: State = episodeEpisodeHandler.getState(0)
-        directive = Directive(url=initialState.getUrl(), dom=initialState.getDOM(), formXPath=targetPage.getFormXPath(), appEvents=appEvents, codeCoverages=codeCoverages)
+        directive = Directive(url=initialState.getUrl(), dom=initialState.getDOM(
+        ), formXPath=targetPage.getFormXPath(), appEvents=appEvents, codeCoverages=codeCoverages)
         targetPage.appendDirective(directive=directive)
-        self._targetPageRepository.update(TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage))
+        self._targetPageRepository.update(
+            TargetPageEntityMapper.mappingTargetPageEntityFrom(targetPage=targetPage))
 
         output.setDirectiveDTO(DirectiveDTOMapper.mappingDirectiveDTOFrom(directive=directive))

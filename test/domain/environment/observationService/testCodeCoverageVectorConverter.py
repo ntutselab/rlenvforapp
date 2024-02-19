@@ -13,7 +13,8 @@ class testCodeCoverageVectorConverter(unittest.TestCase):
         pass
 
     def testConvert(self):
-        codeCoverage = CodeCoverage.CodeCoverage(codeCoverageType="branch coverage", codeCoverageVector=[3, 2, 1, 0])
+        codeCoverage = CodeCoverage.CodeCoverage(
+            codeCoverageType="branch coverage", codeCoverageVector=[3, 2, 1, 0])
         codeCoverageVector = codeCoverage.getCodeCoverageVector()
 
         listCodeCoverageFeature = CodeCoverageVectorConverter().convert(stateElement=codeCoverageVector)

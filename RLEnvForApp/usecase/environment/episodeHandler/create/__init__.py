@@ -1,1 +1,1 @@
-__all__=["CreateEpisodeHandlerInput", "CreateEpisodeHandlerOutput", "CreateEpisodeHandlerUseCase"]
+__all__ = ["CreateEpisodeHandlerInput", "CreateEpisodeHandlerOutput", "CreateEpisodeHandlerUseCase"]

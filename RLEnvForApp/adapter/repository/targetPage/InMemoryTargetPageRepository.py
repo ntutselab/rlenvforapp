@@ -16,7 +16,6 @@ class InMemoryTargetPageRepository(TargetPageRepository):
                 index = self._targetPageEntities.index(each)
                 self._targetPageEntities[index] = targetPageEntity
 
-
     def deleteById(self, id):
         self._targetPageEntities.remove(self.findById(id=id))
 

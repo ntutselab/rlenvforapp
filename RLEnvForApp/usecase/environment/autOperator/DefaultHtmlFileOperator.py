@@ -51,7 +51,8 @@ class DefaultHtmlFileOperator(IAUTOperator):
 
     def changeFocus(self):
         numberOfSelectedAppElement = len(self._selectedAppElements)
-        self._focusedAppElementIndex = (self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
+        self._focusedAppElementIndex = (
+            self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
 
     def getAllSelectedAppElements(self) -> [AppElement]:
         return self._selectedAppElements

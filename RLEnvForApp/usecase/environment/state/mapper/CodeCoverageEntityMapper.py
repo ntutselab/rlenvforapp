@@ -3,7 +3,8 @@ from RLEnvForApp.usecase.environment.state.entity.CodeCoverageEntity import Code
 
 
 def mappingCodeCoverageEntityFrom(codeCoverage: CodeCoverage) -> CodeCoverageEntity:
-    return CodeCoverageEntity(codeCoverageType= codeCoverage.getCodeCoverageType(), codeCoverageVector=codeCoverage.getCodeCoverageVector())
+    return CodeCoverageEntity(codeCoverageType=codeCoverage.getCodeCoverageType(), codeCoverageVector=codeCoverage.getCodeCoverageVector())
+
 
 def mappingCodeCoverageFrom(codeCoverageEntity: CodeCoverageEntity) -> CodeCoverage:
     return CodeCoverage(codeCoverageType=codeCoverageEntity.getCodeCoverageType(), codeCoverageVector=codeCoverageEntity.getCodeCoverageVector())

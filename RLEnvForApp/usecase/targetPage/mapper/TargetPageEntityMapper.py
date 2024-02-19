@@ -14,15 +14,18 @@ def mappingTargetPageEntityFrom(targetPage: TargetPage.TargetPage):
 
     directiveEntities: [DirectiveEntity] = []
     for directive in targetPage.getDirectives():
-        directiveEntities.append(DirectiveEntityMapper.mappingDirectiveEntityFrom(directive=directive))
+        directiveEntities.append(
+            DirectiveEntityMapper.mappingDirectiveEntityFrom(directive=directive))
     return TargetPageEntity.TargetPageEntity(id=targetPage.getId(),
                                              targetUrl=targetPage.getTargetUrl(),
                                              rootUrl=targetPage.getRootUrl(),
                                              appEventEntities=appEventEntities,
                                              taskID=targetPage.getTaskID(),
                                              formXPath=targetPage.getFormXPath(),
-                                             basicCodeCoverageEntity=CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(targetPage.getBasicCodeCoverage()),
+                                             basicCodeCoverageEntity=CodeCoverageEntityMapper.mappingCodeCoverageEntityFrom(
+                                                 targetPage.getBasicCodeCoverage()),
                                              directiveEntities=directiveEntities)
+
 
 def mappingTargetPageFrom(targetPageEntity: TargetPageEntity):
     appEvents: [AppEvent] = []
@@ -31,12 +34,14 @@ def mappingTargetPageFrom(targetPageEntity: TargetPageEntity):
 
     directives: [Directive] = []
     for directiveEntity in targetPageEntity.getDirectiveEntities():
-        directives.append(DirectiveEntityMapper.mappingDirectiveFrom(directiveEntity=directiveEntity))
+        directives.append(DirectiveEntityMapper.mappingDirectiveFrom(
+            directiveEntity=directiveEntity))
     return TargetPage.TargetPage(id=targetPageEntity.getId(),
                                  targetUrl=targetPageEntity.getTargetUrl(),
                                  rootUrl=targetPageEntity._rootUrl,
                                  appEvents=appEvents,
                                  taskID=targetPageEntity.getTaskID(),
                                  formXPath=targetPageEntity.getFormXPath(),
-                                 basicCodeCoverage=CodeCoverageEntityMapper.mappingCodeCoverageFrom(targetPageEntity.getBasicCodeCoverageEntity()),
+                                 basicCodeCoverage=CodeCoverageEntityMapper.mappingCodeCoverageFrom(
+                                     targetPageEntity.getBasicCodeCoverageEntity()),
                                  directives=directives)

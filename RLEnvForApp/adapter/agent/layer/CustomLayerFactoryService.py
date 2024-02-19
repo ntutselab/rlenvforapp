@@ -6,11 +6,13 @@ from stable_baselines.common.policies import nature_cnn
 class CustomLayerFactoryService:
     @staticmethod
     def createIRobotCNNLayer(inputLayer, activation_fn=tf.nn.leaky_relu):
-        layer_1 = tf.contrib.layers.conv2d(inputLayer, 32, [1, 7], [1, 4], activation_fn=activation_fn)
+        layer_1 = tf.contrib.layers.conv2d(
+            inputLayer, 32, [1, 7], [1, 4], activation_fn=activation_fn)
         layer_2 = tf.contrib.layers.conv2d(layer_1, 32, [1, 7], [1, 4], activation_fn=activation_fn)
         max_pool = tf.contrib.layers.max_pool2d(layer_2, [1, 4], [1, 4])
 
-        layer_3 = tf.contrib.layers.conv2d(max_pool, 16, [1, 7], [1, 4], activation_fn=activation_fn)
+        layer_3 = tf.contrib.layers.conv2d(
+            max_pool, 16, [1, 7], [1, 4], activation_fn=activation_fn)
         max_pool2 = tf.contrib.layers.max_pool2d(layer_3, [1, 7], [1, 7])
 
         layer_4 = tf.contrib.layers.conv2d(max_pool2, 4, [1, 3], 1, activation_fn=activation_fn)
@@ -44,7 +46,8 @@ class CustomLayerFactoryService:
         outputLayer = inputLayer
 
         for layer_size in layers:
-            outputLayer = CustomLayerFactoryService.createFullyConnectedLayer(outputLayer, layer_size, activation_fn)
+            outputLayer = CustomLayerFactoryService.createFullyConnectedLayer(
+                outputLayer, layer_size, activation_fn)
 
         return outputLayer
 

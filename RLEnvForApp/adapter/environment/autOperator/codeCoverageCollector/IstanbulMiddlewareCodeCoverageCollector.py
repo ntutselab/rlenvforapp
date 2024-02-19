@@ -16,8 +16,10 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
 
     def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:
         codeCoverageDTOs = []
-        codeCoverageDTOs.append(CodeCoverageDTO(codeCoverageType="statement coverage", codeCoverageVector=self._getCodeCoverageVector('s')))
-        codeCoverageDTOs.append(CodeCoverageDTO(codeCoverageType="branch coverage", codeCoverageVector=self._getCodeCoverageVector('b')))
+        codeCoverageDTOs.append(CodeCoverageDTO(
+            codeCoverageType="statement coverage", codeCoverageVector=self._getCodeCoverageVector('s')))
+        codeCoverageDTOs.append(CodeCoverageDTO(codeCoverageType="branch coverage",
+                                codeCoverageVector=self._getCodeCoverageVector('b')))
         return codeCoverageDTOs
 
     def resetCodeCoverage(self):
@@ -33,7 +35,8 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
 
     def _requestsRetrySession(self, retries=3, backoffFactor=0.3, statusForceList=(500, 502, 504), session=None):
         session = session or requests.Session()
-        retry = Retry(total=retries, read=retries, connect=retries, backoff_factor=backoffFactor, status_forcelist=statusForceList)
+        retry = Retry(total=retries, read=retries, connect=retries,
+                      backoff_factor=backoffFactor, status_forcelist=statusForceList)
         adapter = HTTPAdapter(max_retries=retry)
         session.mount('http://', adapter)
         session.mount('https://', adapter)
@@ -44,9 +47,11 @@ class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
             # return global coverage object on /coverage/object as JSON
             # for more info, consult the istanbul-middleware utils docs
             response = self.session.get(f"{self._serverRootUrl}/coverage/object")
-            codeCoverageValueVectorList = [list(v[coverageTypeIndicator].values()) for v in response.json().values()]
+            codeCoverageValueVectorList = [list(v[coverageTypeIndicator].values())
+                                           for v in response.json().values()]
             codeCoverageValueVector = self._flatList(codeCoverageValueVectorList)
-            codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(codeCoverageValueVector = codeCoverageValueVector)
+            codeCoverageVector = self._convertCodeCoverageValueVectorToCodeCoverageVector(
+                codeCoverageValueVector=codeCoverageValueVector)
             return codeCoverageVector
         except Exception as e:
             Logger().info(f"Failed at getting coverage {e.__class__.__name__}")

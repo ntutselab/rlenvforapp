@@ -9,8 +9,8 @@ class testFileManager(unittest.TestCase):
         fileManager = FileManager()
         fileManager.createFolder("htmlSet", "GUIDE_HTML_SET")
 
-
     def test_create_file(self):
         fileManager = FileManager()
         fileManager.createFolder("htmlSet", "GUIDE_HTML_SET")
-        fileManager.createFile(path=os.path.join("htmlSet", "GUIDE_HTML_SET"), fileName="test.html", context="aabbcc")
+        fileManager.createFile(path=os.path.join("htmlSet", "GUIDE_HTML_SET"),
+                               fileName="test.html", context="aabbcc")
