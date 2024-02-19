@@ -1,4 +1,5 @@
 import os
+
 from dependency_injector import providers
 
 configDirectoryPath = "configuration/config"

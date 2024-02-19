@@ -1,5 +1,6 @@
-from RLEnvForApp.domain.environment.observationService.converter.ScreenshotPreprocessor import ScreenshotPreprocessor
 from RLEnvForApp.domain.environment.observationService.converter import IConverter
+from RLEnvForApp.domain.environment.observationService.converter.ScreenshotPreprocessor import \
+    ScreenshotPreprocessor
 
 
 class ScreenshotConverter(IConverter):

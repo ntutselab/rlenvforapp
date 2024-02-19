@@ -1,11 +1,15 @@
 from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
-from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import IRewardCalculatorService
+from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import \
+    IActionIndicationService
+from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
+    IRewardCalculatorService
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.environment.rewardCalculatorService.ActionIndicationService.IActionIndicationService import IActionIndicationService
-from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
+from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import \
+    ITargetIndicationService
 from RLEnvForApp.usecase.environment.executeAction.ActionIndicationService.CheckHTMLLogActionIndicationService import \
     CheckHTMLLogActionIndicationService
-from RLEnvForApp.usecase.targetPage.ITargetIndicationService.HTMLLogIndicationService import HTMLLogIndicationService
+from RLEnvForApp.usecase.targetPage.ITargetIndicationService.HTMLLogIndicationService import \
+    HTMLLogIndicationService
 
 
 class AIGuideHTMLLogRewardCalculatorService(IRewardCalculatorService):

@@ -1,5 +1,6 @@
 from RLEnvForApp.domain.environment.observationService.converter import IConverter
-from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import BERTTokenizerSingleton
+from RLEnvForApp.domain.environment.observationService.converter.BERTTokenizerSingleton import \
+    BERTTokenizerSingleton
 
 
 class BERTConverter(IConverter):

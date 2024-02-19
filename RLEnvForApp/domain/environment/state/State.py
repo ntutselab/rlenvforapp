@@ -1,6 +1,7 @@
+from RLEnvForApp.domain.environment.observationService.htmlExtractor.HtmlExtractor import \
+    HtmlExtractor
 from RLEnvForApp.domain.environment.state import AppElement
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
-from RLEnvForApp.domain.environment.observationService.htmlExtractor.HtmlExtractor import HtmlExtractor
 
 
 class State:

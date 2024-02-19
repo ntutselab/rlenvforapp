@@ -1,4 +1,5 @@
-from RLEnvForApp.adapter.targetPagePort import ITargetPagePort, AIGuideTargetPagePort, AIGuideHTMLLogTargetPagePort, AIGuideVerifyTargetPagePort
+from RLEnvForApp.adapter.targetPagePort import (AIGuideHTMLLogTargetPagePort, AIGuideTargetPagePort,
+                                                AIGuideVerifyTargetPagePort, ITargetPagePort)
 
 
 class TargetPagePortFactory:

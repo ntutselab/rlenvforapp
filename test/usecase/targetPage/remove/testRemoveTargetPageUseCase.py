@@ -1,8 +1,10 @@
 import unittest
-
-from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
-from RLEnvForApp.usecase.targetPage.remove import RemoveTargetPageUseCase, RemoveTargetPageInput, RemoveTargetPageOutput
 from test.usecase.targetPage.TargetPageHierarchyInitial import TargetPageHierarchyInitial
+
+from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import \
+    InMemoryTargetPageRepository
+from RLEnvForApp.usecase.targetPage.remove import (RemoveTargetPageInput, RemoveTargetPageOutput,
+                                                   RemoveTargetPageUseCase)
 
 
 class testRemoveTargetPageUseCase(unittest.TestCase):

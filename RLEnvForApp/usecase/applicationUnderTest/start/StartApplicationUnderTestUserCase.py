@@ -1,13 +1,15 @@
-from RLEnvForApp.domain.applicationUnderTest.ApplicationUnderTest import ApplicationUnderTest
-from . import (StartApplicationUnderTestInput, StartApplicationUnderTestOutput)
 import uuid
 
-from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import ApplicationUnderTestRepository
-from ..applicationHandler.ApplicationHandler import ApplicationHandler
-from ..mapper import ApplicationUnderTestMapper
+from dependency_injector.wiring import Provide, inject
 
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from dependency_injector.wiring import inject, Provide
+from RLEnvForApp.domain.applicationUnderTest.ApplicationUnderTest import ApplicationUnderTest
+from RLEnvForApp.usecase.repository.ApplicationUnderTestRepository import \
+    ApplicationUnderTestRepository
+
+from ..applicationHandler.ApplicationHandler import ApplicationHandler
+from ..mapper import ApplicationUnderTestMapper
+from . import StartApplicationUnderTestInput, StartApplicationUnderTestOutput
 
 
 class StartApplicationUnderTestUserCase:

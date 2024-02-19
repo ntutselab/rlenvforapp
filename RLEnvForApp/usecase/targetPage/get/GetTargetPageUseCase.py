@@ -2,9 +2,10 @@
 from dependency_injector.wiring import Provide, inject
 
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from . import (GetTargetPageInput, GetTargetPageOutput)
-from ..mapper import TargetPageEntityMapper, TargetPageDTOMapper
+
 from ...repository.TargetPageRepository import TargetPageRepository
+from ..mapper import TargetPageDTOMapper, TargetPageEntityMapper
+from . import GetTargetPageInput, GetTargetPageOutput
 
 
 class GetTargetPageUseCase:

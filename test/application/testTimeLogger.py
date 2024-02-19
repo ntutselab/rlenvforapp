@@ -1,6 +1,6 @@
-import unittest
-import time
 import os
+import time
+import unittest
 
 from RLEnvForApp.application.timeLoggerService.TimeLoggerService import TimeLoggerService
 

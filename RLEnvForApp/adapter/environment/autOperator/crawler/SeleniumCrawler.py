@@ -1,11 +1,12 @@
-import io, numpy
+import io
 import re
 import time
 from io import StringIO
 from urllib.parse import urlparse
-from PIL import Image
 
+import numpy
 from lxml import etree
+from PIL import Image
 from selenium import webdriver
 
 from RLEnvForApp.logger.logger import Logger

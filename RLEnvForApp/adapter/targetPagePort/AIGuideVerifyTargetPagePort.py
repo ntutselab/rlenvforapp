@@ -1,12 +1,14 @@
-import os
 import json
+import os
 
 from RLEnvForApp.adapter.targetPagePort.ITargetPagePort import ITargetPagePort
 from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import CodeCoverageDTO
-from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageUseCase, CreateTargetPageOutput, CreateTargetPageInput)
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput, CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 from RLEnvForApp.usecase.targetPage.dto.AppEventDTO import AppEventDTO
 from RLEnvForApp.usecase.targetPage.dto.TargetPageDTO import TargetPageDTO
-from RLEnvForApp.usecase.targetPage.get import GetAllTargetPageUseCase, GetAllTargetPageInput, GetAllTargetPageOutput
+from RLEnvForApp.usecase.targetPage.get import (GetAllTargetPageInput, GetAllTargetPageOutput,
+                                                GetAllTargetPageUseCase)
 
 
 class AIGuideVerifyTargetPagePort(ITargetPagePort):

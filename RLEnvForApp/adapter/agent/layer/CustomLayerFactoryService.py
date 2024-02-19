@@ -1,5 +1,5 @@
-import tensorflow as tf
 import params_flow as pf
+import tensorflow as tf
 from stable_baselines.common.policies import nature_cnn
 
 

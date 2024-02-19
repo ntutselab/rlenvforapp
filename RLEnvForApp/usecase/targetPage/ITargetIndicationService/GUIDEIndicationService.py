@@ -1,6 +1,7 @@
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import ITargetIndicationService
+from RLEnvForApp.domain.targetPage.TargetIndicationService.ITargetIndicationService import \
+    ITargetIndicationService
 from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 from RLEnvForApp.usecase.targetPage.queueManager.TargetPageProcessingManagerSingleton import \
     TargetPageProcessingManagerSingleton

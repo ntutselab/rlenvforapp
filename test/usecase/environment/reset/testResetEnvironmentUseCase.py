@@ -1,13 +1,19 @@
 import unittest
 
+from configuration.di.EnvironmentDIContainers import (EnvironmentDIContainers,
+                                                      InMemoryEpisodeHandlerRepository)
 from RLEnvForApp.adapter.environment.autOperator.crawler.HtmlFileCrawler import HtmlFileCrawler
-from RLEnvForApp.usecase.environment.autOperator.ExperimentalHtmlFileOperator import ExperimentalHtmlFileOperator
+from RLEnvForApp.usecase.environment.autOperator.ExperimentalHtmlFileOperator import \
+    ExperimentalHtmlFileOperator
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
+from RLEnvForApp.usecase.environment.executeAction import (ExecuteActionInput, ExecuteActionOutput,
+                                                           ExecuteActionUseCase)
+from RLEnvForApp.usecase.environment.resetEnvironment import (ResetEnvironmentInput,
+                                                              ResetEnvironmentOutput,
+                                                              ResetEnvironmentUseCase)
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-from RLEnvForApp.usecase.targetPage.create import CreateTargetPageUseCase, CreateTargetPageInput, CreateTargetPageOutput
-from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase, ExecuteActionInput, ExecuteActionOutput
-from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase, ResetEnvironmentInput, ResetEnvironmentOutput
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers, InMemoryEpisodeHandlerRepository
+from RLEnvForApp.usecase.targetPage.create import (CreateTargetPageInput, CreateTargetPageOutput,
+                                                   CreateTargetPageUseCase)
 
 
 class testResetEnvironmentUseCase(unittest.TestCase):

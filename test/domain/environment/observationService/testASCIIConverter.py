@@ -1,6 +1,7 @@
 import unittest
 
-from RLEnvForApp.domain.environment.observationService.converter.ASCIIConverter import ASCIIConverter
+from RLEnvForApp.domain.environment.observationService.converter.ASCIIConverter import \
+    ASCIIConverter
 
 
 class testTimeLogger(unittest.TestCase):
