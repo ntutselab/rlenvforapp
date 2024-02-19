@@ -148,7 +148,7 @@ class SeleniumCrawler(ICrawler):
     def _getHtmlTagAttribute(self, element, attribute):
         try:
             attributeText = element.attrib[attribute]
-        except:
+        except Exception:
             attributeText = ""
         return attributeText
 
