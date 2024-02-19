@@ -79,6 +79,6 @@ class HTMLLogCrawler(ICrawler):
         attributeText = ""
         try:
             attributeText = element.attrib[attribute]
-        except:
+        except Exception:
             attributeText = ""
         return attributeText
