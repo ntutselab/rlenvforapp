@@ -154,8 +154,8 @@ class AIGuideEnvironment(gym.Env):
 
         try:
             executeActionUseCase.execute(input=executeActionInput, output=executeActionOutput)
-        except Exception as e:
-            self._logger.exception(f"Something wrong when execute action: {e}")
+        except Exception as exception:
+            self._logger.exception(f"Something wrong when execute action: {exception}")
             traceback.print_exc()
             executeActionOutput.setIsDone(True)
 

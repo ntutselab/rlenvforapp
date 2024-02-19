@@ -21,6 +21,6 @@ class FileManager:
 
     def createFile(self, path: str, fileName: str, context: str):
         filePath = os.path.join(path, fileName)
-        f = open(filePath, "w", encoding='utf-8')
-        f.write(str(context))
-        f.close()
+        file = open(filePath, "w", encoding='utf-8')
+        file.write(str(context))
+        file.close()
