@@ -1,5 +1,3 @@
-from RLEnvForApp.domain.targetPage.Directive import Directive
-from RLEnvForApp.domain.targetPage.TargetPage import TargetPage
 
 
 class IDirectiveRuleService:

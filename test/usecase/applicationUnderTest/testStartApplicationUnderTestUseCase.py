@@ -1,4 +1,4 @@
-import time, requests
+import requests
 from unittest import TestCase
 
 from test.usecase.HirerarchyInitial import HirerarchyInitial

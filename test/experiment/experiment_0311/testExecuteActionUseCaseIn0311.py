@@ -5,7 +5,6 @@ from RLEnvForApp.adapter.repository.episodeHandler.InMemoryEpisodeHandlerReposit
     InMemoryEpisodeHandlerRepository
 from RLEnvForApp.adapter.repository.targetPage.InMemoryTargetPageRepository import InMemoryTargetPageRepository
 from RLEnvForApp.usecase.environment.autOperator.ClickForAllElementOperator import ClickForAllElementOperator
-from RLEnvForApp.usecase.environment.autOperator.DefaultHtmlFileOperator import DefaultHtmlFileOperator
 from RLEnvForApp.usecase.environment.executeAction import *
 from RLEnvForApp.usecase.environment.resetEnvironment import *
 from RLEnvForApp.usecase.targetPage.create import *

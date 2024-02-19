@@ -1,4 +1,3 @@
-import time
 import unittest, requests
 
 from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler

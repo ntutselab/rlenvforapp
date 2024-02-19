@@ -1,7 +1,5 @@
-import time, numpy
+import numpy
 from unittest import TestCase
-import io
-from PIL import Image
 import tensorflow as tf
 
 from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler

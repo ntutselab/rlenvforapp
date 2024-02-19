@@ -1,10 +1,8 @@
-import time
 from unittest import TestCase
 
 from RLEnvForApp.adapter.applicationUnderTest.DockerServerHandler import DockerServerHandler
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.IstanbulMiddlewareCodeCoverageCollector import \
     IstanbulMiddlewareCodeCoverageCollector
-from RLEnvForApp.adapter.environment.autOperator.crawler.IRobotCrawler import IRobotCrawler
 from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import SeleniumCrawler
 from RLEnvForApp.adapter.repository.applicationUnderTest.InMemoryApplicationUnderTestRepository import \
     InMemoryApplicationUnderTestRepository
@@ -15,7 +13,6 @@ from RLEnvForApp.domain.environment.actionCommandFactoryService.DefaultForTestAc
     DefaultForTestActionCommandFactoryService
 
 from RLEnvForApp.domain.environment.autOperator.IAUTOperator import IAUTOperator
-from RLEnvForApp.domain.environment.episodeHandler.IEpisodeHandler import IEpisodeHandler
 from RLEnvForApp.domain.environment.rewardCalculatorService.DefaultForTestRewardCalculatorService import \
     DefaultForTestRewardCalculatorService
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
@@ -23,7 +20,6 @@ from RLEnvForApp.domain.environment.observationService.DefaultForTestObservation
     DefaultForTestObservationService
 
 from RLEnvForApp.usecase.environment.autOperator.IRobotOperator import IRobotOperator
-from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from RLEnvForApp.domain.environment.observationService.DefaultForTestObservationService import \
     DefaultForTestObservationService
 from RLEnvForApp.usecase.environment.state.mapper import CodeCoverageEntityMapper
@@ -32,8 +28,6 @@ from RLEnvForApp.usecase.environment.resetEnvironment import *
 from RLEnvForApp.usecase.targetPage.create import *
 from RLEnvForApp.usecase.targetPage.queueManager.HtmlFileTargetPageQueueManagerService import \
     HtmlFileTargetPageQueueManagerService
-
-from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from test.usecase.HirerarchyInitial import HirerarchyInitial
 
 

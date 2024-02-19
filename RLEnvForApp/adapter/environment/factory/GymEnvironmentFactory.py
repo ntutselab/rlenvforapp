@@ -1,7 +1,4 @@
-import gym
 from stable_baselines.common.vec_env import DummyVecEnv
-
-from dependency_injector.wiring import inject, Provide
 
 from configuration.di.AgentDIContainers import AgentDIContainers
 
