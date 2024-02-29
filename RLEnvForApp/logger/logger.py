@@ -26,8 +26,12 @@ class Logger:
             cls._instance.logger = aiGuideLogger
         return cls._instance
 
+    @classmethod
+    def get_instance(cls):
+        return cls._instance
+
     def info(self, message):
-        self._instance.info(message)
+        self.get_instance().info(message)
 
     def exception(self, message):
-        self._instance.exception(message)
+        self.get_instance().exception(message)
