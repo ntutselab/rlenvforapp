@@ -70,14 +70,14 @@ class AIGUIDEOperator(IAUTOperator):
 
     def changeFocus(self):
         if super().getActionType() == "changeFocus":
-            focusedAppElement: AppElement = self.getFocusedAppElement()
-            focusedAppElement.setValue("")
-            self._crawler.changeFocus(focusedAppElement.getXpath(), "")
+            focused_app_element: AppElement = self.getFocusedAppElement()
+            focused_app_element.setValue("")
+            self._crawler.changeFocus(focused_app_element.getXpath(), "")
             self._interactedElement = self._selectedAppElements[self._focusedAppElementIndex]
-        numberOfSelectedAppElement = len(self._selectedAppElements)
-        if numberOfSelectedAppElement != 0:
+        number_of_selected_app_element = len(self._selectedAppElements)
+        if number_of_selected_app_element != 0:
             self._focusedAppElementIndex = (
-                self._focusedAppElementIndex + 1) % numberOfSelectedAppElement
+                self._focusedAppElementIndex + 1) % number_of_selected_app_element
         else:
             self._focusedAppElementIndex = 0
 

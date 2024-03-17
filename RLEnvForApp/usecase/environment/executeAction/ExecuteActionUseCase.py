@@ -31,42 +31,42 @@ class ExecuteActionUseCase:
         self._rewardCalculatorService = rewardCalculatorService
 
     def execute(self, input: ExecuteActionInput.ExecuteActionInput, output: ExecuteActionOutput.ExecuteActionOutput):
-        episodeHandlerEntity = self._episodeHandlerRepository.findById(input.getEpisodeHandlerId())
-        episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
-            episodeHandlerEntity=episodeHandlerEntity)
+        episode_handler_entity = self._episodeHandlerRepository.findById(input.getEpisodeHandlerId())
+        episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(
+            episodeHandlerEntity=episode_handler_entity)
 
-        previousState: State = episodeHandler.getAllState()[-1]
-        previousState.setActionNumber(input.getActionNumber())
+        previous_state: State = episode_handler.getAllState()[-1]
+        previous_state.setActionNumber(input.getActionNumber())
 
-        actionCommand: IActionCommand = self._actionCommandFactory.createActionCommand(
+        action_command: IActionCommand = self._actionCommandFactory.createActionCommand(
             actionNumber=input.getActionNumber())
-        actionCommand.execute(operator=self._autOperator)
+        action_command.execute(operator=self._autOperator)
 
         if input.getActionNumber() == 0:
-            previousState.setActionType("click")
+            previous_state.setActionType("click")
         else:
-            previousState.setActionType("input")
-            previousState.setAppEventInputValue(actionCommand.getInputValue())
+            previous_state.setActionType("input")
+            previous_state.setAppEventInputValue(action_command.getInputValue())
 
         state: State = self._autOperator.getState()
-        observation, originalObservation = self._observationService.getObservation(state=state)
-        state.setOriginalObservation(originalObservation)
+        observation, original_observation = self._observationService.getObservation(state=state)
+        state.setOriginalObservation(original_observation)
 
-        episodeHandler.appendState(state=state)
+        episode_handler.appendState(state=state)
         self._episodeHandlerRepository.update(
-            EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+            EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episode_handler))
 
-        codeCoverageDict = {}
-        for codeCoverage in state.getCodeCoverages():
-            codeCoverageDict[codeCoverage.getCodeCoverageType(
-            )] = self._getPercent(codeCoverage.getRatio())
+        code_coverage_dict = {}
+        for code_coverage in state.getCodeCoverages():
+            code_coverage_dict[code_coverage.getCodeCoverageType(
+            )] = self._getPercent(code_coverage.getRatio())
         output.setObservation(observation)
-        output.setOriginalObservation(originalObservation)
-        output.setCodeCoverageDict(codeCoverageDict=codeCoverageDict)
+        output.setOriginalObservation(original_observation)
+        output.setCodeCoverageDict(codeCoverageDict=code_coverage_dict)
         output.setReward(self._rewardCalculatorService.calculateReward(
-            episodeHandler=episodeHandler))
+            episodeHandler=episode_handler))
         output.setCosineSimilarityText(self._rewardCalculatorService.getCosineSimilarityText())
-        output.setIsDone(episodeHandler.isDone())
+        output.setIsDone(episode_handler.isDone())
 
     def _getPercent(self, ratio):
         return ratio * 100
