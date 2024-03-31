@@ -18,6 +18,7 @@ beautifulsoup4 = "*"
 selenium = "*"
 bert = "*"
 bert-for-tf2 = "*"
+openprompt = "*"
 
 [dev-packages]
 
