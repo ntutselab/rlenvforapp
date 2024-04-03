@@ -13,7 +13,7 @@ class Builder(ABC):
         """
 
     @abstractmethod
-    def set_template(self):
+    def set_template(self, template_type: str, template_text: str):
         """
         Set the template.
         :return: None
@@ -27,7 +27,7 @@ class Builder(ABC):
         """
 
     @abstractmethod
-    def set_verbalizer(self):
+    def set_verbalizer(self, verbalizer_type:str, labels_list: list, labels_word_file_path: str):
         """
         Set the verbalizer.
         :return: None
