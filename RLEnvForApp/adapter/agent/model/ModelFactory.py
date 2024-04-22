@@ -1,8 +1,7 @@
-from stable_baselines import DQN, PPO2
+from stable_baselines3 import DQN, PPO
 
 from configuration.di.ModelDIContainers import ModelDIContainers
 from RLEnvForApp.adapter.agent.model.MonkeyAdapter import MonkeyAdapter
-
 
 class ModelFactory:
     def __init__(self):
@@ -27,7 +26,7 @@ class ModelFactory:
                        batch_size=ModelDIContainers.batch_size,
                        target_network_update_freq=ModelDIContainers.target_network_update_freq)
         if algorithm == "PPO2":
-            return PPO2(policy, environment,
+            return PPO(policy, environment,
                         verbose=ModelDIContainers.verbose,
                         tensorboard_log=tensorboardPath,
                         nminibatches=ModelDIContainers.nminibatches,

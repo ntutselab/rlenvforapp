@@ -1,7 +1,7 @@
 import time
 import traceback
 
-import gym
+import gymnasium as gym
 import numpy
 from dependency_injector.wiring import Provide, inject
 
