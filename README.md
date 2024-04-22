@@ -8,30 +8,30 @@
 
 ### 📋 Requirements
 
-- **Python==3.7** 🐍
-- **pipenv==2022.4.8** 📦
-- **pip==21.3.1** 📦
-- **setuptools==59.6.0** 🛠
-- **[CUDA 10](https://developer.nvidia.com/cuda-10.0-download-archive)** 🎮
-- **[cuDNN 7](https://developer.nvidia.com/rdp/cudnn-archive)** 🧠
+- **[poetry >= 1.5.1](https://python-poetry.org/docs/#installation)** 📚
+- **Python == 3.8** 🐍
+- **[CUDA 12.1](https://developer.nvidia.com/cuda-12-1-0-download-archive)** 🎮
 
 ### 📥 Installation
 
 1. Install specific versions of the above packages:
 
-    ```bash
-    pip install pipenv==2022.4.8
-    ```
+    If your GPU driver doesn't support CUDA 12.1, please refer to the specific torch version on [this link](https://pytorch.org/get-started/previous-versions/)
 
-    ```bash
-    pipenv --python 3.7
-    ```
-
-    ```bash
-    pipenv run python -m pip install pip==21.3.1 setuptools==59.6.0
-    ```
 2. Install project dependencies:
 
     ```bash
-    pipenv sync
+    poetry install
     ```
+
+## To-Do
+1. 轉換 Custom Policy ，使用 stable_baselines3 and pytorch。 以下列出需要更動的檔案
+    - `RLEnvForApp/adapter/agent/layer/CustomLayerFactoryService.py`
+    - `RLEnvForApp/adapter/agent/policy/extractor/IExtractor.py`
+    - `RLEnvForApp/adapter/agent/policy/extractor/IRobot2Extractor.py`
+    - `RLEnvForApp/adapter/agent/policy/extractor/IRobotExtractor.py`
+    - `RLEnvForApp/adapter/agent/policy/extractor/MorePagesExperimentExtractor.py`
+    - `RLEnvForApp/adapter/agent/policy/DQNCustomPolicy.py`
+    - `RLEnvForApp/adapter/agent/policy/PPO2CustomPolicy.py`
+    - `RLEnvForApp/adapter/agent/policy/PPO2LnLstmCustomPolicy.py`
+    - `RLEnvForApp/adapter/agent/policy/PPO2LstmCustomPolicy.py`

@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "rlenvforapp"
+version = "0.1.0"
+description = ""
+authors = ["Tim <timtim8361@gmail.com>"]
+repository = "https://github.com/ntutselab/rlenvforapp"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.8.0"
+gymnasium = "^0.29.1"
+stable-baselines3 = "^2.0.0"
+tensorflow = "^2.6.0"
+dependency-injector = "*"
+importlib-metadata = "^6.7.0"
+lxml = "*"
+gensim = "3.8.3"
+sentencepiece = "*"
+requests = "*"
+py4j = "*"
+beautifulsoup4 = "*"
+selenium = "*"
+bert = "*"
+bert-for-tf2 = "*"
+# Please refer https://github.com/tensorflow/tensorflow/issues/58674#issuecomment-1593891706
+tensorflow-io-gcs-filesystem = "0.31.0"
+torch = {version = "^2.2.2+cu121", source = "torch"}
+torchvision = {version = "^0.17.2+cu121", source = "torch"}
+torchaudio = {version = "^2.2.2+cu121", source = "torch"}
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
