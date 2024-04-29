@@ -6,22 +6,18 @@ from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.adapter.agent.RLController import RLController
 from RLEnvForApp.adapter.environment.gym import AIGuideEnvironment, AIGuideHTMLLogEnvironment
 from RLEnvForApp.logger.logger import Logger
-from RLEnvForApp.usecase.applicationUnderTest.start.StartApplicationUnderTestUserCase import \
-    StartApplicationUnderTestUserCase
-from RLEnvForApp.usecase.applicationUnderTest.stop.StopApplicationUnderTestUseCase import \
-    StopApplicationUnderTestUseCase
-from RLEnvForApp.usecase.environment.episodeHandler.get.GetEpisodeHandlerUseCase import \
-    GetEpisodeHandlerUseCase
+from RLEnvForApp.usecase.applicationUnderTest.start import StartApplicationUnderTestUserCase
+from RLEnvForApp.usecase.applicationUnderTest.stop import StopApplicationUnderTestUseCase
+from RLEnvForApp.usecase.environment.episodeHandler.get import GetEpisodeHandlerUseCase
 from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase
 from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase
 from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase
 from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.get.GetAllTargetPageUseCase import GetAllTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.get.GetTargetPageUseCase import GetTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.ITargetIndicationService.GUIDEIndicationService import \
-    GUIDEIndicationService
-from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageUseCase import RemoveTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.update.UpdateTargetPageUseCase import UpdateTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.get import GetAllTargetPageUseCase 
+from RLEnvForApp.usecase.targetPage.get import GetTargetPageUseCase 
+from RLEnvForApp.usecase.targetPage.ITargetIndicationService import GUIDEIndicationService
+from RLEnvForApp.usecase.targetPage.remove import RemoveTargetPageUseCase 
+from RLEnvForApp.usecase.targetPage.update import  UpdateTargetPageUseCase 
 
 controller: RLController = None
 
@@ -31,8 +27,8 @@ def setDIContainer():
     agentContainer = AgentDIContainers()
     envContainer.wire(
         modules=[sys.modules[__name__],
-                 AIGuideEnvironment.AIGuideEnvironment,
-                 AIGuideHTMLLogEnvironment.AIGuideHTMLLogEnvironment,
+                 AIGuideEnvironment,
+                 AIGuideHTMLLogEnvironment,
                  GUIDEIndicationService,
                  CreateTargetPageUseCase,
                  RemoveTargetPageUseCase,
