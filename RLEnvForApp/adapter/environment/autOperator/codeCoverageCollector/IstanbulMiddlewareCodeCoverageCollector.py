@@ -11,7 +11,7 @@ from RLEnvForApp.usecase.environment.autOperator.dto.CodeCoverageDTO import Code
 class IstanbulMiddlewareCodeCoverageCollector(ICodeCoverageCollector):
     def __init__(self, serverIp, serverPort):
         super().__init__()
-        self._serverRootUrl = f'http://{ip}:{port}'
+        self._serverRootUrl = f'http://{serverIp}:{serverPort}'
         self.session = self._requestsRetrySession()
 
     def getCodeCoverageDTOs(self) -> [CodeCoverageDTO]:

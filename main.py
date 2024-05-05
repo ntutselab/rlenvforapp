@@ -3,36 +3,34 @@ import sys
 
 from configuration.di.AgentDIContainers import AgentDIContainers
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
-from RLEnvForApp.adapter.agent.RLController import RLController
+# from RLEnvForApp.adapter.agent.RLController import RLController
 from RLEnvForApp.adapter.environment.gym import AIGuideEnvironment, AIGuideHTMLLogEnvironment
 from RLEnvForApp.logger.logger import Logger
-from RLEnvForApp.usecase.applicationUnderTest.start.StartApplicationUnderTestUserCase import \
-    StartApplicationUnderTestUserCase
-from RLEnvForApp.usecase.applicationUnderTest.stop.StopApplicationUnderTestUseCase import \
-    StopApplicationUnderTestUseCase
-from RLEnvForApp.usecase.environment.episodeHandler.get.GetEpisodeHandlerUseCase import \
-    GetEpisodeHandlerUseCase
+from RLEnvForApp.usecase.applicationUnderTest.start import StartApplicationUnderTestUserCase
+from RLEnvForApp.usecase.applicationUnderTest.stop import StopApplicationUnderTestUseCase
+from RLEnvForApp.usecase.environment.episodeHandler.get import GetEpisodeHandlerUseCase
 from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase
 from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase
 from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase
 from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.get.GetAllTargetPageUseCase import GetAllTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.get.GetTargetPageUseCase import GetTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.ITargetIndicationService.GUIDEIndicationService import \
-    GUIDEIndicationService
-from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageUseCase import RemoveTargetPageUseCase
-from RLEnvForApp.usecase.targetPage.update.UpdateTargetPageUseCase import UpdateTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.get import GetAllTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.get import GetTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.ITargetIndicationService import GUIDEIndicationService
+from RLEnvForApp.usecase.targetPage.remove import RemoveTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.update import UpdateTargetPageUseCase
+from RLEnvForApp.adapter.agent.LLMController import LLMController
 
-controller: RLController = None
+# controller: RLController = None
 
 
 def setDIContainer():
+    from RLEnvForApp.adapter.agent import LLMController
     envContainer = EnvironmentDIContainers()
     agentContainer = AgentDIContainers()
     envContainer.wire(
         modules=[sys.modules[__name__],
-                 AIGuideEnvironment.AIGuideEnvironment,
-                 AIGuideHTMLLogEnvironment.AIGuideHTMLLogEnvironment,
+                 AIGuideEnvironment,
+                 AIGuideHTMLLogEnvironment,
                  GUIDEIndicationService,
                  CreateTargetPageUseCase,
                  RemoveTargetPageUseCase,
@@ -45,9 +43,10 @@ def setDIContainer():
                  UpdateTargetPageUseCase,
                  GetEpisodeHandlerUseCase,
                  StartApplicationUnderTestUserCase,
-                 StopApplicationUnderTestUseCase])
-    agentContainer.wire(
-        modules=[sys.modules[__name__], RLController])
+                 StopApplicationUnderTestUseCase,
+                 LLMController])
+    # agentContainer.wire(
+    #     modules=[sys.modules[__name__], RLController])
 
 
 def getAllFilePathInFolder(targetFolderPath: str):
@@ -87,6 +86,7 @@ def verifyAllModel(modelDir: str):
 
 
 if __name__ == '__main__':
+    setDIContainer()
     verifyTime = 0.5
 
     # These two parameters determine whether the agent will choose actions randomly.
@@ -105,21 +105,22 @@ if __name__ == '__main__':
         logger = Logger(f"{comment}_{modelName}.log")
         Logger().info(f"{comment}_{modelName}")
 
-        setDIContainer()
+        llm_controller = LLMController()
+        llm_controller.play()
         # controller = RLController(algorithm="DQN", policy=DQNCustomPolicy)
-        controller = RLController(algorithm="Monkey", policy=None)
+        # controller = RLController(algorithm="Monkey", policy=None)
 
         # =======training phase=======
         # controller.learnModel(totalTimesteps=toTalTimeStep, modelDir=modelDir, modelSeriesName=modelName)
         # verifyModel(modelPath=os.path.join(modelDir, modelName + "_" + str(toTalTimeStep) + "step.zip"), verifyTimes=74)
 
         # =======verify phase=======
-        controller.verifyModelByTotalStep(modelPath=os.path.join(modelDir, modelName),
-                                          totalStep=toTalTimeStep, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
+        # controller.verifyModelByTotalStep(modelPath=os.path.join(modelDir, modelName),
+        # totalStep=toTalTimeStep, explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
 
         # =======final verify phase=======
         # controller.verifyModelByTime(modelPath=os.path.join(modelDir, modelName),
         #                              timeLimit=int(verifyTime * 3600),
         #                              explorationEpisodeEsp=explorationEpisodeEsp, explorationStepEsp=explorationStepEsp)
 
-        Logger._instance = None
+        # Logger._instance = None

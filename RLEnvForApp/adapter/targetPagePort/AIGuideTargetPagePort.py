@@ -43,7 +43,7 @@ class AIGuideTargetPagePort(ITargetPagePort):
         self._javaObjectPy4JLearningPool = None
         self._javaObjectLearningTaskDTOs = []
         self._serverName = serverName
-        self._isTraining = True
+        self._isTraining = False
 
     def connect(self):
         gateway_parameters = GatewayParameters(address=self._javaIp, port=self._javaPort)
@@ -247,7 +247,7 @@ class AIGuideTargetPagePort(ITargetPagePort):
         return javaObjectLearningResultDTOBuilder.build()
 
     def _saveTargetPageToHtmlSet(self, episodeHandlerId: str, directiveDTO: DirectiveDTO):
-        fileName = f"{self._serverName}_{urlparse(directiveDTO.getUrl())}_{directiveDTO.getFormXPath().replace('/', '_')}"
+        fileName = f"{self._serverName}_{urlparse(directiveDTO.getUrl()).path.replace('/', '_')}_{directiveDTO.getFormXPath().replace('/', '_')}"
         initialStateDTO: StateDTO = self._getEpisodeHandlerDTO(
             episodeHandlerId=episodeHandlerId).getStateDTOs()[0]
 
@@ -262,7 +262,7 @@ class AIGuideTargetPagePort(ITargetPagePort):
         directiveLogJson = json.dumps({"interactive_appElement": interactiveAppElementDictionary,
                                       "appEvent": directiveDictionary, "formXPath": formXPath})
 
-        self._updateInputValueWeights(directiveDictionary)
+        # self._updateInputValueWeights(directiveDictionary)
 
         Logger().info(f"Save html set:\n{fileName}\n{formXPath}\n{directiveDictionary}")
 

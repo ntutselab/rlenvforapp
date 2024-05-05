@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "rlenvforapp"
+version = "0.1.0"
+description = ""
+authors = ["Tim <ligi.info73@yahoo.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.8"
+setuptools = "65.5.0"
+pip = "21"
+gym = "*"
+wheel = "0.38.0"
+stable-baselines = "2.10"
+tensorflow-gpu = "2.3.0"
+dependency-injector = "*"
+importlib-metadata = "2.1.1"
+lxml = "*"
+gensim = "3.8.3"
+requests = "*"
+py4j = "*"
+beautifulsoup4 = "*"
+selenium = "*"
+bert = "*"
+bert-for-tf2 = "*"
+openprompt = "*"
+tensorflow = "*"
+protobuf = "3.20.*"
+urllib3 = "1.25.11"
+# For openprompt
+transformers = ">=4.19.0"
+sentencepiece = "0.1.96"
+tqdm = ">=4.62.2"
+tensorboardX = "*"
+nltk = "*"
+yacs = "*"
+dill = "*"
+datasets = "*"
+rouge = "1.0.0"
+pyarrow = "*"
+scipy = "*"
+accelerate = "*"
+torchmetrics = "*"
+torch = { version = "*", source = "torch" }
+torchvision = { version = "*", source = "torch" }
+torchaudio = { version = "*", source = "torch" }
+scikit-learn = ">=0.24.2"
+# For tensorflow
+tensorflow-io-gcs-filesystem = "0.21.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "supplemental"

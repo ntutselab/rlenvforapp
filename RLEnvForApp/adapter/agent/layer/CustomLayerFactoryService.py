@@ -1,6 +1,6 @@
 import params_flow as pf
 import tensorflow as tf
-from stable_baselines.common.policies import nature_cnn
+# from stable_baselines3.common.policies import nature_cnn
 
 
 class CustomLayerFactoryService:
@@ -38,7 +38,7 @@ class CustomLayerFactoryService:
         return tf.concat(values, axis)
 
     @staticmethod
-    def createCNNLayer(inputLayer, extractor=nature_cnn):
+    def createCNNLayer(inputLayer, extractor):
         return extractor(inputLayer)
 
     @staticmethod

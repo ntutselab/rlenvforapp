@@ -2,7 +2,7 @@ import torch
 from openprompt import PromptForClassification
 from openprompt.plms import load_plm
 from openprompt.prompts import ManualTemplate, PrefixTuningTemplate, SoftTemplate, ManualVerbalizer
-from RLEnvForApp.adapter.agent.model.builder.Builder import Builder
+from RLEnvForApp.adapter.agent.model.builder.builder import Builder
 
 
 class PromptModelBuilder(Builder):
@@ -46,6 +46,7 @@ class PromptModelBuilder(Builder):
                 plm_eval_mode=False
             )
             # TODO: Cann't lock into pipfile.lock when I install torch. May need to install torch manually.
+            # Please add map_location=torch.device('cpu') if you want to load the model on CPU.
             self.__result.load_state_dict(torch.load(self.state_dict_path))
         return self.__result
 

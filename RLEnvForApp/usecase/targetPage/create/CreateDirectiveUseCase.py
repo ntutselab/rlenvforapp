@@ -3,7 +3,8 @@ from dependency_injector.wiring import Provide, inject
 
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
-from RLEnvForApp.domain.environment.inputSpace import inputTypes
+# from RLEnvForApp.domain.environment.inputSpace import inputTypes
+from RLEnvForApp.adapter.agent.model.builder.PromptModelDirector import PromptModelDirector
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.CodeCoverage import CodeCoverage
 from RLEnvForApp.domain.environment.state.State import State
@@ -28,6 +29,7 @@ class CreateDirectiveUseCase:
         self._directiveRuleService: IDirectiveRuleService = directiveRuleService
         self._targetPageRepository = targetPageRepository
         self._episodeHandlerRepository = episodeHandlerRepository
+        self.__input_type = PromptModelDirector.classes
 
     def execute(self, input: CreateDirectiveInput.CreateDirectiveInput,
                 output: CreateDirectiveOutput.CreateDirectiveOutput):
@@ -63,7 +65,7 @@ class CreateDirectiveUseCase:
                     continue
                 value = state.getAppEventInputValue()
                 if state.getActionNumber():
-                    category = inputTypes[state.getActionNumber()]
+                    category = self.__input_type[state.getActionNumber()-1]
                 else:
                     category = ""
                 appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),

@@ -1,2 +1,3 @@
 __all__ = ["DefaultForTestActionCommandFactoryService", "IActionCommandFactoryService",
-           "MorePagesExperimentActionCommandFactory", "CosineSimilarityActionCommandFactory"]
+           "MorePagesExperimentActionCommandFactory", "CosineSimilarityActionCommandFactory",
+           "LLMActionCommandFactory"]

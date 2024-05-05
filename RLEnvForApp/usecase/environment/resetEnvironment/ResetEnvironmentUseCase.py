@@ -1,7 +1,9 @@
 import uuid
 
 from dependency_injector.wiring import Provide, inject
+from selenium.common.exceptions import NoSuchElementException
 
+from RLEnvForApp.domain.environment.actionCommand.InitiateToTargetActionCommand import NosuchElementException
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.domain.environment.actionCommand import (IActionCommand,
                                                           InitiateToTargetActionCommand)
@@ -17,6 +19,9 @@ from RLEnvForApp.usecase.targetPage.queueManager.ITargetPageQueueManagerService 
     ITargetPageQueueManagerService
 
 from . import ResetEnvironmentInput, ResetEnvironmentOutput
+from ...targetPage.remove.RemoveTargetPageInput import RemoveTargetPageInput
+from ...targetPage.remove.RemoveTargetPageOutput import RemoveTargetPageOutput
+from ...targetPage.remove.RemoveTargetPageUseCase import RemoveTargetPageUseCase
 
 
 class ResetEnvironmentUseCase:
@@ -33,25 +38,34 @@ class ResetEnvironmentUseCase:
         self._observationService = observationSerivce
 
     def execute(self, input: ResetEnvironmentInput.ResetEnvironmentInput, output: ResetEnvironmentOutput.ResetEnvironmentOutput):
-        targetPage = None
+        target_page = None
         episodeHandler = EpisodeHandlerFactory().createEpisodeHandler(
             id=str(uuid.uuid4()), episodeIndex=input.getEpisodeIndex())
+
+        # Execute initiateToTargetActionCommand when the target page is not empty
         if not self._targetPageQueueManagerService.isEmpty():
-            targetPage = self._targetPageQueueManagerService.dequeueTargetPage()
-            initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
-                appEvents=targetPage.getAppEvents(),
-                rootPath=targetPage.getRootUrl(),
-                formXPath=targetPage.getFormXPath())
+            target_page = self._targetPageQueueManagerService.dequeueTargetPage()
+            initiate_to_target_action_command: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
+                appEvents=target_page.getAppEvents(),
+                rootPath=target_page.getRootUrl(),
+                formXPath=target_page.getFormXPath())
         else:
-            initiateToTargetActionCommand: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
+            initiate_to_target_action_command: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
                 appEvents=[],
                 rootPath="register.html",
                 formXPath="")
-        initiateToTargetActionCommand.execute(operator=self._operator)
+        try:
+            initiate_to_target_action_command.execute(operator=self._operator)
+        except NosuchElementException:
+            remove_target_page_use_case = RemoveTargetPageUseCase()
+            remove_target_page_input = RemoveTargetPageInput(targetPageId=target_page.getId())
+            remove_target_page_output = RemoveTargetPageOutput()
+            remove_target_page_use_case.execute(input=remove_target_page_input, output=remove_target_page_output)
+            raise NoSuchElementException("NoSuchElementException, remove target page")
 
         state: State = self._operator.getState()
-        observation, originalObservation = self._observationService.getObservation(state=state)
-        state.setOriginalObservation(originalObservation)
+        observation = self._observationService.getObservation(state=state)
+        # state.setOriginalObservation(original_observation)
 
         episodeHandler.appendState(state)
         self._episodeHandlerRepository.add(
@@ -59,13 +73,13 @@ class ResetEnvironmentUseCase:
 
         url = ""
         formXPath = ""
-        if targetPage is not None:
-            url = targetPage.getTargetUrl()
-            formXPath = targetPage.getFormXPath()
+        if target_page is not None:
+            url = target_page.getTargetUrl()
+            formXPath = target_page.getFormXPath()
 
         output.setTargetPageUrl(url=url)
-        output.setTargetPageId(targetPage.getId())
+        output.setTargetPageId(target_page.getId())
         output.setFormXPath(formXPath=formXPath)
         output.setEpisodeHandlerId(episodeHandler.getId())
         output.setObservation(observation)
-        output.setOriginalObservation(originalObservation)
+        # output.setOriginalObservation(original_observation)

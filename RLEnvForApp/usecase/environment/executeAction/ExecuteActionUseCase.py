@@ -1,5 +1,6 @@
 from dependency_injector.wiring import Provide, inject
 
+from RLEnvForApp.domain.environment.actionCommandFactoryService.LLMActionCommandFactory import LLMActionCommandFactory
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 from RLEnvForApp.domain.environment.actionCommand import IActionCommand
 from RLEnvForApp.domain.environment.actionCommandFactoryService import IActionCommandFactoryService
@@ -38,6 +39,11 @@ class ExecuteActionUseCase:
         previousState: State = episodeHandler.getAllState()[-1]
         previousState.setActionNumber(input.getActionNumber())
 
+        if isinstance(self._actionCommandFactory, LLMActionCommandFactory):
+            self._actionCommandFactory.setAutName(input.getAutName())
+            self._actionCommandFactory.setUrl(input.getUrl())
+            self._actionCommandFactory.setXpath(input.getXpath())
+
         actionCommand: IActionCommand = self._actionCommandFactory.createActionCommand(
             actionNumber=input.getActionNumber())
         actionCommand.execute(operator=self._autOperator)
@@ -49,8 +55,8 @@ class ExecuteActionUseCase:
             previousState.setAppEventInputValue(actionCommand.getInputValue())
 
         state: State = self._autOperator.getState()
-        observation, originalObservation = self._observationService.getObservation(state=state)
-        state.setOriginalObservation(originalObservation)
+        observation = self._observationService.getObservation(state=state)
+        # state.setOriginalObservation(originalObservation)
 
         episodeHandler.appendState(state=state)
         self._episodeHandlerRepository.update(
@@ -61,12 +67,16 @@ class ExecuteActionUseCase:
             codeCoverageDict[codeCoverage.getCodeCoverageType(
             )] = self._getPercent(codeCoverage.getRatio())
         output.setObservation(observation)
-        output.setOriginalObservation(originalObservation)
+        # output.setOriginalObservation(originalObservation)
         output.setCodeCoverageDict(codeCoverageDict=codeCoverageDict)
-        output.setReward(self._rewardCalculatorService.calculateReward(
-            episodeHandler=episodeHandler))
+        # output.setReward(self._rewardCalculatorService.calculateReward(
+            # episodeHandler=episodeHandler))
         output.setCosineSimilarityText(self._rewardCalculatorService.getCosineSimilarityText())
         output.setIsDone(episodeHandler.isDone())
 
     def _getPercent(self, ratio):
         return ratio * 100
+
+    @classmethod
+    def ExecuteActionUseCase(cls, autOperator):
+        pass
