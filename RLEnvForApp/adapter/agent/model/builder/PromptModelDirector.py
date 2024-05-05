@@ -38,5 +38,5 @@ class PromptModelDirector:
         builder.set_llm_model("t5-lm", "google/t5-large-lm-adapt")
         builder.set_template("soft", 'The {"placeholder":"text_a"} label from web forms. The label belong to category {"mask"}.')
         builder.set_verbalizer("manual", PromptModelDirector.classes, "manual_verbalizer.txt")
-        builder.set_state_dict("E:\\git repository\\openPrompt\\2747455425.ckpt")
+        builder.set_state_dict("C:\\Users\\ligii\IdeaProjects\\rlenvforapp\\2747455425.ckpt")
         return builder.get_result()

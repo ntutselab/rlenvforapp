@@ -1,0 +1,80 @@
+{
+  "timeoff_management_with_coverage": {
+    "http://localhost:3001/": {
+      "/html/body/div/form/div[2]/div/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/div/form/div[3]/div/input": {
+        "value": "selab1623"
+      }
+    }
+  },
+  "astuto": {
+    "http://localhost:3001/users/sign_in": {
+      "/html/body/div/div[1]/form/div[1]/input": {
+        "value": "admin@example.com"
+      },
+      "/html/body/div/div[1]/form/div[2]/input": {
+        "value": "password"
+      }
+    },
+    "http://localhost:3001/users/password": {
+      "/html/body/div/form/div[1]/input": {
+        "value": "admin@example.com"
+      }
+    },
+    "http://localhost:3001/users/confirmation": {
+      "/html/body/div/form/div[1]/input": {
+        "value": "admin@example.com"
+      }
+    },
+    "http://localhost:3001/users/password/new": {
+      "/html/body/div/form/div[1]/input": {
+        "value": "admin@example.com"
+      }
+    },
+    "http://localhost:3001/users/confirmation/new": {
+      "/html/body/div/form/div[1]/input": {
+        "value": "admin@example.com"
+      }
+    }
+  },
+  "django_blog_with_no_coverage": {
+    "http://localhost:3001/login/": {
+      "/html/body/div[1]/div/div/div/form/div[1]/div/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/div[1]/div/div/div/form/div[2]/div/input": {
+        "value": "selab1623"
+      }
+    },
+    "http://localhost:3001/": {
+      "/html/body/div[1]/div/div/div/form/div[1]/div/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/div[1]/div/div/div/form/div[2]/div/input": {
+        "value": "selab1623"
+      }
+    }
+  },
+  "nodebb_with_coverage": {
+    "http://localhost:3001/login": {
+      "/html/body/main/div/div[1]/div/div/form/div[1]/div/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/main/div/div[1]/div/div/form/div[2]/div/input": {
+        "value": "selab1623"
+      }
+    }
+  },
+  "keystonejs_with_coverage": {
+    "http://localhost:3001/keystone/signin": {
+      "/html/body/div/div/div[1]/div/div[2]/form/div[1]/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/div/div/div[1]/div/div[2]/form/div[2]/input": {
+        "value": "password"
+      }
+    }
+  }
+}

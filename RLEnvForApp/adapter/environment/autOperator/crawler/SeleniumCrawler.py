@@ -91,11 +91,11 @@ class SeleniumCrawler(ICrawler):
         return numpyScreenShot
 
     def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
-        htmlParser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
-        self._html = etree.tostring(htmlParser).decode("utf-8")
+        html_parser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
+        self._html = etree.tostring(html_parser).decode("utf-8")
         self._appElementDTOs: [AppElementDTO] = []
-        for element in htmlParser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
-            elementXpath: str = htmlParser.getpath(element)
+        for element in html_parser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
+            elementXpath: str = html_parser.getpath(element)
             elementHref: str = self._getHtmlTagAttribute(element, "href")
             webElement = self._driver.find_element_by_xpath(elementXpath)
             if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):
@@ -104,6 +104,10 @@ class SeleniumCrawler(ICrawler):
                                                               element=element, attribute="name"),
                                                           type=self._getHtmlTagAttribute(
                                                               element=element, attribute="type"),
+                                                          placeholder=self._getHtmlTagAttribute(
+                                                                element=element, attribute="placeholder"),
+                                                          label=self._get_label_for_element(
+                                                                html_parser=html_parser, element=element),
                                                           xpath=elementXpath,
                                                           value=webElement.get_attribute("value")))
 
@@ -151,6 +155,15 @@ class SeleniumCrawler(ICrawler):
         except Exception:
             attributeText = ""
         return attributeText
+
+    def _get_label_for_element(self, html_parser, element):
+        label = ""
+        try:
+            label_element = html_parser.xpath(f"//label[@for='{element.attrib['id']}']")[0]
+            label = label_element.text
+        except:
+            label = ""
+        return label
 
     def _isInteractable(self, xpath):
         try:

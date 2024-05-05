@@ -5,6 +5,10 @@ from RLEnvForApp.logger.logger import Logger
 from . import IActionCommand
 
 
+class NosuchElementException(Exception):
+    pass
+
+
 class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
     def __init__(self, appEvents: [AppEvent], rootPath: str, formXPath: str):
         super().__init__(actionNumber=-1, actionType="init")
@@ -31,4 +35,4 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
                 Logger().info(f"InitiateToTargetActionCommand Exception, {exception}")
                 retry += 1
             if retry >= 10:
-                raise RuntimeError
+                raise NosuchElementException("InitiateToTargetActionCommand Exception, retry 10 times")
