@@ -11,7 +11,9 @@ venv/
 .idea/
 *.log
 htmlSet/GUIDE_HTML_SET/*.html
+htmlSet/FAILED_HTML_SET/*.html
 category_extend_list.json
 htmlSet/GUIDE_HTML_SET/*.json
+htmlSet/FAILED_HTML_SET/*.json
 output/*
 *.yml

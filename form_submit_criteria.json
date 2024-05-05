@@ -49,6 +49,18 @@
 				"verify": "keyword",
 				"keyword": ["Failed to add new user"]
 			}
+		},
+		"http://localhost:3001/settings/departments/edit/1/": {
+			"/html/body/div/form[2]": {
+				"verify": "keyword",
+				"keyword": ["error"]
+			}
+		},
+		"http://localhost:3001/settings/departments/edit/2/": {
+			"/html/body/div/form[2]": {
+				"verify": "keyword",
+				"keyword": ["error"]
+			}
 		}
 	},
     "django_blog_with_no_coverage": {

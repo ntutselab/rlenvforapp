@@ -2,6 +2,16 @@ from dependency_injector import containers, providers
 
 from configuration.di.DIConfiguration import DIConfiguration
 
+from RLEnvForApp.domain.environment.rewardCalculatorService import *
+from RLEnvForApp.domain.environment.actionCommandFactoryService import *
+from RLEnvForApp.domain.environment.observationService import *
+from RLEnvForApp.domain.environment.episodeHandler import *
+from RLEnvForApp.domain.targetPage.DirectiveRuleService import *
+from RLEnvForApp.usecase.targetPage.queueManager import *
+from RLEnvForApp.adapter.repository.targetPage import *
+from RLEnvForApp.adapter.repository.episodeHandler import *
+from RLEnvForApp.adapter.repository.applicationUnderTest import *
+from RLEnvForApp.adapter.applicationUnderTest import *
 
 class EnvironmentDIContainers(containers.DeclarativeContainer):
     config = DIConfiguration.config
