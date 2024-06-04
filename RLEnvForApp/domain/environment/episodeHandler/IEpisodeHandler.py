@@ -37,3 +37,6 @@ class IEpisodeHandler:
 
     def reset(self):
         self._states = []
+
+    def remain_only_index_zero_state(self):
+        self._states = self._states[:1]

@@ -9,7 +9,7 @@ class Logger:
             cls._instance = super().__new__(cls)
             aiGuideLogger = logging.getLogger(fileName)
 
-            logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.DEBUG,
+            logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO,
                                 datefmt='%Y-%m-%d %H:%M:%S')
 
             console = logging.StreamHandler()

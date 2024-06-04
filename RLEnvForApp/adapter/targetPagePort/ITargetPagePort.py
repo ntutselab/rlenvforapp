@@ -1,3 +1,6 @@
+from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
+
+
 class ITargetPagePort:
     def __init__(self):
         pass
@@ -15,6 +18,9 @@ class ITargetPagePort:
         pass
 
     def pushTargetPage(self, targetPageId: str, episodeHandlerId: str):
+        pass
+
+    def push_target_page_by_directive(self, target_page_id: str, directive_dto: DirectiveDTO):
         pass
 
     def getPauseAgent(self):

@@ -50,6 +50,8 @@ class ExecuteActionUseCase:
 
         if input.getActionNumber() == 0:
             previousState.setActionType("click")
+        elif input.getActionNumber() == -1:
+            previousState.setActionType("changeFocus")
         else:
             previousState.setActionType("input")
             previousState.setAppEventInputValue(actionCommand.getInputValue())

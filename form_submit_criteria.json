@@ -51,15 +51,35 @@
 			}
 		},
 		"http://localhost:3001/settings/departments/edit/1/": {
-			"/html/body/div/form[2]": {
+			"/html[1]/body[1]/div[1]/form[1]": {
 				"verify": "keyword",
-				"keyword": ["error"]
+				"keyword": ["selab1623"]
+			},
+			"/html[1]/body[1]/div[1]/form[2]": {
+				"verify": "keyword",
+				"keyword": ["was not updated"]
 			}
 		},
 		"http://localhost:3001/settings/departments/edit/2/": {
-			"/html/body/div/form[2]": {
+			"/html[1]/body[1]/div[1]/form[1]": {
 				"verify": "keyword",
-				"keyword": ["error"]
+				"keyword": ["selab1623"]
+			},
+			"/html[1]/body[1]/div[1]/form[2]": {
+				"verify": "keyword",
+				"keyword": ["was not updated"]
+			}
+		},
+		"http://localhost:3001/users/edit/1/": {
+			"/html[1]/body[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["selab1623"]
+			}
+		},
+		"http://localhost:3001/users/edit/2/": {
+			"/html[1]/body[1]/div[1]/div[2]/form[1]": {
+				"verify": "keyword",
+				"keyword": ["selab1623"]
 			}
 		}
 	},

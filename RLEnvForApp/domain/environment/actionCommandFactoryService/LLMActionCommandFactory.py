@@ -8,6 +8,7 @@ import requests
 from RLEnvForApp.adapter.agent.model.builder.PromptModelDirector import PromptModelDirector
 from RLEnvForApp.domain.environment import inputSpace
 from RLEnvForApp.domain.environment.actionCommand import IRobotClickCommand, IRobotInputValueCommand
+from RLEnvForApp.domain.environment.actionCommand.ChangeFocusCommand import ChangeFocusCommand
 from RLEnvForApp.domain.environment.actionCommand.IActionCommand import IActionCommand
 from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import \
     IActionCommandFactoryService
@@ -55,13 +56,15 @@ class LLMActionCommandFactory(IActionCommandFactoryService):
 
 
     def createActionCommand(self, actionNumber: int ) -> IActionCommand:
-        if actionNumber != 0:
-            input_value: str = self.__get_input_value(actionNumber)
+        if actionNumber != 0 and actionNumber != -1:
+            input_value: str = self._get_input_value(actionNumber)
             Logger().info(f"Input value: {input_value}")
             return IRobotInputValueCommand.IRobotInputValueCommand(input_value, actionNumber)
+        elif actionNumber == -1:
+            return ChangeFocusCommand(actionNumber=actionNumber)
         return IRobotClickCommand.IRobotClickCommand(actionNumber)
 
-    def __get_input_value(self, action_type: int) -> str:
+    def _get_input_value(self, action_type: int) -> str:
         # check if the value is in the default_value.json file
         value = self.__check_default_value()
         if value != "":

@@ -57,6 +57,9 @@ class PromptModelBuilder(Builder):
         :param template_text: Text of the template.
         :return:
         """
+        if self.plm is None:
+            raise ValueError("LLM model is not set. Please set the LLM model first.")
+
         # TODO: Add more template types.
         if template_type == "manual":
             self.template = ManualTemplate(tokenizer=self.tokenizer, text=template_text)
@@ -106,6 +109,33 @@ class PromptModelBuilder(Builder):
         :return:
         """
         self.state_dict_path = state_dict_path
+
+    def get_tokenizer(self):
+        """
+        Get the tokenizer.
+        :return: Tokenizer
+        """
+        if self.tokenizer is None:
+            raise ValueError("Tokenizer is not set. Please set the LLM model first.")
+        return self.tokenizer
+
+    def get_template(self):
+        """
+        Get the template.
+        :return: Template
+        """
+        if self.template is None:
+            raise ValueError("Template is not set. Please set the template first.")
+        return self.template
+
+    def get_wrapper_class(self):
+        """
+        Get the wrapper class.
+        :return: Wrapper class
+        """
+        if self.wrapper_class is None:
+            raise ValueError("Wrapper class is not set. Please set the LLM model first.")
+        return self.wrapper_class
 
     def __check_parameters(self):
         if self.template is None:
