@@ -1,5 +1,5 @@
 import os
-
+from importlib import import_module
 from dependency_injector import providers
 
 configDirectoryPath = "configuration/config"
@@ -8,7 +8,7 @@ configDirectoryPath = "configuration/config"
 # configFilePath = "AIGUIDE_File_Environment_No_Coverage.ini"
 # configFilePath = "AIGUIDE_Web_Environment_No_Coverage.ini"
 # configFilePath = "AIGUIDE_File_Environment_Cosine_Similarity.ini"
-configFilePath = "AIGUIDE_Web_Environment_Cosine_Similarity.ini"
+configFilePath = "LLM.ini"
 defaultModelConfigFilePath = "default_model_config.ini"
 defaultConfigFilePath = "default.ini"
 

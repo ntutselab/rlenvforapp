@@ -65,7 +65,7 @@ class CreateDirectiveUseCase:
                     continue
                 value = state.getAppEventInputValue()
                 if state.getActionNumber():
-                    category = self.__input_type[state.getActionNumber()-1]
+                    category = self.__input_type[state.getActionNumber() - 1]
                 else:
                     category = ""
                 appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),

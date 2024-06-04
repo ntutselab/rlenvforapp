@@ -12,7 +12,8 @@ from RLEnvForApp.usecase.environment.episodeHandler.get import GetEpisodeHandler
 from RLEnvForApp.usecase.environment.executeAction import ExecuteActionUseCase
 from RLEnvForApp.usecase.environment.initiateEnvironment import InitiateEnvironmentUseCase
 from RLEnvForApp.usecase.environment.resetEnvironment import ResetEnvironmentUseCase
-from RLEnvForApp.usecase.targetPage.create import CreateDirectiveUseCase, CreateTargetPageUseCase
+from RLEnvForApp.usecase.targetPage.create import (CreateDirectiveUseCase, CreateTargetPageUseCase,
+                                                   CreateFakeDirectiveUseCase)
 from RLEnvForApp.usecase.targetPage.get import GetAllTargetPageUseCase
 from RLEnvForApp.usecase.targetPage.get import GetTargetPageUseCase
 from RLEnvForApp.usecase.targetPage.ITargetIndicationService import GUIDEIndicationService
@@ -37,6 +38,7 @@ def setDIContainer():
                  GetTargetPageUseCase,
                  GetAllTargetPageUseCase,
                  CreateDirectiveUseCase,
+                 CreateFakeDirectiveUseCase,
                  InitiateEnvironmentUseCase,
                  ExecuteActionUseCase,
                  ResetEnvironmentUseCase,
