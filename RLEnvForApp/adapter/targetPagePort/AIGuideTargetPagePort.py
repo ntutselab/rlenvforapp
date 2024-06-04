@@ -94,16 +94,21 @@ class AIGuideTargetPagePort(ITargetPagePort):
                     self._javaObjectLearningTaskDTOs.append(javaObjectLearningTaskDTO)
             isFirst = False
 
-    def pushTargetPage(self, targetPageId: str, episodeHandlerId: str):
-        directiveDTO = self._createDirective(
-            targetPageId=targetPageId, episodeHandlerId=episodeHandlerId)
-        targetPageDTO: TargetPageDTO = self._getTargetPage(targetPageId=targetPageId)
+    def pushTargetPage(self, target_page_id: str, episode_handler_id: str):
+        directive_dto = self._createDirective(
+            targetPageId=target_page_id, episodeHandlerId=episode_handler_id)
+        target_page_dto: TargetPageDTO = self._getTargetPage(targetPageId=target_page_id)
 
         self._javaObjectPy4JLearningPool.enQueueLearningResultDTO(
-            self._createJavaObjectLearningResultDTO(taskId=targetPageDTO.getTaskID(), directiveDTO=directiveDTO))
-        self._saveTargetPageToHtmlSet(episodeHandlerId=episodeHandlerId, directiveDTO=directiveDTO)
+            self._createJavaObjectLearningResultDTO(target_page_dto.getTaskID(), directive_dto))
+        self._saveTargetPageToHtmlSet(episode_handler_id, directive_dto)
         if not self._isTraining:
-            self._removeTargetPage(targetPageId=targetPageId)
+            self._removeTargetPage(target_page_id)
+
+    def push_target_page_by_directive(self, target_page_id: str, directive_dto: DirectiveDTO):
+        target_page_dto: TargetPageDTO = self._getTargetPage(target_page_id)
+        self._javaObjectPy4JLearningPool.enQueueLearningResultDTO(
+            self._createJavaObjectLearningResultDTO(target_page_dto.getTaskID(), directive_dto))
 
     def getPauseAgent(self):
         return self._javaObjectPy4JLearningPool.getPauseAgent()

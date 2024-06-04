@@ -49,7 +49,7 @@ class AIGuideEnvironment(gym.Env):
         self._codeCoverageType = "statement coverage"
 
         # self._serverName = "keystonejs_with_coverage"
-        self._serverName = "timeoff_management_with_coverage"
+        self._serverName = "django_blog_with_no_coverage"
         # self._serverName = "nodebb_with_coverage"
         # self._serverName = "django_blog_with_no_coverage"
         # self._serverName = "spring_petclinic_with_no_coverage"

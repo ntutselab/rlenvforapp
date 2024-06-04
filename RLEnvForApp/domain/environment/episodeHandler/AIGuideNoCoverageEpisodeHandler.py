@@ -30,14 +30,27 @@ class AIGuideNoCoverageEpisodeHandler(IEpisodeHandler):
 
         if previousState.getInteractedElement() and previousState.getInteractedElement().getType() == "submit" and \
                 previousState.getActionType() == "click" and \
-                self._isAllInputTagHasValue(previousState.getAllSelectedAppElements()):
+                self._is_all_input_tag_has_value(previousState.getAllSelectedAppElements()):
             Logger().info("Episode is done because click on submit button, and all input has value.")
             return True
+
+        # return True if the states has more than 10 changeFocus action
+        if self._is_more_than_ten_change_focus_action():
+            Logger().info("Episode is done because the states has more than 10 changeFocus action.")
+            return True
+
         return False
 
-    def _isAllInputTagHasValue(self, appElements: [AppElement]):
+    def _is_all_input_tag_has_value(self, appElements: [AppElement]):
         for i in appElements:
             if i.getTagName() == "input" and (i.getType() != "button" and i.getType() != "submit"):
                 if i.getValue() == "":
                     return False
         return True
+
+    def _is_more_than_ten_change_focus_action(self):
+        count = 0
+        for state in self._states:
+            if state.getActionType() == "changeFocus":
+                count += 1
+        return count > 10
