@@ -7,7 +7,7 @@ repository = "https://github.com/ntutselab/rlenvforapp"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.8.0"
+python = ">=3.8,<=3.9"
 gymnasium = "^0.29.1"
 stable-baselines3 = "^2.0.0"
 tensorflow = "^2.6.0"
