@@ -31,7 +31,7 @@ class Logger:
         return cls._instance
 
     def info(self, message):
-        self.get_instance().info(message)
+        self.get_instance().logger.info(message)
 
     def exception(self, message):
-        self.get_instance().exception(message)
+        self.get_instance().logger.exception(message)
