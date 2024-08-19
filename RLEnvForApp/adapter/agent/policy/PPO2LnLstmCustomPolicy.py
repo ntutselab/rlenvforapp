@@ -1,4 +1,4 @@
-from stable_baselines.common.policies import LstmPolicy
+from stable_baselines3.common.policies import LstmPolicy
 
 from configuration.di.AgentDIContainers import AgentDIContainers
 
