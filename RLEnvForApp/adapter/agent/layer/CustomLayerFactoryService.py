@@ -1,6 +1,6 @@
 import params_flow as pf
 import tensorflow as tf
-from stable_baselines.common.policies import nature_cnn
+from stable_baselines3.common.policies import NatureCNN as nature_cnn
 
 
 class CustomLayerFactoryService:
