@@ -6,7 +6,7 @@ authors = ["Tim <ligi.info73@yahoo.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.8"
+python = ">=3.8, <3.9"
 setuptools = "65.5.0"
 pip = "21"
 gym = "*"
