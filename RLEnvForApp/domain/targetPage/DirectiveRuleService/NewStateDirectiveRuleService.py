@@ -4,6 +4,7 @@ from io import StringIO
 
 from lxml import etree
 
+from RLEnvForApp.domain.targetPage.DirectiveRuleService import ChatGPTService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import \
     FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
@@ -28,7 +29,12 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
             return False
 
         if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
-            return not (dom_similarity == -1 or dom_similarity >= 95)
+            if dom_similarity == -1:
+                return False
+            elif dom_similarity >= 95:
+                return self._get_gpt_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
+            else:
+                return True
         elif form_submit_criteria["verify"] == "keyword":
             return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
         else:
@@ -73,7 +79,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         #     Logger().info("ERROR!!!")
         # return False
 
-    def _getElements(self, dom):
+    def _get_elements(self, dom):
         parser = etree.HTMLParser()
         doc = etree.parse(StringIO(dom), parser)
 
@@ -101,8 +107,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         return False
 
     def getDomSimilarity(self, beforeActionDom: str, afterActionDom: str):
-        beforeActionElements = self._getElements(beforeActionDom)
-        afterActionElements = self._getElements(afterActionDom)
+        beforeActionElements = self._get_elements(beforeActionDom)
+        afterActionElements = self._get_elements(afterActionDom)
 
         domSimilarity = -1
         try:
@@ -117,3 +123,25 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
         Logger().info(f"domSimilarity is: {domSimilarity}")
         return domSimilarity
+
+    def _get_diff_elements(self, before_action_elements, after_action_elements) -> str:
+        diff = difflib.SequenceMatcher()
+        diff.set_seq1(before_action_elements)
+        diff.set_seq2(after_action_elements)
+        opcodes = diff.get_opcodes()
+        diff_str = ""
+        for opcode in opcodes:
+            tag, _, _, j1, j2 = opcode
+            if tag == 'insert':
+                diff_str += f"{after_action_elements[j1:j2]}\n"
+        return diff_str
+
+    def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
+        diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
+        answer = ChatGPTService.get_response(diff_str, 0).lower()
+        if answer == "yes":
+            return True
+        elif answer == "no":
+            return False
+        else:
+            return False

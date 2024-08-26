@@ -15,6 +15,8 @@ from RLEnvForApp.adapter.agent.model.builder.PromptModelDirector import PromptMo
 from RLEnvForApp.adapter.controller.ApplicationUnderTestController import ApplicationUnderTestController
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.IstanbulMiddlewareCodeCoverageCollector import \
     IstanbulMiddlewareCodeCoverageCollector
+from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.NoCodeCoverageCollector import \
+    NoCodeCoverageCollector
 from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import SeleniumCrawler
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
@@ -68,8 +70,8 @@ class LLMController:
         self._directive_rule_service = directive_rule_service
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
-        self.__server_name = "keystonejs_with_coverage"
-        self.__application_ip = "127.0.0.1"
+        self.__server_name = "mern_forum"
+        self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__code_coverage_type = "statement coverage"
         self._logger = Logger()
@@ -79,7 +81,7 @@ class LLMController:
                                                                port=self.__application_port)
         self.__crawler = SeleniumCrawler("Chrome")
         self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
-            serverIp=self.__application_ip, serverPort=self.__application_port)
+            serverIp=self.__application_ip, serverPort=8001)
         # self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
         self.__aut_operator = AIGUIDEOperator(
             crawler=self.__crawler, codeCoverageCollector=self.__code_coverage_collector)
@@ -178,8 +180,8 @@ class LLMController:
 
     def _check_is_password(self, app_element: AppElement):
         # check if the element is a password field use regex
-        if re.match(r'password', app_element.getName(), re.IGNORECASE) or re.match(r'password', app_element.getLabel(),
-                                                                                   re.IGNORECASE) or re.match(
+        if re.search(r'password', app_element.getName(), re.IGNORECASE) or re.search(r'password', app_element.getLabel(),
+                                                                                   re.IGNORECASE) or re.search(
                 r'password', app_element.getPlaceholder(), re.IGNORECASE):
             return True
         return False
@@ -274,12 +276,12 @@ class LLMController:
         str1 = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
         is_submit_button = False
 
-        # is_submit_button_str = ChatGPTService.get_response(str1, 1).lower()
-        # if is_submit_button_str == "yes":
-        #     is_submit_button = True
-
-        if app_element.getTagName() == "button" or app_element.getTagName() == "a" or (app_element.getTagName() == 'input' and (app_element.getType() == 'submit' or app_element.getType() == "button" or app_element.getType() == 'image')):
+        is_submit_button_str = ChatGPTService.get_response(str1, 1).lower()
+        if is_submit_button_str == "yes":
             is_submit_button = True
+
+        # if app_element.getTagName() == "button" or app_element.getTagName() == "a" or (app_element.getTagName() == 'input' and (app_element.getType() == 'submit' or app_element.getType() == "button" or app_element.getType() == 'image')):
+        #     is_submit_button = True
 
         execute_action_output = ExecuteActionOutput()
 

@@ -17,7 +17,7 @@ client = OpenAI(api_key='****')
 def get_response(prompt: str, choose_system_prompt: int) -> str:
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4o-mini",
             messages=[
                 {
                     'role': 'system',

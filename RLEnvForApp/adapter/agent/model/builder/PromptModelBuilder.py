@@ -47,7 +47,7 @@ class PromptModelBuilder(Builder):
             )
             # TODO: Cann't lock into pipfile.lock when I install torch. May need to install torch manually.
             # Please add map_location=torch.device('cpu') if you want to load the model on CPU.
-            self.__result.load_state_dict(torch.load(self.state_dict_path))
+            self.__result.load_state_dict(torch.load(self.state_dict_path, map_location=torch.device('cpu')))
         return self.__result
 
     def set_template(self, template_type: str, template_text: str):
