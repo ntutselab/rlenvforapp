@@ -38,6 +38,9 @@ def dockerComposeFileContent(dockerImageCreator: str = DOCKER_IMAGE_CREATOR, app
     if applicationName == "svelte_commerce":
         return getSvelteCommerceDockerComposeFile(port)
 
+    if applicationName == "mern_forum":
+        return getMernForumDockerComposeFile(port)
+
     # compose_file_content = '{applicationName}_{port}:\n' \
     #                        ' image: {dockerImageCreator}/{applicationName}\n' \
     #                        ' ports:\n' \
@@ -267,5 +270,35 @@ def getSvelteCommerceDockerComposeFile(port: str = PORT):
         image: ghcr.io/itswadesh/svelte-commerce
         ports:
           - "{port}:3000"
+    '''
+    return config
+
+def getMernForumDockerComposeFile(port: str = PORT):
+    config = f'''
+     services:
+        mongo_db:
+            image: mongo:latest
+            restart: always
+            networks:
+                - network-db
+        app_{port}:
+            image: ntutselab/mern-forum-app:latest
+            ports:
+                - {port}:3000
+                - 8001:8000
+            environment:
+                NODE_ENV: deveplopment
+                PORT: 8000
+                BACKEND: http://localhost:8001
+                CLIENT: http://localhost:{port}
+                REACT_APP_BACKEND_URL: http://localhost:8001
+                MONGODB: mongodb://mongo_db:27017/MERN-Forum
+                SECRET: ssOWR8CGLa
+            depends_on:
+                - mongo_db
+            networks:
+                - network-db
+     networks:
+        network-db:
     '''
     return config

@@ -76,5 +76,15 @@
         "value": "password"
       }
     }
+  },
+  "mern_forum": {
+    "http://localhost:3001/signin": {
+      "/html/body/div/section/main/section/form/div[1]/div/div[2]/input": {
+        "value": "admin"
+      },
+      "/html/body/div/section/main/section/form/div[2]/div/div[2]/input": {
+        "value": "selab1623"
+      }
+    }
   }
 }
