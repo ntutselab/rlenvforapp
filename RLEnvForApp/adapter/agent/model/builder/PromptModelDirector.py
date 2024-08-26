@@ -3,6 +3,9 @@ from openprompt.data_utils import InputExample
 
 from RLEnvForApp.adapter.agent.model.builder.PromptModelBuilder import PromptModelBuilder
 
+import os
+import sys
+
 
 class PromptModelDirector:
     classes = [
@@ -39,7 +42,7 @@ class PromptModelDirector:
         builder.set_llm_model("t5-lm", "google/t5-large-lm-adapt")
         builder.set_template("soft", 'The {"placeholder":"text_a"} label from web forms. The label belong to category {"mask"}.')
         builder.set_verbalizer("manual", PromptModelDirector.classes, "manual_verbalizer.txt")
-        builder.set_state_dict("C:\\Users\\ligii\IdeaProjects\\rlenvforapp\\2747455425.ckpt")
+        builder.set_state_dict(os.path.join(*os.path.split(sys.argv[0])[:-1], "2747455425.ckpt"))
         return builder.get_result()
 
     @staticmethod
@@ -48,7 +51,7 @@ class PromptModelDirector:
         builder.set_llm_model("t5-lm", "google/t5-large-lm-adapt")
         builder.set_template("soft", 'The {"placeholder":"text_a"} label from web forms. If I want to make the web through a error, The label belong to what category is best one? {"mask"}')
         builder.set_verbalizer("manual", PromptModelDirector.classes, "manual_verbalizer.txt")
-        builder.set_state_dict("C:\\Users\\ligii\IdeaProjects\\rlenvforapp\\7649063101.ckpt")
+        builder.set_state_dict(os.path.join(*os.path.split(sys.argv[0])[:-1], "7649063101.ckpt"))
         return builder.get_result()
 
     @staticmethod
