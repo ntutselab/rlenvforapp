@@ -70,9 +70,10 @@ class LLMController:
         self._directive_rule_service = directive_rule_service
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
-        self.__server_name = "mern_forum"
+        self.__server_name = "timeoff_management_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
+        self.__coverage_server_port = 3100
         self.__code_coverage_type = "statement coverage"
         self._logger = Logger()
         self._logger.info("Init LLM.Env")
@@ -81,7 +82,7 @@ class LLMController:
                                                                port=self.__application_port)
         self.__crawler = SeleniumCrawler("Chrome")
         self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
-            serverIp=self.__application_ip, serverPort=8001)
+            serverIp=self.__application_ip, serverPort=self.__coverage_server_port)
         # self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
         self.__aut_operator = AIGUIDEOperator(
             crawler=self.__crawler, codeCoverageCollector=self.__code_coverage_collector)
