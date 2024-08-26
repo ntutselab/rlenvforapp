@@ -129,13 +129,15 @@ class SeleniumCrawler(ICrawler):
         isStartBrowser = False
         while not isStartBrowser:
             try:
-                if browserName is "Chrome":
+                if browserName is None:
+                    pass
+                elif browserName == "Chrome":
                     chrome_options = webdriver.chrome.options.Options()
                     chrome_options.add_argument('--no-sandbox')  # root permission
                     chrome_options.add_argument('--disable-dev-shm-usage')
                     # chrome_options.add_argument('--headless')  # no GUI display
                     driver = webdriver.Chrome(chrome_options=chrome_options)
-                elif browserName is "Firefox":
+                elif browserName == "Firefox":
                     firefox_options = webdriver.firefox.options.Options()
                     firefox_options.add_argument('--no-sandbox')  # root permission
                     firefox_options.add_argument('--disable-dev-shm-usage')
