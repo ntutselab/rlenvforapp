@@ -35,3 +35,10 @@
     ```bash
     pipenv sync
     ```
+## 🚀 Usage
+
+### Data Fake
+
+Use the [QExplore's](https://github.com/ntutselab/QExplore) Data Faker to generate fake data.
+
+Make sure you have edited the `LLMActionCommandFactory.py` file to set the ip and port.
