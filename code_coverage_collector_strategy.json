@@ -1,0 +1,11 @@
+{
+    "keystonejs_with_coverage": "istanbul-middleware",
+    "timeoff_management_with_coverage": "istanbul-middleware",
+    "django_blog_with_no_coverage": "istanbul-middleware",
+    "nodebb_with_coverage": "istanbul-middleware",
+    "spring_petclinic_with_no_coverage": "istanbul-middleware",
+    "astuto": "istanbul-middleware",
+    "kimai": "istanbul-middleware",
+    "oscar": "istanbul-middleware",
+    "mern_forum": "istanbul-middleware"
+}
