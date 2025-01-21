@@ -277,7 +277,7 @@ class LLMController:
         str1 = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
         is_submit_button = False
 
-        is_submit_button_str = ChatGPTService.get_response(str1, 1).lower()
+        is_submit_button_str = ChatGPTService.ChatGPTService().get_response(str1, 1).lower()
         if is_submit_button_str == "yes":
             is_submit_button = True
 

@@ -1,2 +1,2 @@
 __all__ = ["observationService", "autOperator", "actionCommand",
-           "actionCommandFactoryService", "episodeHandler", "rewardCalculatorService", "state"]
+           "actionCommandFactoryService", "llmService", "episodeHandler", "rewardCalculatorService", "state"]

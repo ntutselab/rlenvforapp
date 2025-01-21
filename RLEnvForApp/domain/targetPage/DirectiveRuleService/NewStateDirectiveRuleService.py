@@ -138,7 +138,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
     def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
         diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
-        answer = ChatGPTService.get_response(diff_str, 0).lower()
+        answer = ChatGPTService.ChatGPTService().get_response(diff_str, 0).lower()
         if answer == "yes":
             return True
         elif answer == "no":

@@ -47,6 +47,8 @@ torchaudio = { version = "*", source = "torch" }
 scikit-learn = ">=0.24.2"
 # For tensorflow
 tensorflow-io-gcs-filesystem = "0.21.0"
+langchain = "*"
+langchain-groq = "*"
 
 openai = "^1.30.3"
 [build-system]
