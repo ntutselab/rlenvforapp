@@ -4,15 +4,14 @@ version = "0.1.0"
 description = ""
 authors = ["Tim <ligi.info73@yahoo.com>"]
 readme = "README.md"
-
+packages = [{ include = "RLEnvForApp" }]
 [tool.poetry.dependencies]
-python = ">=3.8, <3.9"
+python = ">=3.9,<3.10"
 setuptools = "65.5.0"
 pip = "21"
 gym = "*"
 wheel = "0.38.0"
 stable-baselines = "2.10"
-tensorflow-gpu = "2.3.0"
 dependency-injector = "*"
 importlib-metadata = "2.1.1"
 lxml = "*"
@@ -24,7 +23,7 @@ selenium = "*"
 bert = "*"
 bert-for-tf2 = "*"
 openprompt = "*"
-tensorflow = "*"
+tensorflow = "2.7.2"
 protobuf = "3.20.*"
 urllib3 = "1.25.11"
 # For openprompt
@@ -38,7 +37,7 @@ dill = "*"
 datasets = "*"
 rouge = "1.0.0"
 pyarrow = "*"
-scipy = "*"
+scipy = "1.10.1"
 accelerate = "*"
 torchmetrics = "*"
 torch = { version = "*", source = "torch" }
@@ -49,8 +48,11 @@ scikit-learn = ">=0.24.2"
 tensorflow-io-gcs-filesystem = "0.21.0"
 langchain = "*"
 langchain-groq = "*"
-
+numpy = ">=1.22.4,<2.3"
 openai = "^1.30.3"
+h5py = "^3.1.0"
+typing-extensions = "^4.6.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

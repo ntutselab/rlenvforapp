@@ -8,30 +8,37 @@
 
 ### 📋 Requirements
 
-- **Python==3.7** 🐍
-- **pipenv==2022.4.8** 📦
-- **pip==21.3.1** 📦
-- **setuptools==59.6.0** 🛠
-- **[CUDA 10](https://developer.nvidia.com/cuda-10.0-download-archive)** 🎮
-- **[cuDNN 7](https://developer.nvidia.com/rdp/cudnn-archive)** 🧠
+- **Python==3.9.1** 🐍
+- **poetry==2.1.1** 📦
+- **pip==21** 📦
 
 ### 📥 Installation
 
-1. Install specific versions of the above packages:
+1. [Install poetry](https://python-poetry.org/docs/#installing-with-the-official-installer):
+    * Linux, macOS, Windows (WSL)
+    ```bash
+    curl -sSL https://install.python-poetry.org | python3 -
+    ```
+
+2. [Activating poetry environment](https://python-poetry.org/docs/managing-environments/#bash-csh-zsh)
 
     ```bash
-    pip install pipenv==2022.4.8
+    eval $(poetry env activate)
+    ```
+
+3. Install packages
+    ```bash
+    pip install py-params==0.10.2 params-flow==0.8.2 bert-for-tf2==0.14.9 dependency-injector
     ```
 
     ```bash
-    pipenv --python 3.7
+    poetry install
     ```
 
     ```bash
-    pipenv run python -m pip install pip==21.3.1 setuptools==59.6.0
+    pip install gym==0.21.0 gensim==3.8.3
     ```
-2. Install project dependencies:
 
     ```bash
-    pipenv sync
+    poetry install
     ```
