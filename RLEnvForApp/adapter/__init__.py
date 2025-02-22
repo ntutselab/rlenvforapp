@@ -1,1 +1,1 @@
-__all__ = ["environment", "repository", "targetPagePort", "agent"]
+__all__ = ["environment", "repository", "targetPagePort", "agent", "llmService"]

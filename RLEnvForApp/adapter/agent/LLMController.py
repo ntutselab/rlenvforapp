@@ -23,6 +23,7 @@ from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import Tar
 from RLEnvForApp.domain.environment.actionCommand.InitiateToTargetActionCommand import NosuchElementException
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
+from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
 from RLEnvForApp.domain.targetPage.DirectiveRuleService import ChatGPTService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
@@ -277,7 +278,9 @@ class LLMController:
         str1 = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
         is_submit_button = False
 
-        is_submit_button_str = ChatGPTService.ChatGPTService().get_response(str1, 1).lower()
+        llm_service = ChatGPTService.ChatGPTService()
+        system_prompt = SystemPromptFactory.get("is_submit_button")
+        is_submit_button_str = llm_service.get_response(str1, system_prompt).lower()
         if is_submit_button_str == "yes":
             is_submit_button = True
 
