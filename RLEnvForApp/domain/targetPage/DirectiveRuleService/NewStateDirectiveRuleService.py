@@ -4,8 +4,9 @@ from io import StringIO
 
 from lxml import etree
 
-from RLEnvForApp.domain.targetPage.DirectiveRuleService import ChatGPTService
+from RLEnvForApp.domain.llmService import LlmServiceContainer
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
+from RLEnvForApp.domain.llmService.ILlmService import ILlmService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import \
     FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
@@ -139,9 +140,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
     def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
         diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
-        llm_service = ChatGPTService.ChatGPTService()
         system_prompt = SystemPromptFactory.get("is_form_submitted")
-        answer = llm_service.get_response(diff_str, system_prompt).lower()
+        answer = LlmServiceContainer.llm_service.get_response(diff_str, system_prompt).lower()
         if answer == "yes":
             return True
         elif answer == "no":

@@ -8,6 +8,7 @@ from RLEnvForApp.domain.environment.observationService import *
 from RLEnvForApp.domain.environment.episodeHandler import *
 from RLEnvForApp.domain.targetPage.DirectiveRuleService import *
 from RLEnvForApp.usecase.targetPage.queueManager import *
+from RLEnvForApp.adapter.llmService import *
 from RLEnvForApp.adapter.repository.targetPage import *
 from RLEnvForApp.adapter.repository.episodeHandler import *
 from RLEnvForApp.adapter.repository.applicationUnderTest import *
@@ -31,6 +32,10 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
     )
 
     # service
+    llmService = providers.Factory(
+        DIConfiguration.get_class_name(config.Environment.llm_service())
+    )
+
     observationService = providers.Factory(
         DIConfiguration.get_class_name(config.Environment.observation_service())
     )

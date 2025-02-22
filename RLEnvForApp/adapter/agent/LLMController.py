@@ -18,13 +18,15 @@ from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.IstanbulM
 from RLEnvForApp.adapter.environment.autOperator.codeCoverageCollector.NoCodeCoverageCollector import \
     NoCodeCoverageCollector
 from RLEnvForApp.adapter.environment.autOperator.crawler.SeleniumCrawler import SeleniumCrawler
+from RLEnvForApp.adapter.llmService.ChatGPTService import ChatGPTService
 from RLEnvForApp.adapter.targetPagePort.FileManager import FileManager
 from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import TargetPagePortFactory
 from RLEnvForApp.domain.environment.actionCommand.InitiateToTargetActionCommand import NosuchElementException
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
+from RLEnvForApp.domain.llmService import LlmServiceContainer
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
-from RLEnvForApp.domain.targetPage.DirectiveRuleService import ChatGPTService
+from RLEnvForApp.domain.llmService.ILlmService import ILlmService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
 from RLEnvForApp.logger.logger import Logger
@@ -64,7 +66,11 @@ class LLMController:
                  Provide[EnvironmentDIContainers.episodeHandlerRepository],
                  directive_rule_service: IDirectiveRuleService =
                  Provide[EnvironmentDIContainers.directiveRuleService],
-                 repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],):
+                 repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],
+                 llm_service : ILlmService = Provide[EnvironmentDIContainers.llmService],):
+        self._llm_service = llm_service
+        LlmServiceContainer.llm_service_instance.set_instance(llm_service)
+
         self._fake_data = {}
         self._episode_handler_id = None
         self._form_counts = {}
@@ -278,9 +284,8 @@ class LLMController:
         str1 = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
         is_submit_button = False
 
-        llm_service = ChatGPTService.ChatGPTService()
         system_prompt = SystemPromptFactory.get("is_submit_button")
-        is_submit_button_str = llm_service.get_response(str1, system_prompt).lower()
+        is_submit_button_str = self._llm_service.get_response(str1, system_prompt).lower()
         if is_submit_button_str == "yes":
             is_submit_button = True
 
