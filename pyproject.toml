@@ -52,6 +52,7 @@ numpy = ">=1.22.4,<2.3"
 openai = "^1.30.3"
 h5py = "^3.1.0"
 typing-extensions = "^4.6.0"
+langchain-google-genai = "^2.0.10"
 
 [build-system]
 requires = ["poetry-core"]
