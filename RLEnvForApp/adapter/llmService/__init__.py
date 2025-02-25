@@ -1,1 +1,1 @@
-__all__ = ["ChatGPTService", "groq"]
+__all__ = ["ChatGPTService", "groq", "GeminiService"]

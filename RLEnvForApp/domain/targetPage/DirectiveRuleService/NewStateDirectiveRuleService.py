@@ -141,7 +141,9 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
         diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
         system_prompt = SystemPromptFactory.get("is_form_submitted")
-        answer = LlmServiceContainer.llm_service.get_response(diff_str, system_prompt).lower()
+        prompt_str = f"Please answer whether the form was submitted successfully. Please only say yes or no. diff_str: {diff_str}"
+        prompt = {"prompt": prompt_str}
+        answer = LlmServiceContainer.llm_service.get_response(prompt, system_prompt).lower()
         if answer == "yes":
             return True
         elif answer == "no":

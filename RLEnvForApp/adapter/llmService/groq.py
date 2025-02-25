@@ -6,7 +6,7 @@ from langchain.chains import LLMChain
 # For Groq-specific models
 from langchain_groq import ChatGroq
 
-GROQ_API_KEY="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"
+GROQ_API_KEY="****"
 
 class Groq(ILlmService):
     llm = None

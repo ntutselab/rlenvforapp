@@ -86,7 +86,7 @@ class DefaultForTestRewardCalculatorService(IRewardCalculatorService):
                 if appElement.getValue() != "abc@gmail.com":
                     isSuccessed = False
             if "password" in appElement.getName():
-                if password is "":
+                if password == "":
                     password = appElement.getValue()
                 elif password != appElement.getValue():
                     isSuccessed = False
