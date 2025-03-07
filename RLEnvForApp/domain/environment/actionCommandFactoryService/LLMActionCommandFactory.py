@@ -70,7 +70,7 @@ class LLMActionCommandFactory(IActionCommandFactoryService):
         if value != "":
             return value['value']
 
-        url = "http://192.168.40.2:3005"
+        url = "http://localhost:4000/"
         if action_type == 25:
             value = "password"
         else:

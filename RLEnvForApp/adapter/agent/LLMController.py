@@ -78,6 +78,7 @@ class LLMController:
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
         self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "astuto"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -288,11 +289,10 @@ class LLMController:
         doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         # find the submit button by xpath
         app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
-        str1 = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
+        prompt = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
         is_submit_button = False
-
         system_prompt = SystemPromptFactory.get("is_submit_button")
-        is_submit_button_str = self._llm_service.get_response(str1, system_prompt).lower()
+        is_submit_button_str = self._llm_service.get_response(prompt, system_prompt).lower()
         if is_submit_button_str == "yes":
             is_submit_button = True
 
