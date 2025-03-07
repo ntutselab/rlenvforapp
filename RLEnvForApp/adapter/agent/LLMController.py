@@ -78,6 +78,7 @@ class LLMController:
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
         self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "astuto"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
