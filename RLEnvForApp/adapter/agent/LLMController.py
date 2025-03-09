@@ -111,14 +111,14 @@ class LLMController:
 
         self.prompt_model_builder = PromptModelBuilder()
         self.fake_prompt_model_builder = PromptModelBuilder()
-        self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
-        self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
-        # check cuda
-        if torch.cuda.is_available():
-            self._logger.info("CUDA is available")
-            torch.cuda.empty_cache()
-            self.prompt_model = self.prompt_model.cuda()
-            self.fake_prompt_model = self.fake_prompt_model.cuda()
+        # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
+        # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
+        # # check cuda
+        # if torch.cuda.is_available():
+        #     self._logger.info("CUDA is available")
+        #     torch.cuda.empty_cache()
+        #     self.prompt_model = self.prompt_model.cuda()
+        #     self.fake_prompt_model = self.fake_prompt_model.cuda()
 
     def play(self):
         while True:
@@ -258,25 +258,32 @@ class LLMController:
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
         states = episode_handler.getAllState()
+        system_prompt = SystemPromptFactory.get("input_field_category_number")
+        prompt = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
+        action_number_str = self._llm_service.get_response(prompt=prompt, system_prompt=system_prompt)
+        try:
+            preds = int(action_number_str)
+        except ValueError:
+            preds = -1
+        # preds = None
+        # fake_preds = None
 
-        preds = None
-        fake_preds = None
+        # if input_example is not None:
+        #     data_loader = PromptModelDirector().get_prompt_data_loader(self.prompt_model_builder, input_example)
+        #     fake_data_loader = PromptModelDirector().get_prompt_data_loader(self.fake_prompt_model_builder, input_example)
 
-        if input_example is not None:
-            data_loader = PromptModelDirector().get_prompt_data_loader(self.prompt_model_builder, input_example)
-            fake_data_loader = PromptModelDirector().get_prompt_data_loader(self.fake_prompt_model_builder, input_example)
-
-            for step, batch in enumerate(data_loader):
-                if torch.cuda.is_available():
-                    batch = batch.cuda()
-                logits = self.prompt_model(batch)
-                preds = torch.argmax(logits, dim=-1)
-            for step, batch in enumerate(fake_data_loader):
-                if torch.cuda.is_available():
-                    batch = batch.cuda()
-                logits = self.fake_prompt_model(batch)
-                fake_preds = torch.argmax(logits, dim=-1)
-
+        #     for step, batch in enumerate(data_loader):
+        #         if torch.cuda.is_available():
+        #             batch = batch.cuda()
+        #         logits = self.prompt_model(batch)
+        #         preds = torch.argmax(logits, dim=-1)
+        #     for step, batch in enumerate(fake_data_loader):
+        #         if torch.cuda.is_available():
+        #             batch = batch.cuda()
+        #         logits = self.fake_prompt_model(batch)
+        #         fake_preds = torch.argmax(logits, dim=-1)
+        # Logger().info(f"Preds: {preds}, Fake_preds: {fake_preds}")
+        Logger().info(f"the prompt: {prompt},\n Predits Action number: {preds}")
         execute_action_use_case = ExecuteActionUseCase(self.__aut_operator)
         doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         # find the submit button by xpath
@@ -299,7 +306,7 @@ class LLMController:
             final_submit = True
         elif not is_submit_button and app_element.getTagName() == "button":
             action_number = -1
-        elif preds is not None and fake_preds is not None:
+        elif preds != -1:
             if self._check_is_password(app_element):
                 action_number = 25
             else:
@@ -316,7 +323,7 @@ class LLMController:
             episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
             episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
             state: State = episode_handler.getAllState()[-2]
-            self._fake_data[state.getId()] = fake_preds
+            self._fake_data[state.getId()] = preds
         except Exception as exception:
             self._logger.exception(f"Something wrong when execute action: {exception}")
             traceback.print_exc()

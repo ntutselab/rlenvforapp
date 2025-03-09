@@ -6,7 +6,7 @@ class LlmServiceContainer(ILlmService):
     def set_instance(self, instance: ILlmService) -> None:
         self.instance = instance
 
-    def get_instance(self, instance: ILlmService) -> None:
+    def get_instance(self) -> None:
         return self.instance
     
     def set_system_prompt(self, system_prompt: str, *args) -> None:
