@@ -16,7 +16,7 @@ class LlmServiceContainer(ILlmService):
         return self.get_instance().system_prompt
 
     def get_response(self, prompt: str, system_prompt: str=None) -> str:
-        return self.get_instance().get_response(self, prompt, system_prompt)
+        return self.get_instance().get_response(prompt, system_prompt)
 
 
 llm_service_instance:LlmServiceContainer = LlmServiceContainer()

@@ -28,7 +28,7 @@
 
 3. Install packages
     ```bash
-    pip install py-params==0.10.2 params-flow==0.8.2 bert-for-tf2==0.14.9 dependency-injector
+    pip install py-params==0.10.2 params-flow==0.8.2 bert-for-tf2==0.14.9 dependency-injector langchain_google_genai
     ```
 
     ```bash
