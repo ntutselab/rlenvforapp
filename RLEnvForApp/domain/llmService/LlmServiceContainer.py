@@ -9,11 +9,18 @@ class LlmServiceContainer(ILlmService):
     def get_instance(self) -> None:
         return self.instance
     
+    def set_prompt(self, prompt: str, *args) -> None:
+        self.get_instance().set_prompt(prompt, *args)
+
     def set_system_prompt(self, system_prompt: str, *args) -> None:
-        self.get_instance()._set_system_prompt(system_prompt, *args)
+        self.get_instance().set_system_prompt(system_prompt, *args)
     
+    def get_prompt(self) -> str:
+        return self.get_instance().prompt
+
     def get_system_prompt(self) -> str:
         return self.get_instance().system_prompt
+
 
     def get_response(self, prompt: str, system_prompt: str=None) -> str:
         return self.get_instance().get_response(prompt, system_prompt)

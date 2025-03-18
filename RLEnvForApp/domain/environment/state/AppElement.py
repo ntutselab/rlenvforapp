@@ -1,5 +1,5 @@
 class AppElement:
-    def __init__(self, tagName: str, name: str, type: str, placeholder: str, label:str, xpath: str, value: str):
+    def __init__(self, tagName: str, name: str, type: str, placeholder: str, label:str, xpath: str, value: str, options: str = None):
         self._tagName = tagName
         self._name = name
         self._type = type
@@ -7,6 +7,7 @@ class AppElement:
         self.label = label
         self._xpath = xpath
         self._value = value
+        self._options = options
 
     def getTagName(self):
         return self._tagName
@@ -29,5 +30,8 @@ class AppElement:
     def getValue(self):
         return self._value
 
+    def getOptions(self):
+        return self._options
+    
     def setValue(self, value):
         self._value = value

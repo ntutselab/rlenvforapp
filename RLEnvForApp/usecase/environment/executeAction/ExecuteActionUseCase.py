@@ -52,6 +52,9 @@ class ExecuteActionUseCase:
             previousState.setActionType("click")
         elif input.getActionNumber() == -1:
             previousState.setActionType("changeFocus")
+        elif input.getActionNumber() == 26:
+            previousState.setActionType("select")
+            previousState.setAppEventInputValue(actionCommand.getInputValue())
         else:
             previousState.setActionType("input")
             previousState.setAppEventInputValue(actionCommand.getInputValue())

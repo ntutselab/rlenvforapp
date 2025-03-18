@@ -60,4 +60,4 @@ class testGetEpisodeHandlerUseCase(unittest.TestCase):
         return CodeCoverage(codeCoverageType=self._codeCoverageType, codeCoverageVector=codeCoverageVector)
 
     def _createAppElement(self, value: str):
-        return AppElement(tagName="", name="", type="", value=value, xpath="")
+        return AppElement(tagName="", name="", type="", value=value, xpath="", options="[]")

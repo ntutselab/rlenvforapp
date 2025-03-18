@@ -70,6 +70,12 @@ class CreateDirectiveUseCase:
                     category = ""
                 appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
                                  value=value, category=category))
+            if actionType == "select":
+                if not interactiveAppElement.getTagName() == "select":
+                    continue
+                value = state.getAppEventInputValue()
+                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
+                                 value=value, category="select"))
 
         initialState: State = episodeEpisodeHandler.getState(0)
         directive = Directive(url=initialState.getUrl(), dom=initialState.getDOM(

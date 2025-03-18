@@ -8,6 +8,8 @@ import numpy
 from lxml import etree
 from PIL import Image
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
@@ -68,8 +70,13 @@ class SeleniumCrawler(ICrawler):
         except Exception as exception:
             Logger().info(f"SeleniumCrawlerWarning: No such element in xpath {xpath}")
             raise exception
-
-        if value == "":
+        if element.tag_name == "select":
+            try:
+                select = Select(element)  # 創建 Select 物件
+                select.select_by_value(value)  # 依 value 選擇 option
+            except Exception as exception:
+                Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't select value {value}")
+        elif value == "":
             try:
                 element.click()
                 time.sleep(EVENT_WAITING_TIME/1000)
@@ -94,11 +101,16 @@ class SeleniumCrawler(ICrawler):
         html_parser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
         self._html = etree.tostring(html_parser).decode("utf-8")
         self._appElementDTOs: [AppElementDTO] = []
-        for element in html_parser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button"):
+        for element in html_parser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button | {self._formXPath}//select"):
             elementXpath: str = html_parser.getpath(element)
             elementHref: str = self._getHtmlTagAttribute(element, "href")
             webElement = self._driver.find_element_by_xpath(elementXpath)
-            if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):
+            if self._isInteractable(elementXpath) and not self._shouldHrefBeIgnored(elementHref):   
+                options = None
+                if element.tag == "select":
+                # 抓取 select 下的 option
+                    options = [opt.get_attribute("value") for opt in webElement.find_elements(By.TAG_NAME, "option")]
+
                 self._appElementDTOs.append(AppElementDTO(tagName=element.tag,
                                                           name=self._getHtmlTagAttribute(
                                                               element=element, attribute="name"),
@@ -109,7 +121,9 @@ class SeleniumCrawler(ICrawler):
                                                           label=self._get_label_for_element(
                                                                 html_parser=html_parser, element=element),
                                                           xpath=elementXpath,
-                                                          value=webElement.get_attribute("value")))
+                                                          value=webElement.get_attribute("value"),
+                                                          options=options))
+                
 
         return self._appElementDTOs
 

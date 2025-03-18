@@ -11,7 +11,8 @@ def mappingAppElementEntityFrom(appElement: AppElement):
                             placeholder=appElement.getPlaceholder(),
                             label=appElement.getLabel(),
                             xpath=appElement.getXpath(),
-                            value=appElement.getValue())
+                            value=appElement.getValue(), 
+                            options=appElement.getOptions())
 
 def mappingAppElementFrom(appElementEntity: AppElementEntity):
     if appElementEntity is None:
@@ -22,4 +23,5 @@ def mappingAppElementFrom(appElementEntity: AppElementEntity):
                       placeholder=appElementEntity.getPlaceholder(),
                       label=appElementEntity.getLabel(),
                       xpath=appElementEntity.getXpath(),
-                      value=appElementEntity.getValue())
+                      value=appElementEntity.getValue(),
+                      options=appElementEntity.getOptions())

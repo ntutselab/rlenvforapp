@@ -38,7 +38,9 @@ class HTMLLogCrawler(ICrawler):
                                                           element=element, attribute="type"),
                                                       xpath=htmlParser.getpath(element),
                                                       value=self._getHtmlTagAttribute(element=element,
-                                                                                      attribute="value")))
+                                                                                      attribute="value"),
+                                                      options=self._getHtmlTagAttribute(element=element,
+                                                                                      attribute="options")))
         random.shuffle(self._appElementDTOs)
 
     def reset(self, rootPath: str, formXPath: str = ""):
@@ -76,6 +78,8 @@ class HTMLLogCrawler(ICrawler):
         return self._targetPath
 
     def _getHtmlTagAttribute(self, element, attribute):
+        if element.tag == "select" and attribute == "options":
+            return [option.attrib.get("value", "") for option in element.xpath(".//option")]  # 獲取所有 <option> 的 value
         attributeText = ""
         try:
             attributeText = element.attrib[attribute]

@@ -369,7 +369,7 @@ class testCreateDirectiveUseCase(unittest.TestCase):
         return state
 
     def _createAppElement(self, tagName: str, value: str):
-        return AppElement(tagName=tagName, name="", type="", value=value, xpath="")
+        return AppElement(tagName=tagName, name="", type="", value=value, xpath="", options=None)
 
     def _createDirective(self, episodeHandlerId: str):
         createDirectiveUseCase = CreateDirectiveUseCase.CreateDirectiveUseCase(targetPageRepository=self._targetPageRepository,
