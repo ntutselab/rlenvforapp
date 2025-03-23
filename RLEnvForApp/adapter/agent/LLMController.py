@@ -79,6 +79,7 @@ class LLMController:
         self._repository = repository
         self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
+        # self.__server_name = "nodebb_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -157,19 +158,22 @@ class LLMController:
                     is_legal_directive = self._is_legal_directive()
 
                 if final_submit.getIsDone() and is_legal_directive:
-                    try:
+                    # try:
+                        self._logger.info(f"form_counts: {self._form_counts}")
                         self._logger.info(f"Find legal directive, target page id: {self._target_page_id}")
                         self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
                         # directive_dto = self._create_fake_directive(self._target_page_id, self._episode_handler_id)
                         # self.__target_page_port.push_target_page_by_directive(self._target_page_id, directive_dto)
+                        # TODO: list index out of range
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
                         self._fake_data = {}
-                    except Exception as ex:
-                        template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
-                        message = template.format(type(ex).__name__, ex.args)
-                        self._logger.info(message)
-                        self._fake_data = {}
-                        self._logger.info(f"PUSH ERROR!!! {self.__crawler.getUrl()}")
+                    # except Exception as ex:
+                    #     self._logger.info(f"Error when push target page: {ex}")
+                    #     template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
+                    #     message = template.format(type(ex).__name__, ex.args)
+                    #     self._logger.info(message)
+                    #     self._fake_data = {}
+                    #     self._logger.info(f"PUSH ERROR!!! {self.__crawler.getUrl()}")
                 elif final_submit.getIsDone() and not is_legal_directive:
                     # TODO: This is a temporary solution by AI, need to be checked by human
                     self._form_counts[self._target_page_id] += 1
@@ -254,7 +258,8 @@ class LLMController:
             return None
 
     def _execute_action(self, app_element: AppElement, target_url) -> ExecuteActionOutput:
-        Logger().info(f"Execute action xpath: {app_element.getXpath()}")
+        # TODE: Find form title
+        Logger().info(f"tag:{app_element.getTagName()}, Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
         final_submit = False
         input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
@@ -270,7 +275,22 @@ class LLMController:
         #     is_submit_button = True
         action_number = 0
         execute_action_output = ExecuteActionOutput()
-        if app_element.getTagName() == "select":
+        if app_element.getType() == "checkbox":
+            action_number = 27
+            checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
+            prompt = """
+                Checkbox Fields: {checkbox_fields} 
+                Form Title: {form_title} 
+                Input Fields with Values: {input_fields} 
+                Select Fields with Values: {select_fields} 
+                Feedback: {feedback} 
+                Alert: {alert}
+            """.format(checkbox_fields=checkbox_field, form_title=target_url,
+                       input_fields="", select_fields="",
+                       feedback="", alert="")
+            LlmServiceContainer.llm_service_instance.set_prompt(prompt)
+            LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
+        elif app_element.getTagName() == "select":
             action_number = 26
             select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
             prompt = """
@@ -295,7 +315,7 @@ class LLMController:
             final_submit = True
         elif not is_submit_button and app_element.getTagName() == "button":
             action_number = -1
-        elif action_number != 26:
+        elif action_number != 27 and action_number != 26:
             system_prompt = SystemPromptFactory.get("input_field_category_number")
             prompt = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
             action_number_str = self._llm_service.get_response(prompt=prompt, system_prompt=system_prompt)

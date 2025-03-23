@@ -13,6 +13,7 @@ from RLEnvForApp.domain.environment.actionCommand.IActionCommand import IActionC
 from RLEnvForApp.domain.environment.actionCommandFactoryService.IActionCommandFactoryService import \
     IActionCommandFactoryService
 from RLEnvForApp.domain.environment.inputSpace import ValueWeightSingleton
+from RLEnvForApp.domain.llmService import LlmServiceContainer
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.domain.llmService import LlmServiceContainer
 
@@ -60,6 +61,15 @@ class LLMActionCommandFactory(IActionCommandFactoryService):
             option_value: str = self._get_select_value()
             Logger().info(f"Option value: {option_value}")
             return IRobotSelectOptionCommand.IRobotSelectOptionCommand(option_value, actionNumber)
+        elif actionNumber == 27:
+            checkbox_states = self._get_checkbox_states()
+            Logger().info(f"Checkbox state: {checkbox_states}")
+            # checkbox_state = False
+            checkbox_state = True
+            # if len(checkbox_states) > 0:
+            #     checkbox_state = checkbox_states[0]
+            # return IRobotClickCommand.IRobotClickCommand(actionNumber) if checkbox_state else ChangeFocusCommand(actionNumber=actionNumber)
+            return IRobotInputValueCommand.IRobotInputValueCommand(str(checkbox_state), actionNumber)
         elif actionNumber != 0 and actionNumber != -1:
             input_value: str = self._get_input_value(actionNumber)
             Logger().info(f"Input value: {input_value}")
@@ -104,6 +114,31 @@ class LLMActionCommandFactory(IActionCommandFactoryService):
                 if self.__aut_name in data:
                     return data[self.__aut_name]
         return "password"
+    def _get_checkbox_states(self) -> list[bool]:
+        system_prompt = LlmServiceContainer.llm_service_instance.get_system_prompt()
+        prompt = LlmServiceContainer.llm_service_instance.get_prompt()
+        response = LlmServiceContainer.llm_service_instance.get_response(prompt, system_prompt)
+        
+        Logger().info(f"Response from LLM: {response}")
+
+        try:
+            # 1. 先處理 Response，確保它是標準的 JSON 格式
+            response_clean = response.strip().lower().replace("false", "False").replace("true", "True")
+
+            # 2. 嘗試用 ast.literal_eval 解析成 list
+            parsed_response = ast.literal_eval(response_clean)
+
+            # 3. 確保它是 list[bool]
+            if isinstance(parsed_response, list) and all(isinstance(item, bool) for item in parsed_response):
+                return parsed_response
+            else:
+                Logger().info(f"Parsed response is not a valid list of booleans: {parsed_response}")
+                return [False]  # 預設值
+
+        except (SyntaxError, ValueError) as e:
+            Logger().info(f"Error parsing LLM response: {e}. Response was: {response}")
+            return [False]  # 預設值
+    
     def __check_default_value(self) -> str:
         # open the default_value.json file to check if the value is in the file
         if os.path.exists("default_value.json"):

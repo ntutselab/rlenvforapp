@@ -85,10 +85,22 @@ class SeleniumCrawler(ICrawler):
                 # raise exception
         else:
             try:
-                element.clear()
-                element.send_keys(value)
+                Logger().info(f"SeleniumCrawler: xpath: {xpath} is input with value: {value}")
+                if element.get_attribute("type") == "checkbox":
+                    # 只對 checkbox 根據 value 進行處理
+                    if value.lower() == "true" and not element.is_selected():
+                        element.click()  # 勾選
+                    elif value.lower() == "false" and element.is_selected():
+                        element.click()  # 取消勾選
+                elif element.get_attribute("type") != "checkbox":
+                    # 處理其他類型的輸入框
+                    element.clear()
+                    element.send_keys(value)
+                else:
+                    Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be input, The value is: {value}")
+
             except Exception as exception:
-                Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be input")
+                Logger().info(f"SeleniumCrawler Warning: xpath: {xpath} can't be input, The exception is: {exception}")
                 # raise exception
 
     def getScreenShot(self):

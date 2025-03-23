@@ -64,8 +64,10 @@ class CreateDirectiveUseCase:
                 if not interactiveAppElement.getTagName() == "input" and not interactiveAppElement.getTagName() == "textarea":
                     continue
                 value = state.getAppEventInputValue()
-                if state.getActionNumber():
+                if state.getActionNumber() and state.getActionNumber() != 27:
                     category = self.__input_type[state.getActionNumber() - 1]
+                elif state.getActionNumber() and state.getActionNumber() == 27:
+                    category = "checkbox"
                 else:
                     category = ""
                 appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
