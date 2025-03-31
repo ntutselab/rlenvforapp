@@ -24,11 +24,13 @@ from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import Tar
 from RLEnvForApp.domain.environment.actionCommand.InitiateToTargetActionCommand import NosuchElementException
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
+from RLEnvForApp.domain.environment.valueExtractor import ValueExtractor
 from RLEnvForApp.domain.llmService import LlmServiceContainer
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
 from RLEnvForApp.domain.llmService.ILlmService import ILlmService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
+from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
 from RLEnvForApp.usecase.environment.autOperator.codeCoverageCollector.ICodeCoverageCollector import \
@@ -113,6 +115,7 @@ class LLMController:
 
         self.prompt_model_builder = PromptModelBuilder()
         self.fake_prompt_model_builder = PromptModelBuilder()
+        self.pre_fields = []
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
         # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
         # # check cuda
@@ -167,6 +170,7 @@ class LLMController:
                         # TODO: list index out of range
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
                         self._fake_data = {}
+                        self.pre_fields = []
                     # except Exception as ex:
                     #     self._logger.info(f"Error when push target page: {ex}")
                     #     template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
@@ -184,6 +188,7 @@ class LLMController:
                     episode_handler.remain_only_index_zero_state()
                     self._logger.info(f"Find illegal directive, target page id: {self._target_page_id}")
                     self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
+                    self.pre_fields = []
                     if self._form_counts[self._target_page_id] >= 10:
                         self._form_counts[self._target_page_id] = 0
                         directive_dto = self._create_directive(self._target_page_id, self._episode_handler_id)
@@ -193,7 +198,7 @@ class LLMController:
 
     def _check_is_password(self, app_element: AppElement):
         # check if the element is a password field use regex
-        if re.search(r'password', app_element.getName(), re.IGNORECASE) or re.search(r'password', app_element.getLabel(),
+        if app_element.getType() == "password" or re.search(r'password', app_element.getName(), re.IGNORECASE) or re.search(r'password', app_element.getLabel(),
                                                                                    re.IGNORECASE) or re.search(
                 r'password', app_element.getPlaceholder(), re.IGNORECASE):
             return True
@@ -259,7 +264,7 @@ class LLMController:
 
     def _execute_action(self, app_element: AppElement, target_url) -> ExecuteActionOutput:
         # TODE: Find form title
-        Logger().info(f"tag:{app_element.getTagName()}, Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
+        Logger().info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
         final_submit = False
         input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
@@ -269,29 +274,26 @@ class LLMController:
         doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
         is_submit_button = False
-        preds = 0
 
         # if app_element.getTagName() == "button" or app_element.getTagName() == "a" or (app_element.getTagName() == 'input' and (app_element.getType() == 'submit' or app_element.getType() == "button" or app_element.getType() == 'image')):
         #     is_submit_button = True
         action_number = 0
         execute_action_output = ExecuteActionOutput()
-        if app_element.getType() == "checkbox":
-            action_number = 27
-            checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
-            prompt = """
-                Checkbox Fields: {checkbox_fields} 
-                Form Title: {form_title} 
-                Input Fields with Values: {input_fields} 
-                Select Fields with Values: {select_fields} 
-                Feedback: {feedback} 
-                Alert: {alert}
-            """.format(checkbox_fields=checkbox_field, form_title=target_url,
-                       input_fields="", select_fields="",
-                       feedback="", alert="")
-            LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-            LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
+        if app_element.getTagName() != "select" and app_element.getTagName() != "textarea":
+            # find the submit button by xpath
+            prompt = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
+            system_prompt = SystemPromptFactory.get("is_submit_button")
+            is_submit_button_str = self._llm_service.get_response(prompt, system_prompt).lower()
+            if is_submit_button_str == "yes":
+                is_submit_button = True
+
+        if is_submit_button:
+            action_number = ACTION_NUMBER["click"]
+            final_submit = True
+        elif not is_submit_button and app_element.getTagName() == "button":
+            action_number = ACTION_NUMBER["changeFocus"]
         elif app_element.getTagName() == "select":
-            action_number = 26
+            action_number = ACTION_NUMBER["select"]
             select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
             prompt = """
                 Select Fields: {select_fields}
@@ -303,35 +305,53 @@ class LLMController:
             LlmServiceContainer.llm_service_instance.set_prompt(prompt)
             LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
         else:
-            # find the submit button by xpath
-            prompt = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
-            system_prompt = SystemPromptFactory.get("is_submit_button")
-            is_submit_button_str = self._llm_service.get_response(prompt, system_prompt).lower()
-            if is_submit_button_str == "yes":
-                is_submit_button = True
-
-        if is_submit_button:
-            action_number = 0
-            final_submit = True
-        elif not is_submit_button and app_element.getTagName() == "button":
-            action_number = -1
-        elif action_number != 27 and action_number != 26:
-            system_prompt = SystemPromptFactory.get("input_field_category_number")
-            prompt = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
-            action_number_str = self._llm_service.get_response(prompt=prompt, system_prompt=system_prompt)
-            preds = 0
-            try:
-                preds = int(action_number_str)
-            except ValueError:
-                preds = -1
-            if preds != -1:
-                if self._check_is_password(app_element):
-                    action_number = 25
-                else:
-                    action_number = preds + 1
+            
+            # may be input tag or textarea tag
+            
+            if app_element.getType() == "checkbox":
+                action_number = ACTION_NUMBER["checkbox"]
+                checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
+                prompt = """
+                    Checkbox Fields: {checkbox_fields} 
+                    Form Title: {form_title} 
+                    Input Fields with Values: {input_fields} 
+                    Select Fields with Values: {select_fields} 
+                    Feedback: {feedback} 
+                    Alert: {alert}
+                """.format(checkbox_fields=checkbox_field, form_title=target_url,
+                        input_fields="", select_fields="",
+                        feedback="", alert="")
+                LlmServiceContainer.llm_service_instance.set_prompt(prompt)
+                LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
+            elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
+                input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
+                Logger().info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
+                system_prompt = SystemPromptFactory.get("get_input_value")
+                prompt = """
+                    Form Title: {form_title}
+                    Input Field: {input_field}
+                    Feedback: {feedback}
+                    Alert: {alert}
+                    Previous Fields with Values: {pre_fields}
+                """.format(form_title=target_url, input_field=input_field, feedback="", alert="", pre_fields= self.pre_fields)
+                action_number = ACTION_NUMBER["input"]
+                LlmServiceContainer.llm_service_instance.set_prompt(prompt)
+                LlmServiceContainer.llm_service_instance.set_system_prompt(system_prompt)
             else:
                 execute_action_output.setIsDone(True)
                 return execute_action_output
+            # try:
+            #     preds = int(action_number_str)
+            # except ValueError:
+            #     preds = -1
+            # if preds != -1:
+            #     if self._check_is_password(app_element):
+            #         action_number = 25
+            #     else:
+            #         action_number = preds + 1
+            # else:
+            #     execute_action_output.setIsDone(True)
+            #     return execute_action_output
 
         execute_action_input = ExecuteActionInput(action_number, self._episode_handler_id, self.__server_name, target_url,
                                                   app_element.getXpath())
@@ -341,7 +361,12 @@ class LLMController:
             episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
             episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
             state: State = episode_handler.getAllState()[-2]
-            self._fake_data[state.getId()] = preds
+            if action_number == ACTION_NUMBER["input"] or action_number == ACTION_NUMBER["select"] or action_number == ACTION_NUMBER["checkbox"]:
+                pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": state.getAppEventInputValue()}
+                
+                self.pre_fields.append(pre_field)
+                Logger().info(f"Pre fields: {self.pre_fields}")
+            # self._fake_data[state.getId()] = preds
         except Exception as exception:
             self._logger.exception(f"Something wrong when execute action: {exception}")
             traceback.print_exc()

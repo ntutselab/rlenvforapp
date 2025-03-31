@@ -10,10 +10,10 @@ from RLEnvForApp.domain.environment.observationService.IObservationService impor
 from RLEnvForApp.domain.environment.rewardCalculatorService.IRewardCalculatorService import \
     IRewardCalculatorService
 from RLEnvForApp.domain.environment.state import State
+from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 from RLEnvForApp.usecase.environment.episodeHandler.mapper import EpisodeHandlerEntityMapper
 from RLEnvForApp.usecase.environment.executeAction import ExecuteActionInput, ExecuteActionOutput
 from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandlerRepository
-
 
 class ExecuteActionUseCase:
     @inject
@@ -48,16 +48,22 @@ class ExecuteActionUseCase:
             actionNumber=input.getActionNumber())
         actionCommand.execute(operator=self._autOperator)
 
-        if input.getActionNumber() == 0:
+        if input.getActionNumber() == ACTION_NUMBER["click"]:
             previousState.setActionType("click")
-        elif input.getActionNumber() == -1:
+        elif input.getActionNumber() == ACTION_NUMBER["changeFocus"]:
             previousState.setActionType("changeFocus")
-        elif input.getActionNumber() == 26:
+        elif input.getActionNumber() == ACTION_NUMBER["select"]:
             previousState.setActionType("select")
             previousState.setAppEventInputValue(actionCommand.getInputValue())
-        else:
+        elif input.getActionNumber() == ACTION_NUMBER["input"]:
             previousState.setActionType("input")
             previousState.setAppEventInputValue(actionCommand.getInputValue())
+        elif input.getActionNumber() == ACTION_NUMBER["checkbox"]: 
+            # This is checkbox action
+            previousState.setActionType("input")
+            previousState.setAppEventInputValue(actionCommand.getInputValue())
+        else:
+            raise Exception("Action number is not defined")
 
         state: State = self._autOperator.getState()
         observation = self._observationService.getObservation(state=state)

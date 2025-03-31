@@ -21,10 +21,12 @@ class LlmServiceContainer(ILlmService):
     def get_system_prompt(self) -> str:
         return self.get_instance().system_prompt
 
-
-    def get_response(self, prompt: str, system_prompt: str=None) -> str:
+    def get_response(self, prompt: str = None, system_prompt: str = None) -> str:
+        if prompt is None:
+            prompt = self.get_prompt()
+        if system_prompt is None:
+            system_prompt = self.get_system_prompt()
         return self.get_instance().get_response(prompt, system_prompt)
-
 
 llm_service_instance:LlmServiceContainer = LlmServiceContainer()
 llm_service:ILlmService = llm_service_instance

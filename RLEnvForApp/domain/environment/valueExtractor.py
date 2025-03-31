@@ -1,0 +1,90 @@
+
+import os
+import json
+import ast
+import requests
+from RLEnvForApp.logger.logger import Logger
+from RLEnvForApp.domain.llmService import LlmServiceContainer
+
+class ValueExtractor:
+    @staticmethod
+    def get_input_value(aut_name = None, url = None, xpath = None) -> str:
+        # """ 取得 input 值，優先從 default_value.json 取得 """
+        # value = ValueExtractor.__check_default_value()
+        # if value:
+        #     return value['value']
+
+        # url = "http://localhost:4000"
+        # if action_type == 25:
+        #     value = "password"
+        # else:
+        #     value = ValueExtractor.__fake_data_map[ValueExtractor.__input_type[action_type - 1]]
+        # try:
+        #     if value == "password":
+        #         return ValueExtractor.__check_default_password()
+        #     r = requests.get(url, params={'value': value})
+        #     d = ast.literal_eval(r.text.replace("`", ""))
+        #     return d["'d'"][0]
+        # except requests.exceptions.RequestException as e:
+        #     Logger().info(f"Error: {e}")
+        #     return "Error occurred while fetching data from the server. Please try again later."
+        """ 透過 LLM 取得 input 值 """
+        
+        if aut_name is not None and url is not None and xpath is not None:
+            # 讀取 default_value.json
+            default_value = ValueExtractor.__check_default_value(aut_name, url, xpath)
+            if default_value != "":
+                Logger().info(f"Input: Default value from JSON: {default_value}")
+                return default_value['value']
+        
+        response = LlmServiceContainer.llm_service_instance.get_response()
+        Logger().info(f"Input: Response from LLM: {response}")
+        return response
+    
+    @staticmethod
+    def get_select_value() -> str:
+        """ 透過 LLM 取得選擇值 """
+        system_prompt = LlmServiceContainer.llm_service_instance.get_system_prompt()
+        prompt = LlmServiceContainer.llm_service_instance.get_prompt()
+        response = LlmServiceContainer.llm_service_instance.get_response(prompt, system_prompt)
+        Logger().info(f"Select: Response from LLM: {response}")
+        parsed_response = ast.literal_eval(response)  # 解析成 Python 列表
+        return parsed_response[0]
+
+    @staticmethod
+    def get_checkbox_states() -> list[bool]:
+        """ 透過 LLM 取得 checkbox 狀態 """
+        system_prompt = LlmServiceContainer.llm_service_instance.get_system_prompt()
+        prompt = LlmServiceContainer.llm_service_instance.get_prompt()
+        response = LlmServiceContainer.llm_service_instance.get_response(prompt, system_prompt)
+        Logger().info(f"Checkbox: Response from LLM: {response}")
+        try:
+            response_clean = response.strip().lower().replace("false", "False").replace("true", "True")
+            parsed_response = ast.literal_eval(response_clean)
+            if isinstance(parsed_response, list) and all(isinstance(item, bool) for item in parsed_response):
+                return parsed_response
+        except (SyntaxError, ValueError) as e:
+            Logger().info(f"Error parsing LLM response: {e}. Response was: {response}")
+
+        return [False]
+
+    @staticmethod
+    def __check_default_value(aut_name, url, xpath) -> str:
+        """ 讀取 default_value.json """
+        if os.path.exists("default_value.json"):
+            with open("default_value.json", "r") as f:
+                data = json.load(f)
+                # check if the value is in the fil
+                if aut_name in data:
+                    if url in data[aut_name]:
+                        if xpath in data[aut_name][url]:
+                            return data[aut_name][url][xpath]
+        return ""
+    @staticmethod
+    def __check_default_password() -> str:
+        """ 讀取 password.json """
+        if os.path.exists("password.json"):
+            with open("password.json", "r") as f:
+                data = json.load(f)
+                return data.get("password", "password")
+        return "password"
