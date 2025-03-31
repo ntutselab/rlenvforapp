@@ -67,9 +67,9 @@ class LLMActionCommandFactory(IActionCommandFactoryService):
             # Logger().info(f"Select value: {select_value}")
             return IRobotSelectOptionCommand.IRobotSelectOptionCommand(select_value, actionNumber)
         elif actionNumber == ACTION_NUMBER["checkbox"]:
-            checkbox_states: list[bool] = ValueExtractor.get_checkbox_states()
+            checkbox_state: bool = ValueExtractor.get_checkbox_state()
             # Logger().info(f"Checkbox states: {checkbox_states}")
-            return IRobotInputValueCommand.IRobotInputValueCommand(checkbox_states[0], actionNumber)
+            return IRobotInputValueCommand.IRobotInputValueCommand(str(checkbox_state), actionNumber)
         elif actionNumber == ACTION_NUMBER["input"]:
             input_value: str = ValueExtractor.get_input_value(self.__aut_name, self.__url, self.__xpath)
             # Logger().info(f"Input value: {input_value}")

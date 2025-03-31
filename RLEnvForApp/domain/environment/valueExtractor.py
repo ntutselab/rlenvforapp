@@ -44,29 +44,26 @@ class ValueExtractor:
     @staticmethod
     def get_select_value() -> str:
         """ 透過 LLM 取得選擇值 """
-        system_prompt = LlmServiceContainer.llm_service_instance.get_system_prompt()
-        prompt = LlmServiceContainer.llm_service_instance.get_prompt()
-        response = LlmServiceContainer.llm_service_instance.get_response(prompt, system_prompt)
+        response = LlmServiceContainer.llm_service_instance.get_response()
         Logger().info(f"Select: Response from LLM: {response}")
-        parsed_response = ast.literal_eval(response)  # 解析成 Python 列表
-        return parsed_response[0]
+        return response
 
     @staticmethod
-    def get_checkbox_states() -> list[bool]:
+    def get_checkbox_state() -> bool:
         """ 透過 LLM 取得 checkbox 狀態 """
-        system_prompt = LlmServiceContainer.llm_service_instance.get_system_prompt()
-        prompt = LlmServiceContainer.llm_service_instance.get_prompt()
-        response = LlmServiceContainer.llm_service_instance.get_response(prompt, system_prompt)
-        Logger().info(f"Checkbox: Response from LLM: {response}")
+        response = LlmServiceContainer.llm_service_instance.get_response()
+        Logger().info(f"Select: Response from LLM: {response}")
         try:
             response_clean = response.strip().lower().replace("false", "False").replace("true", "True")
             parsed_response = ast.literal_eval(response_clean)
-            if isinstance(parsed_response, list) and all(isinstance(item, bool) for item in parsed_response):
+
+            # if isinstance(parsed_response, list) and all(isinstance(item, bool) for item in parsed_response):
+            if isinstance(parsed_response, bool):
                 return parsed_response
         except (SyntaxError, ValueError) as e:
             Logger().info(f"Error parsing LLM response: {e}. Response was: {response}")
 
-        return [False]
+        return False
 
     @staticmethod
     def __check_default_value(aut_name, url, xpath) -> str:

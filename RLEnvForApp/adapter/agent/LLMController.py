@@ -296,12 +296,13 @@ class LLMController:
             action_number = ACTION_NUMBER["select"]
             select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
             prompt = """
-                Select Fields: {select_fields}
                 Form Title: {form_title}
-                Input Fields with Values: {input_fields}
+                Select Field: {select_field}
                 Feedback: {feedback}
                 Alert: {alert}
-            """.format(select_fields=select_fields, form_title=target_url, input_fields="[]", feedback="[]", alert="")
+                Previous Fields with Values: {pre_fields}
+            """.format(form_title=target_url, select_field=select_fields,
+                    feedback="", alert="", pre_fields=self.pre_fields)
             LlmServiceContainer.llm_service_instance.set_prompt(prompt)
             LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
         else:
@@ -312,15 +313,13 @@ class LLMController:
                 action_number = ACTION_NUMBER["checkbox"]
                 checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
                 prompt = """
-                    Checkbox Fields: {checkbox_fields} 
-                    Form Title: {form_title} 
-                    Input Fields with Values: {input_fields} 
-                    Select Fields with Values: {select_fields} 
-                    Feedback: {feedback} 
+                    Form Title: {form_title}
+                    Checkbox Field: {checkbox_field}
+                    Feedback: {feedback}
                     Alert: {alert}
-                """.format(checkbox_fields=checkbox_field, form_title=target_url,
-                        input_fields="", select_fields="",
-                        feedback="", alert="")
+                    Previous Fields with Values: {pre_fields}
+                """.format(form_title=target_url, checkbox_field=checkbox_field,
+                        feedback="", alert="", pre_fields=self.pre_fields)
                 LlmServiceContainer.llm_service_instance.set_prompt(prompt)
                 LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
             elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
