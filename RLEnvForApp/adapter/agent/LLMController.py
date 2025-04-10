@@ -30,6 +30,8 @@ from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactor
 from RLEnvForApp.domain.llmService.ILlmService import ILlmService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
+from RLEnvForApp.domain.targetPage.FeedbackRuleService.FormFieldFeedbackRuleService import FormFieldFeedbackRuleService
+from RLEnvForApp.domain.targetPage.FieldRuleService.RequiredFieldRuleService import RequiredFieldRuleService
 from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
@@ -79,9 +81,10 @@ class LLMController:
         self._directive_rule_service = directive_rule_service
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
-        self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
         # self.__server_name = "nodebb_with_coverage"
+        self.__server_name = "keystonejs_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -108,7 +111,6 @@ class LLMController:
                                                                                       self.__code_coverage_type)
         self.__target_page_port.connect()
         self.__target_form_xpath = ''
-        self.__form_counts = {}
         self._target_page_id = ""
         self._episodeIndex = 0
         self.__aut_controller.startAUTServer()
@@ -116,6 +118,10 @@ class LLMController:
         self.prompt_model_builder = PromptModelBuilder()
         self.fake_prompt_model_builder = PromptModelBuilder()
         self.pre_fields = []
+        self.__form_feedbacks = {}
+        # TODO: make _form_feedback_rule_service and _field_rule_service provide by Configuration
+        self._form_feedback_rule_service = FormFieldFeedbackRuleService()
+        self._field_rule_service = RequiredFieldRuleService()
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
         # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
         # # check cuda
@@ -138,17 +144,24 @@ class LLMController:
             except NosuchElementException:
                 continue
 
-            FormSubmitCriteriaSingleton.getInstance().setFormSubmitCriteria(applicationName=self.__server_name,
-                                                                            url=reset_env_use_output.getTargetPageUrl(),
-                                                                            xpath=reset_env_use_output.getFormXPath())
+            # FormSubmitCriteriaSingleton.getInstance().setFormSubmitCriteria(applicationName=self.__server_name,
+            #                                                                 url=reset_env_use_output.getTargetPageUrl(),
+            #                                                                 xpath=reset_env_use_output.getFormXPath())
             self._target_page_id = reset_env_use_output.getTargetPageId()
             self._episode_handler_id = reset_env_use_output.getEpisodeHandlerId()
             self.__target_form_xpath = reset_env_use_output.getFormXPath()
 
             while not is_legal_directive:
+                try_count = self._form_counts.get(self._target_page_id)
+                if try_count is None:
+                    try_count = 0
+                self._logger.info(f"Try count: {try_count}")
                 app_element: AppElement = self.__aut_operator.getFocusedAppElement()
+                self._logger.info(f"Get app element")
                 if app_element is None:
+                    self._logger.info("App element is None")
                     if len(self.__aut_operator.getAllSelectedAppElements()) == 0:
+                        self._logger.info("No app element")
                         self._remove_target_page()
                     break
 
@@ -161,8 +174,7 @@ class LLMController:
                     is_legal_directive = self._is_legal_directive()
 
                 if final_submit.getIsDone() and is_legal_directive:
-                    # try:
-                        self._logger.info(f"form_counts: {self._form_counts}")
+                    try:
                         self._logger.info(f"Find legal directive, target page id: {self._target_page_id}")
                         self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
                         # directive_dto = self._create_fake_directive(self._target_page_id, self._episode_handler_id)
@@ -171,16 +183,18 @@ class LLMController:
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
                         self._fake_data = {}
                         self.pre_fields = []
-                    # except Exception as ex:
-                    #     self._logger.info(f"Error when push target page: {ex}")
-                    #     template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
-                    #     message = template.format(type(ex).__name__, ex.args)
-                    #     self._logger.info(message)
-                    #     self._fake_data = {}
-                    #     self._logger.info(f"PUSH ERROR!!! {self.__crawler.getUrl()}")
+                    except Exception as ex:
+                        self._logger.info(f"Error when push target page: {ex}")
+                        template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
+                        message = template.format(type(ex).__name__, ex.args)
+                        self._logger.info(message)
+                        self._fake_data = {}
+                        self._logger.info(f"PUSH ERROR!!! {self.__crawler.getUrl()}")
                 elif final_submit.getIsDone() and not is_legal_directive:
                     # TODO: This is a temporary solution by AI, need to be checked by human
                     self._form_counts[self._target_page_id] += 1
+                    feedback = self._get_feedback()
+                    self.__form_feedbacks[self._target_page_id] = feedback
                     self._fake_data = {}
                     # clean the state
                     episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
@@ -188,13 +202,19 @@ class LLMController:
                     episode_handler.remain_only_index_zero_state()
                     self._logger.info(f"Find illegal directive, target page id: {self._target_page_id}")
                     self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
+                    self._logger.info(f"Feedback: {self.__form_feedbacks[self._target_page_id]}")
+                    self._logger.info(f"url: {reset_env_use_output.getTargetPageUrl()}")
                     self.pre_fields = []
+                    
                     if self._form_counts[self._target_page_id] >= 10:
                         self._form_counts[self._target_page_id] = 0
                         directive_dto = self._create_directive(self._target_page_id, self._episode_handler_id)
                         self._save_target_page_to_html_set(self._episode_handler_id, directive_dto)
                         self._remove_target_page()
                         break
+                    self._logger.info(f"Try again, target page id: {self._target_page_id}")
+                    self.__aut_operator.resetCrawler(rootPath=reset_env_use_output.getTargetPageUrl(),
+                                                    formXPath=reset_env_use_output.getFormXPath())
 
     def _check_is_password(self, app_element: AppElement):
         # check if the element is a password field use regex
@@ -222,7 +242,7 @@ class LLMController:
 
         # self._updateInputValueWeights(directiveDictionary)
 
-        Logger().info(f"Save html set:\n{file_name}\n{form_x_path}\n{directive_dictionary}")
+        self._logger.info(f"Save html set:\n{file_name}\n{form_x_path}\n{directive_dictionary}")
 
         file_manager = FileManager()
         file_manager.createFolder("htmlSet", "FAILED_HTML_SET")
@@ -264,7 +284,7 @@ class LLMController:
 
     def _execute_action(self, app_element: AppElement, target_url) -> ExecuteActionOutput:
         # TODE: Find form title
-        Logger().info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
+        # self._logger.info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
         final_submit = False
         input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
@@ -279,6 +299,8 @@ class LLMController:
         #     is_submit_button = True
         action_number = 0
         execute_action_output = ExecuteActionOutput()
+        feedback = self.__form_feedbacks.get(self._target_page_id)
+        
         if app_element.getTagName() != "select" and app_element.getTagName() != "textarea":
             # find the submit button by xpath
             prompt = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
@@ -286,11 +308,21 @@ class LLMController:
             is_submit_button_str = self._llm_service.get_response(prompt, system_prompt).lower()
             if is_submit_button_str == "yes":
                 is_submit_button = True
+        
+        try_count = self._form_counts.get(self._target_page_id)
+        if try_count is None:
+            try_count = 0
 
         if is_submit_button:
             action_number = ACTION_NUMBER["click"]
             final_submit = True
         elif not is_submit_button and app_element.getTagName() == "button":
+            action_number = ACTION_NUMBER["changeFocus"]
+        elif not self._is_required(states[-1].getDOM(), app_element.getXpath()) and try_count < 3:
+            pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": "", "xpath": app_element.getXpath()}
+            # The app_element is not required, so we want to get all the pre fields to find the feedback location to update the required field in the next try
+            self.pre_fields.append(pre_field)
+            self._logger.info(f"The {app_element.getXpath()} is not required")
             action_number = ACTION_NUMBER["changeFocus"]
         elif app_element.getTagName() == "select":
             action_number = ACTION_NUMBER["select"]
@@ -302,7 +334,7 @@ class LLMController:
                 Alert: {alert}
                 Previous Fields with Values: {pre_fields}
             """.format(form_title=target_url, select_field=select_fields,
-                    feedback="", alert="", pre_fields=self.pre_fields)
+                    feedback=feedback, alert="", pre_fields=self.pre_fields)
             LlmServiceContainer.llm_service_instance.set_prompt(prompt)
             LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
         else:
@@ -324,7 +356,7 @@ class LLMController:
                 LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
             elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
                 input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
-                Logger().info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
+                self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
                 system_prompt = SystemPromptFactory.get("get_input_value")
                 prompt = """
                     Form Title: {form_title}
@@ -361,10 +393,9 @@ class LLMController:
             episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
             state: State = episode_handler.getAllState()[-2]
             if action_number == ACTION_NUMBER["input"] or action_number == ACTION_NUMBER["select"] or action_number == ACTION_NUMBER["checkbox"]:
-                pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": state.getAppEventInputValue()}
+                pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": state.getAppEventInputValue(), "xpath": app_element.getXpath()}
                 
                 self.pre_fields.append(pre_field)
-                Logger().info(f"Pre fields: {self.pre_fields}")
             # self._fake_data[state.getId()] = preds
         except Exception as exception:
             self._logger.exception(f"Something wrong when execute action: {exception}")
@@ -395,6 +426,25 @@ class LLMController:
                 return self._directive_rule_service.isLegal(self._target_page_id, before_action_dom, after_action_dom)
         return False
 
+    def _get_feedback(self):
+        episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
+        episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
+        states = episode_handler.getAllState()
+        # When the length of states is less than 2, it means that the current state is the first state
+        # or the app element is none and then final submit and the is_legal directive is false in this case
+        # episode_handler.remain_only_index_zero_state() will remove states so that the length of states is less than 2
+        if len(states) < 2:
+            return {}
+        if states[-2].getActionType() == "click" and states[-2].getInteractedElement():
+            interactive_app_element: AppElement = states[-2].getInteractedElement()
+            tag_name = interactive_app_element.getTagName()
+            tag_type = interactive_app_element.getType()
+            if tag_name == "button" or tag_name == "a" or (tag_name == 'input' and (
+                    tag_type == 'submit' or tag_type == "button" or tag_type == 'image')):
+                after_action_dom = states[-1].getDOM()
+                before_action_dom = states[-2].getDOM()
+                return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, states[-2].getUrl())
+        return {}
     def _remove_target_page(self):
         remove_target_page_use_case = RemoveTargetPageUseCase()
         remove_target_page_input = RemoveTargetPageInput(self._target_page_id)
@@ -414,3 +464,15 @@ class LLMController:
         except RuntimeError:
             self.__aut_controller.resetAUTServer(True)
             reset_env_use_case.execute(reset_env_use_input, reset_env_use_output)
+
+    def _is_required(self, dom_str: str, xpath: str) -> bool:
+        """
+        檢查指定 XPath 的元素是否為必填。
+        
+        :param dom_str: HTML DOM 的字串表示
+        :param xpath: 要檢查的 XPath
+        :return: 如果該元素為必填則回傳 True，否則回傳 False
+        """
+        feedback = self.__form_feedbacks.get(self._target_page_id)
+        self._logger.info(f"Start check required field: {xpath}")
+        return self._field_rule_service.isLegal(dom_str=dom_str, xpath=xpath, feedback=feedback)

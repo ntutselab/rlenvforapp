@@ -11,6 +11,7 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingle
     FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import \
     IDirectiveRuleService
+from RLEnvForApp.domain.targetPage.utils import get_diff_elements
 from RLEnvForApp.logger.logger import Logger
 
 
@@ -24,16 +25,16 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
             return False
 
         
-        form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
+        # form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
 
-        if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
-           return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
-        elif form_submit_criteria["verify"] == "keyword":
-            return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
-        else:
-            raise Exception(
-                f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
-
+        # if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
+        #    return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
+        # elif form_submit_criteria["verify"] == "keyword":
+        #     return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
+        # else:
+        #     raise Exception(
+        #         f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
+        return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
         #
         # taskID = targetPageId
         # mk_time = int(time.mktime(time.gmtime()))
@@ -123,27 +124,11 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         Logger().info(f"domSimilarity is: {domSimilarity}")
         return domSimilarity
 
-    def _get_diff_elements(self, before_action_elements, after_action_elements) -> str:
-        diff = difflib.SequenceMatcher()
-        diff.set_seq1(before_action_elements)
-        diff.set_seq2(after_action_elements)
-        opcodes = diff.get_opcodes()
-        diff_str = "" 
-        for opcode in opcodes:
-            # print(opcode)
-            tag, _, _, j1, j2 = opcode
-            if tag == 'insert':
-                diff_str += f"{after_action_elements[j1:j2]} is inserted at {before_action_elements[j1:j2]}\n"
-            elif tag == 'replace':
-                diff_str += f"{before_action_elements[j1:j2]} is replaced by {after_action_elements[j1:j2]}\n"
-            elif tag == 'delete':
-                diff_str += f"{before_action_elements[j1:j2]} is deleted\n"
-        return diff_str
-
     def _get_llm_answer(self, before_action_elements, after_action_elements) -> bool:
-        diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
+        diff_str = get_diff_elements(before_action_elements, after_action_elements)
         system_prompt = SystemPromptFactory.get("is_form_submitted")
         prompt_str = f"descriptions: {diff_str}"
+        # Logger().info(f"different str Prompt: {prompt_str}")
         answer = LlmServiceContainer.llm_service.get_response(prompt_str, system_prompt).lower()
         Logger().info(f"The form submit result's answer: {answer}")
         if answer == "yes":

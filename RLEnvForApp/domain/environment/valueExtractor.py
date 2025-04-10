@@ -34,25 +34,21 @@ class ValueExtractor:
             # 讀取 default_value.json
             default_value = ValueExtractor.__check_default_value(aut_name, url, xpath)
             if default_value != "":
-                Logger().info(f"Input: Default value from JSON: {default_value}")
                 return default_value['value']
         
         response = LlmServiceContainer.llm_service_instance.get_response()
-        Logger().info(f"Input: Response from LLM: {response}")
         return response
     
     @staticmethod
     def get_select_value() -> str:
         """ 透過 LLM 取得選擇值 """
         response = LlmServiceContainer.llm_service_instance.get_response()
-        Logger().info(f"Select: Response from LLM: {response}")
         return response
 
     @staticmethod
     def get_checkbox_state() -> bool:
         """ 透過 LLM 取得 checkbox 狀態 """
         response = LlmServiceContainer.llm_service_instance.get_response()
-        Logger().info(f"Select: Response from LLM: {response}")
         try:
             response_clean = response.strip().lower().replace("false", "False").replace("true", "True")
             parsed_response = ast.literal_eval(response_clean)
