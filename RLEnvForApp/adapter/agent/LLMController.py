@@ -78,13 +78,14 @@ class LLMController:
         self._fake_data = {}
         self._episode_handler_id = None
         self._form_counts = {}
+        self._form_retry_count = {}
         self._directive_rule_service = directive_rule_service
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
         # self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
-        # self.__server_name = "nodebb_with_coverage"
-        self.__server_name = "keystonejs_with_coverage"
+        self.__server_name = "nodebb_with_coverage"
+        # self.__server_name = "keystonejs_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -152,7 +153,9 @@ class LLMController:
             self.__target_form_xpath = reset_env_use_output.getFormXPath()
 
             while not is_legal_directive:
-                try_count = self._form_counts.get(self._target_page_id)
+                self._logger.info(f"self.__target_form_xpath: {self.__target_form_xpath}")
+                try_count = self._form_retry_count.get(self._target_page_id)
+                
                 if try_count is None:
                     try_count = 0
                 self._logger.info(f"Try count: {try_count}")
@@ -164,11 +167,10 @@ class LLMController:
                         self._logger.info("No app element")
                         self._remove_target_page()
                     break
-
                 final_submit = self._execute_action(app_element, reset_env_use_output.getTargetPageUrl())
 
-                if self._target_page_id not in self._form_counts:
-                    self._form_counts[self._target_page_id] = 1
+                if self._target_page_id not in self._form_retry_count:
+                    self._form_retry_count[self._target_page_id] = 1
 
                 if final_submit.getIsDone():
                     is_legal_directive = self._is_legal_directive()
@@ -176,7 +178,7 @@ class LLMController:
                 if final_submit.getIsDone() and is_legal_directive:
                     try:
                         self._logger.info(f"Find legal directive, target page id: {self._target_page_id}")
-                        self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
+                        self._logger.info(f"Number of attempts: {self._form_retry_count[self._target_page_id]}")
                         # directive_dto = self._create_fake_directive(self._target_page_id, self._episode_handler_id)
                         # self.__target_page_port.push_target_page_by_directive(self._target_page_id, directive_dto)
                         # TODO: list index out of range
@@ -192,29 +194,20 @@ class LLMController:
                         self._logger.info(f"PUSH ERROR!!! {self.__crawler.getUrl()}")
                 elif final_submit.getIsDone() and not is_legal_directive:
                     # TODO: This is a temporary solution by AI, need to be checked by human
-                    self._form_counts[self._target_page_id] += 1
                     feedback = self._get_feedback()
                     self.__form_feedbacks[self._target_page_id] = feedback
-                    self._fake_data = {}
-                    # clean the state
-                    episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
-                    episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
-                    episode_handler.remain_only_index_zero_state()
-                    self._logger.info(f"Find illegal directive, target page id: {self._target_page_id}")
-                    self._logger.info(f"Number of attempts: {self._form_counts[self._target_page_id]}")
                     self._logger.info(f"Feedback: {self.__form_feedbacks[self._target_page_id]}")
+                    self._retry_filling_form()
                     self._logger.info(f"url: {reset_env_use_output.getTargetPageUrl()}")
-                    self.pre_fields = []
                     
-                    if self._form_counts[self._target_page_id] >= 10:
-                        self._form_counts[self._target_page_id] = 0
+                    if self._form_retry_count[self._target_page_id] >= 10:
+                        self._form_retry_count[self._target_page_id] = 0
                         directive_dto = self._create_directive(self._target_page_id, self._episode_handler_id)
                         self._save_target_page_to_html_set(self._episode_handler_id, directive_dto)
                         self._remove_target_page()
                         break
                     self._logger.info(f"Try again, target page id: {self._target_page_id}")
-                    self.__aut_operator.resetCrawler(rootPath=reset_env_use_output.getTargetPageUrl(),
-                                                    formXPath=reset_env_use_output.getFormXPath())
+                    
 
     def _check_is_password(self, app_element: AppElement):
         # check if the element is a password field use regex
@@ -284,14 +277,28 @@ class LLMController:
 
     def _execute_action(self, app_element: AppElement, target_url) -> ExecuteActionOutput:
         # TODE: Find form title
-        # self._logger.info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}")
+        self._logger.info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}, xpath: {app_element.getXpath()}")
         final_submit = False
         input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
+        self._logger.info(f"episode_handler_entity: {self._episode_handler_id}")
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
         states = episode_handler.getAllState()
         execute_action_use_case = ExecuteActionUseCase(self.__aut_operator)
-        doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
+        self._logger.info(f"doc: {etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())}")
+
+       # 確保使用 html parser 並取得 root element
+       
+        doc_tree = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
+        doc = doc_tree.getroot() 
+        app_element_by_xpath = None
+        # 安全執行 XPath
+        results = doc.xpath(app_element.getXpath())
+        if results:
+            app_element_by_xpath = results[0]
+        else:
+            self._logger.warning(f"❌ XPath not found: {app_element.getXpath()}")
+            raise ValueError("XPath not found in DOM")
         app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
         is_submit_button = False
 
@@ -309,10 +316,10 @@ class LLMController:
             if is_submit_button_str == "yes":
                 is_submit_button = True
         
-        try_count = self._form_counts.get(self._target_page_id)
+        try_count = self._form_retry_count.get(self._target_page_id)
         if try_count is None:
             try_count = 0
-
+            
         if is_submit_button:
             action_number = ACTION_NUMBER["click"]
             final_submit = True
@@ -443,6 +450,10 @@ class LLMController:
                     tag_type == 'submit' or tag_type == "button" or tag_type == 'image')):
                 after_action_dom = states[-1].getDOM()
                 before_action_dom = states[-2].getDOM()
+                print(f"before_action_url: {states[-2].getUrl()}")
+
+                print(f"before_action_input_value: {states[-2].getAppEventInputValue()}")
+                print(f"after_action_url: {states[-1].getUrl()}")
                 return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, states[-2].getUrl())
         return {}
     def _remove_target_page(self):
@@ -476,3 +487,57 @@ class LLMController:
         feedback = self.__form_feedbacks.get(self._target_page_id)
         self._logger.info(f"Start check required field: {xpath}")
         return self._field_rule_service.isLegal(dom_str=dom_str, xpath=xpath, feedback=feedback)
+    
+    def _retry_filling_form(self):
+        self._logger.info(f"Find illegal directive, target page id: {self._target_page_id}")
+        self._logger.info(f"Number of attempts: {self._form_retry_count[self._target_page_id]}")
+        # 增加表單重試次數
+        self._form_retry_count[self._target_page_id] += 1
+        self._logger.info(f"Retry filling form updated try count: {self._form_retry_count[self._target_page_id]}")
+        # 清除 fake data（準備下次重新填入）
+        self._fake_data = {}
+        self.pre_fields = []
+        # 取得目標頁面 URL 和表單 XPath
+        episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
+        episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
+        states = episode_handler.getAllState()
+        print(f"crawler url: {self.__crawler.getUrl()}")
+        print(f"activate url by aut operator: {self.__aut_operator._activeUrl}")
+        target_url = states[-1].getUrl()
+        print(f"target_url: {target_url}")
+        if target_url != states[-2].getUrl():
+            target_url = states[-2].getUrl()
+            print(f"target_url: {target_url}")
+        formXPath = self.__target_form_xpath
+        
+        # 重置 EpisodeHandler 狀態，只保留在表單頁面開始之前的初始狀態
+        target_index = 0
+        for i, state in enumerate(states):
+            print(f"the url of the states: {state.getUrl()}")
+            if state.getUrl() == target_url:
+                target_index = i
+                break
+        print(target_index)
+        if target_index < 1:
+            target_index = 1
+        print(f"the length of states: {len(states)}")
+        print(f"the url of the states: {states[-1].getUrl()}")
+        episode_handler.remain_only_first_n_states(target_index)
+        new_episode_handler_entity = EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episode_handler)
+        self._episode_handler_repository.update(new_episode_handler_entity)
+        states = episode_handler.getAllState()
+        print(f"remain_only_first_n_states: the length of states: {len(states)}")
+        print(f"remain_only_first_n_states: the url of the states: {states[-1].getUrl()}")
+        print(self._get_states_length())
+
+        # TODO: 重設爬蟲或 agent 狀態：重新整理或是重新回到表單頁面, 不清楚重設 crawler 能不能按照 states 走一次流程
+        self.__aut_operator.resetCrawler(rootPath=target_url, formXPath=formXPath)
+
+        self.pre_fields = []
+    
+    def _get_states_length(self):
+        episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
+        episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
+        states = episode_handler.getAllState()
+        
+        return len(states)

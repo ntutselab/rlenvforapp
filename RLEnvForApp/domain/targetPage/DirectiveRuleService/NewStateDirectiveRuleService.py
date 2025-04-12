@@ -127,8 +127,8 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
     def _get_llm_answer(self, before_action_elements, after_action_elements) -> bool:
         diff_str = get_diff_elements(before_action_elements, after_action_elements)
         system_prompt = SystemPromptFactory.get("is_form_submitted")
-        prompt_str = f"descriptions: {diff_str}"
-        # Logger().info(f"different str Prompt: {prompt_str}")
+        prompt_str = f"sentences: {diff_str}"
+        Logger().info(f"is new state legal? different str Prompt: {prompt_str}")
         answer = LlmServiceContainer.llm_service.get_response(prompt_str, system_prompt).lower()
         Logger().info(f"The form submit result's answer: {answer}")
         if answer == "yes":

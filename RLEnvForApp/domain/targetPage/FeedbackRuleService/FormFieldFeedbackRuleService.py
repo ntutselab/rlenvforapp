@@ -67,9 +67,9 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         )
         
         answer = LlmServiceContainer.llm_service.get_response(prompt, system_prompt)
-        Logger().info(f"fields: {fields}")
-        Logger().info(f"url: {url}")
-        Logger().info(f"new_elements: {new_elements}")
-        Logger().info(f"Prompt: {prompt}")
+        # Logger().info(f"fields: {fields}")
+        # Logger().info(f"url: {url}")
+        # Logger().info(f"new_elements: {new_elements}")
+        # Logger().info(f"Prompt: {prompt}")
         Logger().info(f"The get_feedback_and_location: {answer}")
         return answer

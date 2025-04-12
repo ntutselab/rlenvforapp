@@ -40,3 +40,6 @@ class IEpisodeHandler:
 
     def remain_only_index_zero_state(self):
         self._states = self._states[:1]
+
+    def remain_only_first_n_states(self, n: int):
+        self._states = self._states[:n]
