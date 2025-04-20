@@ -15,7 +15,9 @@ from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.crawler.ICrawler import ICrawler
 from RLEnvForApp.usecase.environment.autOperator.dto.AppElementDTO import AppElementDTO
 
-EVENT_WAITING_TIME = 1000
+# EVENT_WAITING_TIME = 1000 
+# some page has some delay, so we need to wait for a while
+EVENT_WAITING_TIME = 5000
 PAGE_WAITING_TIME = 1000
 CRAWLER_GOTO_ROOT_PAGE_TIMEOUT = 10
 
@@ -28,7 +30,6 @@ class SeleniumCrawler(ICrawler):
         self._driver = None
         self._appElementDTOs: [AppElementDTO] = []
         self._formXPath = "//form"
-
     def goToRootPage(self):
         goToRootPageRetryCount = 1
         isGoToRootPageSuccess = False
@@ -112,7 +113,9 @@ class SeleniumCrawler(ICrawler):
     def getAllSelectedAppElementsDTOs(self) -> [AppElementDTO]:
         html_parser = etree.parse(StringIO(self.getDOM()), etree.HTMLParser())
         self._html = etree.tostring(html_parser).decode("utf-8")
+
         self._appElementDTOs: [AppElementDTO] = []
+        # print(f"SeleniumCrawler: getAllSelectedAppElementsDTOs: _formXPath: {self._formXPath}")
         for element in html_parser.xpath(f"{self._formXPath}//input | {self._formXPath}//textarea | {self._formXPath}//button | {self._formXPath}//select"):
             elementXpath: str = html_parser.getpath(element)
             elementHref: str = self._getHtmlTagAttribute(element, "href")
@@ -197,6 +200,7 @@ class SeleniumCrawler(ICrawler):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
             if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(element=element, attribute="type") == "hidden":
+                # print(f"SeleniumCrawler: _isInteractable: {xpath} is hidden")
                 return False
             return element.is_displayed() and element.is_enabled()
         except Exception as exception:

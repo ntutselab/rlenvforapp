@@ -23,8 +23,8 @@ class InitiateToTargetActionCommand(IActionCommand.IActionCommand):
         while not isSuccess:
             try:
                 Logger().info("Initialize the crawler to the target page")
-                Logger().info(f"Root path: {self._rootPath}")
-                Logger().info(f"Form XPath: {self._formXPath}")
+                Logger().info(f"Initialize Root path: {self._rootPath}")
+                Logger().info(f"Initialize Form XPath: {self._formXPath}")
                 operator.resetCrawler(self._rootPath, self._formXPath)
                 Logger().info("=====start the initial action=====")
                 for appEvent in self._appEvents:

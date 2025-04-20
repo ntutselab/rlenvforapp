@@ -36,15 +36,20 @@ class ResetEnvironmentUseCase:
         self._episodeHandlerRepository = episodeHandlerRepository
         self._targetPageQueueManagerService = targetPageQueueManagerService
         self._observationService = observationSerivce
+        self.rootPath = ""
+        self._initial_target_page = None
 
     def execute(self, input: ResetEnvironmentInput.ResetEnvironmentInput, output: ResetEnvironmentOutput.ResetEnvironmentOutput):
         target_page = None
         episodeHandler = EpisodeHandlerFactory().createEpisodeHandler(
             id=str(uuid.uuid4()), episodeIndex=input.getEpisodeIndex())
-
+        appEvents = []
         # Execute initiateToTargetActionCommand when the target page is not empty
         if not self._targetPageQueueManagerService.isEmpty():
             target_page = self._targetPageQueueManagerService.dequeueTargetPage()
+            if self._initial_target_page is None:
+                self._initial_target_page = target_page
+            appEvents = target_page.getAppEvents()
             initiate_to_target_action_command: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
                 appEvents=target_page.getAppEvents(),
                 rootPath=target_page.getRootUrl(),
@@ -55,8 +60,10 @@ class ResetEnvironmentUseCase:
                 rootPath="register.html",
                 formXPath="")
         try:
+            print("ResetEnvironmentUseCase: execute")
             initiate_to_target_action_command.execute(operator=self._operator)
         except NosuchElementException:
+            self.rootPath = ""
             remove_target_page_use_case = RemoveTargetPageUseCase()
             remove_target_page_input = RemoveTargetPageInput(targetPageId=target_page.getId())
             remove_target_page_output = RemoveTargetPageOutput()
@@ -66,20 +73,45 @@ class ResetEnvironmentUseCase:
         state: State = self._operator.getState()
         observation = self._observationService.getObservation(state=state)
         # state.setOriginalObservation(original_observation)
-
         episodeHandler.appendState(state)
         self._episodeHandlerRepository.add(
             EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
 
         url = ""
         formXPath = ""
+        rootPath = ""
         if target_page is not None:
             url = target_page.getTargetUrl()
             formXPath = target_page.getFormXPath()
+            rootPath = target_page.getRootUrl()
 
         output.setTargetPageUrl(url=url)
         output.setTargetPageId(target_page.getId())
         output.setFormXPath(formXPath=formXPath)
         output.setEpisodeHandlerId(episodeHandler.getId())
         output.setObservation(observation)
+        output.setRootPath(rootPath=rootPath)
         # output.setOriginalObservation(original_observation)
+    
+    def retry_with_initial_config(self):
+        if self._initial_target_page is None:
+            raise Exception("No initial target page was stored. Did you forget to run execute first?")
+
+        target_page = self._initial_target_page
+
+        initiate_to_target_action_command: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
+            appEvents=target_page.getAppEvents(),
+            rootPath=target_page.getRootUrl(),
+            formXPath=target_page.getFormXPath()
+        )
+
+        try:
+            initiate_to_target_action_command.execute(operator=self._operator)
+        except NosuchElementException:
+            self.rootPath = ""
+            remove_target_page_use_case = RemoveTargetPageUseCase()
+            remove_target_page_input = RemoveTargetPageInput(targetPageId=target_page.getId())
+            remove_target_page_output = RemoveTargetPageOutput()
+            remove_target_page_use_case.execute(input=remove_target_page_input, output=remove_target_page_output)
+            raise NoSuchElementException("NoSuchElementException, remove target page")
+            

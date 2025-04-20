@@ -39,6 +39,8 @@ class AIGUIDEOperator(IAUTOperator):
         return state
 
     def resetCrawler(self, rootPath: str, formXPath: str):
+        # print("AIGUIDEOperator: resetCrawler")
+        # print(f"rootPath: {rootPath}, formXPath: {formXPath}")
         self._selectedAppElements: [AppElement] = []
         self._focusedAppElementIndex = 0
         self._interactedElement = None
@@ -48,9 +50,11 @@ class AIGUIDEOperator(IAUTOperator):
         self._updateAllSelectedAppElements()
 
     def goToRootPage(self):
+        # print("AIGUIDEOperator: goToRootPage")
         self._crawler.goToRootPage()
 
     def executeAppEvent(self, xpath: str, value: str):
+        # print("AIGUIDEOperator: executeAppEvent")
         self._appEventValue = value
         if xpath == "":
             focusedAppElement = self.getFocusedAppElement()
@@ -65,10 +69,13 @@ class AIGUIDEOperator(IAUTOperator):
                 self._interactedElement.setValue(value)
         self._updateAllSelectedAppElements()
         if not self._activeUrl == self._crawler.getUrl():
+            # print("AIGUIDEOperator: executeAppEvent: URL changed")
+            # print(f"old URL: {self._activeUrl}, new URL: {self._crawler.getUrl()}")
             self._activeUrl = self._crawler.getUrl()
             self._focusedAppElementIndex = 0
 
     def changeFocus(self):
+        # print("AIGUIDEOperator: changeFocus")
         if super().getActionType() == "changeFocus":
             focusedAppElement: AppElement = self.getFocusedAppElement()
             focusedAppElement.setValue("")
@@ -82,9 +89,11 @@ class AIGUIDEOperator(IAUTOperator):
             self._focusedAppElementIndex = 0
 
     def getAllSelectedAppElements(self) -> [AppElement]:
+        # print("AIGUIDEOperator: getAllSelectedAppElements")
         return self._selectedAppElements
 
     def getFocusedAppElement(self) -> AppElement:
+        # print("AIGUIDEOperator: getFocusedAppElement")
         if len(self._selectedAppElements) == 0:
             return None
         if len(self._selectedAppElements) <= self._focusedAppElementIndex:
@@ -93,13 +102,15 @@ class AIGUIDEOperator(IAUTOperator):
         return self._selectedAppElements[self._focusedAppElementIndex]
 
     def _updateAllSelectedAppElements(self):
+        # print("AIGUIDEOperator: _updateAllSelectedAppElements")
         self._selectedAppElements: [AppElement] = []
 
         inputAppElements: [AppElement] = []
         buttonAppElements: [AppElement] = []
         hyperlinkAppElements: [AppElement] = []
         otherAppElements: [AppElement] = []
-
+        # print("current self._focusedAppElementIndex: ", self._focusedAppElementIndex)
+        # print("current self._selectedAppElements: ", self._selectedAppElements)
         for appElementDTO in self._getAppElementDTOs(retry=10):
             appElement = AppElementDTOMapper.mappingAppElementFrom(appElementDTO=appElementDTO)
             if "/input" in appElement.getXpath().lower():
@@ -115,6 +126,8 @@ class AIGUIDEOperator(IAUTOperator):
         self._selectedAppElements.extend(hyperlinkAppElements)
         self._selectedAppElements.extend(otherAppElements)
         self._selectedAppElements.extend(buttonAppElements)
+        # print("updated current self._focusedAppElementIndex: ", self._focusedAppElementIndex)
+        # print("updated current self._selectedAppElements: ", self._selectedAppElements)
 
     def _mappingCodeCoverageForm(self, codeCoverageDTOs: [CodeCoverageDTO]) -> [CodeCoverage]:
         codeCoverages = []
@@ -124,15 +137,24 @@ class AIGUIDEOperator(IAUTOperator):
         return codeCoverages
 
     def _getAppElementDTOs(self, retry: int):
+        # print("AIGUIDEOperator: _getAppElementDTOs")
         appElementDTOs: [AppElementDTO] = []
         isRetry = True
         retryTimes = 0
-
+        # print("AIGUIDEOperator: _getAppElementDTOs retry: ", isRetry)
         while isRetry:
             try:
                 appElementDTOs = self._crawler.getAllSelectedAppElementsDTOs()
+                # if appElementDTOs == None or len(appElementDTOs) == 0:
+                #     print("AIGUIDEOperator: _getAppElementDTOs appElementDTOs is None or empty")
+                #     time.sleep(1)
+                #     retryTimes += 1
+                # else:
+                #     print("AIGUIDEOperator: _getAppElementDTOs appElementDTOs is not None")
+                #     isRetry = False
                 isRetry = False
             except:
+                # print(f"AIGUIDEOperator: _getAppElementDTOs exception: {retryTimes}")
                 time.sleep(1)
                 retryTimes += 1
                 isRetry = retryTimes < retry
