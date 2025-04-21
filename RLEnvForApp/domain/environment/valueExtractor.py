@@ -5,7 +5,7 @@ import ast
 import requests
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.domain.llmService import LlmServiceContainer
-
+from faker import Faker
 class ValueExtractor:
     @staticmethod
     def get_input_value(aut_name = None, url = None, xpath = None) -> str:
@@ -36,8 +36,18 @@ class ValueExtractor:
             if default_value != "":
                 return default_value['value']
         
+        
         response = LlmServiceContainer.llm_service_instance.get_response()
-        return response
+        # TODO: Find a way to more safely distinguish between a LLM response and a Faker function
+        try:
+            faker = Faker()
+            reponse_text = getattr(faker, response)()
+            return str(reponse_text)
+        except AttributeError as e:
+            # 如果無法解析為 Faker 函數，則返回原始響應
+            Logger().info(f"Error parsing LLM response: {e}. Response was: {response}, It may not be a faker function")
+            # 如果解析失敗，返回原始響應
+            return response
     
     @staticmethod
     def get_select_value() -> str:

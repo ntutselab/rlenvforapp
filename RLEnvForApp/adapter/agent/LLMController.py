@@ -331,11 +331,11 @@ class LLMController:
         elif app_element.getTagName() == "select":
             action_number = ACTION_NUMBER["select"]
             select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
+            form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
             prompt = """
                 Form Title: {form_title}
                 Select Field: {select_field}
                 Feedback: {feedback}
-                Alert: {alert}
                 Previous Fields with Values: {pre_fields}
             """.format(form_title=target_url, select_field=select_fields,
                     feedback=feedback, alert="", pre_fields=self.pre_fields)
@@ -348,11 +348,11 @@ class LLMController:
             if app_element.getType() == "checkbox":
                 action_number = ACTION_NUMBER["checkbox"]
                 checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
+                form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
                 prompt = """
                     Form Title: {form_title}
                     Checkbox Field: {checkbox_field}
                     Feedback: {feedback}
-                    Alert: {alert}
                     Previous Fields with Values: {pre_fields}
                 """.format(form_title=target_url, checkbox_field=checkbox_field,
                         feedback="", alert="", pre_fields=self.pre_fields)
@@ -361,14 +361,20 @@ class LLMController:
             elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
                 input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
                 self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
-                system_prompt = SystemPromptFactory.get("get_input_value")
+                feedbacks = self.__form_feedbacks.get(self._target_page_id)
+                xpath = app_element.getXpath()
+                form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
+                system_prompt = ""
+                if try_count >= 3 or (feedbacks and xpath in feedbacks):
+                    system_prompt = SystemPromptFactory.get("get_input_value")
+                else:
+                    system_prompt = SystemPromptFactory.get("select_data_faker")
                 prompt = """
                     Form Title: {form_title}
                     Input Field: {input_field}
                     Feedback: {feedback}
-                    Alert: {alert}
                     Previous Fields with Values: {pre_fields}
-                """.format(form_title=target_url, input_field=input_field, feedback="", alert="", pre_fields= self.pre_fields)
+                """.format(form_title=form_title, input_field=input_field, feedback="", alert="", pre_fields= self.pre_fields)
                 action_number = ACTION_NUMBER["input"]
                 LlmServiceContainer.llm_service_instance.set_prompt(prompt)
                 LlmServiceContainer.llm_service_instance.set_system_prompt(system_prompt)
@@ -495,16 +501,35 @@ class LLMController:
         self._fake_data = {}
         
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
+        
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
+        print(f"episode_handler.getAllState() length: {len(episode_handler.getAllState())}")
         episode_handler.remain_only_index_zero_state()
         new_episode_handler_entity = EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episode_handler)
+        print(f"episode_handler.getAllState() length: {len(episode_handler.getAllState())}")
         self._episode_handler_repository.update(new_episode_handler_entity)
         self._reset_env_use_case.retry_with_initial_config()
+
         self.pre_fields = []
 
-    def _get_states_length(self):
-        episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
-        episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
-        states = episode_handler.getAllState()
-        
-        return len(states)
+    # TODO: Extract this to another class
+    def _getFormTitle(self, dom, formXPath):
+        # Get the form element from the DOM using XPath
+        tree = etree.parse(StringIO(dom), etree.HTMLParser())
+        form_elements = tree.xpath(formXPath)
+        if not form_elements:
+            return None
+        form_el = form_elements[0]
+
+        # 優先 legend
+        legend = form_el.xpath('.//legend')
+        if legend and legend[0].text:
+            return legend[0].text.strip()
+
+        # 再找前一個標題
+        heading = form_el.xpath('preceding-sibling::*[self::h1 or self::h2 or self::h3 or self::p][1]')
+        if heading and heading[0].text:
+            return heading[0].text.strip()
+
+        return None
+                

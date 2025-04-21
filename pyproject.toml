@@ -53,6 +53,7 @@ openai = "^1.30.3"
 h5py = "^3.1.0"
 typing-extensions = "^4.6.0"
 langchain-google-genai = "^2.0.10"
+faker = "^37.1.0"
 
 [build-system]
 requires = ["poetry-core"]
