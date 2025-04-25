@@ -32,7 +32,8 @@ class ApplicationUnderTestController:
         self._autID = ""
 
     def resetAUTServer(self, isLegalDirective: bool):
-        if self._autID != "" and isLegalDirective:
+        if isLegalDirective:
+        # if self._autID != "" and isLegalDirective:
             self.stopAUTServer()
         # if not self._isCacheModel:
             self.startAUTServer()

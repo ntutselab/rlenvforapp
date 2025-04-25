@@ -49,7 +49,6 @@ class ResetEnvironmentUseCase:
             target_page = self._targetPageQueueManagerService.dequeueTargetPage()
             if self._initial_target_page is None:
                 self._initial_target_page = target_page
-            appEvents = target_page.getAppEvents()
             initiate_to_target_action_command: IActionCommand.IActionCommand = InitiateToTargetActionCommand.InitiateToTargetActionCommand(
                 appEvents=target_page.getAppEvents(),
                 rootPath=target_page.getRootUrl(),
@@ -71,9 +70,11 @@ class ResetEnvironmentUseCase:
             raise NoSuchElementException("NoSuchElementException, remove target page")
 
         state: State = self._operator.getState()
+        print(f"ResetEnvironmentUseCase: execute, state: {state.getUrl()}")
         observation = self._observationService.getObservation(state=state)
         # state.setOriginalObservation(original_observation)
         episodeHandler.appendState(state)
+        print("length of episodeHandler: ", len(episodeHandler.getAllState()))
         self._episodeHandlerRepository.add(
             EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
 
@@ -90,7 +91,6 @@ class ResetEnvironmentUseCase:
         output.setFormXPath(formXPath=formXPath)
         output.setEpisodeHandlerId(episodeHandler.getId())
         output.setObservation(observation)
-        output.setRootPath(rootPath=rootPath)
         # output.setOriginalObservation(original_observation)
     
     def retry_with_initial_config(self):

@@ -17,19 +17,24 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
     def __init__(self):
         super().__init__()
 
-    def getFeedbackAndLocation(self, beforeActionDom: str, afterActionDom: str, fields: list, form_url: str) -> dict:
+    def getFeedbackAndLocation(self, beforeActionDom: str, afterActionDom: str, fields: list, feedbacks: str) -> dict:
         if afterActionDom == "":
             Logger().info("afterActionDom is empty string")
             return {}
-        try:
-            feedback_and_location = ast.literal_eval(self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom), fields, form_url))
-            if isinstance(feedback_and_location, dict):
-                return feedback_and_location
-            else:
-                Logger().info(f"Feedback and location is not a dict: {feedback_and_location}")
-                
-        except (SyntaxError, ValueError) as e:
-            Logger().info(f"In FormFieldFeedbackRuleService, Error parsing LLM response: {e}. Response was: {feedback_and_location}")
+        feedback_and_location = None
+        get_feedback_and_location_try_count = 0
+        max_try_count = 3
+        while feedback_and_location is None and get_feedback_and_location_try_count < max_try_count:
+            try:
+                feedback_and_location = ast.literal_eval(self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom), fields, feedbacks))
+                if isinstance(feedback_and_location, dict):
+                    return feedback_and_location
+                else:
+                    Logger().info(f"Feedback and location is not a dict: {feedback_and_location}")
+                    get_feedback_and_location_try_count += 1
+            except (SyntaxError, ValueError) as e:
+                get_feedback_and_location_try_count += 1
+                Logger().info(f"In FormFieldFeedbackRuleService, Error parsing LLM response: {e}. Response was: {feedback_and_location}")
             
         return {}
 
@@ -53,16 +58,16 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         return elements
 
 
-    def _get_llm_answer(self, before_action_elements, after_action_elements, fields, url) -> str:
+    def _get_llm_answer(self, before_action_elements, after_action_elements, fields, feedbacks) -> str:
         new_elements = get_new_elements(before_action_elements, after_action_elements)
         system_prompt = SystemPromptFactory.get("get_feedback_and_location")
         prompt = """
             fields: {fields}
-            url: {url}
+            previous_feedbacks: {feedbacks}
             new_elements: {new_elements}
         """.format(
             fields=fields,
-            url=url,
+            feedbacks=feedbacks,
             new_elements=new_elements
         )
         

@@ -359,6 +359,7 @@ class LLMController:
                 LlmServiceContainer.llm_service_instance.set_prompt(prompt)
                 LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
             elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
+                # type : date、datetime-local、email、month、number、password、tel、text、time、url、week
                 input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
                 self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
                 feedbacks = self.__form_feedbacks.get(self._target_page_id)
@@ -453,11 +454,14 @@ class LLMController:
                     tag_type == 'submit' or tag_type == "button" or tag_type == 'image')):
                 after_action_dom = states[-1].getDOM()
                 before_action_dom = states[-2].getDOM()
-                print(f"before_action_url: {states[-2].getUrl()}")
-
-                print(f"before_action_input_value: {states[-2].getAppEventInputValue()}")
-                print(f"after_action_url: {states[-1].getUrl()}")
-                return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, states[-2].getUrl())
+                feedbacks = self.__form_feedbacks.get(self._target_page_id)
+                feedbacks_str = ""
+                if feedbacks is None:
+                    feedbacks_str = ""
+                else:
+                    # convert feedbacks to string
+                    feedbacks_str = json.dumps(feedbacks)
+                return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, feedbacks_str)
         return {}
     def _remove_target_page(self):
         remove_target_page_use_case = RemoveTargetPageUseCase()
@@ -500,6 +504,9 @@ class LLMController:
         # 清除 fake data（準備下次重新填入）
         self._fake_data = {}
         
+        # restart container
+        self.__aut_controller.resetAUTServer(True)
+        
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
         
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
@@ -509,7 +516,7 @@ class LLMController:
         print(f"episode_handler.getAllState() length: {len(episode_handler.getAllState())}")
         self._episode_handler_repository.update(new_episode_handler_entity)
         self._reset_env_use_case.retry_with_initial_config()
-
+        
         self.pre_fields = []
 
     # TODO: Extract this to another class
