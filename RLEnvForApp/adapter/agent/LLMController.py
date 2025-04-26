@@ -59,6 +59,9 @@ from RLEnvForApp.usecase.targetPage.dto.DirectiveDTO import DirectiveDTO
 from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageInput import RemoveTargetPageInput
 from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageOutput import RemoveTargetPageOutput
 from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageUseCase import RemoveTargetPageUseCase
+from RLEnvForApp.usecase.formElement.FormElementUseCase import FormElementUseCase
+from RLEnvForApp.usecase.formElement.FormElementOutput import FormElementOutput
+from RLEnvForApp.usecase.formElement.FormElementInput import FormElementInput
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 
 
@@ -123,6 +126,7 @@ class LLMController:
         # TODO: make _form_feedback_rule_service and _field_rule_service provide by Configuration
         self._form_feedback_rule_service = FormFieldFeedbackRuleService()
         self._field_rule_service = RequiredFieldRuleService()
+        self._form_element_usecase = FormElementUseCase(llm_service=self._llm_service, field_rule_service = self._field_rule_service)
         self._reset_env_use_case = None
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
         # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
@@ -271,117 +275,58 @@ class LLMController:
             return InputExample(guid=0, text_a=app_element.getName(), label=0)
         else:
             return None
+    def _handle_form_element(self, target_page_dom:str, target_form_xpath:str, target_element_xpath:str, app_element: AppElement, target_url: str) -> FormElementOutput:
+        
+        feedback = self.__form_feedbacks.get(self._target_page_id)
+        if feedback is None:
+            feedback = {}
+        try_count = self._form_retry_count.get(self._target_page_id)
+        if try_count is None:
+            try_count = 0
+        form_title = self._getFormTitle(target_page_dom, self.__target_form_xpath)
+        pre_fields = self.pre_fields
 
+        form_element_input = FormElementInput(
+            target_page_dom=target_page_dom,
+            target_form_xpath=target_form_xpath,
+            target_element_xpath=target_element_xpath,
+            feedback=feedback,
+            try_count=try_count,
+            app_element=app_element,
+            form_title=form_title,
+            pre_fields=pre_fields
+        )
+        return self._form_element_usecase.handle(formElementInput=form_element_input)
+    
     def _execute_action(self, app_element: AppElement, target_url) -> ExecuteActionOutput:
         # TODE: Find form title
         self._logger.info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}, xpath: {app_element.getXpath()}")
         final_submit = False
         input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
-        self._logger.info(f"episode_handler_entity: {self._episode_handler_id}")
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
         states = episode_handler.getAllState()
         execute_action_use_case = ExecuteActionUseCase(self.__aut_operator)
         self._logger.info(f"doc: {etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())}")
-
-       # 確保使用 html parser 並取得 root element
+        target_page_dom = states[-1].getDOM()
+        
        
         doc_tree = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         doc = doc_tree.getroot() 
-        app_element_by_xpath = None
-        # 安全執行 XPath
-        results = doc.xpath(app_element.getXpath())
-        if results:
-            app_element_by_xpath = results[0]
-        else:
-            self._logger.warning(f"❌ XPath not found: {app_element.getXpath()}")
-            raise ValueError("XPath not found in DOM")
         app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
-        is_submit_button = False
+        target_form_xpath = etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode")
+        target_element_xpath = etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
 
-        # if app_element.getTagName() == "button" or app_element.getTagName() == "a" or (app_element.getTagName() == 'input' and (app_element.getType() == 'submit' or app_element.getType() == "button" or app_element.getType() == 'image')):
-        #     is_submit_button = True
         action_number = 0
         execute_action_output = ExecuteActionOutput()
-        feedback = self.__form_feedbacks.get(self._target_page_id)
+        form_element_output = self._handle_form_element(target_page_dom, target_form_xpath, target_element_xpath, app_element, target_url)
+        final_submit = form_element_output.get_final_submit()
+        action_number = form_element_output.get_action_number()
+        self._logger.info(f"Pre fields: {self.pre_fields}")
         
-        if app_element.getTagName() != "select" and app_element.getTagName() != "textarea":
-            # find the submit button by xpath
-            prompt = 'The Form element:\n' + etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode") + '\nThe target element:\n' + etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
-            system_prompt = SystemPromptFactory.get("is_submit_button")
-            is_submit_button_str = self._llm_service.get_response(prompt, system_prompt).lower()
-            if is_submit_button_str == "yes":
-                is_submit_button = True
-        
-        try_count = self._form_retry_count.get(self._target_page_id)
-        if try_count is None:
-            try_count = 0
-            
-        if is_submit_button:
-            action_number = ACTION_NUMBER["click"]
-            final_submit = True
-        elif not is_submit_button and app_element.getTagName() == "button":
-            action_number = ACTION_NUMBER["changeFocus"]
-        elif not self._is_required(states[-1].getDOM(), app_element.getXpath()) and try_count < 3:
-            pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": "", "xpath": app_element.getXpath()}
-            # The app_element is not required, so we want to get all the pre fields to find the feedback location to update the required field in the next try
-            self.pre_fields.append(pre_field)
-            self._logger.info(f"The {app_element.getXpath()} is not required")
-            action_number = ACTION_NUMBER["changeFocus"]
-        elif app_element.getTagName() == "select":
-            action_number = ACTION_NUMBER["select"]
-            select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
-            form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
-            prompt = """
-                Form Title: {form_title}
-                Select Field: {select_field}
-                Feedback: {feedback}
-                Previous Fields with Values: {pre_fields}
-            """.format(form_title=target_url, select_field=select_fields,
-                    feedback=feedback, alert="", pre_fields=self.pre_fields)
-            LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-            LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
-        else:
-            
-            # may be input tag or textarea tag
-            
-            if app_element.getType() == "checkbox":
-                action_number = ACTION_NUMBER["checkbox"]
-                checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
-                form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
-                prompt = """
-                    Form Title: {form_title}
-                    Checkbox Field: {checkbox_field}
-                    Feedback: {feedback}
-                    Previous Fields with Values: {pre_fields}
-                """.format(form_title=target_url, checkbox_field=checkbox_field,
-                        feedback="", alert="", pre_fields=self.pre_fields)
-                LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-                LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
-            elif app_element.getType() != "color" and app_element.getType() != "file" and app_element.getType() != "hidden" and app_element.getType() != "image" and app_element.getType() != "reset" and app_element.getType() != "button" and app_element.getType() != "submit" and app_element.getType() != "radio":
-                # type : date、datetime-local、email、month、number、password、tel、text、time、url、week
-                input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
-                self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
-                feedbacks = self.__form_feedbacks.get(self._target_page_id)
-                xpath = app_element.getXpath()
-                form_title = self._getFormTitle(states[-1].getDOM(), self.__target_form_xpath)
-                system_prompt = ""
-                if try_count >= 3 or (feedbacks and xpath in feedbacks):
-                    system_prompt = SystemPromptFactory.get("get_input_value")
-                else:
-                    system_prompt = SystemPromptFactory.get("select_data_faker")
-                prompt = """
-                    Form Title: {form_title}
-                    Input Field: {input_field}
-                    Feedback: {feedback}
-                    Previous Fields with Values: {pre_fields}
-                """.format(form_title=form_title, input_field=input_field, feedback="", alert="", pre_fields= self.pre_fields)
-                action_number = ACTION_NUMBER["input"]
-                LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-                LlmServiceContainer.llm_service_instance.set_system_prompt(system_prompt)
-            else:
-                execute_action_output.setIsDone(True)
-                return execute_action_output
+            # else:
+            #     execute_action_output.setIsDone(True)
+            #     return execute_action_output
             # try:
             #     preds = int(action_number_str)
             # except ValueError:
