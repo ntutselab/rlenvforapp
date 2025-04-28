@@ -7,6 +7,8 @@ from RLEnvForApp.domain.environment.actionCommandFactoryService import *
 from RLEnvForApp.domain.environment.observationService import *
 from RLEnvForApp.domain.environment.episodeHandler import *
 from RLEnvForApp.domain.targetPage.DirectiveRuleService import *
+from RLEnvForApp.domain.targetPage.FieldRuleService import *
+from RLEnvForApp.domain.targetPage.FeedbackRuleService import *
 from RLEnvForApp.usecase.targetPage.queueManager import *
 from RLEnvForApp.adapter.llmService import *
 from RLEnvForApp.adapter.repository.targetPage import *
@@ -50,6 +52,14 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
 
     directiveRuleService = providers.Factory(
         DIConfiguration.get_class_name(config.Environment.directive_rule_service())
+    )
+
+    fieldRuleService = providers.Factory(
+        DIConfiguration.get_class_name(config.Environment.field_rule_service())
+    )
+    
+    feedbackRuleService = providers.Factory(
+        DIConfiguration.get_class_name(config.Environment.feedback_rule_service())
     )
 
     targetPageQueueManagerService = providers.Factory(

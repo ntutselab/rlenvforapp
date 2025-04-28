@@ -31,7 +31,8 @@ from RLEnvForApp.domain.llmService.ILlmService import ILlmService
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.FormSubmitCriteriaSingleton import FormSubmitCriteriaSingleton
 from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService import IDirectiveRuleService
 from RLEnvForApp.domain.targetPage.FeedbackRuleService.FormFieldFeedbackRuleService import FormFieldFeedbackRuleService
-from RLEnvForApp.domain.targetPage.FieldRuleService.RequiredFieldRuleService import RequiredFieldRuleService
+from RLEnvForApp.domain.targetPage.FeedbackRuleService.IFeedbackRuleService import IFeedbackRuleService
+from RLEnvForApp.domain.targetPage.FieldRuleService.IFieldRuleService import IFieldRuleService
 from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
@@ -73,6 +74,10 @@ class LLMController:
                  Provide[EnvironmentDIContainers.episodeHandlerRepository],
                  directive_rule_service: IDirectiveRuleService =
                  Provide[EnvironmentDIContainers.directiveRuleService],
+                 field_rule_service: IFieldRuleService =
+                 Provide[EnvironmentDIContainers.fieldRuleService],
+                 feedbacl_rule_service: IFeedbackRuleService = 
+                 Provide[EnvironmentDIContainers.feedbackRuleService],
                  repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],
                  llm_service : ILlmService = Provide[EnvironmentDIContainers.llmService],):
         self._llm_service = llm_service
@@ -88,7 +93,7 @@ class LLMController:
         self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
         # self.__server_name = "nodebb_with_coverage"
-        # self.__server_name = "keystonejs_with_coverage"
+        self.__server_name = "keystonejs_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -124,8 +129,8 @@ class LLMController:
         self.pre_fields = []
         self.__form_feedbacks = {}
         # TODO: make _form_feedback_rule_service and _field_rule_service provide by Configuration
-        self._form_feedback_rule_service = FormFieldFeedbackRuleService()
-        self._field_rule_service = RequiredFieldRuleService()
+        self._form_feedback_rule_service = feedbacl_rule_service
+        self._field_rule_service = field_rule_service
         self._form_element_usecase = FormElementUseCase(llm_service=self._llm_service, field_rule_service = self._field_rule_service)
         self._reset_env_use_case = None
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)

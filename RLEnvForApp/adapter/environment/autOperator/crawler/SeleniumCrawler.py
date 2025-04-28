@@ -210,6 +210,7 @@ class SeleniumCrawler(ICrawler):
     def _shouldHrefBeIgnored(self, href: str):
         isFileDownloading = re.match(".+\\.(?:pdf|ps|zip|mp3)(?:$|\\?.+)", href)
         isMailTo = href.startswith("mailto:")
+        isWebCal = href.startswith("webcal:")
         isExternal = not urlparse(href).netloc == "" and not urlparse(
             href).netloc == urlparse(self._rootPath).netloc
-        return isFileDownloading or isMailTo or isExternal
+        return isFileDownloading or isMailTo or isExternal or isWebCal

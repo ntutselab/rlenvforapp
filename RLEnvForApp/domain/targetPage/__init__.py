@@ -1,1 +1,1 @@
-__all__ = ["DirectiveRuleService", "AppEvent", "Directive", "TargetPage", "FeedbackRuleService"]
+__all__ = ["DirectiveRuleService", "AppEvent", "Directive", "TargetPage", "FeedbackRuleService", "FieldRuleService"]
