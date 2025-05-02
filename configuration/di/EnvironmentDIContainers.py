@@ -10,6 +10,7 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService import *
 from RLEnvForApp.domain.targetPage.FieldRuleService import *
 from RLEnvForApp.domain.targetPage.FeedbackRuleService import *
 from RLEnvForApp.usecase.targetPage.queueManager import *
+from RLEnvForApp.adapter.formInput.textGeneration import *
 from RLEnvForApp.adapter.llmService import *
 from RLEnvForApp.adapter.repository.targetPage import *
 from RLEnvForApp.adapter.repository.episodeHandler import *
@@ -67,6 +68,10 @@ class EnvironmentDIContainers(containers.DeclarativeContainer):
         repository=targetPageRepository
     )
 
+    # form input
+    textGenerationService = providers.Factory(
+        DIConfiguration.get_class_name(config.InputGeneration.text_generation_service())
+    )
     # other
     episodeHandler = providers.Factory(
         DIConfiguration.get_class_name(config.Environment.episode_handler()),

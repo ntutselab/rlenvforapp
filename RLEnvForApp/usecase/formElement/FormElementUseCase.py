@@ -90,9 +90,10 @@ class FormElementUseCase:
             Previous Fields with Values: {pre_fields}
         """.format(form_title=form_title, select_field=select_fields,
                 feedback=feedback, pre_fields=pre_fields)
+        
         LlmServiceContainer.llm_service_instance.set_prompt(prompt)
         LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
-        result = FormElementOutput(action_number=ACTION_NUMBER["select"], final_submit=False, execute_action_output_is_done=False)
+        result = FormElementOutput(action_number=ACTION_NUMBER["select"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result
     
     def _handle_checkbox_field(self, app_element: AppElement, form_title, feedback, pre_fields) -> FormElementOutput:
@@ -105,8 +106,8 @@ class FormElementUseCase:
         """.format(form_title=form_title, checkbox_field=checkbox_field,
                 feedback=feedback, pre_fields=pre_fields)
         LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-        LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("get_checkbox_state"))
-        result = FormElementOutput(action_number=ACTION_NUMBER["checkbox"], final_submit=False, execute_action_output_is_done=False)
+        LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
+        result = FormElementOutput(action_number=ACTION_NUMBER["checkbox"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result
     
     def _handle_input_field(self, app_element: AppElement, form_title, feedback, pre_fields, try_count) -> FormElementOutput:
@@ -124,7 +125,5 @@ class FormElementUseCase:
             Feedback: {feedback}
             Previous Fields with Values: {pre_fields}
         """.format(form_title=form_title, input_field=input_field, feedback=feedback, pre_fields= pre_fields)
-        LlmServiceContainer.llm_service_instance.set_prompt(prompt)
-        LlmServiceContainer.llm_service_instance.set_system_prompt(system_prompt)
-        result = FormElementOutput(action_number=ACTION_NUMBER["input"], final_submit=False, execute_action_output_is_done=False)
+        result = FormElementOutput(action_number=ACTION_NUMBER["input"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result

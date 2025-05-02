@@ -1,1 +1,1 @@
-__all__ = ["IFeedbackRuleService", "FormFieldFeedbackRuleService"]
+__all__ = ["IFeedbackRuleService", "FormFieldFeedbackRuleService", "NoFeedbackRuleService"]

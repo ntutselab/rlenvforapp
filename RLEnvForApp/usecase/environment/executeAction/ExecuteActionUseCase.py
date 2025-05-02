@@ -43,6 +43,10 @@ class ExecuteActionUseCase:
             self._actionCommandFactory.setAutName(input.getAutName())
             self._actionCommandFactory.setUrl(input.getUrl())
             self._actionCommandFactory.setXpath(input.getXpath())
+            self._actionCommandFactory.setPrompt(input.getPrompt())
+            self._actionCommandFactory.setTryCount(input.getTryCount())
+            self._actionCommandFactory.setIsElementInFeedback(input.getIsElementInFeedback())
+            self._actionCommandFactory.setTextGenerationService(input.getTextGenerationService())
 
         actionCommand: IActionCommand = self._actionCommandFactory.createActionCommand(
             actionNumber=input.getActionNumber())

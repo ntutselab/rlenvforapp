@@ -9,7 +9,20 @@ configDirectoryPath = "configuration/config"
 # configFilePath = "AIGUIDE_Web_Environment_No_Coverage.ini"
 # configFilePath = "AIGUIDE_File_Environment_Cosine_Similarity.ini"
 # configFilePath = "LLM.ini"
-configFilePath = "LLM_Improvement.ini"
+
+# feedback vs no feedback
+# configFilePath = "LLM_exp_feedback_enabled.ini"
+# configFilePath = "LLM_exp_feedback_disabled.ini"
+
+# LLM generate text vs LLM select data faker vs mixed
+# configFilePath = "LLM_exp_input_llm_only.ini"
+# configFilePath = "LLM_exp_input_datafaker_select.ini"
+configFilePath = "LLM_exp_input_mixed.ini"
+
+# page compare by only LLM vs page compare by similarity assisted by LLM
+# configFilePath = "LLM_exp_judge_llm_only.ini"
+# configFilePath = "LLM_exp_judge_similarity_assisted.ini"
+
 defaultModelConfigFilePath = "default_model_config.ini"
 defaultConfigFilePath = "default.ini"
 

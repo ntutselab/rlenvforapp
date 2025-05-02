@@ -24,7 +24,6 @@ from RLEnvForApp.adapter.targetPagePort.factory.TargetPagePortFactory import Tar
 from RLEnvForApp.domain.environment.actionCommand.InitiateToTargetActionCommand import NosuchElementException
 from RLEnvForApp.domain.environment.state.AppElement import AppElement
 from RLEnvForApp.domain.environment.state.State import State
-from RLEnvForApp.domain.environment.valueExtractor import ValueExtractor
 from RLEnvForApp.domain.llmService import LlmServiceContainer
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
 from RLEnvForApp.domain.llmService.ILlmService import ILlmService
@@ -33,6 +32,7 @@ from RLEnvForApp.domain.targetPage.DirectiveRuleService.IDirectiveRuleService im
 from RLEnvForApp.domain.targetPage.FeedbackRuleService.FormFieldFeedbackRuleService import FormFieldFeedbackRuleService
 from RLEnvForApp.domain.targetPage.FeedbackRuleService.IFeedbackRuleService import IFeedbackRuleService
 from RLEnvForApp.domain.targetPage.FieldRuleService.IFieldRuleService import IFieldRuleService
+from RLEnvForApp.domain.formInput.textGeneration.ITextGenerationService import ITextGenerationService
 from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.usecase.environment.autOperator.AIGUIDEOperator import AIGUIDEOperator
@@ -79,7 +79,9 @@ class LLMController:
                  feedbacl_rule_service: IFeedbackRuleService = 
                  Provide[EnvironmentDIContainers.feedbackRuleService],
                  repository: TargetPageRepository = Provide[EnvironmentDIContainers.targetPageRepository],
-                 llm_service : ILlmService = Provide[EnvironmentDIContainers.llmService],):
+                 text_generation_service: ITextGenerationService = Provide[EnvironmentDIContainers.textGenerationService],
+                 llm_service : ILlmService = Provide[EnvironmentDIContainers.llmService],
+                 ):
         self._llm_service = llm_service
         LlmServiceContainer.llm_service_instance.set_instance(llm_service)
 
@@ -133,6 +135,8 @@ class LLMController:
         self._field_rule_service = field_rule_service
         self._form_element_usecase = FormElementUseCase(llm_service=self._llm_service, field_rule_service = self._field_rule_service)
         self._reset_env_use_case = None
+
+        self._text_generation_service = text_generation_service
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
         # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
         # # check cuda
@@ -327,26 +331,20 @@ class LLMController:
         form_element_output = self._handle_form_element(target_page_dom, target_form_xpath, target_element_xpath, app_element, target_url)
         final_submit = form_element_output.get_final_submit()
         action_number = form_element_output.get_action_number()
+        prompt = form_element_output.get_prompt()
         self._logger.info(f"Pre fields: {self.pre_fields}")
-        
-            # else:
-            #     execute_action_output.setIsDone(True)
-            #     return execute_action_output
-            # try:
-            #     preds = int(action_number_str)
-            # except ValueError:
-            #     preds = -1
-            # if preds != -1:
-            #     if self._check_is_password(app_element):
-            #         action_number = 25
-            #     else:
-            #         action_number = preds + 1
-            # else:
-            #     execute_action_output.setIsDone(True)
-            #     return execute_action_output
+        try_count = self._form_retry_count.get(self._target_page_id)  
+        if try_count is None:
+            try_count = 0
+        feedback = self.__form_feedbacks.get(self._target_page_id)
+        if feedback is None:
+            feedback = {}
+        is_element_in_feedback = False
+        if app_element.getXpath() in feedback:
+            is_element_in_feedback = True
 
         execute_action_input = ExecuteActionInput(action_number, self._episode_handler_id, self.__server_name, target_url,
-                                                  app_element.getXpath())
+                                                  app_element.getXpath(), prompt, try_count, is_element_in_feedback, self._text_generation_service,)
 
         try:
             execute_action_use_case.execute(input=execute_action_input, output=execute_action_output)

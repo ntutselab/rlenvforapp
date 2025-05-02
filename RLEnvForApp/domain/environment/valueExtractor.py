@@ -6,9 +6,11 @@ import requests
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.domain.llmService import LlmServiceContainer
 from faker import Faker
+
+from RLEnvForApp.domain.formInput.textGeneration.ITextGenerationService import ITextGenerationService
 class ValueExtractor:
     @staticmethod
-    def get_input_value(aut_name = None, url = None, xpath = None) -> str:
+    def get_input_value(aut_name = None, url = None, xpath = None, prompt = None, try_count = 0, is_element_in_feedback = None, textGenerationService: ITextGenerationService = None) -> str:
         # """ 取得 input 值，優先從 default_value.json 取得 """
         # value = ValueExtractor.__check_default_value()
         # if value:
@@ -37,7 +39,14 @@ class ValueExtractor:
                 return default_value['value']
         
         
-        response = LlmServiceContainer.llm_service_instance.get_response()
+        if textGenerationService is None:
+            Logger().info("textGenerationService is None")
+            return ""
+        
+        # 取得 LLM 回應
+        response = textGenerationService.get_form_input(prompt, try_count, is_element_in_feedback)
+        print(f"LLM response from textGenerationService: {response}")
+        return response
         # TODO: Find a way to more safely distinguish between a LLM response and a Faker function
         try:
             faker = Faker()
