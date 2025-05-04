@@ -1,1 +1,1 @@
-__all__ = ["IFieldRuleService", "RequiredFieldRuleService"]
+__all__ = ["IFieldRuleService", "RequiredFieldRuleService", "FillAllFieldsRuleService"]

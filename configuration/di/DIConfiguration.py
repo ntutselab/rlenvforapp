@@ -19,6 +19,10 @@ configDirectoryPath = "configuration/config"
 # configFilePath = "LLM_exp_input_datafaker_select.ini"
 configFilePath = "LLM_exp_input_mixed.ini"
 
+# Check required field before filling the field vs fill the field directly
+# configFilePath = "LLM_exp_check_field_required.ini"
+# configFilePath = "LLM_exp_fill_all_field.ini"
+
 # page compare by only LLM vs page compare by similarity assisted by LLM
 # configFilePath = "LLM_exp_judge_llm_only.ini"
 # configFilePath = "LLM_exp_judge_similarity_assisted.ini"
