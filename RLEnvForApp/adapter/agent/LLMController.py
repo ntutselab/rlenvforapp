@@ -96,6 +96,7 @@ class LLMController:
         # self.__server_name = "astuto"
         # self.__server_name = "nodebb_with_coverage"
         self.__server_name = "keystonejs_with_coverage"
+        self.__server_name = "spring_petclinic_with_no_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -106,9 +107,9 @@ class LLMController:
                                                                serverIP=self.__application_ip,
                                                                port=self.__application_port)
         self.__crawler = SeleniumCrawler("Chrome")
-        self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
-            serverIp=self.__application_ip, serverPort=self.__coverage_server_port)
-        # self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
+        # self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
+        #     serverIp=self.__application_ip, serverPort=self.__coverage_server_port)
+        self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
         self.__aut_operator = AIGUIDEOperator(
             crawler=self.__crawler, codeCoverageCollector=self.__code_coverage_collector)
         self.__target_page_port = TargetPagePortFactory().createAIGuideTargetPagePort(javaIp="127.0.0.1",
@@ -402,14 +403,8 @@ class LLMController:
                     tag_type == 'submit' or tag_type == "button" or tag_type == 'image')):
                 after_action_dom = states[-1].getDOM()
                 before_action_dom = states[-2].getDOM()
-                feedbacks = self.__form_feedbacks.get(self._target_page_id)
-                feedbacks_str = ""
-                if feedbacks is None:
-                    feedbacks_str = ""
-                else:
-                    # convert feedbacks to string
-                    feedbacks_str = json.dumps(feedbacks)
-                return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, feedbacks_str)
+                previous_feedbacks = self.__form_feedbacks.get(self._target_page_id, None)
+                return self._form_feedback_rule_service.getFeedbackAndLocation(before_action_dom, after_action_dom, self.pre_fields, previous_feedbacks)
         return {}
     def _remove_target_page(self):
         remove_target_page_use_case = RemoveTargetPageUseCase()

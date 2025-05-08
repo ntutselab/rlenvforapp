@@ -5,31 +5,11 @@ import ast
 import requests
 from RLEnvForApp.logger.logger import Logger
 from RLEnvForApp.domain.llmService import LlmServiceContainer
-from faker import Faker
 
 from RLEnvForApp.domain.formInput.textGeneration.ITextGenerationService import ITextGenerationService
 class ValueExtractor:
     @staticmethod
     def get_input_value(aut_name = None, url = None, xpath = None, prompt = None, try_count = 0, is_element_in_feedback = None, textGenerationService: ITextGenerationService = None) -> str:
-        # """ 取得 input 值，優先從 default_value.json 取得 """
-        # value = ValueExtractor.__check_default_value()
-        # if value:
-        #     return value['value']
-
-        # url = "http://localhost:4000"
-        # if action_type == 25:
-        #     value = "password"
-        # else:
-        #     value = ValueExtractor.__fake_data_map[ValueExtractor.__input_type[action_type - 1]]
-        # try:
-        #     if value == "password":
-        #         return ValueExtractor.__check_default_password()
-        #     r = requests.get(url, params={'value': value})
-        #     d = ast.literal_eval(r.text.replace("`", ""))
-        #     return d["'d'"][0]
-        # except requests.exceptions.RequestException as e:
-        #     Logger().info(f"Error: {e}")
-        #     return "Error occurred while fetching data from the server. Please try again later."
         """ 透過 LLM 取得 input 值 """
         
         if aut_name is not None and url is not None and xpath is not None:
@@ -47,16 +27,7 @@ class ValueExtractor:
         response = textGenerationService.get_form_input(prompt, try_count, is_element_in_feedback)
         print(f"LLM response from textGenerationService: {response}")
         return response
-        # TODO: Find a way to more safely distinguish between a LLM response and a Faker function
-        try:
-            faker = Faker()
-            reponse_text = getattr(faker, response)()
-            return str(reponse_text)
-        except AttributeError as e:
-            # 如果無法解析為 Faker 函數，則返回原始響應
-            Logger().info(f"Error parsing LLM response: {e}. Response was: {response}, It may not be a faker function")
-            # 如果解析失敗，返回原始響應
-            return response
+        
     
     @staticmethod
     def get_select_value() -> str:

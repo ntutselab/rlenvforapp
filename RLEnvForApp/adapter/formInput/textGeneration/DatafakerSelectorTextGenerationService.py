@@ -1,6 +1,7 @@
 from RLEnvForApp.domain.formInput.textGeneration.ITextGenerationService import ITextGenerationService
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
 from RLEnvForApp.domain.llmService import LlmServiceContainer
+from faker import Faker
 
 class DatafakerSelectorTextGenerationService(ITextGenerationService):
     def __init__(self):
@@ -13,5 +14,11 @@ class DatafakerSelectorTextGenerationService(ITextGenerationService):
             print("LLM response is None")
             return ""
         else:
-            print(f"LLM response: {response}")
-            return response
+            try:
+                faker = Faker()
+                response_text = getattr(faker, response)()
+                return response_text
+            except AttributeError as e:
+                # 如果無法解析為 Faker 函數，則返回原始響應
+                print(f"Error parsing LLM response: {e}. Response was: {response}, It may not be a faker function")
+                return response

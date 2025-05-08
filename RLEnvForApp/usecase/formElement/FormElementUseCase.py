@@ -27,12 +27,13 @@ class FormElementUseCase:
         form_title = formElementInput.get_form_title()
         pre_fields = formElementInput.get_pre_fields()
         
-
+        feedback_text = feedback.get(app_element.getXpath(), None)
+        print(f"handle field: the feedback text is: {feedback_text}")
         if self._is_submit_button(app_element, target_form_xpath, target_element_xpath):
             return FormElementOutput(action_number=ACTION_NUMBER["click"], final_submit=True, execute_action_output_is_done=False)
         elif app_element.getTagName() == "button":
             return FormElementOutput(action_number=ACTION_NUMBER["changeFocus"], final_submit=True, execute_action_output_is_done=False)
-        elif not self._is_required(target_page_dom, app_element.getXpath(), feedback) and try_count < 3:
+        elif not self._is_required(target_page_dom, app_element.getXpath(), feedback_text) and try_count < 3:
             pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": "", "xpath": app_element.getXpath()}
             # The app_element is not required, so we want to get all the pre fields to find the feedback location to update the required field in the next try
             pre_fields.append(pre_field)
@@ -42,9 +43,9 @@ class FormElementUseCase:
             return FormElementOutput(action_number=ACTION_NUMBER["changeFocus"], final_submit=False, execute_action_output_is_done=True)
     
         if app_element.getTagName() == "select":
-            return self._handle_select_field(app_element, form_title, feedback, pre_fields)
+            return self._handle_select_field(app_element, form_title, feedback_text, pre_fields)
         elif app_element.getTagName() == "input" and app_element.getType() == "checkbox":
-            return self._handle_checkbox_field(app_element, form_title, feedback, pre_fields)
+            return self._handle_checkbox_field(app_element, form_title, feedback_text, pre_fields)
         
 
         elif (
@@ -91,12 +92,15 @@ class FormElementUseCase:
         """.format(form_title=form_title, select_field=select_fields,
                 feedback=feedback, pre_fields=pre_fields)
         
+        # TODO: After implementing the selectOptionService, we can remove the following line
         LlmServiceContainer.llm_service_instance.set_prompt(prompt)
         LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
+
         result = FormElementOutput(action_number=ACTION_NUMBER["select"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result
     
     def _handle_checkbox_field(self, app_element: AppElement, form_title, feedback, pre_fields) -> FormElementOutput:
+        
         checkbox_field = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "}]"
         prompt = """
             Form Title: {form_title}
@@ -105,8 +109,11 @@ class FormElementUseCase:
             Previous Fields with Values: {pre_fields}
         """.format(form_title=form_title, checkbox_field=checkbox_field,
                 feedback=feedback, pre_fields=pre_fields)
+        
+        # TODO: After implementing the checkboxGerenationService, we can remove the following line
         LlmServiceContainer.llm_service_instance.set_prompt(prompt)
         LlmServiceContainer.llm_service_instance.set_system_prompt(SystemPromptFactory.get("select_option"))
+
         result = FormElementOutput(action_number=ACTION_NUMBER["checkbox"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result
     
@@ -114,11 +121,6 @@ class FormElementUseCase:
         input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
         self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
         xpath = app_element.getXpath()
-        system_prompt = ""
-        if try_count >= 3 or (feedback and xpath in feedback):
-            system_prompt = SystemPromptFactory.get("get_input_value")
-        else:
-            system_prompt = SystemPromptFactory.get("select_data_faker")
         prompt = """
             Form Title: {form_title}
             Input Field: {input_field}
