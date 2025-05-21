@@ -63,6 +63,7 @@ from RLEnvForApp.usecase.targetPage.remove.RemoveTargetPageUseCase import Remove
 from RLEnvForApp.usecase.formElement.FormElementUseCase import FormElementUseCase
 from RLEnvForApp.usecase.formElement.FormElementOutput import FormElementOutput
 from RLEnvForApp.usecase.formElement.FormElementInput import FormElementInput
+from RLEnvForApp.application.timer.ExecutionTimer import ExecutionTimer
 from configuration.di.EnvironmentDIContainers import EnvironmentDIContainers
 
 
@@ -85,6 +86,9 @@ class LLMController:
         self._llm_service = llm_service
         LlmServiceContainer.llm_service_instance.set_instance(llm_service)
 
+        ExecutionTimer.init_instance()
+        self.__timer = ExecutionTimer.get_instance()
+
         self._fake_data = {}
         self._episode_handler_id = None
         self._form_counts = {}
@@ -95,8 +99,8 @@ class LLMController:
         self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
         # self.__server_name = "nodebb_with_coverage"
-        self.__server_name = "keystonejs_with_coverage"
-        self.__server_name = "spring_petclinic_with_no_coverage"
+        # self.__server_name = "keystonejs_with_coverage"
+        # self.__server_name = "spring_petclinic_with_no_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -107,9 +111,9 @@ class LLMController:
                                                                serverIP=self.__application_ip,
                                                                port=self.__application_port)
         self.__crawler = SeleniumCrawler("Chrome")
-        # self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
-        #     serverIp=self.__application_ip, serverPort=self.__coverage_server_port)
-        self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
+        self.__code_coverage_collector: ICodeCoverageCollector = IstanbulMiddlewareCodeCoverageCollector(
+            serverIp=self.__application_ip, serverPort=self.__coverage_server_port)
+        # self.__code_coverage_collector: ICodeCoverageCollector = NoCodeCoverageCollector()
         self.__aut_operator = AIGUIDEOperator(
             crawler=self.__crawler, codeCoverageCollector=self.__code_coverage_collector)
         self.__target_page_port = TargetPagePortFactory().createAIGuideTargetPagePort(javaIp="127.0.0.1",
@@ -166,6 +170,7 @@ class LLMController:
             self._target_page_id = reset_env_use_output.getTargetPageId()
             self._episode_handler_id = reset_env_use_output.getEpisodeHandlerId()
             self.__target_form_xpath = reset_env_use_output.getFormXPath()
+            self._start_timer()
             while not is_legal_directive:
                 try_count = self._form_retry_count.get(self._target_page_id)
                 
@@ -196,6 +201,7 @@ class LLMController:
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
                         self._fake_data = {}
                         self.pre_fields = []
+                        self._stop_timer()
                     except Exception as ex:
                         self._logger.info(f"Error when push target page: {ex}")
                         template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
@@ -216,6 +222,7 @@ class LLMController:
                         directive_dto = self._create_directive(self._target_page_id, self._episode_handler_id)
                         self._save_target_page_to_html_set(self._episode_handler_id, directive_dto)
                         self._remove_target_page()
+                        self._stop_timer()
                         break
                     self._logger.info(f"Try again, target page id: {self._target_page_id}")
                     
@@ -254,6 +261,18 @@ class LLMController:
                                 fileName=file_name + ".html", context=directive_dto.getDom())
         file_manager.createFile(path=os.path.join("htmlSet", "FAILED_HTML_SET"),
                                 fileName=file_name + ".json", context=directive_log_json)
+
+    def _save_execution_time_summary(self):
+        time_summary_json = json.dumps(self.__timer.get_summary())
+
+        file_name = f"{self.__server_name}_execution_time_summary"
+        file_manager = FileManager()
+        file_manager.createFolder(".", "execution_summary")
+        file_manager.createFile(
+            path="execution_summary",  # 路徑改掉
+            fileName=file_name + ".json",
+            context=time_summary_json
+        )
 
     def _create_directive(self, target_page_id: str, episode_handler_id: str):
         create_directive_use_case = CreateDirectiveUseCase()
@@ -482,4 +501,13 @@ class LLMController:
             return heading[0].text.strip()
 
         return None
-                
+    
+    def _start_timer(self):
+        self._logger.info("Start timer")
+        self.__timer.start()
+    
+    def _stop_timer(self):
+        duration = self.__timer.stop_and_accumulate()
+        self._logger.info(f"Time Summary: {self.__timer.get_summary()}")
+        self._save_execution_time_summary()
+        return duration

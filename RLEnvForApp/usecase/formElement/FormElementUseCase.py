@@ -33,7 +33,7 @@ class FormElementUseCase:
             return FormElementOutput(action_number=ACTION_NUMBER["click"], final_submit=True, execute_action_output_is_done=False)
         elif app_element.getTagName() == "button":
             return FormElementOutput(action_number=ACTION_NUMBER["changeFocus"], final_submit=True, execute_action_output_is_done=False)
-        elif not self._is_required(target_page_dom, app_element.getXpath(), feedback_text) and try_count < 3:
+        elif not self._is_required(target_page_dom, app_element.getXpath(), feedback) and try_count < 3:
             pre_field = {"name": app_element.getName(), "label": app_element.getLabel(), "placeholder": app_element.getPlaceholder(), "value": "", "xpath": app_element.getXpath()}
             # The app_element is not required, so we want to get all the pre fields to find the feedback location to update the required field in the next try
             pre_fields.append(pre_field)
@@ -80,7 +80,9 @@ class FormElementUseCase:
         """
         
         self._logger.info(f"Start check required field: {xpath}")
-        return self._field_rule_service.isLegal(dom_str=dom_str, xpath=xpath, feedback=feedback)
+        is_required = self._field_rule_service.isLegal(dom_str=dom_str, xpath=xpath, feedback=feedback)
+        print(f"Is required: {is_required}")
+        return is_required
     
     def _handle_select_field(self, app_element: AppElement, form_title, feedback, pre_fields) -> FormElementOutput:
         select_fields = "[{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"options\":" + json.dumps(app_element.getOptions()) + "}]"
@@ -120,12 +122,13 @@ class FormElementUseCase:
     def _handle_input_field(self, app_element: AppElement, form_title, feedback, pre_fields, try_count) -> FormElementOutput:
         input_field = "{\"name\":\"" + app_element.getName() + "\",\"label\":\"" + app_element.getLabel() + "\",\"placeholder\":\"" + app_element.getPlaceholder() + "\"}"
         self._logger.info(f"Input Type: {app_element.getType()}, and input field: {input_field}")
+        feedback_text = feedback.get(app_element.getXpath(), None)
         xpath = app_element.getXpath()
         prompt = """
             Form Title: {form_title}
             Input Field: {input_field}
             Feedback: {feedback}
             Previous Fields with Values: {pre_fields}
-        """.format(form_title=form_title, input_field=input_field, feedback=feedback, pre_fields= pre_fields)
+        """.format(form_title=form_title, input_field=input_field, feedback=feedback_text, pre_fields= pre_fields)
         result = FormElementOutput(action_number=ACTION_NUMBER["input"], final_submit=False, execute_action_output_is_done=False, prompt = prompt)
         return result

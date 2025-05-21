@@ -7,7 +7,7 @@ class ExecuteActionInput:
         self._url = url
         self._xpath = xpath
         self._prompt = prompt
-        self._try_count = 0
+        self._try_count = try_count
         self.__is_element_in_feedback= False
         self._textGenerationService = textGenerationService
 
