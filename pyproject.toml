@@ -54,6 +54,7 @@ h5py = "^3.1.0"
 typing-extensions = "^4.6.0"
 langchain-google-genai = "^2.0.10"
 faker = "^37.1.0"
+langchain-ollama = "^0.3.2"
 
 [build-system]
 requires = ["poetry-core"]

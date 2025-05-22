@@ -17,7 +17,7 @@ from RLEnvForApp.usecase.repository.EpisodeHandlerRepository import EpisodeHandl
 from RLEnvForApp.usecase.repository.TargetPageRepository import TargetPageRepository
 from RLEnvForApp.usecase.targetPage.create import CreateDirectiveInput, CreateDirectiveOutput
 from RLEnvForApp.usecase.targetPage.mapper import DirectiveDTOMapper, TargetPageEntityMapper
-
+from RLEnvForApp.domain.constants.actions import ACTION_NUMBER
 
 class CreateDirectiveUseCase:
     @inject
@@ -55,29 +55,50 @@ class CreateDirectiveUseCase:
 
             if actionType == "changeFocus":
                 continue
+                
+            tag = interactiveAppElement.getTagName()
+            elem_type = interactiveAppElement.getType()
+            print(f"Action Type for CreateDirectiveUsecase: {actionType}")
             if actionType == "click":
-                if not interactiveAppElement.getTagName() == "button" and not (interactiveAppElement.getTagName() == "input" and (interactiveAppElement.getType() == "submit" or interactiveAppElement.getType() == "button" or interactiveAppElement.getType() == "image" or interactiveAppElement.getType() == "checkbox")):
+                is_clickable_input = tag == "input" and elem_type in {"submit", "button", "image", "checkbox"}
+                if tag != "button" and not is_clickable_input:
                     continue
-                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
-                                 value="", category="click"))
-            if actionType == "input":
-                if not interactiveAppElement.getTagName() == "input" and not interactiveAppElement.getTagName() == "textarea":
-                    continue
+                
+                appEvents.append(AppEvent(
+                    xpath=interactiveAppElement.getXpath(),
+                    value="",
+                    category="click"
+                ))
+
+            
+            elif actionType == "input":
                 value = state.getAppEventInputValue()
-                if state.getActionNumber() and state.getActionNumber() != 27:
-                    category = self.__input_type[state.getActionNumber() - 1]
-                elif state.getActionNumber() and state.getActionNumber() == 27:
+                action_number = state.getActionNumber()
+                print(f"Action Type for CreateDirectiveUsecase: {actionType}")
+                print(f"Action action_number for CreateDirectiveUsecase: {action_number}")
+                if action_number and action_number == ACTION_NUMBER["input"]:
+                    category = "input"
+                elif action_number == ACTION_NUMBER["checkbox"]:
                     category = "checkbox"
                 else:
                     category = ""
-                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
-                                 value=value, category=category))
-            if actionType == "select":
-                if not interactiveAppElement.getTagName() == "select":
+
+                appEvents.append(AppEvent(
+                    xpath=interactiveAppElement.getXpath(),
+                    value=value,
+                    category=category
+                ))
+
+            elif actionType == "select":
+                if tag != "select":
                     continue
+
                 value = state.getAppEventInputValue()
-                appEvents.append(AppEvent(xpath=interactiveAppElement.getXpath(),
-                                 value=value, category="select"))
+                appEvents.append(AppEvent(
+                    xpath=interactiveAppElement.getXpath(),
+                    value=value,
+                    category="select"
+                ))
 
         initialState: State = episodeEpisodeHandler.getState(0)
         directive = Directive(url=initialState.getUrl(), dom=initialState.getDOM(

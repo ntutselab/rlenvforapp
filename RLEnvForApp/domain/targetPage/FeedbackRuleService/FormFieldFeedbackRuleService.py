@@ -6,6 +6,7 @@ from io import StringIO
 from lxml import etree
 
 from RLEnvForApp.domain.llmService import LlmServiceContainer
+from RLEnvForApp.adapter.llmService.Gemma3Service import Gemma3Service
 from RLEnvForApp.domain.llmService.SystemPromptFactory import SystemPromptFactory
 from RLEnvForApp.domain.targetPage.FeedbackRuleService.IFeedbackRuleService import \
     IFeedbackRuleService
@@ -119,9 +120,10 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         filtered_feedback = {}
         try_count = 0
         answer = ""
+        filter_llmeservice = Gemma3Service()
         while not isinstance(answer, dict) and try_count < 3:
             try:
-                answer = LlmServiceContainer.llm_service.get_response(prompt, system_prompt)
+                answer = filter_llmeservice.get_response(prompt, system_prompt)
                 Logger().info(f"The _filter_feedback: {answer}")
                 answer = ast.literal_eval(answer)
                 if isinstance(answer, dict):

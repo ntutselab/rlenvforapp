@@ -96,11 +96,13 @@ class LLMController:
         self._directive_rule_service = directive_rule_service
         self._episode_handler_repository = episode_handler_repository
         self._repository = repository
-        self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
-        # self.__server_name = "nodebb_with_coverage"
+        self.__server_name = "nodebb_with_coverage"
         # self.__server_name = "keystonejs_with_coverage"
+        # self.__server_name = "django_blog_with_no_coverage"
         # self.__server_name = "spring_petclinic_with_no_coverage"
+        # self.__server_name = "timeoff_management_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -267,9 +269,9 @@ class LLMController:
 
         file_name = f"{self.__server_name}_execution_time_summary"
         file_manager = FileManager()
-        file_manager.createFolder(".", "execution_summary")
+        file_manager.createFolder(".", "executionSummary")
         file_manager.createFile(
-            path="execution_summary",  # 路徑改掉
+            path="executionSummary",
             fileName=file_name + ".json",
             context=time_summary_json
         )
