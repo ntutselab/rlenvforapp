@@ -18,10 +18,11 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
     def __init__(self):
         super().__init__()
 
-    def getFeedbackAndLocation(self, beforeActionDom: str, afterActionDom: str, fields: list, previous_feedbacks: str) -> dict:
+    def getFeedbackAndLocation(self, beforeActionDom: str, afterActionDom: str, fields: list, previous_feedbacks: dict) -> dict:
         if afterActionDom == "":
             Logger().info("afterActionDom is empty string")
             return {}
+
         feedback_and_location = None
         get_feedback_and_location_try_count = 0
         max_try_count = 3
@@ -30,6 +31,10 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
             try:
                 feedback_and_location = ast.literal_eval(self._extract_feedback(new_or_updated_elements, fields, previous_feedbacks))
                 if isinstance(feedback_and_location, dict):
+                    if feedback_and_location == {} and previous_feedbacks == {}:
+                        Logger().info(f"Current feedback and previous feedbacks are both empty, the feedback will not be updated")
+                        return feedback_and_location
+                     
                     updated_feedback_and_location = self._filter_feedback(new_or_updated_elements, fields, previous_feedbacks, feedback_and_location)
                     Logger().info(f"Updated feedback and location: {updated_feedback_and_location}")
                     return updated_feedback_and_location
@@ -66,11 +71,9 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         system_prompt = SystemPromptFactory.get("get_feedback_and_location")
         prompt = """
             fields: {fields}
-            previously recorded feedback: {previous_feedbacks}
             newly added or updated elements: {new_or_updated_elements}
         """.format(
             fields=fields,
-            previous_feedbacks=previous_feedbacks,
             new_or_updated_elements=new_or_updated_elements
         )
         
@@ -81,7 +84,19 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         # Logger().info(f"Prompt: {prompt}")
         Logger().info(f"The get_feedback_and_location: {answer}")
         return answer
-
+    
+    def __extract_filtered_feedback(self, llm_response: str) -> dict:
+        # for COT
+        # match = re.search(r'Final Answer:\s*(\{.*\})', llm_response, re.DOTALL)
+        match = re.search(r'\s*(\{.*\})', llm_response, re.DOTALL)
+        if match:
+            try:
+                result_dict = ast.literal_eval(match.group(1))
+                if isinstance(result_dict, dict):
+                    return result_dict
+            except Exception as e:
+                print(f"Error parsing filtered feedback: {e}")
+        return {}
     def _filter_feedback(self, new_or_updated_elements:str, fields: list, previous_feedbacks: dict, current_feedback: dict) -> dict:
         """
         過濾掉不必要的 feedback
@@ -102,10 +117,10 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         
         system_prompt = SystemPromptFactory.get("filter_feedback")
         prompt = """
-            currently observed feedback: {current_feedback}
-            previously recorded feedback: {previous_feedbacks}
-            provided fields: {fields}
-            newly added or updated elements: {new_or_updated_elements}
+            current_feedbacks: {current_feedback}
+            previous_feedbacks: {previous_feedbacks}
+            fields: {fields}
+            new_elements: {new_or_updated_elements}
         """.format(
             current_feedback = filtered_feedback,
             previous_feedbacks = previous_feedbacks,
@@ -121,18 +136,13 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
         try_count = 0
         answer = ""
         filter_llmeservice = Gemma3Service()
-        while not isinstance(answer, dict) and try_count < 3:
-            try:
-                answer = filter_llmeservice.get_response(prompt, system_prompt)
-                Logger().info(f"The _filter_feedback: {answer}")
-                answer = ast.literal_eval(answer)
-                if isinstance(answer, dict):
-                    filtered_feedback = answer
-                    break
-                else:
-                    Logger().info(f"Answer is not a dict: {answer}")
-                    try_count += 1
-            except (SyntaxError, ValueError) as e:
-                Logger().info(f"Error parsing LLM response: {e}. Response was: {answer}")
-                try_count += 1
+        while try_count < 3:
+            answer = filter_llmeservice.get_response(prompt, system_prompt)
+            result = self.__extract_filtered_feedback(answer)
+            print(f"_filter_feedback Result:{result}")
+            if result == {}:
+                try_count+=1
+            else:
+                filtered_feedback = result
+                break
         return filtered_feedback
