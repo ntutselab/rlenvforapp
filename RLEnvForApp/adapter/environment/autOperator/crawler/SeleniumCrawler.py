@@ -187,6 +187,25 @@ class SeleniumCrawler(ICrawler):
             attributeText = ""
         return attributeText
 
+    def _isAttributeInHtmlAttributes(self, element, attribute):
+        try:
+            elementAttributes = element.attrib
+            print(f"_isAttributeInHtmlAttributes: ")
+            print(f"Attributes: {elementAttributes}")
+            if attribute in elementAttributes:
+                return True
+            else:
+                return False
+        except Exception:
+            return False
+    
+    def is_disabled(self, element):
+        return element.get_attribute("disabled") is not None
+
+    def is_readonly(self, element):
+        return element.get_attribute("readonly") is not None  # 通常 select 不會有這屬性
+    
+
     def _get_label_for_element(self, html_parser, element):
         label = ""
         try:
@@ -199,8 +218,12 @@ class SeleniumCrawler(ICrawler):
     def _isInteractable(self, xpath):
         try:
             element = self._driver.find_element_by_xpath(xpath=xpath)
-            if self._getHtmlTagAttribute(element=element, attribute="input") == "input" and self._getHtmlTagAttribute(element=element, attribute="type") == "hidden":
-                # print(f"SeleniumCrawler: _isInteractable: {xpath} is hidden")
+            is_hidden = self._getHtmlTagAttribute(element=element, attribute="type") == "hidden"
+            is_readonly = self.is_readonly(element)
+            is_disabled = self.is_disabled(element)
+            
+            if is_hidden or is_disabled or is_readonly:
+                print(f"SeleniumCrawler: _isInteractable: {xpath} is hidden, readonly or disable")
                 return False
             return element.is_displayed() and element.is_enabled()
         except Exception as exception:

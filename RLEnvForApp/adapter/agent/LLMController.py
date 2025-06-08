@@ -102,7 +102,7 @@ class LLMController:
         # self.__server_name = "keystonejs_with_coverage"
         # self.__server_name = "django_blog_with_no_coverage"
         # self.__server_name = "spring_petclinic_with_no_coverage"
-        # self.__server_name = "timeoff_management_with_coverage"
+        self.__server_name = "timeoff_management_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -199,7 +199,6 @@ class LLMController:
                         self._logger.info(f"Number of attempts: {self._form_retry_count[self._target_page_id]}")
                         # directive_dto = self._create_fake_directive(self._target_page_id, self._episode_handler_id)
                         # self.__target_page_port.push_target_page_by_directive(self._target_page_id, directive_dto)
-                        # TODO: list index out of range
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
                         self._fake_data = {}
                         self.pre_fields = []
@@ -342,8 +341,9 @@ class LLMController:
         target_page_dom = states[-1].getDOM()
         
        
-        doc_tree = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
-        doc = doc_tree.getroot() 
+        # doc_tree = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
+        # doc = doc_tree.getroot() 
+        doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
         target_form_xpath = etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode")
         target_element_xpath = etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
@@ -471,15 +471,10 @@ class LLMController:
         # restart container
         self.__aut_controller.resetAUTServer(True)
         
+        self._reset_env_use_case.retry_with_initial_config(self._episode_handler_id)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
-        
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
         print(f"episode_handler.getAllState() length: {len(episode_handler.getAllState())}")
-        episode_handler.remain_only_index_zero_state()
-        new_episode_handler_entity = EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episode_handler)
-        print(f"episode_handler.getAllState() length: {len(episode_handler.getAllState())}")
-        self._episode_handler_repository.update(new_episode_handler_entity)
-        self._reset_env_use_case.retry_with_initial_config()
         
         self.pre_fields = []
 

@@ -93,7 +93,7 @@ class ResetEnvironmentUseCase:
         output.setObservation(observation)
         # output.setOriginalObservation(original_observation)
     
-    def retry_with_initial_config(self):
+    def retry_with_initial_config(self, episode_handler_id: str):
         if self._initial_target_page is None:
             raise Exception("No initial target page was stored. Did you forget to run execute first?")
 
@@ -114,4 +114,15 @@ class ResetEnvironmentUseCase:
             remove_target_page_output = RemoveTargetPageOutput()
             remove_target_page_use_case.execute(input=remove_target_page_input, output=remove_target_page_output)
             raise NoSuchElementException("NoSuchElementException, remove target page")
-            
+        
+        state: State = self._operator.getState()
+        episodeHandlerEntity = self._episodeHandlerRepository.findById(episode_handler_id)
+        
+        episodeHandler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episodeHandlerEntity)
+        print(f"episode_handler.getAllState() length: {len(episodeHandler.getAllState())}")
+        episodeHandler.reset()
+        episodeHandler.appendState(state)
+        print(f"episode_handler.getAllState() length: {len(episodeHandler.getAllState())}")
+        self._episodeHandlerRepository.update(EpisodeHandlerEntityMapper.mappingEpisodeHandlerEntityForm(episodeHandler=episodeHandler))
+        # state.setOriginalObservation(original_observation)
+        
