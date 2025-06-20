@@ -40,6 +40,7 @@ class FormFieldFeedbackRuleService(IFeedbackRuleService):
                     return updated_feedback_and_location
                 else:
                     Logger().info(f"Feedback and location is not a dict: {feedback_and_location}")
+                    feedback_and_location = None
                     get_feedback_and_location_try_count += 1
             except (SyntaxError, ValueError) as e:
                 get_feedback_and_location_try_count += 1

@@ -99,10 +99,10 @@ class LLMController:
         # self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
         self.__server_name = "nodebb_with_coverage"
-        # self.__server_name = "keystonejs_with_coverage"
+        self.__server_name = "keystonejs_with_coverage"
         # self.__server_name = "django_blog_with_no_coverage"
         # self.__server_name = "spring_petclinic_with_no_coverage"
-        self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "timeoff_management_with_coverage"
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -144,6 +144,10 @@ class LLMController:
         self._reset_env_use_case = None
 
         self._text_generation_service = text_generation_service
+
+        # record feedback per trying filling form
+        self._feedbacks_records = {} 
+        self._every_form_time_summary = {}
         # self.prompt_model = PromptModelDirector().make_my_research(self.prompt_model_builder)
         # self.fake_prompt_model = PromptModelDirector().make_fake_prompt_model(self.fake_prompt_model_builder)
         # # check cuda
@@ -173,6 +177,7 @@ class LLMController:
             self._episode_handler_id = reset_env_use_output.getEpisodeHandlerId()
             self.__target_form_xpath = reset_env_use_output.getFormXPath()
             self._start_timer()
+            self._feedbacks_records = {} 
             while not is_legal_directive:
                 try_count = self._form_retry_count.get(self._target_page_id)
                 
@@ -200,9 +205,13 @@ class LLMController:
                         # directive_dto = self._create_fake_directive(self._target_page_id, self._episode_handler_id)
                         # self.__target_page_port.push_target_page_by_directive(self._target_page_id, directive_dto)
                         self.__target_page_port.pushTargetPage(self._target_page_id, self._episode_handler_id)
+                        self._record_form_time(self.__target_form_xpath, reset_env_use_output.getTargetPageUrl(), self._form_retry_count[self._target_page_id])
+                        self._save_execution_time_summary(reset_env_use_output.getTargetPageUrl())
+                        self._save_feedback_and_try_count(reset_env_use_output.getTargetPageUrl())
                         self._fake_data = {}
                         self.pre_fields = []
-                        self._stop_timer()
+                        # self._stop_timer()
+                        
                     except Exception as ex:
                         self._logger.info(f"Error when push target page: {ex}")
                         template = 'An exception of type {0} occurred. Arguments:\n{1!r}'
@@ -215,15 +224,21 @@ class LLMController:
                     feedback = self._get_feedback()
                     self.__form_feedbacks[self._target_page_id] = feedback
                     self._logger.info(f"Feedback: {self.__form_feedbacks[self._target_page_id]}")
-                    self._retry_filling_form()
-                    self._logger.info(f"url: {reset_env_use_output.getTargetPageUrl()}")
+                    self._feedbacks_records[self._form_retry_count[self._target_page_id]] = feedback
+                    self._record_form_time(self.__target_form_xpath, reset_env_use_output.getTargetPageUrl(), self._form_retry_count[self._target_page_id])
                     
-                    if self._form_retry_count[self._target_page_id] >= 10:
-                        self._form_retry_count[self._target_page_id] = 0
+                    if self._form_retry_count[self._target_page_id] < 10:
+                        self._retry_filling_form()
+                        self._logger.info(f"url: {reset_env_use_output.getTargetPageUrl()}")
+                        self._start_timer()
+                    else:
                         directive_dto = self._create_directive(self._target_page_id, self._episode_handler_id)
                         self._save_target_page_to_html_set(self._episode_handler_id, directive_dto)
+                        self._save_execution_time_summary(reset_env_use_output.getTargetPageUrl())
+                        self._save_feedback_and_try_count(reset_env_use_output.getTargetPageUrl())
+                        self._form_retry_count[self._target_page_id] = 0
                         self._remove_target_page()
-                        self._stop_timer()
+                        # self._stop_timer()
                         break
                     self._logger.info(f"Try again, target page id: {self._target_page_id}")
                     
@@ -263,16 +278,35 @@ class LLMController:
         file_manager.createFile(path=os.path.join("htmlSet", "FAILED_HTML_SET"),
                                 fileName=file_name + ".json", context=directive_log_json)
 
-    def _save_execution_time_summary(self):
-        time_summary_json = json.dumps(self.__timer.get_summary())
+    def _save_execution_time_summary(self, url):
+        url = url
+        form_xpath =  self.__target_form_xpath
+        file_name = f"{self.__server_name}_executionSummary"
+        time_summary_json = json.dumps(self._every_form_time_summary)
 
-        file_name = f"{self.__server_name}_execution_time_summary"
         file_manager = FileManager()
         file_manager.createFolder(".", "executionSummary")
         file_manager.createFile(
             path="executionSummary",
             fileName=file_name + ".json",
             context=time_summary_json
+        )
+
+    def _save_feedback_and_try_count(self, url):
+        # TODO: Find better way to get the url like hemlset
+        url = url
+        form_xpath =  self.__target_form_xpath
+        file_name = f"{self.__server_name}_{urlparse(url).path.replace('/', '_')}_{form_xpath.replace('/', '_')}"
+        feedback_and_try_count_json = json.dumps(self._feedbacks_records)
+
+        self._logger.info(f"save file_name: {file_name}")
+        self._logger.info(f"content: {feedback_and_try_count_json}")
+        file_manager = FileManager()
+        file_manager.createFolder(".", "feedbackRecord")
+        file_manager.createFile(
+            path="feedbackRecord",
+            fileName=file_name + ".json",
+            context=feedback_and_try_count_json
         )
 
     def _create_directive(self, target_page_id: str, episode_handler_id: str):
@@ -332,7 +366,6 @@ class LLMController:
         # TODE: Find form title
         self._logger.info(f"tag:{app_element.getTagName()},Type:{app_element.getType()} ,  Execute action name: {app_element.getName()}, label: {app_element.getLabel()}, xpath: {app_element.getXpath()}")
         final_submit = False
-        input_example = self._get_input_example(app_element)
         episode_handler_entity = self._episode_handler_repository.findById(self._episode_handler_id)
         episode_handler = EpisodeHandlerEntityMapper.mappingEpisodeHandlerForm(episode_handler_entity)
         states = episode_handler.getAllState()
@@ -344,9 +377,17 @@ class LLMController:
         # doc_tree = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
         # doc = doc_tree.getroot() 
         doc = etree.parse(StringIO(states[-1].getDOM()), etree.HTMLParser())
-        app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
-        target_form_xpath = etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode")
-        target_element_xpath = etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
+        execute_action_output = ExecuteActionOutput()
+        app_element_by_xpath = None
+        target_form_xpath = None
+        target_element_xpath = None
+        try:
+            app_element_by_xpath = doc.xpath(app_element.getXpath())[0]
+            target_form_xpath = etree.tostring(doc.xpath(self.__target_form_xpath)[0], pretty_print=True, method="html", encoding="unicode")
+            target_element_xpath = etree.tostring(app_element_by_xpath, pretty_print=True, method="html", encoding="unicode")
+        except Exception as e:
+            print(f"[XPath error] {e}")
+            return execute_action_output
 
         action_number = 0
         execute_action_output = ExecuteActionOutput()
@@ -508,3 +549,29 @@ class LLMController:
         self._logger.info(f"Time Summary: {self.__timer.get_summary()}")
         self._save_execution_time_summary()
         return duration
+    
+    def _record_form_time(self, form_xpath, url, try_count):
+        key = f"{self.__server_name}_{urlparse(url).path.replace('/', '_')}_{form_xpath.replace('/', '_')}"
+        duration = self.__timer.stop_and_accumulate()
+        
+        print(f"[Form time] key is {key}, try count is {try_count}")
+        print(self._every_form_time_summary)
+        # 如果這個 form_xpath 還沒建立，初始化一個 dict
+        if key not in self._every_form_time_summary:
+            self._every_form_time_summary[key] = {}
+
+        # 這次的 try_count 記錄
+        self._every_form_time_summary[key][str(try_count)] = duration
+
+        # 更新 total
+        previous_total = self._every_form_time_summary[key].get("total", 0)
+        new_total = previous_total + duration
+        self._every_form_time_summary[key]["total"] = new_total
+
+        self._logger.info(f"[Form Time] {key} Try #{try_count}: +{duration:.2f}s (Total so far: {new_total:.2f}s)")
+
+        # update total time of form agent
+        form_agent_total = self._every_form_time_summary.get("total", 0)
+        form_agent_total += duration
+        self._every_form_time_summary["total"] = form_agent_total
+        self._logger.info(f"[Form Time] Form agent has execute so far: {form_agent_total:.2f}s)")
