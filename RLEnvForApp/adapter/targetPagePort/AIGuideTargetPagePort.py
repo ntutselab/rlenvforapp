@@ -194,7 +194,7 @@ class AIGuideTargetPagePort(ITargetPagePort):
             javaObjectHighLevelActionDTOBuilder = self._getjavaObjectHighLevelActionDTOBuilder()
             for appEvent in highLevelActionDTO:
                 javaObjectHighLevelActionDTOBuilder.appendActionDTO(self._getCrawljaxXpath(xpath=appEvent.getXpath()),
-                                                                    appEvent.getValue())
+                                                                    str(appEvent.getValue()))
             javaObjectHighLevelActionDTOs.append(javaObjectHighLevelActionDTOBuilder.build())
 
         return javaObjectHighLevelActionDTOs
