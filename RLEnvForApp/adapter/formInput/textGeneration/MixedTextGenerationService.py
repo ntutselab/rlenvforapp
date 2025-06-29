@@ -28,7 +28,7 @@ class MixedTextGenerationService(ITextGenerationService):
                 try:
                     faker = Faker()
                     response_text = getattr(faker, response)()
-                    return response_text
+                    return str(response_text)
                 except AttributeError as e:
                     # 如果無法解析為 Faker 函數，則返回原始響應
                     print(f"Error parsing LLM response: {e}. Response was: {response}, It may not be a faker function")
