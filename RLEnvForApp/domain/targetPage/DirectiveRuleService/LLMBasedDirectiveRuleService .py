@@ -15,7 +15,7 @@ from RLEnvForApp.domain.targetPage.utils import get_diff_elements
 from RLEnvForApp.logger.logger import Logger
 
 
-class NewStateDirectiveRuleService(IDirectiveRuleService):
+class LLMBasedDirectiveRuleService(IDirectiveRuleService):
     def __init__(self):
         super().__init__()
 
@@ -24,26 +24,17 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
             Logger().info("afterActionDom is empty string")
             return False
 
-        form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
-
-        dom_similarity = self.getDomSimilarity(beforeActionDom, afterActionDom)
-
-        if dom_similarity == 100:
-            return False
+        
+        # form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
 
         # if not form_submit_criteria or form_submit_criteria["verify"] == "page_compare":
-        if dom_similarity == -1:
-            return False
-        elif dom_similarity >= 95:
-            return self._get_gpt_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
-        else:
-            return True
+        #    return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
         # elif form_submit_criteria["verify"] == "keyword":
         #     return not self._isDomContainKeyword(afterActionDom, form_submit_criteria["keyword"])
         # else:
         #     raise Exception(
         #         f"Error in isLegal function, formSubmitCriteria: {form_submit_criteria}")
-
+        return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
         #
         # taskID = targetPageId
         # mk_time = int(time.mktime(time.gmtime()))
@@ -88,11 +79,17 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
 
         elements = list()
         for el in doc.getroot().iter():
+            # 略過 HTML 註解
+            if isinstance(el, etree._Comment):
+                continue
             tag = el.tag
             classes = el.get('class')
             text = re.sub('\s', '', str(el.text))
-            elements.append(f'{tag} {classes} {text}')
+            # elements.append(f'{tag} {classes} {text}')
 
+            # 抓取所有屬性，包括 src
+            attributes = " ".join(f'{k}={v}' for k, v in el.attrib.items())
+            elements.append(f'{tag} {classes} {attributes} {text}')
         return elements
 
     def _isDomContainKeyword(self, dom: str, keywords: list):
@@ -127,35 +124,13 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         Logger().info(f"domSimilarity is: {domSimilarity}")
         return domSimilarity
 
-    def _get_diff_elements(self, before_action_elements, after_action_elements) -> str:
-        diff = difflib.SequenceMatcher()
-        diff.set_seq1(before_action_elements)
-        diff.set_seq2(after_action_elements)
-        opcodes = diff.get_opcodes()
-        diff_str = ""
-        for opcode in opcodes:
-            tag, _, _, j1, j2 = opcode
-            if tag == 'insert':
-                diff_str += f"{after_action_elements[j1:j2]}\n"
-        return diff_str
-
-    def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
-        diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
-        "<<SYS>>Please generate the most suitable value based on the form title, input field, feedback, and the previous fields with values. Criterion: Generate the value that best meets the requirements of the form's input field, including constraints implied by feedback and alerts. Output format: 1. Return the input value as a string. 2. The response must be a single, plain text string with no additional characters. 3. Do not wrap the output in code block (```) or any other formatting. Return only plain text dictionary. 4. Example of the correct output format: Correct: \"Tom\" Incorrect: \"\"Tom\"\" or \"'Tom'\" <<\SYS>>[INST]{prompt}[/INST]"
-        system_prompt = """
-                <<SYS>>
-                You are an AI web crawler assistant. 
-                Follow the user requirements carefully and The user will prompt you for the DOM differences before and after submitting the web form.
-                 Please answer whether the form was submitted successfully. 
-                 Please only say yes or no.
-                <<\SYS>>
-                [INST]
-                {prompt}
-                [/INST]
-                """
-        prompt = diff_str
-        answer = LlmServiceContainer.llm_service.get_response(prompt, system_prompt).lower()
-        print(f"answer:{answer}")
+    def _get_llm_answer(self, before_action_elements, after_action_elements) -> bool:
+        diff_str = get_diff_elements(before_action_elements, after_action_elements)
+        system_prompt = SystemPromptFactory.get("is_form_submitted")
+        prompt_str = f"sentences: {diff_str}"
+        # Logger().info(f"is new state legal? different str Prompt: {prompt_str}")
+        answer = LlmServiceContainer.llm_service.get_response(prompt_str, system_prompt).lower()
+        Logger().info(f"The form submit result's answer: {answer}")
         if answer == "yes":
             return True
         elif answer == "no":
