@@ -98,11 +98,14 @@ class LLMController:
         self._repository = repository
         # self.__server_name = "timeoff_management_with_coverage"
         # self.__server_name = "astuto"
-        self.__server_name = "nodebb_with_coverage"
-        self.__server_name = "keystonejs_with_coverage"
+        # self.__server_name = "nodebb_with_coverage"
+        # self.__server_name = "keystonejs_with_coverage"
         # self.__server_name = "django_blog_with_no_coverage"
         # self.__server_name = "spring_petclinic_with_no_coverage"
-        # self.__server_name = "timeoff_management_with_coverage"
+        self.__server_name = "timeoff_management_with_coverage"
+        # self.__server_name = "oscar"
+        # self.__server_name = "kimai"
+        
         self.__application_ip = "localhost"
         self.__application_port = 3100
         self.__coverage_server_port = 3100
@@ -571,7 +574,11 @@ class LLMController:
         self._logger.info(f"[Form Time] {key} Try #{try_count}: +{duration:.2f}s (Total so far: {new_total:.2f}s)")
 
         # update total time of form agent
-        form_agent_total = self._every_form_time_summary.get("total", 0)
-        form_agent_total += duration
-        self._every_form_time_summary["total"] = form_agent_total
+         # 更新 total
+        if "total" not in self._every_form_time_summary:
+            self._every_form_time_summary["total"] = {}
+        the_count_up_to_now = len(self._every_form_time_summary) - 1 
+        form_agent_total = self._every_form_time_summary["total"].get(str(the_count_up_to_now-2),0) + new_total
+        self._every_form_time_summary["total"][the_count_up_to_now] = form_agent_total
+
         self._logger.info(f"[Form Time] Form agent has execute so far: {form_agent_total:.2f}s)")
