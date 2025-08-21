@@ -104,8 +104,8 @@ if __name__ == '__main__':
 
     for modelName in modelNames:
         comment = ''
-        logger = Logger(f"{comment}_{modelName}.log")
-        Logger().info(f"{comment}_{modelName}")
+        # logger = Logger(f"{comment}_{modelName}.log")
+        # Logger().info(f"{comment}_{modelName}")
 
         llm_controller = LLMController()
         llm_controller.play()
