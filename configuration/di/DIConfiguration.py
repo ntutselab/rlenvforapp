@@ -11,13 +11,16 @@ configDirectoryPath = "configuration/config"
 # configFilePath = "LLM.ini"
 
 # feedback vs no feedback
-# configFilePath = "LLM_exp_feedback_enabled.ini"
+configFilePath = "LLM_exp_feedback_enabled.ini"
 # configFilePath = "LLM_exp_feedback_disabled.ini"
 
+
 # LLM generate text vs LLM select data faker vs mixed
+# llm only is also the exp2 feedback enable
 # configFilePath = "LLM_exp_input_llm_only.ini"
 # configFilePath = "LLM_exp_input_datafaker_select.ini"
-configFilePath = "LLM_exp_input_mixed.ini"
+# Also mixed is the exp4 my method
+# configFilePath = "LLM_exp_input_mixed.ini"
 
 # Check required field before filling the field vs fill the field directly
 # configFilePath = "LLM_exp_check_field_required.ini"
@@ -26,6 +29,9 @@ configFilePath = "LLM_exp_input_mixed.ini"
 # page compare by only LLM vs page compare by similarity assisted by LLM
 # configFilePath = "LLM_exp_judge_llm_only.ini"
 # configFilePath = "LLM_exp_judge_similarity_assisted.ini"
+
+# Different LLM
+# configFilePath = "LLM_exp_GeminiPro.ini"
 
 defaultModelConfigFilePath = "default_model_config.ini"
 defaultConfigFilePath = "default.ini"
