@@ -11,10 +11,10 @@
   },
   "astuto": {
     "http://localhost:3001/users/sign_in": {
-      "/html/body/div/div[1]/form/div[1]/input": {
+      "/html/body/div/form/div[1]/input": {
         "value": "admin@example.com"
       },
-      "/html/body/div/div[1]/form/div[2]/input": {
+      "/html/body/div/form/div[2]/input": {
         "value": "password"
       }
     },
@@ -83,6 +83,16 @@
         "value": "admin"
       },
       "/html/body/div/section/main/section/form/div[2]/div/div[2]/input": {
+        "value": "selab1623"
+      }
+    }
+  },
+  "kimai": {
+    "http://localhost:3001/": {
+      "/html/body/div/div[2]/form/div[1]/input": {
+        "value": "vector@selab.com"
+      },
+      "/html/body/div/div[2]/form/div[2]/input": {
         "value": "selab1623"
       }
     }
