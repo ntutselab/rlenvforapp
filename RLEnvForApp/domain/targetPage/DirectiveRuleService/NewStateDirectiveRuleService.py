@@ -24,10 +24,10 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
             Logger().info("afterActionDom is empty string")
             return False
 
-        form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
+        # form_submit_criteria = FormSubmitCriteriaSingleton.getInstance().getFormSubmitCriteria()
 
         dom_similarity = self.getDomSimilarity(beforeActionDom, afterActionDom)
-
+        Logger().info(dom_similarity)
         if dom_similarity == 100:
             return False
 
@@ -35,7 +35,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
         if dom_similarity == -1:
             return False
         elif dom_similarity >= 95:
-            return self._get_gpt_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
+            return self._get_llm_answer(self._get_elements(beforeActionDom), self._get_elements(afterActionDom))
         else:
             return True
         # elif form_submit_criteria["verify"] == "keyword":
@@ -139,7 +139,7 @@ class NewStateDirectiveRuleService(IDirectiveRuleService):
                 diff_str += f"{after_action_elements[j1:j2]}\n"
         return diff_str
 
-    def _get_gpt_answer(self, before_action_elements, after_action_elements) -> bool:
+    def _get_llm_answer(self, before_action_elements, after_action_elements) -> bool:
         diff_str = self._get_diff_elements(before_action_elements, after_action_elements)
         "<<SYS>>Please generate the most suitable value based on the form title, input field, feedback, and the previous fields with values. Criterion: Generate the value that best meets the requirements of the form's input field, including constraints implied by feedback and alerts. Output format: 1. Return the input value as a string. 2. The response must be a single, plain text string with no additional characters. 3. Do not wrap the output in code block (```) or any other formatting. Return only plain text dictionary. 4. Example of the correct output format: Correct: \"Tom\" Incorrect: \"\"Tom\"\" or \"'Tom'\" <<\SYS>>[INST]{prompt}[/INST]"
         system_prompt = """
